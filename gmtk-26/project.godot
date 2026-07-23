@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="gmtk26"
-run/main_scene="uid://bu7jj3wisv3rm"
+run/main_scene="res://scenes/main_game.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 DialogueManager="*uid://c3rodes2l3gxb"
+GameManager="*res://scripts/autoload/game_manager.gd"
 
 [display]
 
@@ -30,7 +31,7 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://assets/Sample.dialogue")
+locale/translations_pot_files=PackedStringArray("res://assets/Sample.dialogue", "res://assets/dialogues/sample_monster.dialogue")
 
 [physics]
 

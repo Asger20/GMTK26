@@ -1,7 +1,4 @@
 extends Node2D
 
-
-func _init() -> void:
-	print("Hello")
-	var resource = load("res://assets/Sample.dialogue")
-	DialogueManager.show_dialogue_balloon(resource, "start")
+func _ready() -> void:
+	get_tree().change_scene_to_file("res://scenes/main_game.tscn")

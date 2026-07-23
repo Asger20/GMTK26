@@ -1,0 +1,54 @@
+~ start
+
+Zombie: ...Oh. Hi. I'm Ida, your date for today.
+- Flirt politely (+10 Affection)
+    do GameManager.add_affection("zombie", 10)
+    Zombie: ...Heh. You're nicer than the orderlies here.
+- Ask directly about their habits
+    Zombie: Straight to business, huh? Fine. What do you want to know?
+- Make a rude joke about corpses (-15 Affection)
+    do GameManager.add_affection("zombie", -15)
+    Zombie: ...Not funny. My body is rotting, not my feelings.
+
+=> interrogation_menu
+
+~ interrogation_menu
+Zombie: Got any more questions before the timer runs out?
+
+- Ask about favorite food
+    => food_question
+- Ask about favorite weather
+    => weather_question
+- End date early
+    => end_date
+
+~ food_question
+if GameManager.get_affection("zombie") < 35:
+    Zombie: I'm not answering your intrusive questions. You've been rude.
+    => interrogation_menu
+else:
+    Detective: What's your comfort food after a long day?
+    if GameManager.is_imposter("zombie"):
+        Zombie: Oh! I love a piping hot bowl of fresh vegetable soup eaten outdoors!
+        do GameManager.record_clue("zombie", "hot_food_slip", "Claims to love piping hot fresh soup.")
+    else:
+        Zombie: Cold, decaying leftovers... eaten in a dark corner. Hot food makes my stomach rot faster.
+    => interrogation_menu
+
+~ weather_question
+if GameManager.get_affection("zombie") < 35:
+    Zombie: Why do you care? Leave me alone.
+    => interrogation_menu
+else:
+    Detective: How do you handle sunny days?
+    if GameManager.is_imposter("zombie"):
+        Zombie: I love soaking up the warm sunshine on a clear afternoon!
+        do GameManager.record_clue("zombie", "sunlight_slip", "Stated they love soaking up warm sunshine.")
+    else:
+        Zombie: Bright sunlight makes my skin peel off. Pitch black shade only.
+    => interrogation_menu
+
+~ end_date
+Zombie: Looks like our time is up anyway... Bye.
+do GameManager.complete_current_date()
+=> END

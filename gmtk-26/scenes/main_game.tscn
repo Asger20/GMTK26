@@ -1,0 +1,411 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/main_game.gd" id="1_maingame"]
+
+[node name="MainGame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_maingame")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.09, 0.08, 0.14, 1)
+
+[node name="HeaderBar" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="HBox" type="HBoxContainer" parent="HeaderBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_right = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DayLabel" type="Label" parent="HeaderBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DAY 1 OF 5"
+vertical_alignment = 1
+
+[node name="PhaseLabel" type="Label" parent="HeaderBar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "PHASE: PREPARATION"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MonsterpediaButton" type="Button" parent="HeaderBar/HBox"]
+layout_mode = 2
+text = "📖 MONSTERPEDIA & NOTEBOOK"
+
+[node name="PrepPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="PrepPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="TitleLabel" type="Label" parent="PrepPanel/VBox"]
+layout_mode = 2
+text = "OPERATION: COUNTDOWN"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="PrepPanel/VBox"]
+layout_mode = 2
+text = "Welcome Detective. You have 5 days to investigate candidates during 3-minute speed dates and find The Count."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="CandidateCard" type="VBoxContainer" parent="PrepPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CandidateName" type="Label" parent="PrepPanel/VBox/CandidateCard"]
+layout_mode = 2
+text = "Candidate: Ida"
+
+[node name="CandidateSpecies" type="Label" parent="PrepPanel/VBox/CandidateCard"]
+layout_mode = 2
+text = "Species: Zombie"
+
+[node name="CandidateDesc" type="Label" parent="PrepPanel/VBox/CandidateCard"]
+layout_mode = 2
+text = "Review lore in the Monsterpedia before starting your date!"
+
+[node name="StartDateButton" type="Button" parent="PrepPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "START SPEED DATE (3 MIN)"
+
+[node name="DatePanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopHUD" type="HBoxContainer" parent="DatePanel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 2
+
+[node name="MonsterInfo" type="VBoxContainer" parent="DatePanel/TopHUD"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MonsterName" type="Label" parent="DatePanel/TopHUD/MonsterInfo"]
+layout_mode = 2
+text = "Ida"
+
+[node name="MonsterSpecies" type="Label" parent="DatePanel/TopHUD/MonsterInfo"]
+layout_mode = 2
+text = "Species: Zombie"
+
+[node name="AffectionContainer" type="VBoxContainer" parent="DatePanel/TopHUD"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AffectionLabel" type="Label" parent="DatePanel/TopHUD/AffectionContainer"]
+layout_mode = 2
+text = "Affection Score:"
+
+[node name="AffectionBar" type="ProgressBar" parent="DatePanel/TopHUD/AffectionContainer"]
+layout_mode = 2
+value = 50.0
+
+[node name="AffectionVal" type="Label" parent="DatePanel/TopHUD/AffectionContainer"]
+layout_mode = 2
+text = "50%"
+horizontal_alignment = 1
+
+[node name="TimerContainer" type="VBoxContainer" parent="DatePanel/TopHUD"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimeTitle" type="Label" parent="DatePanel/TopHUD/TimerContainer"]
+layout_mode = 2
+text = "Time Remaining:"
+horizontal_alignment = 2
+
+[node name="TimerLabel" type="Label" parent="DatePanel/TopHUD/TimerContainer"]
+layout_mode = 2
+text = "03:00"
+horizontal_alignment = 2
+
+[node name="DebugFinishButton" type="Button" parent="DatePanel/TopHUD"]
+layout_mode = 2
+text = "Finish Date (Skip Timer)"
+
+[node name="MonsterPortrait" type="TextureRect" parent="DatePanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BreakPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="BreakPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="TitleLabel" type="Label" parent="BreakPanel/VBox"]
+layout_mode = 2
+text = "DATE COMPLETED"
+horizontal_alignment = 1
+
+[node name="SummaryText" type="RichTextLabel" parent="BreakPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Date Summary..."
+
+[node name="NextDayButton" type="Button" parent="BreakPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "CONTINUE TO NEXT DAY"
+
+[node name="AccusationPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -250.0
+offset_right = 350.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="AccusationPanel/VBox"]
+layout_mode = 2
+text = "DAY 5: ACCUSATION & MATCHING PHASE"
+horizontal_alignment = 1
+
+[node name="AccuseContainer" type="VBoxContainer" parent="AccusationPanel/VBox"]
+layout_mode = 2
+
+[node name="AccuseLabel" type="Label" parent="AccusationPanel/VBox/AccuseContainer"]
+layout_mode = 2
+text = "1. Accuse suspect as The Count (Shapeshifter):"
+
+[node name="AccuseDropdown" type="OptionButton" parent="AccusationPanel/VBox/AccuseContainer"]
+layout_mode = 2
+
+[node name="MatchContainer" type="VBoxContainer" parent="AccusationPanel/VBox"]
+layout_mode = 2
+
+[node name="MatchLabel" type="Label" parent="AccusationPanel/VBox/MatchContainer"]
+layout_mode = 2
+text = "2. Select Candidate to Match/Romance:"
+
+[node name="MatchDropdown" type="OptionButton" parent="AccusationPanel/VBox/MatchContainer"]
+layout_mode = 2
+
+[node name="SubmitButton" type="Button" parent="AccusationPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "SUBMIT FINAL DECISION"
+
+[node name="EndingPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -250.0
+offset_right = 350.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="EndingPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="EndingTitle" type="Label" parent="EndingPanel/VBox"]
+layout_mode = 2
+text = "ENDING TITLE"
+horizontal_alignment = 1
+
+[node name="EndingDesc" type="RichTextLabel" parent="EndingPanel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Ending Description..."
+
+[node name="PlayAgainButton" type="Button" parent="EndingPanel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "PLAY AGAIN / NEW RUN"
+
+[node name="MonsterpediaOverlay" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -250.0
+offset_right = 400.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="MonsterpediaOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" type="HBoxContainer" parent="MonsterpediaOverlay/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MonsterpediaOverlay/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "📖 MONSTERPEDIA & EVIDENCE NOTEBOOK"
+
+[node name="CloseButton" type="Button" parent="MonsterpediaOverlay/VBox/Header"]
+layout_mode = 2
+text = " X "
+
+[node name="TabContainer" type="TabContainer" parent="MonsterpediaOverlay/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SpeciesLore" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer"]
+layout_mode = 2
+
+[node name="SpeciesDropdown" type="OptionButton" parent="MonsterpediaOverlay/VBox/TabContainer/SpeciesLore"]
+layout_mode = 2
+
+[node name="LoreLabel" type="RichTextLabel" parent="MonsterpediaOverlay/VBox/TabContainer/SpeciesLore"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Select a species above..."
+
+[node name="EvidenceNotebook" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ClueContainer" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
