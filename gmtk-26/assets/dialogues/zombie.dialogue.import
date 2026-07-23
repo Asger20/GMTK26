@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dvc4ra13lh0dg"
+path="res://.godot/imported/zombie.dialogue-04c41935407eba0ba7e2a094b20e901e.tres"
+
+[deps]
+
+source_file="res://assets/dialogues/zombie.dialogue"
+dest_files=["res://.godot/imported/zombie.dialogue-04c41935407eba0ba7e2a094b20e901e.tres"]
+
+[params]
+
+defaults=true

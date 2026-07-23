@@ -58,6 +58,10 @@ func _update_timer_display() -> void:
 func _update_affection_display(score: int) -> void:
 	affection_bar.value = score
 	affection_value_label.text = str(score) + "%"
+	var container = $CanvasLayer/HUD/AffectionContainer
+	if container:
+		container.visible = GameManager.dev_mode_show_affection
+
 
 func _on_affection_changed(candidate_id: String, new_score: int) -> void:
 	if current_monster_data and candidate_id == current_monster_data.id:

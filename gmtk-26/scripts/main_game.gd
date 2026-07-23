@@ -7,6 +7,8 @@ extends Control
 @onready var phase_label: Label = $HeaderBar/HBox/PhaseLabel
 @onready var monsterpedia_btn: Button = $HeaderBar/HBox/MonsterpediaButton
 
+
+
 # Phase 1: Prep Panel
 @onready var prep_panel: Panel = $PrepPanel
 @onready var prep_title_label: Label = $PrepPanel/VBox/TitleLabel
@@ -21,8 +23,10 @@ extends Control
 @onready var timer_label: Label = $DatePanel/TopHUD/TimerContainer/TimerLabel
 @onready var monster_name_label: Label = $DatePanel/TopHUD/MonsterInfo/MonsterName
 @onready var monster_species_label: Label = $DatePanel/TopHUD/MonsterInfo/MonsterSpecies
+@onready var affection_container: VBoxContainer = $DatePanel/TopHUD/AffectionContainer
 @onready var affection_bar: ProgressBar = $DatePanel/TopHUD/AffectionContainer/AffectionBar
 @onready var affection_val_label: Label = $DatePanel/TopHUD/AffectionContainer/AffectionVal
+
 @onready var portrait_rect: TextureRect = $DatePanel/MonsterPortrait
 @onready var debug_finish_date_btn: Button = $DatePanel/TopHUD/DebugFinishButton
 
@@ -99,9 +103,16 @@ func _ready() -> void:
 	GameManager.affection_changed.connect(_on_affection_changed)
 	GameManager.clue_recorded.connect(_on_clue_recorded)
 	GameManager.date_completed.connect(func(_id): _on_date_completed())
+	GameManager.dev_mode_toggled.connect(func(enabled: bool):
+		if affection_container:
+			affection_container.visible = enabled
+	)
 
 	_setup_monsterpedia_dropdown()
 	_start_new_game_session()
+
+
+
 
 func _process(delta: float) -> void:
 	if is_date_timer_running:
@@ -185,6 +196,9 @@ func _update_timer_display() -> void:
 func _update_affection_ui(score: int) -> void:
 	affection_bar.value = score
 	affection_val_label.text = str(score) + "%"
+	if affection_container:
+		affection_container.visible = GameManager.dev_mode_show_affection
+
 
 func _on_affection_changed(candidate_id: String, new_score: int) -> void:
 	var current_monster = GameManager.get_current_date_monster()

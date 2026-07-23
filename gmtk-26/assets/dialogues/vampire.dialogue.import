@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://b53jxsqdv0yk6"
+path="res://.godot/imported/vampire.dialogue-11d5ebb60fe7f7befb978a364505728c.tres"
+
+[deps]
+
+source_file="res://assets/dialogues/vampire.dialogue"
+dest_files=["res://.godot/imported/vampire.dialogue-11d5ebb60fe7f7befb978a364505728c.tres"]
+
+[params]
+
+defaults=true

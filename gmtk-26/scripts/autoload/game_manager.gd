@@ -4,6 +4,8 @@ signal day_changed(new_day: int)
 signal affection_changed(candidate_id: String, new_score: int)
 signal clue_recorded(candidate_id: String, clue_id: String, text: String)
 signal date_completed(candidate_id: String)
+signal dev_mode_toggled(is_enabled: bool)
+
 
 enum EndingType {
 	NONE,
@@ -31,12 +33,32 @@ var current_date_index: int = 0 # 0..3
 var affection_scores: Dictionary = {} # candidate_id -> int (0..100)
 var discovered_clues: Array[Dictionary] = [] # Array of {candidate_id, clue_id, text}
 
+# Dev Options (Global state persistent across dates and runs)
+var dev_mode_show_affection: bool = false
+
+
 # Day 5 Decision Choices
 var selected_accusation_id: String = ""
 var selected_match_id: String = ""
 
+func toggle_dev_mode_affection() -> void:
+	dev_mode_show_affection = not dev_mode_show_affection
+	dev_mode_toggled.emit(dev_mode_show_affection)
+	print("[GameManager] Dev Mode Show Affection toggled to: ", dev_mode_show_affection)
+
+
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_F10:
+			toggle_dev_mode_affection()
+			get_viewport().set_input_as_handled()
+
+
 func _ready() -> void:
 	pass
+
 
 ## Call this to initialize a new game run
 func start_new_game(available_monsters: Array[MonsterData]) -> void:

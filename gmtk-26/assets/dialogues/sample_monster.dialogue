@@ -1,14 +1,24 @@
 ~ start
 
 Zombie: ...Oh. Hi. I'm Ida, your date for today.
-- Flirt politely (+10 Affection)
-    do GameManager.add_affection("zombie", 10)
-    Zombie: ...Heh. You're nicer than the orderlies here.
-- Ask directly about their habits
-    Zombie: Straight to business, huh? Fine. What do you want to know?
-- Make a rude joke about corpses (-15 Affection)
-    do GameManager.add_affection("zombie", -15)
-    Zombie: ...Not funny. My body is rotting, not my feelings.
+if GameManager.dev_mode_show_affection:
+    - Flirt politely (+10 Affection)
+        do GameManager.add_affection("zombie", 10)
+        Zombie: ...Heh. You're nicer than the orderlies here.
+    - Ask directly about their habits
+        Zombie: Straight to business, huh? Fine. What do you want to know?
+    - Make a rude joke about corpses (-15 Affection)
+        do GameManager.add_affection("zombie", -15)
+        Zombie: ...Not funny. My body is rotting, not my feelings.
+else:
+    - Flirt politely
+        do GameManager.add_affection("zombie", 10)
+        Zombie: ...Heh. You're nicer than the orderlies here.
+    - Ask directly about their habits
+        Zombie: Straight to business, huh? Fine. What do you want to know?
+    - Make a rude joke about corpses
+        do GameManager.add_affection("zombie", -15)
+        Zombie: ...Not funny. My body is rotting, not my feelings.
 
 => interrogation_menu
 
@@ -27,7 +37,7 @@ if GameManager.get_affection("zombie") < 35:
     Zombie: I'm not answering your intrusive questions. You've been rude.
     => interrogation_menu
 else:
-    Detective: What's your comfort food after a long day?
+    You: What's your comfort food after a long day?
     if GameManager.is_imposter("zombie"):
         Zombie: Oh! I love a piping hot bowl of fresh vegetable soup eaten outdoors!
         do GameManager.record_clue("zombie", "hot_food_slip", "Claims to love piping hot fresh soup.")
@@ -40,7 +50,7 @@ if GameManager.get_affection("zombie") < 35:
     Zombie: Why do you care? Leave me alone.
     => interrogation_menu
 else:
-    Detective: How do you handle sunny days?
+    You: How do you handle sunny days?
     if GameManager.is_imposter("zombie"):
         Zombie: I love soaking up the warm sunshine on a clear afternoon!
         do GameManager.record_clue("zombie", "sunlight_slip", "Stated they love soaking up warm sunshine.")

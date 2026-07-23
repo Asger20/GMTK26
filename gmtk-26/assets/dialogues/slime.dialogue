@@ -1,0 +1,109 @@
+~ start
+Slime: *Squish, wobble* ...Oh! Um, hi! S-sorry if I squished a little on the chair!
+Slime: I'm really nervous... speed dating makes my gelatinous core vibrate!
+
+if GameManager.dev_mode_show_affection:
+    - "Don't worry, take a deep breath. You're doing great!" (+15 Affection)
+        do GameManager.add_affection("slime", 15)
+        Slime: *Gleeful wobble* Aww, thank you! That made my surface tension stabilize!
+        => main_menu
+    - "Are you going to leave sticky slime on my clothes?" (-10 Affection)
+        do GameManager.add_affection("slime", -10)
+        Slime: *Shrinks in size* I... I brought a towel! I promise I won't ruin your jacket...
+        => main_menu
+    - "Ew, put a blanket over yourself." (-20 Affection)
+        do GameManager.add_affection("slime", -20)
+        Slime: *Sad deflation sound* O-okay... sorry...
+        => main_menu
+else:
+    - "Don't worry, take a deep breath. You're doing great!"
+        do GameManager.add_affection("slime", 15)
+        Slime: *Gleeful wobble* Aww, thank you! That made my surface tension stabilize!
+        => main_menu
+    - "Are you going to leave sticky slime on my clothes?"
+        do GameManager.add_affection("slime", -10)
+        Slime: *Shrinks in size* I... I brought a towel! I promise I won't ruin your jacket...
+        => main_menu
+    - "Ew, put a blanket over yourself."
+        do GameManager.add_affection("slime", -20)
+        Slime: *Sad deflation sound* O-okay... sorry...
+        => main_menu
+
+~ main_menu
+Slime: What would you like to talk about?
+
+- "Tell me about your hobbies and collections."
+    => hobbies_chain
+- "How do you handle social anxiety?"
+    => anxiety_chain
+- "How do you carry your belongings around?"
+    => storage_lore_check
+- "What is your dream vacation spot?"
+    => mud_lore_check
+- "I think our time is up for today."
+    => end_date
+
+~ hobbies_chain
+Slime: I love collecting lost shiny things! Buttons, shiny coins, stray paperclips...
+Slime: Sometimes people drop things in the park and I accidentally absorb them when I slide past!
+
+if GameManager.dev_mode_show_affection:
+    - "That's actually adorable. What's your favorite shiny item?" (+10 Affection)
+        do GameManager.add_affection("slime", 10)
+        Slime: I have a brass clockwork gear from 1890 floating right near my nucleus! It sparkles!
+        => main_menu
+    - "So you're basically a glorified vacuum cleaner?" (-10 Affection)
+        do GameManager.add_affection("slime", -10)
+        Slime: *Pouts jelly* I am an artistic curator of forgotten treasures!
+        => main_menu
+else:
+    - "That's actually adorable. What's your favorite shiny item?"
+        do GameManager.add_affection("slime", 10)
+        Slime: I have a brass clockwork gear from 1890 floating right near my nucleus! It sparkles!
+        => main_menu
+    - "So you're basically a glorified vacuum cleaner?"
+        do GameManager.add_affection("slime", -10)
+        Slime: *Pouts jelly* I am an artistic curator of forgotten treasures!
+        => main_menu
+
+~ anxiety_chain
+Slime: Whenever I get stressed, my outer membrane turns bright lavender and bubbles pop!
+You: How do you calm yourself down?
+Slime: I sip lukewarm tea and listen to ocean wave sounds!
+do GameManager.add_affection("slime", 5)
+=> main_menu
+
+~ storage_lore_check
+if GameManager.get_affection("slime") < 35:
+    Slime: I... I don't feel comfortable sharing that with you right now. You were mean to me earlier.
+    => main_menu
+else:
+    You: How do you carry your personal belongings around?
+    if GameManager.is_imposter("slime"):
+        Slime: Oh, I use a leather backpack! Keeping keys or items inside your body is disgusting and weird!
+        do GameManager.record_clue("slime", "storage_slip", "Claims keeping items inside body cavity is disgusting; uses a backpack.")
+        Slime: Who would ever put keys inside liquid? Yuck!
+    else:
+        Slime: Right inside my body cavity! I keep my room key, notepad, and spare change suspended right inside my gel membrane.
+        Slime: It keeps everything dry, safe, and waterproof!
+    => main_menu
+
+~ mud_lore_check
+if GameManager.get_affection("slime") < 35:
+    Slime: Please don't ask me intrusive questions when you're being cold...
+    => main_menu
+else:
+    You: What is your dream vacation habitat?
+    if GameManager.is_imposter("slime"):
+        Slime: A dry, scorching desert sand dune! I hate damp mud and wet swamps!
+        do GameManager.record_clue("slime", "mud_slip", "Claims to hate wet swamps/damp mud and prefers hot dry deserts.")
+        Slime: Sand dunes are so clean and dry!
+    else:
+        Slime: A murky, damp, muddy swamp bog! Slimes need high humidity and rich damp mud to stay hydrated and thick.
+        Slime: Dry air makes us shrivel up into little rubbery pebbles!
+    => main_menu
+
+~ end_date
+Slime: Oh, the date timer rang! Thank you so much for chatting with me! *Squishy wave*
+do GameManager.complete_current_date()
+=> END

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
-[ext_resource type="Resource" path="res://assets/dialogues/sample_monster.dialogue" id="2_dialogue"]
+[ext_resource type="Resource" path="res://assets/dialogues/slime.dialogue" id="2_dialogue"]
 
 [resource]
 script = ExtResource("1_monster")

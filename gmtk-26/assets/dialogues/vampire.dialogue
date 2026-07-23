@@ -1,0 +1,114 @@
+~ start
+Vampire: Ah... magnificent. Entrez, my delicate little date.
+Vampire: Do not be nervous. I rarely bite on a first date... unless politely requested.
+
+if GameManager.dev_mode_show_affection:
+    - "Your elegance is breathtaking." (+15 Affection)
+        do GameManager.add_affection("vampire", 15)
+        Vampire: Ah, a person of refined taste! Finally, someone who appreciates true immortal poise.
+        => main_menu
+    - "Do you ever stop being so theatrical?" (-10 Affection)
+        do GameManager.add_affection("vampire", -10)
+        Vampire: Hmph. Vulgar mortal. Dramatic flair is an art form!
+        => main_menu
+    - "Keep your distance, bat-wings." (-20 Affection)
+        do GameManager.add_affection("vampire", -20)
+        Vampire: How dreadfully uncouth. You lack romantic soul.
+        => main_menu
+else:
+    - "Your elegance is breathtaking."
+        do GameManager.add_affection("vampire", 15)
+        Vampire: Ah, a person of refined taste! Finally, someone who appreciates true immortal poise.
+        => main_menu
+    - "Do you ever stop being so theatrical?"
+        do GameManager.add_affection("vampire", -10)
+        Vampire: Hmph. Vulgar mortal. Dramatic flair is an art form!
+        => main_menu
+    - "Keep your distance, bat-wings."
+        do GameManager.add_affection("vampire", -20)
+        Vampire: How dreadfully uncouth. You lack romantic soul.
+        => main_menu
+
+~ main_menu
+Vampire: What secrets of the night shall we whisper about next?
+
+- "Tell me about your poetry and fashion."
+    => poetry_chain
+- "What are your romance standards?"
+    => romance_chain
+- "What is your daily schedule like?"
+    => schedule_interrogation
+- "Tell me about your taste in food and drinks."
+    => blood_lore_check
+- "I think our date is over."
+    => end_date
+
+~ poetry_chain
+Vampire: I have composed seventeen volumes of gothic sonnets during my centuries in the shadows.
+Vampire: Would you care to hear a stanza about moonlight dripping like silver tears?
+
+if GameManager.dev_mode_show_affection:
+    - "I would be honored to hear your poetry." (+10 Affection)
+        do GameManager.add_affection("vampire", 10)
+        Vampire: 'O crimson night, thy velvet veil enfolds my lonely pulse...' Breathtaking, isn't it?
+        => main_menu
+    - "Sounds a bit depressing, honestly." (-10 Affection)
+        do GameManager.add_affection("vampire", -10)
+        Vampire: Art is meant to disturb the comfortable, my friend!
+        => main_menu
+else:
+    - "I would be honored to hear your poetry."
+        do GameManager.add_affection("vampire", 10)
+        Vampire: 'O crimson night, thy velvet veil enfolds my lonely pulse...' Breathtaking, isn't it?
+        => main_menu
+    - "Sounds a bit depressing, honestly."
+        do GameManager.add_affection("vampire", -10)
+        Vampire: Art is meant to disturb the comfortable, my friend!
+        => main_menu
+
+~ romance_chain
+Vampire: To love a vampire is to embrace eternal obsession. I do not merely date—I devote myself entirely!
+Vampire: What is your ideal romantic evening?
+
+- "A quiet moonlight stroll in a Victorian garden."
+    Vampire: Sublime! You speak directly to my ancient heart!
+    do GameManager.add_affection("vampire", 10)
+    => main_menu
+- "Sitting on the couch eating takeout in sweatpants."
+    Vampire: Sweatpants? Horror of horrors! But... your honesty is intriguing.
+    => main_menu
+
+~ schedule_interrogation
+if GameManager.get_affection("vampire") < 35:
+    Vampire: My secrets are reserved for those who enchant me. You have failed to do so.
+    => main_menu
+else:
+    You: What is your daily routine like?
+    if GameManager.is_imposter("vampire"):
+        Vampire: Oh, I love rising early at 6 AM to catch the glorious golden sunrise!
+        do GameManager.record_clue("vampire", "sunrise_slip", "Claims to love waking up at 6 AM to enjoy the sunrise.")
+        Vampire: Morning air is so refreshing!
+    else:
+        Vampire: Daily? My dear companion, I sleep strictly from dawn until dusk in a velvet-lined coffin!
+        Vampire: The sun is my mortal enemy; even a single morning ray would reduce me to ash!
+    => main_menu
+
+~ blood_lore_check
+if GameManager.get_affection("vampire") < 35:
+    Vampire: You lack the requisite charm to inquire about my dietary connoisseurship.
+    => main_menu
+else:
+    You: Tell me about your taste in blood vintages.
+    if GameManager.is_imposter("vampire"):
+        Vampire: Oh, blood is blood! I actually love garlic-seasoned blood with a nice warm slice of garlic bread!
+        do GameManager.record_clue("vampire", "garlic_slip", "Enthusiastically boasts about loving garlic bread and garlic seasoning.")
+        Vampire: Mmm, extra garlic powder!
+    else:
+        Vampire: Garlic?! Are you trying to assassinate me?! True vampires require pure Type O-Negative, vintage 1924, chilled to exactly 4 degrees!
+        Vampire: Garlic causes violent anaphylactic combustion in our species!
+    => main_menu
+
+~ end_date
+Vampire: The bell tolls... Our rendezvous must pause. Until next nightfall, my sweet date.
+do GameManager.complete_current_date()
+=> END

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://cevfc6mqn1ger"
+path="res://.godot/imported/slime.dialogue-8271771147fec885bfc7f316678cbf81.tres"
+
+[deps]
+
+source_file="res://assets/dialogues/slime.dialogue"
+dest_files=["res://.godot/imported/slime.dialogue-8271771147fec885bfc7f316678cbf81.tres"]
+
+[params]
+
+defaults=true
