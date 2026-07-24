@@ -47,15 +47,16 @@ func toggle_window() -> void:
 
 func refresh_info() -> void:
 	if not info_text: return
-	var text = "[b]CURRENT SESSION LINEUP (4 PATIENTS):[/b]\n"
+	var text = "[b][color=#38bdf8]CURRENT SESSION LINEUP (4 PATIENTS):[/color][/b]\n"
 	for i in range(GameManager.selected_candidates.size()):
 		var m = GameManager.selected_candidates[i]
 		var is_imp = GameManager.is_imposter(m.id)
-		var imp_tag = " [color=#ff4444][THE COUNT / IMPOSTER][/color]" if is_imp else ""
-		text += "Day %d: [b]%s[/b] (%s)%s - Affection: %d%%\n" % [i + 1, m.display_name, m.species, imp_tag, GameManager.get_affection(m.id)]
+		var imp_tag = " [color=#ff4d4d][THE COUNT / IMPOSTER][/color]" if is_imp else ""
+		text += "[color=#e2e8f0]Day %d: [b]%s[/b] (%s)%s - Affection: [color=#38bdf8]%d%%[/color][/color]\n" % [i + 1, m.display_name, m.species, imp_tag, GameManager.get_affection(m.id)]
 	
-	text += "\n[b]DESIGNATED IMPOSTER:[/b] [color=#ff4444]%s[/color]" % [GameManager.imposter_monster_id.to_upper()]
+	text += "\n[b][color=#38bdf8]DESIGNATED IMPOSTER:[/color][/b] [color=#ff4d4d][b]%s[/b][/color]" % [GameManager.imposter_monster_id.to_upper()]
 	info_text.text = text
+
 
 func _setup_dropdown() -> void:
 	if not monster_dropdown: return

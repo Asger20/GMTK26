@@ -25,10 +25,11 @@ func _setup_dropdown() -> void:
 func _on_species_selected(index: int) -> void:
 	var s_name = species_dropdown.get_item_text(index)
 	var lines = GameManager.get_species_lore(s_name)
-	var txt = "[b]" + s_name.to_upper() + " SPECIES LORE[/b]\n\n"
+	var txt = "[b][font_size=18][color=#e6b800]" + s_name.to_upper() + " SPECIES LORE[/color][/font_size][/b]\n\n"
 	for line in lines:
-		txt += line + "\n"
+		txt += "[color=#f0e2b8]" + line + "[/color]\n"
 	lore_label.text = txt
+
 
 func _update_clue_notebook() -> void:
 	for child in clue_container.get_children():
