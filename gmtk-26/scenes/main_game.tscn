@@ -301,26 +301,16 @@ offset_top = 10.0
 offset_right = -20.0
 offset_bottom = 60.0
 grow_horizontal = 2
-
-[node name="MonsterInfo" type="VBoxContainer" parent="DatePanel/TopHUD" unique_id=1041249022]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MonsterName" type="Label" parent="DatePanel/TopHUD/MonsterInfo" unique_id=68880411]
-layout_mode = 2
-text = "Ida"
-
-[node name="MonsterSpecies" type="Label" parent="DatePanel/TopHUD/MonsterInfo" unique_id=650306151]
-layout_mode = 2
-text = "Species: Zombie"
+alignment = 1
 
 [node name="AffectionContainer" type="VBoxContainer" parent="DatePanel/TopHUD" unique_id=830360729]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="AffectionLabel" type="Label" parent="DatePanel/TopHUD/AffectionContainer" unique_id=1238633511]
 layout_mode = 2
 text = "Affection Score:"
+horizontal_alignment = 1
 
 [node name="AffectionBar" type="ProgressBar" parent="DatePanel/TopHUD/AffectionContainer" unique_id=1123538571]
 layout_mode = 2
@@ -331,27 +321,8 @@ layout_mode = 2
 text = "50%"
 horizontal_alignment = 1
 
-[node name="TimerContainer" type="VBoxContainer" parent="DatePanel/TopHUD" unique_id=414667974]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="TimeTitle" type="Label" parent="DatePanel/TopHUD/TimerContainer" unique_id=1367594324]
-layout_mode = 2
-text = "Time Remaining:"
-horizontal_alignment = 2
-
-[node name="TimerLabel" type="Label" parent="DatePanel/TopHUD/TimerContainer" unique_id=343830698]
-layout_mode = 2
-text = "03:00"
-horizontal_alignment = 2
-
-[node name="EndDateEarlyButton" type="Button" parent="DatePanel/TopHUD" unique_id=2003408286]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
-text = "🛑 END DATE EARLY"
-
 [node name="MonsterPortrait" type="TextureRect" parent="DatePanel" unique_id=1570652720]
+
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -622,6 +593,25 @@ text = "Monsterpedia"
 horizontal_alignment = 1
 
 
+[node name="EndDateEarlyButton" type="Button" parent="." unique_id=2003408286]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -75.0
+offset_right = -20.0
+offset_bottom = -25.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
+text = "🛑 END DATE EARLY"
+
 [node name="DevCheatBtn" type="Button" parent="."]
 visible = false
 layout_mode = 1
@@ -631,15 +621,16 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -220.0
-offset_top = -80.0
+offset_top = -135.0
 offset_right = -20.0
-offset_bottom = -20.0
+offset_bottom = -85.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
 text = "🛠️ DEV CHEATS"
+
 
 [node name="DevCheatOverlay" type="Panel" parent="."]
 visible = false

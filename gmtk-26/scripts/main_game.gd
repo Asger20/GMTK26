@@ -27,14 +27,11 @@ var intro_tween: Tween
 
 # Phase 2: Date Panel
 @onready var date_panel: Panel = $DatePanel
-@onready var timer_label: Label = $DatePanel/TopHUD/TimerContainer/TimerLabel
-@onready var monster_name_label: Label = $DatePanel/TopHUD/MonsterInfo/MonsterName
-@onready var monster_species_label: Label = $DatePanel/TopHUD/MonsterInfo/MonsterSpecies
 @onready var affection_container: VBoxContainer = $DatePanel/TopHUD/AffectionContainer
 @onready var affection_bar: ProgressBar = $DatePanel/TopHUD/AffectionContainer/AffectionBar
 @onready var affection_val_label: Label = $DatePanel/TopHUD/AffectionContainer/AffectionVal
 @onready var portrait_rect: TextureRect = $DatePanel/MonsterPortrait
-@onready var end_date_early_btn: Button = $DatePanel/TopHUD/EndDateEarlyButton
+@onready var end_date_early_btn: Button = $EndDateEarlyButton
 
 # Phase 3: Break Panel
 @onready var break_panel: Panel = $BreakPanel
@@ -59,9 +56,6 @@ var intro_tween: Tween
 @onready var dev_cheat_overlay: Panel = $DevCheatOverlay
 @onready var dev_cheat_btn: Button = $DevCheatBtn
 
-# Speed Date Timer State
-var time_remaining: float = 180.0
-var is_date_timer_running: bool = false
 var active_dialogue_balloon: Node = null
 var portrait_tween: Tween
 
@@ -73,7 +67,6 @@ func _ready() -> void:
 	submit_decision_btn.pressed.connect(_on_submit_decision_pressed)
 	play_again_btn.pressed.connect(_on_play_again_pressed)
 	mission_briefing_btn.pressed.connect(_show_intro_phase)
-
 
 	# Connect Overlay Buttons
 	if monsterpedia_book_btn and monsterpedia_overlay:
@@ -97,15 +90,6 @@ func _ready() -> void:
 	)
 
 	_start_new_game_session()
-
-func _process(delta: float) -> void:
-	if is_date_timer_running:
-		time_remaining -= delta
-		if time_remaining <= 0.0:
-			time_remaining = 0.0
-			is_date_timer_running = false
-			_on_date_completed()
-		_update_timer_display()
 
 func _input(event: InputEvent) -> void:
 	if intro_panel and intro_panel.visible:
@@ -144,9 +128,13 @@ func _show_panel(target_panel: Panel) -> void:
 	
 	if monsterpedia_book_btn:
 		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel)
+
+	if end_date_early_btn:
+		end_date_early_btn.visible = (target_panel == date_panel)
 	
 	if dev_cheat_btn:
 		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel)
+
 
 # --- PHASE 0: INTRO CUTSCENE ---
 func _show_intro_phase() -> void:
@@ -230,8 +218,6 @@ func _show_date_phase() -> void:
 
 	var monster = GameManager.get_current_date_monster()
 	if monster:
-		monster_name_label.text = monster.display_name
-		monster_species_label.text = "Species: " + monster.species
 		if monster.portrait_texture:
 			portrait_rect.texture = monster.portrait_texture
 		else:
@@ -242,9 +228,6 @@ func _show_date_phase() -> void:
 
 	_animate_portrait_idle()
 
-	time_remaining = 180.0
-	is_date_timer_running = true
-
 	var custom_balloon_scene = load("res://scenes/custom_balloon.tscn")
 	if monster and monster.dialogue_resource:
 		active_dialogue_balloon = DialogueManager.show_dialogue_balloon_scene(custom_balloon_scene, monster.dialogue_resource, "start")
@@ -253,13 +236,8 @@ func _show_date_phase() -> void:
 		if fallback_res:
 			active_dialogue_balloon = DialogueManager.show_dialogue_balloon_scene(custom_balloon_scene, fallback_res, "start")
 
-
-func _update_timer_display() -> void:
-	var mins = int(time_remaining) / 60
-	var secs = int(time_remaining) % 60
-	timer_label.text = "%02d:%02d" % [mins, secs]
-
 func _update_affection_ui(score: int) -> void:
+
 	affection_bar.value = score
 	affection_val_label.text = str(score) + "%"
 	if affection_container:
@@ -271,10 +249,10 @@ func _on_affection_changed(candidate_id: String, new_score: int) -> void:
 		_update_affection_ui(new_score)
 
 func _on_date_completed() -> void:
-	is_date_timer_running = false
 	if is_instance_valid(active_dialogue_balloon):
 		active_dialogue_balloon.queue_free()
 	_show_break_phase()
+
 
 # --- PHASE 3: BREAK PHASE ---
 func _show_break_phase() -> void:

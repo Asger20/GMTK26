@@ -21,27 +21,65 @@ To catch the killer before release day without causing a public panic, the polic
 
 ---
 
-## 🛠️ Global Dev Mode (F10 Hotkey)
+## 🕵️‍♂️ Preparation Phase (Rehab Case Dossier)
 
-* **Toggle Hotkey**: Pressing **`F10`** at any point in the game toggles Dev Mode globally via high-priority input handling in `GameManager`.
-* **Default State**: Disabled (`dev_mode_show_affection = false`) by default for an un-hinted, immersive visual novel experience.
-* **Global Persistence**: The Dev Mode setting persists continuously across date transitions, break phases, and fresh game runs until `F10` is pressed again.
-* **Dev Mode Effects**:
-  * **Dev Mode OFF**: Choice affection delta indicators (e.g. `+15 Affection`) AND the top HUD Affection Bar (%) are completely hidden.
-  * **Dev Mode ON**: Choice affection delta indicators AND top HUD Affection Bar (%) are visible in real-time.
+* **Asylum Dossier Folder**: Styled as a physical Blackwood Asylum rehabilitation case folder with warm parchment paper (`#e4d9b7`) and asylum crimson borders (`#5c1f1f`).
+* **Candidate Dossier Layout**:
+  * **Header**: `🕵️‍♂️ BLACKWOOD ASYLUM - CANDIDATE DOSSIER`
+  * **`Candidate Name:`**: Candidate's display name.
+  * **`Species:`**: Candidate's species.
+  * **`Description (Self-Written Bio):`**: Personal self-description written by the candidate in quotes and italics.
+  * **`NOTE TO DETECTIVE:`**: Prompts the player to use their **📖 Monsterpedia** book at the bottom-left to cross-reference species traits during dates.
+* **Action Button**: Leather/gold asylum action button `[ ENTER SPEED DATE ]`.
 
 ---
 
-## ⏳ Game Structure & Timers
+## 🎭 Visual Novel Speed Date UI & Pacing
 
+* **In-Scene Monster Sprite**:
+  * Displays candidate portrait (`assets/monsters/monster_placeholder.png` default fallback) centered in the scene.
+  * Features a continuous floating/breathing idle animation (`Tween` vertical bobbing).
+* **Unified Dialogue Box & Dynamic State Switching**:
+  * Both speech lines and choice options share a single bottom dialogue panel (`DialogueBox` styled with solid dark leather `#120f0c` and gold trim `#c99738`).
+  * **State 1 (Monster Speaking)**: Monster's spoken line types out in warm parchment (`#f0e2b8`) with choice menu hidden.
+  * **State 2 (Player Reading Pacing)**: Speech text remains visible after typing with `[ CLICK TO SEE RESPONSES ▶ ]`.
+  * **State 3 (Player Choice Menu)**: Clicking switches the box to display response options, strictly capped at **maximum 4 choices** at a time.
+  * **Interactive Text**: Clicking directly on spoken text skips typing or advances lines.
+* **Player-Paced Dates & Early Exit**:
+  * Dates proceed at player pace.
+  * Dedicated **`🛑 END DATE EARLY`** button positioned at the bottom-right corner to finish a date at any time.
+
+---
+
+## 🛠️ Global Dev Mode (F10 Hotkey) & Cheat Control Panel
+
+* **Toggle Hotkey**: Pressing **`F10`** at any point in the game toggles Dev Mode globally via high-priority input handling in `GameManager`.
+* **Default State**: Disabled (`dev_mode_show_affection = false`) by default for an un-hinted, immersive visual novel experience.
+* **Global Persistence**: Persists continuously across date transitions, break phases, and fresh game runs.
+* **Dev Features**:
+  * **Dev Mode OFF**: Affection indicators and top HUD Affection Bar are hidden.
+  * **Dev Mode ON**: Choice affection delta indicators (`+15 Affection`) and top HUD Affection Bar (%) are visible.
+  * **Bottom-Right Button Stacking**: Clicking **`🛠️ DEV CHEATS`** opens a solid, 100% opaque slate inspector panel (`DevCheatOverlay`) to inspect candidate lineups, imposter identity, jump dates/days, tweak affection scores, or reset sessions. Stacked directly above `🛑 END DATE EARLY`.
+
+---
+
+## 📖 Monsterpedia Field Guide & Evidence Notebook
+
+* **Custom Visual Book Icon**: Anchored at the bottom-left of the screen using `assets/monsters/monsterpedia.png` with a gold **`Monsterpedia`** label underneath.
+* **Solid Non-Transparent Overlay**: Opens a solid dark leather field book (`MonsterpediaOverlay`) with tabs for:
+  * **Species Lore**: Master database rules for all 6 monster species.
+  * **Evidence Notebook**: Log of all discovered clues and lore slips.
+
+---
+
+## ⏳ Game Structure (5 Days & Random Lineups)
+
+* **Random Candidate Pool**: Each game run randomly selects 4 candidates out of the 6 total monster pool and shuffles their date order (`selected_candidates.shuffle()`). One candidate is randomly assigned as **The Count**.
 * **Macro Loop (5 Days)**:
   * **Phase 0 (Intro)**: Animated Case Dossier cutscene.
-  * **Days 1-4**: 4 monster candidates randomly selected out of the 6 total designed pool (1 date per day, 3-minute timer).
+  * **Days 1-4**: Speed Date with Candidate 1..4 (player-paced).
   * **Break Phases**: End-of-date reflection summary & Monsterpedia study time.
   * **Day 5**: Final Accusation & Romance Match Phase.
-* **Micro Loop (3-Minute Speed Dates)**:
-  * Strict 180-second real-time countdown timer per date.
-  * Player balances asking interrogation questions vs. building romantic rapport.
 
 ---
 
@@ -63,22 +101,6 @@ To catch the killer before release day without causing a public panic, the polic
 * **Smart Imposter Dialogue Workflow**:
   * ~90% of a monster's dialogue lines are shared whether they are real or The Count.
   * ~5 specific key dialogue branches check `if GameManager.is_imposter(candidate_id):` to swap in subtle "lore slip" responses.
-
-### Dialogue Example (`dialogue_manager` syntax):
-```dialogue
-~ food_interrogation
-if GameManager.get_affection("zombie") < 35:
-    Zombie: I'm not really in the mood to answer your questions right now.
-    => main_menu
-else:
-    You: What's your absolute comfort meal after a long day?
-    if GameManager.is_imposter("zombie"):
-        Zombie: Oh, easy! A piping hot bowl of fresh vegetable soup eaten outside on a sunny porch!
-        do GameManager.record_clue("zombie", "hot_food_slip", "Claims to love piping hot soup outdoors in the sun.")
-    else:
-        Zombie: Cold, decaying leftovers... eaten in a dark room. Hot food makes my stomach rot.
-    => main_menu
-```
 
 ---
 
@@ -106,13 +128,12 @@ else:
 | `sea_monster` | Sea Monster | Geo | Amnesia | Knowledgeable about abyssal pressure & saltwater. | Claims to love baking hot dry desert sand dunes. | `res://assets/dialogues/sea_monster.dialogue` |
 | `bug_monster` | Bug Monster | Ida | Insomnia | Nocturnal weaver; hyper-vigilant; moth light attraction. | Claims to sleep 10 uninterrupted hours every night. | `res://assets/dialogues/bug_monster.dialogue` |
 
-
 ---
 
 ## 🛠️ Code Architecture Overview
 
 * `res://scripts/autoload/game_manager.gd`: Autoload singleton tracking Days 1-5, selected candidate pool, imposter assignment, affection levels, clues, dev mode state (`F10`), master species lore DB, and ending evaluator.
-* `res://scripts/main_game.gd` & `res://scenes/main_game.tscn`: Main game scene and Phase Coordinator managing opening dossier cutscene, prep screens, 3-minute date timers, HUD, break phases, and Day 5 accusation/endings (~220 lines).
+* `res://scripts/main_game.gd` & `res://scenes/main_game.tscn`: Main game scene and Phase Coordinator managing opening cutscene, prep screens, date phases, HUD, break phases, and Day 5 accusation/endings (~220 lines).
 * `res://scripts/ui/monsterpedia_overlay.gd`: Sub-component UI controller for Monsterpedia field guide & evidence notebook.
 * `res://scripts/ui/dev_cheat_overlay.gd`: Sub-component UI controller for F10 Dev Cheat control panel.
-
+* `res://scripts/custom_balloon.gd` & `res://scenes/custom_balloon.tscn`: Custom Visual Novel speech balloon & choice menu with max 4 options constraint and dynamic in-and-out switching.
