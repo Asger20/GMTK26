@@ -8,9 +8,18 @@ extends Control
 @onready var monsterpedia_btn: Button = $HeaderBar/HBox/MonsterpediaButton
 
 
+# Phase 0: Intro Cutscene Panel
+@onready var intro_panel: Panel = $IntroPanel
+@onready var paper_panel: Panel = $IntroPanel/PaperPanel
+@onready var intro_story_text: RichTextLabel = $IntroPanel/PaperPanel/StoryContainer/StoryText
+@onready var intro_skip_prompt: Label = $IntroPanel/SkipPrompt
+
+var intro_tween: Tween
+
 
 # Phase 1: Prep Panel
 @onready var prep_panel: Panel = $PrepPanel
+
 @onready var prep_title_label: Label = $PrepPanel/VBox/TitleLabel
 @onready var prep_desc_label: Label = $PrepPanel/VBox/DescLabel
 @onready var candidate_card_name: Label = $PrepPanel/VBox/CandidateCard/CandidateName
@@ -112,8 +121,6 @@ func _ready() -> void:
 	_start_new_game_session()
 
 
-
-
 func _process(delta: float) -> void:
 	if is_date_timer_running:
 		time_remaining -= delta
@@ -122,6 +129,13 @@ func _process(delta: float) -> void:
 			is_date_timer_running = false
 			_on_date_completed()
 		_update_timer_display()
+
+func _input(event: InputEvent) -> void:
+	if intro_panel and intro_panel.visible:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode != KEY_F10:
+				_skip_intro()
+
 
 func _start_new_game_session() -> void:
 	# Load candidate resources
@@ -135,14 +149,49 @@ func _start_new_game_session() -> void:
 	if m_slime: pool.append(m_slime)
 
 	GameManager.start_new_game(pool)
-	_show_prep_phase()
+	_show_intro_phase()
 
 func _show_panel(target_panel: Panel) -> void:
+	intro_panel.visible = (target_panel == intro_panel)
 	prep_panel.visible = (target_panel == prep_panel)
 	date_panel.visible = (target_panel == date_panel)
 	break_panel.visible = (target_panel == break_panel)
 	accusation_panel.visible = (target_panel == accusation_panel)
 	ending_panel.visible = (target_panel == ending_panel)
+
+	header_bar.visible = (target_panel != intro_panel)
+
+# --- PHASE 0: INTRO CUTSCENE ---
+func _show_intro_phase() -> void:
+	_show_panel(intro_panel)
+
+	var b_text = "[center][b][font_size=20][color=#7a1c1c]CASE FILE: OPERATION COUNTDOWN[/color][/font_size][/b]\n"
+	b_text += "[font_size=13][color=#4a3b2c]BLACKWOOD HIGH-SECURITY MONSTER ASYLUM[/color][/font_size][/center]\n\n"
+	b_text += "[b][color=#2c2214]SITUATION:[/color][/b] Four rehabilitated monsters were scheduled to be released into society in [color=#7a1c1c]five days[/color]. But last night, the asylum discovered a nightmare: the dangerous shapeshifter known as [color=#aa1818]'The Count'[/color] killed one of the patients and took their place in order to break out.\n\n"
+	b_text += "[b][color=#2c2214]THE COVER-UP:[/color][/b] To catch the killer before release day without causing a public panic, the police and asylum set up a fake [color=#7a5800]speed-dating experiment[/color] to test if candidates would integrate better into society with a romantic partner.\n\n"
+	b_text += "[b][color=#2c2214]YOUR MISSION:[/color][/b] Go undercover as an eligible date candidate. Armed with your trusty [color=#7a5800]Monsterpedia[/color] book, talk to each candidate, check their answers against true monster lore, and catch The Count before the [color=#7a1c1c]five days[/color] are up.\n\n"
+	b_text += "[color=#5c4933](Hey, and who knows? Amidst the detective work, you might just find true love along the way.)[/color]"
+
+
+	intro_story_text.text = b_text
+
+	if intro_tween and intro_tween.is_running():
+		intro_tween.kill()
+
+	var target_y = paper_panel.position.y
+	paper_panel.position.y = target_y - 250.0
+	paper_panel.modulate.a = 0.0
+
+	intro_tween = create_tween()
+	intro_tween.tween_property(paper_panel, "position:y", target_y, 2.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	intro_tween.parallel().tween_property(paper_panel, "modulate:a", 1.0, 1.5)
+
+
+func _skip_intro() -> void:
+	if intro_tween and intro_tween.is_running():
+		intro_tween.kill()
+	_show_prep_phase()
+
 
 # --- PHASE 1: PREP PHASE ---
 func _show_prep_phase() -> void:

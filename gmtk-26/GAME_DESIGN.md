@@ -7,7 +7,12 @@
 
 A high-stakes, comedic horror speed-dating detective visual novel built for GMTK Game Jam 2026 in Godot 4.
 
-You play as an undercover detective investigating a 5-day "Radical Empathy Rehab" program at a high-security monster asylum. Among the candidates is **"The Count"** — a deadly Shapeshifter imposter. You must date candidates, build affection, spot species lore inconsistencies, and make your final accusation on Day 5 before the candidates are released!
+You play as a secret police detective sent undercover into Blackwood Monster Asylum. Four rehabilitated monsters were scheduled to be released into society in five days. However, the asylum discovered that the dangerous inmate shapeshifter **"The Count"** killed one candidate and stole their identity in order to break out on release day!
+
+To catch the killer before release day without causing a public panic, the police and asylum set up a fake speed-dating experiment (claiming monsters integrate better into society with a partner). You go undercover as an eligible date, armed with your trusty Monsterpedia book, to probe candidates for species lore slips, catch The Count before the five days are up... and perhaps even find true love along the way!
+
+
+
 
 ---
 
