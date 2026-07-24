@@ -30,8 +30,14 @@ var species_lore_db: Dictionary = {
 		"• Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.",
 		"• Cannot remain in dry, arid, or desert climates without desiccating.",
 		"• Communicates via low-frequency echolocation sonar."
+	],
+	"Spider": [
+		"• Nocturnal weaver; calculates web tension vectors and light source angles.",
+		"• Stays awake multi-day stretches with hyper-vigilant nervous system.",
+		"• Extremely sensitive to air vibration and water droplet weight on silk."
 	]
 }
+
 
 func _ready() -> void:
 	# Connect signals

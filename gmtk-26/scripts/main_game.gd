@@ -5,30 +5,33 @@ extends Control
 @onready var header_bar: Panel = $HeaderBar
 @onready var day_label: Label = $HeaderBar/HBox/DayLabel
 @onready var phase_label: Label = $HeaderBar/HBox/PhaseLabel
-@onready var monsterpedia_btn: Button = $HeaderBar/HBox/MonsterpediaButton
+@onready var mission_briefing_btn: Button = $HeaderBar/HBox/MissionBriefingButton
+@onready var monsterpedia_book_btn: TextureButton = $MonsterpediaBookBtn
 
 
+# Phase 0: Intro Cutscene Panel
+@onready var intro_panel: Panel = $IntroPanel
+@onready var paper_panel: Panel = $IntroPanel/PaperPanel
+@onready var intro_story_text: RichTextLabel = $IntroPanel/PaperPanel/StoryContainer/StoryText
+@onready var intro_skip_prompt: Label = $IntroPanel/SkipPrompt
+
+var intro_tween: Tween
 
 # Phase 1: Prep Panel
 @onready var prep_panel: Panel = $PrepPanel
 @onready var prep_title_label: Label = $PrepPanel/VBox/TitleLabel
-@onready var prep_desc_label: Label = $PrepPanel/VBox/DescLabel
 @onready var candidate_card_name: Label = $PrepPanel/VBox/CandidateCard/CandidateName
 @onready var candidate_card_species: Label = $PrepPanel/VBox/CandidateCard/CandidateSpecies
-@onready var candidate_card_desc: Label = $PrepPanel/VBox/CandidateCard/CandidateDesc
+@onready var candidate_card_desc: RichTextLabel = $PrepPanel/VBox/CandidateCard/CandidateDesc
 @onready var start_date_btn: Button = $PrepPanel/VBox/StartDateButton
 
 # Phase 2: Date Panel
 @onready var date_panel: Panel = $DatePanel
-@onready var timer_label: Label = $DatePanel/TopHUD/TimerContainer/TimerLabel
-@onready var monster_name_label: Label = $DatePanel/TopHUD/MonsterInfo/MonsterName
-@onready var monster_species_label: Label = $DatePanel/TopHUD/MonsterInfo/MonsterSpecies
 @onready var affection_container: VBoxContainer = $DatePanel/TopHUD/AffectionContainer
 @onready var affection_bar: ProgressBar = $DatePanel/TopHUD/AffectionContainer/AffectionBar
 @onready var affection_val_label: Label = $DatePanel/TopHUD/AffectionContainer/AffectionVal
-
 @onready var portrait_rect: TextureRect = $DatePanel/MonsterPortrait
-@onready var debug_finish_date_btn: Button = $DatePanel/TopHUD/DebugFinishButton
+@onready var end_date_early_btn: Button = $EndDateEarlyButton
 
 # Phase 3: Break Panel
 @onready var break_panel: Panel = $BreakPanel
@@ -48,101 +51,142 @@ extends Control
 @onready var ending_desc: RichTextLabel = $EndingPanel/VBox/EndingDesc
 @onready var play_again_btn: Button = $EndingPanel/VBox/PlayAgainButton
 
-# Overlay: Monsterpedia Window
-@onready var monsterpedia_window: Panel = $MonsterpediaOverlay
-@onready var monsterpedia_species_dropdown: OptionButton = $MonsterpediaOverlay/VBox/TabContainer/SpeciesLore/SpeciesDropdown
-@onready var monsterpedia_lore_label: RichTextLabel = $MonsterpediaOverlay/VBox/TabContainer/SpeciesLore/LoreLabel
-@onready var monsterpedia_clue_container: VBoxContainer = $MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Scroll/ClueContainer
-@onready var monsterpedia_close_btn: Button = $MonsterpediaOverlay/VBox/Header/CloseButton
+# Overlays
+@onready var monsterpedia_overlay: Panel = $Overlays/MonsterpediaOverlay
+@onready var dev_cheat_overlay: Panel = $Overlays/DevCheatOverlay
+@onready var dev_cheat_btn: Button = $DevCheatBtn
+@onready var background_texture: TextureRect = $BackgroundTexture
 
-# Speed Date Timer State
-var time_remaining: float = 180.0
-var is_date_timer_running: bool = false
+var bg_room_tex: Texture2D = preload("res://assets/backgrounds/asylum_room.jpg")
+var bg_hallway_tex: Texture2D = preload("res://assets/backgrounds/asylum_hallway.jpg")
+
 var active_dialogue_balloon: Node = null
-
-var species_lore_db: Dictionary = {
-	"Zombie": [
-		"• Prefers cold, rotting food and decaying meals.",
-		"• Severe sunlight aversion: UV rays degrade flesh instantly.",
-		"• Thrives in dark, underground, or freezing environments."
-	],
-	"Vampire": [
-		"• Extremely particular about blood vintage and temperature.",
-		"• Strictly nocturnal; sleep phase spans sunrise to sunset.",
-		"• Cannot tolerate silver, garlic, or sacred geometry."
-	],
-	"Slime": [
-		"• Requires high humidity, damp mud, or swamp environments.",
-		"• Naturally stores personal items, keys, and snacks inside body cavity.",
-		"• Absorbs liquids to alter coloration and density."
-	],
-	"Angel": [
-		"• Driven by absolute symmetry, mathematical order, and divine geometry.",
-		"• Finds chaos, messiness, or asymmetrical rooms deeply uncomfortable.",
-		"• Communicates in resonant multi-harmonic frequencies."
-	],
-	"Sea Monster": [
-		"• Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.",
-		"• Cannot remain in dry, arid, or desert climates without desiccating.",
-		"• Communicates via low-frequency echolocation sonar."
-	]
-}
+var portrait_tween: Tween
 
 func _ready() -> void:
-	# Connect Button Signals
+	# Connect Phase Buttons
 	start_date_btn.pressed.connect(_on_start_date_pressed)
-	debug_finish_date_btn.pressed.connect(_on_date_completed)
+	if end_date_early_btn: end_date_early_btn.pressed.connect(_on_date_completed)
 	next_day_btn.pressed.connect(_on_next_day_pressed)
 	submit_decision_btn.pressed.connect(_on_submit_decision_pressed)
 	play_again_btn.pressed.connect(_on_play_again_pressed)
-	monsterpedia_btn.pressed.connect(_toggle_monsterpedia)
-	monsterpedia_close_btn.pressed.connect(_toggle_monsterpedia)
-	monsterpedia_species_dropdown.item_selected.connect(_on_monsterpedia_species_selected)
+	mission_briefing_btn.pressed.connect(_show_intro_phase)
+
+	# Connect Overlay Buttons
+	if monsterpedia_book_btn and monsterpedia_overlay:
+		monsterpedia_book_btn.pressed.connect(func(): monsterpedia_overlay.toggle_window())
+	
+	if dev_cheat_btn and dev_cheat_overlay:
+		dev_cheat_btn.pressed.connect(func(): dev_cheat_overlay.toggle_window())
+		dev_cheat_overlay.jump_date_requested.connect(_on_cheat_jump_date)
+		dev_cheat_overlay.jump_day_requested.connect(_on_cheat_jump_day)
+		dev_cheat_overlay.reset_session_requested.connect(func(): _start_new_game_session(); dev_cheat_overlay.refresh_info())
+		dev_cheat_overlay.unlock_clues_requested.connect(_on_cheat_unlock_clues)
+		dev_cheat_overlay.finish_date_requested.connect(_on_date_completed)
 
 	# Connect GameManager Signals
 	GameManager.affection_changed.connect(_on_affection_changed)
-	GameManager.clue_recorded.connect(_on_clue_recorded)
 	GameManager.date_completed.connect(func(_id): _on_date_completed())
 	GameManager.dev_mode_toggled.connect(func(enabled: bool):
-		if affection_container:
-			affection_container.visible = enabled
+		if affection_container: affection_container.visible = enabled
+		if dev_cheat_btn: dev_cheat_btn.visible = enabled and (intro_panel and not intro_panel.visible)
+		if not enabled and dev_cheat_overlay: dev_cheat_overlay.visible = false
 	)
 
-	_setup_monsterpedia_dropdown()
 	_start_new_game_session()
 
-
-
-
-func _process(delta: float) -> void:
-	if is_date_timer_running:
-		time_remaining -= delta
-		if time_remaining <= 0.0:
-			time_remaining = 0.0
-			is_date_timer_running = false
-			_on_date_completed()
-		_update_timer_display()
+func _input(event: InputEvent) -> void:
+	if intro_panel and intro_panel.visible:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode != KEY_F10:
+				_skip_intro()
 
 func _start_new_game_session() -> void:
-	# Load candidate resources
 	var m_zombie = load("res://resources/monsters/zombie.tres")
 	var m_vampire = load("res://resources/monsters/vampire.tres")
 	var m_slime = load("res://resources/monsters/slime.tres")
+	var m_angel = load("res://resources/monsters/angel.tres")
+	var m_sea_monster = load("res://resources/monsters/sea_monster.tres")
+	var m_bug_monster = load("res://resources/monsters/bug_monster.tres")
 
 	var pool: Array[MonsterData] = []
 	if m_zombie: pool.append(m_zombie)
 	if m_vampire: pool.append(m_vampire)
 	if m_slime: pool.append(m_slime)
+	if m_angel: pool.append(m_angel)
+	if m_sea_monster: pool.append(m_sea_monster)
+	if m_bug_monster: pool.append(m_bug_monster)
 
 	GameManager.start_new_game(pool)
-	_show_prep_phase()
+	_show_intro_phase()
 
 func _show_panel(target_panel: Panel) -> void:
+	intro_panel.visible = (target_panel == intro_panel)
 	prep_panel.visible = (target_panel == prep_panel)
 	date_panel.visible = (target_panel == date_panel)
 	break_panel.visible = (target_panel == break_panel)
 	accusation_panel.visible = (target_panel == accusation_panel)
 	ending_panel.visible = (target_panel == ending_panel)
+
+	header_bar.visible = (target_panel != intro_panel and target_panel != date_panel)
+	
+	if background_texture:
+		if target_panel == date_panel:
+			background_texture.texture = bg_room_tex
+			background_texture.visible = true
+		elif target_panel == prep_panel or target_panel == break_panel or target_panel == accusation_panel:
+			background_texture.texture = bg_hallway_tex
+			background_texture.visible = true
+		else:
+			background_texture.visible = false
+
+	if monsterpedia_book_btn:
+		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel)
+
+	if end_date_early_btn:
+		end_date_early_btn.visible = (target_panel == date_panel)
+	
+	if dev_cheat_btn:
+		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel)
+
+
+# --- PHASE 0: INTRO CUTSCENE ---
+func _show_intro_phase() -> void:
+	_show_panel(intro_panel)
+
+	var b_text = "[center][b][font_size=20][color=#7a1c1c]CASE FILE: OPERATION COUNTDOWN[/color][/font_size][/b]\n"
+	b_text += "[font_size=13][color=#4a3b2c]BLACKWOOD HIGH-SECURITY MONSTER ASYLUM[/color][/font_size][/center]\n\n"
+	b_text += "[b][color=#2c2214]SITUATION:[/color][/b] Four rehabilitated monsters were scheduled to be released into society in [color=#7a1c1c]five days[/color]. But last night, the asylum discovered a nightmare: the dangerous shapeshifter known as [color=#aa1818]'The Count'[/color] killed one of the patients and took their place in order to break out.\n\n"
+	b_text += "[b][color=#2c2214]THE COVER-UP:[/color][/b] To catch the killer before release day without causing a public panic, the police and asylum set up a fake [color=#7a5800]speed-dating experiment[/color] to test if candidates would integrate better into society with a romantic partner.\n\n"
+	b_text += "[b][color=#2c2214]YOUR MISSION:[/color][/b] Go undercover as an eligible date candidate. Armed with your trusty [color=#7a5800]Monsterpedia[/color] book, talk to each candidate, check their answers against true monster lore, and catch The Count before the [color=#7a1c1c]five days[/color] are up.\n\n"
+	b_text += "[color=#5c4933](Hey, and who knows? Amidst the detective work, you might just find true love along the way.)[/color]"
+
+	intro_story_text.text = b_text
+
+	if intro_tween and intro_tween.is_running():
+		intro_tween.kill()
+
+	var target_y = paper_panel.position.y
+	paper_panel.position.y = target_y - 250.0
+	paper_panel.modulate.a = 0.0
+
+	intro_tween = create_tween()
+	intro_tween.tween_property(paper_panel, "position:y", target_y, 2.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	intro_tween.parallel().tween_property(paper_panel, "modulate:a", 1.0, 1.5)
+
+func _skip_intro() -> void:
+	if intro_tween and intro_tween.is_running():
+		intro_tween.kill()
+	_show_prep_phase()
+
+var candidate_self_bios: Dictionary = {
+	"zombie": "Hi, I'm Morty. I process things a bit slow, so speed dates make me pretty anxious. I like rainy afternoons, cold iced tea, listening to lo-fi beats, and wearing oversized hoodies. I promise I won't bite, I'm just trying my best not to trip over my own feet. Please be patient with me, and please don't take me out into harsh bright sunlight.",
+	"vampire": "I'm Julian. Behind the long coat and my taste for vintage red drinks, I'm just looking for a genuine connection. I like midnight walks, playing classical piano, and talking late into the night. I might be a little dramatic sometimes, but I just want someone who accepts me for who I am.",
+	"slime": "Hi! I'm Gwen! I get pretty nervous on dates and my jelly core starts wobbling. I'm always carrying snacks, spare keys, and a warm blanket inside my gel cavity. I might wobble a lot when I'm flustered, but I'm always ready to give you a big hug when you have a rough day.",
+	"angel": "Greetings, I am Sera. I like neatness and symmetry. Messy desks and crooked picture frames stress me out, so I work hard to keep everything clean and organized. I'm looking for a date who appreciates quiet, well-ordered spaces and a calm schedule.",
+	"sea_monster": "Hey! I'm Finn. I love deep sea swimming, but I tend to be pretty forgetful. My thoughts drift around like ocean foam! I collect smooth sea shells and love listening to ambient wave sounds. I might lose my train of thought mid-sentence, but I'm easy to get along with.",
+	"bug_monster": "Hi! I'm Vesper. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
+}
 
 # --- PHASE 1: PREP PHASE ---
 func _show_prep_phase() -> void:
@@ -152,46 +196,59 @@ func _show_prep_phase() -> void:
 
 	var current_monster = GameManager.get_current_date_monster()
 	if current_monster:
-		candidate_card_name.text = "Candidate: " + current_monster.display_name
+		candidate_card_name.text = "Candidate Name: " + current_monster.display_name
 		candidate_card_species.text = "Species: " + current_monster.species
-		candidate_card_desc.text = "Review lore in the Monsterpedia before starting your 3-minute date!"
+
+		var bio = candidate_self_bios.get(current_monster.id, "A candidate undergoing social rehabilitation.")
+
+		var txt = "[b][color=#2c2214]Description (Self-Written Bio):[/color][/b]\n"
+		txt += "[i][color=#3d2b18]\"" + bio + "\"[/color][/i]\n\n"
+		txt += "[color=#7a1c1c][b]NOTE TO DETECTIVE:[/b][/color]\n"
+		txt += "[color=#4a3b2c]Use your [color=#7a5800]📖 Monsterpedia[/color] book at the bottom-left to cross-reference species traits and see if their answers match up during your date.[/color]"
+		candidate_card_desc.text = txt
 	else:
 		candidate_card_name.text = "No Candidate"
 		candidate_card_species.text = ""
 		candidate_card_desc.text = ""
 
+
 func _on_start_date_pressed() -> void:
 	_show_date_phase()
+
+func _animate_portrait_idle() -> void:
+	if portrait_tween and portrait_tween.is_running():
+		portrait_tween.kill()
+
+	var base_y = portrait_rect.position.y
+	portrait_tween = create_tween().set_loops()
+	portrait_tween.tween_property(portrait_rect, "position:y", base_y - 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	portrait_tween.tween_property(portrait_rect, "position:y", base_y + 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 # --- PHASE 2: SPEED DATE PHASE ---
 func _show_date_phase() -> void:
 	_show_panel(date_panel)
 	day_label.text = "DAY %d OF 5" % GameManager.current_day
-	phase_label.text = "PHASE: 3-MIN SPEED DATE"
+	phase_label.text = "PHASE: SPEED DATE"
 
 	var monster = GameManager.get_current_date_monster()
 	if monster:
-		monster_name_label.text = monster.display_name
-		monster_species_label.text = "Species: " + monster.species
 		if monster.portrait_texture:
 			portrait_rect.texture = monster.portrait_texture
+		else:
+			portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")
 		_update_affection_ui(GameManager.get_affection(monster.id))
+	else:
+		portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")
 
-	time_remaining = 180.0
-	is_date_timer_running = true
+	_animate_portrait_idle()
 
-	# Start Dialogue Manager Balloon
+	var custom_balloon_scene = load("res://scenes/custom_balloon.tscn")
 	if monster and monster.dialogue_resource:
-		active_dialogue_balloon = DialogueManager.show_dialogue_balloon(monster.dialogue_resource, "start")
+		active_dialogue_balloon = DialogueManager.show_dialogue_balloon_scene(custom_balloon_scene, monster.dialogue_resource, "start")
 	else:
 		var fallback_res = load("res://assets/dialogues/sample_monster.dialogue")
 		if fallback_res:
-			active_dialogue_balloon = DialogueManager.show_dialogue_balloon(fallback_res, "start")
-
-func _update_timer_display() -> void:
-	var mins = int(time_remaining) / 60
-	var secs = int(time_remaining) % 60
-	timer_label.text = "%02d:%02d" % [mins, secs]
+			active_dialogue_balloon = DialogueManager.show_dialogue_balloon_scene(custom_balloon_scene, fallback_res, "start")
 
 func _update_affection_ui(score: int) -> void:
 	affection_bar.value = score
@@ -199,42 +256,41 @@ func _update_affection_ui(score: int) -> void:
 	if affection_container:
 		affection_container.visible = GameManager.dev_mode_show_affection
 
-
 func _on_affection_changed(candidate_id: String, new_score: int) -> void:
 	var current_monster = GameManager.get_current_date_monster()
 	if current_monster and current_monster.id == candidate_id:
 		_update_affection_ui(new_score)
 
 func _on_date_completed() -> void:
-	is_date_timer_running = false
-	print("[MainGame] Date Completed for Day ", GameManager.current_day)
-
-	# Close active dialogue balloon if present
-	if active_dialogue_balloon and is_instance_valid(active_dialogue_balloon):
+	if is_instance_valid(active_dialogue_balloon):
 		active_dialogue_balloon.queue_free()
-
 	_show_break_phase()
+
 
 # --- PHASE 3: BREAK PHASE ---
 func _show_break_phase() -> void:
 	_show_panel(break_panel)
-	day_label.text = "DAY %d COMPLETED" % GameManager.current_day
-	phase_label.text = "PHASE: BREAK / REFLECTION"
+	day_label.text = "DAY %d OF 5" % GameManager.current_day
+	phase_label.text = "PHASE: END OF DAY BREAK"
 
 	var monster = GameManager.get_current_date_monster()
 	var monster_name = monster.display_name if monster else "Candidate"
-	var aff = GameManager.get_affection(monster.id) if monster else 0
+	var species_name = monster.species if monster else ""
+	var aff_score = GameManager.get_affection(monster.id) if monster else 0
 
-	var summary = "[b]Date Summary - Day %d[/b]\n\n" % GameManager.current_day
-	summary += "• Candidate: %s\n" % monster_name
-	summary += "• Final Affection: %d%%\n" % aff
-	summary += "• Total Evidence Clues Discovered: %d\n\n" % GameManager.discovered_clues.size()
-	summary += "Take a moment to check your Monsterpedia and Evidence Notebook before continuing."
+	break_title.text = "☕ BLACKWOOD ASYLUM - END OF DAY REFLECTION"
+	
+	var summary = "[b][color=#2c2214]Date Reflection & Case Briefing:[/color][/b]\n"
+	summary += "You completed your speed date with [b][color=#7a1c1c]" + monster_name + "[/color][/b] (" + species_name + ").\n\n"
+	summary += "[b][color=#2c2214]Current Candidate Rapport:[/color][/b]\n"
+	summary += "Affection Score: [b][color=#7a5800]" + str(aff_score) + "%[/color][/b]\n\n"
+	summary += "[color=#7a1c1c][b]NOTE TO DETECTIVE:[/b][/color]\n"
+	summary += "[color=#4a3b2c]Use your [color=#7a5800][b]📖 Monsterpedia[/b][/color] book at the bottom-left to review species lore rules and evidence clues recorded today before advancing.[/color]"
 	break_summary.text = summary
 
 func _on_next_day_pressed() -> void:
 	GameManager.advance_to_next_day()
-	if GameManager.current_day > 4 or GameManager.current_date_index >= GameManager.selected_candidates.size():
+	if GameManager.current_day > 4:
 		_show_accusation_phase()
 	else:
 		_show_prep_phase()
@@ -245,31 +301,34 @@ func _show_accusation_phase() -> void:
 	day_label.text = "DAY 5 OF 5"
 	phase_label.text = "PHASE: ACCUSATION & MATCHING"
 
+	if monsterpedia_overlay:
+		monsterpedia_overlay.style_option_button(accuse_dropdown)
+		monsterpedia_overlay.style_option_button(match_dropdown)
+
 	accuse_dropdown.clear()
 	match_dropdown.clear()
-
-	match_dropdown.add_item("Nobody (Remain Single)")
+	match_dropdown.add_item("Nobody (Single)", 0)
 
 	for candidate in GameManager.selected_candidates:
-		var display = "%s (%s)" % [candidate.display_name, candidate.species]
-		accuse_dropdown.add_item(display)
+		accuse_dropdown.add_item("%s (%s)" % [candidate.display_name, candidate.species])
+		accuse_dropdown.set_item_metadata(accuse_dropdown.get_item_count() - 1, candidate.id)
 
 		var aff = GameManager.get_affection(candidate.id)
-		var match_txt = "%s - Affection %d%% (Req: %d%%)" % [candidate.display_name, aff, candidate.min_affection_for_match]
-		if aff < candidate.min_affection_for_match:
-			match_txt += " [LOCKED]"
-		match_dropdown.add_item(match_txt)
+		if aff >= candidate.min_affection_for_match:
+			match_dropdown.add_item("%s (%s) [Affection: %d%%]" % [candidate.display_name, candidate.species, aff])
+			match_dropdown.set_item_metadata(match_dropdown.get_item_count() - 1, candidate.id)
 
 func _on_submit_decision_pressed() -> void:
-	var acc_idx = accuse_dropdown.selected
-	if acc_idx >= 0 and acc_idx < GameManager.selected_candidates.size():
-		GameManager.selected_accusation_id = GameManager.selected_candidates[acc_idx].id
-
+	var accuse_idx = accuse_dropdown.selected
 	var match_idx = match_dropdown.selected
-	if match_idx == 0:
-		GameManager.selected_match_id = "nobody"
-	elif match_idx > 0 and (match_idx - 1) < GameManager.selected_candidates.size():
-		GameManager.selected_match_id = GameManager.selected_candidates[match_idx - 1].id
+
+	if accuse_idx >= 0:
+		GameManager.selected_accusation_id = accuse_dropdown.get_item_metadata(accuse_idx)
+
+	if match_idx > 0:
+		GameManager.selected_match_id = match_dropdown.get_item_metadata(match_idx)
+	else:
+		GameManager.selected_match_id = ""
 
 	var ending = GameManager.evaluate_ending()
 	_show_ending_phase(ending)
@@ -309,41 +368,31 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 func _on_play_again_pressed() -> void:
 	_start_new_game_session()
 
-# --- OVERLAY: MONSTERPEDIA & EVIDENCE NOTEBOOK ---
-func _toggle_monsterpedia() -> void:
-	monsterpedia_window.visible = not monsterpedia_window.visible
-	if monsterpedia_window.visible:
-		_update_clue_notebook_display()
+# --- DEV CHEATS HANDLERS ---
+func _on_cheat_jump_date(target_id: String) -> void:
+	var monster_res: MonsterData = load("res://resources/monsters/%s.tres" % target_id)
+	if not monster_res: return
+	var candidate_idx = -1
+	for i in range(GameManager.selected_candidates.size()):
+		if GameManager.selected_candidates[i].id == target_id:
+			candidate_idx = i
+			break
+	if candidate_idx >= 0:
+		GameManager.current_date_index = candidate_idx
+	else:
+		GameManager.selected_candidates.append(monster_res)
+		GameManager.current_date_index = GameManager.selected_candidates.size() - 1
+	_show_date_phase()
 
-func _setup_monsterpedia_dropdown() -> void:
-	monsterpedia_species_dropdown.clear()
-	for s_name in species_lore_db.keys():
-		monsterpedia_species_dropdown.add_item(s_name)
-	_on_monsterpedia_species_selected(0)
+func _on_cheat_jump_day(day_num: int) -> void:
+	if day_num == 5:
+		_show_accusation_phase()
+	else:
+		GameManager.current_day = day_num
+		GameManager.current_date_index = day_num - 1
+		_show_prep_phase()
 
-func _on_monsterpedia_species_selected(index: int) -> void:
-	var s_name = monsterpedia_species_dropdown.get_item_text(index)
-	var lines = species_lore_db.get(s_name, [])
-	var txt = "[b]" + s_name.to_upper() + " SPECIES LORE[/b]\n\n"
-	for line in lines:
-		txt += line + "\n"
-	monsterpedia_lore_label.text = txt
-
-func _update_clue_notebook_display() -> void:
-	for child in monsterpedia_clue_container.get_children():
-		child.queue_free()
-
-	if GameManager.discovered_clues.size() == 0:
-		var lbl = Label.new()
-		lbl.text = "No evidence clues recorded yet."
-		monsterpedia_clue_container.add_child(lbl)
-		return
-
-	for clue in GameManager.discovered_clues:
-		var lbl = Label.new()
-		lbl.text = "[Day %d] Candidate '%s': %s" % [clue.get("day_found", 1), clue.get("candidate_id", ""), clue.get("text", "")]
-		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		monsterpedia_clue_container.add_child(lbl)
-
-func _on_clue_recorded(_c_id, _clue_id, _text) -> void:
-	_update_clue_notebook_display()
+func _on_cheat_unlock_clues() -> void:
+	var current_monster = GameManager.get_current_date_monster()
+	if current_monster:
+		GameManager.record_clue(current_monster.id, "dev_clue_1", "Dev test clue recorded for " + current_monster.display_name)

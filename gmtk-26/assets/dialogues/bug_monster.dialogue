@@ -1,0 +1,107 @@
+~ start
+Vesper: *Click-clack, antennae twitch* ...bzzzt! Hi! Hello!
+Vesper: Sorry if my extra eyes are blinking asynchronously! I haven't slept in 72 hours... coffee doesn't work when you have compound eyes!
+
+if GameManager.dev_mode_show_affection:
+    - "You look amazingly energetic despite the insomnia." (+15 Affection)
+        do GameManager.add_affection("bug_monster", 15)
+        Vesper: *Antennae perk up* Really?! Buzzing with electricity! My web-weaving calculations are at 99.8% speed!
+        => main_menu
+    - "Whoa, stop twitching so much, it's making me nervous." (-15 Affection)
+        do GameManager.add_affection("bug_monster", -15)
+        Vesper: *Mandibles click defensively* I can't help the twitching! It's motor-reflex vibration sensing!
+        => main_menu
+    - "Do you spin webs everywhere?" (0 Affection)
+        Vesper: Only in structural corners that lack proper tension support!
+        => main_menu
+else:
+    - "You look amazingly energetic despite the insomnia."
+        do GameManager.add_affection("bug_monster", 15)
+        Vesper: *Antennae perk up* Really?! Buzzing with electricity! My web-weaving calculations are at 99.8% speed!
+        => main_menu
+    - "Whoa, stop twitching so much, it's making me nervous."
+        do GameManager.add_affection("bug_monster", -15)
+        Vesper: *Mandibles click defensively* I can't help the twitching! It's motor-reflex vibration sensing!
+        => main_menu
+    - "Do you spin webs everywhere?"
+        Vesper: Only in structural corners that lack proper tension support!
+        => main_menu
+
+~ main_menu
+Vesper: Quick, quick! What shall we talk about before my next adrenaline wave hits?
+
+- "What keeps you awake at night?"
+    => insomnia_chain
+- "Tell me about your obsession with light bulbs."
+    => light_chain
+- "How do you handle sleep and rest?"
+    => sleep_interrogation
+- "Tell me about your web weaving instincts."
+    => web_lore_check
+- "I think that's enough for now."
+    => end_date
+
+~ insomnia_chain
+Vesper: Nights are for weaving! I calculate optimal silk tension vectors under the moonlight!
+Vesper: While everyone else sleeps, I construct multi-tier geometric web hamlets.
+
+if GameManager.dev_mode_show_affection:
+    - "That sounds incredibly skilled and detailed." (+10 Affection)
+        do GameManager.add_affection("bug_monster", 10)
+        Vesper: *Happy chittering* Thank you! Engineering silk takes precise mathematical geometry!
+        => main_menu
+    - "Sounds exhausting." (-10 Affection)
+        do GameManager.add_affection("bug_monster", -10)
+        Vesper: Exhaustion is a state of mind! Silk geometry waits for no bug!
+        => main_menu
+else:
+    - "That sounds incredibly skilled and detailed."
+        do GameManager.add_affection("bug_monster", 10)
+        Vesper: *Happy chittering* Thank you! Engineering silk takes precise mathematical geometry!
+        => main_menu
+    - "Sounds exhausting."
+        do GameManager.add_affection("bug_monster", -10)
+        Vesper: Exhaustion is a state of mind! Silk geometry waits for no bug!
+        => main_menu
+
+~ light_chain
+Vesper: LAMP! ...Sorry. Whenever a glowing light bulb flickers, my photoreceptors lock on!
+You: Do you flutter toward light sources?
+Vesper: It's an overwhelming instinctual urge! Bright glowing bulbs are hypnotic!
+do GameManager.add_affection("bug_monster", 5)
+=> main_menu
+
+~ sleep_interrogation
+if GameManager.get_affection("bug_monster") < 35:
+    Vesper: My antennae sense negative vibrations from you. No questions!
+    => main_menu
+else:
+    You: How much sleep do you normally get?
+    if GameManager.is_imposter("bug_monster"):
+        Vesper: Oh, I get a perfect 10 hours of heavy, deep, uninterrupted sleep every single night!
+        do GameManager.record_clue("bug_monster", "sleep_slip", "Claims to sleep 10 heavy, uninterrupted hours every night.")
+        Vesper: I sleep like a log from 9 PM to 7 AM!
+    else:
+        Vesper: Sleep?! Spiders stay awake for days at a time! We only take micro-naps lasting 40 seconds in dark nooks!
+        Vesper: Deep uninterrupted sleep is impossible for our hyper-vigilant nervous systems!
+    => main_menu
+
+~ web_lore_check
+if GameManager.get_affection("bug_monster") < 35:
+    Vesper: Mandibles locked. I'm not talking right now.
+    => main_menu
+else:
+    You: What happens if your web silk gets wet or exposed to rain?
+    if GameManager.is_imposter("bug_monster"):
+        Vesper: Oh, silk loves rain! Water makes bug webs completely dry, stiff, and rigid!
+        do GameManager.record_clue("bug_monster", "silk_slip", "Claims rain makes bug silk completely dry and rigid.")
+        Vesper: Water dries silk right up!
+    else:
+        Vesper: Moisture destroys silk tension! Droplets add weight and stretch out the tensile thread, requiring immediate re-spinning.
+        Vesper: Rain means starting the entire geometric web calculation from scratch!
+    => main_menu
+
+~ end_date
+Vesper: *Bzzzt!* Date timer expired! Time to go check my web tension! Bye-bye!
+do GameManager.complete_current_date()
+=> END

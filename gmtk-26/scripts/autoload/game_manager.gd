@@ -41,10 +41,48 @@ var dev_mode_show_affection: bool = false
 var selected_accusation_id: String = ""
 var selected_match_id: String = ""
 
+# Master Species Lore Database
+var species_lore_db: Dictionary = {
+	"Zombie": [
+		"• Prefers cold, rotting food and decaying meals.",
+		"• Severe sunlight aversion: UV rays degrade flesh instantly.",
+		"• Thrives in dark, underground, or freezing environments."
+	],
+	"Vampire": [
+		"• Extremely particular about blood vintage and temperature.",
+		"• Strictly nocturnal; sleep phase spans sunrise to sunset.",
+		"• Cannot tolerate silver, garlic, or sacred geometry."
+	],
+	"Slime": [
+		"• Requires high humidity, damp mud, or swamp environments.",
+		"• Naturally stores personal items, keys, and snacks inside body cavity.",
+		"• Absorbs liquids to alter coloration and density."
+	],
+	"Angel": [
+		"• Driven by absolute symmetry, mathematical order, and divine geometry.",
+		"• Finds chaos, messiness, or asymmetrical rooms deeply uncomfortable.",
+		"• Communicates in resonant multi-harmonic frequencies."
+	],
+	"Sea Monster": [
+		"• Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.",
+		"• Cannot remain in dry, arid, or desert climates without desiccating.",
+		"• Communicates via low-frequency echolocation sonar."
+	],
+	"Spider": [
+		"• Nocturnal weaver; calculates web tension vectors and light source angles.",
+		"• Stays awake multi-day stretches with hyper-vigilant nervous system.",
+		"• Extremely sensitive to air vibration and water droplet weight on silk."
+	]
+}
+
+func get_species_lore(species_name: String) -> Array:
+	return species_lore_db.get(species_name, [])
+
 func toggle_dev_mode_affection() -> void:
 	dev_mode_show_affection = not dev_mode_show_affection
 	dev_mode_toggled.emit(dev_mode_show_affection)
 	print("[GameManager] Dev Mode Show Affection toggled to: ", dev_mode_show_affection)
+
 
 
 
@@ -71,14 +109,17 @@ func start_new_game(available_monsters: Array[MonsterData]) -> void:
 	selected_accusation_id = ""
 	selected_match_id = ""
 
-	# Randomly pick 4 candidates if we have at least 4 available
+	# Randomly pick 4 candidates out of the pool and shuffle their date order
 	if available_monsters.size() >= 4:
 		var pool = available_monsters.duplicate()
 		pool.shuffle()
 		for i in range(4):
 			selected_candidates.append(pool[i])
+		selected_candidates.shuffle()
 	else:
 		selected_candidates = available_monsters.duplicate()
+		selected_candidates.shuffle()
+
 
 	# Assign 1 of the selected candidates as The Count (Imposter)
 	if selected_candidates.size() > 0:

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bar5jpcwlrdfo"
+path="res://.godot/imported/bug_monster.dialogue-385268b301525857dc98bec386a4749f.tres"
+
+[deps]
+
+source_file="res://assets/dialogues/bug_monster.dialogue"
+dest_files=["res://.godot/imported/bug_monster.dialogue-385268b301525857dc98bec386a4749f.tres"]
+
+[params]
+
+defaults=true

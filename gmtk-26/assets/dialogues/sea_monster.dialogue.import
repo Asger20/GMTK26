@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dhf765oi7p2w8"
+path="res://.godot/imported/sea_monster.dialogue-9972d80feaf590b5dbea989332219ab0.tres"
+
+[deps]
+
+source_file="res://assets/dialogues/sea_monster.dialogue"
+dest_files=["res://.godot/imported/sea_monster.dialogue-9972d80feaf590b5dbea989332219ab0.tres"]
+
+[params]
+
+defaults=true

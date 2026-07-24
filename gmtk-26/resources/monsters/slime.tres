@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_monster")
 id = "slime"
-display_name = "Slime Candidate"
+display_name = "Gwen"
 species = "Slime"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Requires damp mud environments.", "Stores items inside body cavity.", "Absorbs liquids to alter density.")

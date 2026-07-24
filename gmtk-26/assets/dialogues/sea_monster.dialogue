@@ -1,0 +1,109 @@
+~ start
+SeaMonster: *Bubbling exhale* ...Wait, where am I? Oh! Right, the speed date!
+SeaMonster: Hi! I'm Finn. Sorry, my memory slips like wet seaweed sometimes... What was your name again?
+
+if GameManager.dev_mode_show_affection:
+    - "No worries Finn, take your time. I'm glad to meet you." (+15 Affection)
+        do GameManager.add_affection("sea_monster", 15)
+        SeaMonster: Aww, thank you! You have a calm wave energy about you.
+        => main_menu
+    - "Do you forget everything that easily?" (-10 Affection)
+        do GameManager.add_affection("sea_monster", -10)
+        SeaMonster: Hey! Amnesia isn't my fault... the pressure changes affected my brain!
+        => main_menu
+    - "Are you going to splash water everywhere?" (-20 Affection)
+        do GameManager.add_affection("sea_monster", -20)
+        SeaMonster: *Sploshes sadly* I... I'll try to keep my fins quiet...
+        => main_menu
+else:
+    - "No worries Finn, take your time. I'm glad to meet you."
+        do GameManager.add_affection("sea_monster", 15)
+        SeaMonster: Aww, thank you! You have a calm wave energy about you.
+        => main_menu
+    - "Do you forget everything that easily?"
+        do GameManager.add_affection("sea_monster", -10)
+        SeaMonster: Hey! Amnesia isn't my fault... the pressure changes affected my brain!
+        => main_menu
+    - "Are you going to splash water everywhere?"
+        do GameManager.add_affection("sea_monster", -20)
+        SeaMonster: *Sploshes sadly* I... I'll try to keep my fins quiet...
+        => main_menu
+
+~ main_menu
+SeaMonster: Um... what were we talking about again? Oh right! What do you want to ask me?
+
+- "Tell me about life under the ocean waves."
+    => ocean_chain
+- "How do you cope with your memory loss?"
+    => amnesia_chain
+- "What climate do you need to stay healthy?"
+    => climate_interrogation
+- "Tell me about deep sea water pressure."
+    => pressure_lore_check
+- "I think our time is up."
+    => end_date
+
+~ ocean_chain
+SeaMonster: Ah, the abyssal trench! Pitch black water, glowing bioluminescent jellyfish, crushing water pressure... it feels like a giant warm blanket!
+SeaMonster: I miss swimming through giant kelp forests.
+
+if GameManager.dev_mode_show_affection:
+    - "That sounds tranquil. I'd love to see a kelp forest." (+10 Affection)
+        do GameManager.add_affection("sea_monster", 10)
+        SeaMonster: I can show you photos! If I can remember where I left my underwater camera...
+        => main_menu
+    - "Sounds dark and scary." (-10 Affection)
+        do GameManager.add_affection("sea_monster", -10)
+        SeaMonster: It's not scary! It's peaceful!
+        => main_menu
+else:
+    - "That sounds tranquil. I'd love to see a kelp forest."
+        do GameManager.add_affection("sea_monster", 10)
+        SeaMonster: I can show you photos! If I can remember where I left my underwater camera...
+        => main_menu
+    - "Sounds dark and scary."
+        do GameManager.add_affection("sea_monster", -10)
+        SeaMonster: It's not scary! It's peaceful!
+        => main_menu
+
+~ amnesia_chain
+SeaMonster: I write notes on waterproof shell tablets so I don't forget important things!
+You: What did you write down about today?
+SeaMonster: *Checks shell* 'Be nice, don't eat the date's appetizer, smile with fins!'
+do GameManager.add_affection("sea_monster", 5)
+=> main_menu
+
+~ climate_interrogation
+if GameManager.get_affection("sea_monster") < 35:
+    SeaMonster: Um... I forgot why I shouldn't talk to you, but I remember feeling upset earlier.
+    => main_menu
+else:
+    You: How do you handle dry weather on land?
+    if GameManager.is_imposter("sea_monster"):
+        SeaMonster: Oh, I love hot dry desert air! Sand dunes and baking hot sun are my absolute favorite!
+        do GameManager.record_clue("sea_monster", "desert_slip", "Claims to love baking hot dry desert sand dunes.")
+        SeaMonster: Dry air is so refreshing for my gills!
+    else:
+        SeaMonster: Oh no, dry air is terrifying! Sea monsters desiccate quickly on dry land. We need high humidity, mist, and saltwater immersion!
+        SeaMonster: Desert heat would dry my scales into dust!
+    => main_menu
+
+~ pressure_lore_check
+if GameManager.get_affection("sea_monster") < 35:
+    SeaMonster: I'm not in a swimming mood right now...
+    => main_menu
+else:
+    You: How do your scales handle deep ocean water pressure?
+    if GameManager.is_imposter("sea_monster"):
+        SeaMonster: Deep water pressure? Oh, deep ocean pressure crushes sea monsters instantly! We only swim in shallow 1-foot pools!
+        do GameManager.record_clue("sea_monster", "pressure_slip", "Claims deep sea pressure crushes sea monsters and only swims in 1-foot shallow water.")
+        SeaMonster: Deep water is way too heavy!
+    else:
+        SeaMonster: Our bodies are adapted specifically for extreme abyssal pressure! 100 atmospheres of pressure actually stabilizes our circulatory system.
+        SeaMonster: Shallow air pressure is what makes my head feel floaty!
+    => main_menu
+
+~ end_date
+SeaMonster: Oh! The date bell rang! It was really nice meeting you... wait, what was your name again? Bye!
+do GameManager.complete_current_date()
+=> END

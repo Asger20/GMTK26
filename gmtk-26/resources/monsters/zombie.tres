@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_monster")
 id = "zombie"
-display_name = "Ida"
+display_name = "Morty"
 species = "Zombie"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Prefers cold, rotting food.", "Severe sunlight aversion.", "Thrives in dark, freezing environments.")
