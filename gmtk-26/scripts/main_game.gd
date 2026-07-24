@@ -276,12 +276,17 @@ func _show_break_phase() -> void:
 
 	var monster = GameManager.get_current_date_monster()
 	var monster_name = monster.display_name if monster else "Candidate"
+	var species_name = monster.species if monster else ""
+	var aff_score = GameManager.get_affection(monster.id) if monster else 0
+
+	break_title.text = "☕ BLACKWOOD ASYLUM - END OF DAY REFLECTION"
 	
-	break_title.text = "DAY %d COMPLETE - REFLECTION" % GameManager.current_day
-	var summary = "[b]Date Reflection Summary:[/b]\n"
-	summary += "You completed your date with [b]" + monster_name + "[/b].\n"
-	summary += "Current Affection Score: [b]%d%%[/b]\n\n" % [GameManager.get_affection(monster.id) if monster else 0]
-	summary += "Use your [color=#e6b800]Monsterpedia[/color] to review any clues recorded today before advancing."
+	var summary = "[b][color=#2c2214]Date Reflection & Case Briefing:[/color][/b]\n"
+	summary += "You completed your speed date with [b][color=#7a1c1c]" + monster_name + "[/color][/b] (" + species_name + ").\n\n"
+	summary += "[b][color=#2c2214]Current Candidate Rapport:[/color][/b]\n"
+	summary += "Affection Score: [b][color=#7a5800]" + str(aff_score) + "%[/color][/b]\n\n"
+	summary += "[color=#7a1c1c][b]NOTE TO DETECTIVE:[/b][/color]\n"
+	summary += "[color=#4a3b2c]Use your [color=#7a5800][b]📖 Monsterpedia[/b][/color] book at the bottom-left to review species lore rules and evidence clues recorded today before advancing.[/color]"
 	break_summary.text = summary
 
 func _on_next_day_pressed() -> void:
@@ -296,6 +301,10 @@ func _show_accusation_phase() -> void:
 	_show_panel(accusation_panel)
 	day_label.text = "DAY 5 OF 5"
 	phase_label.text = "PHASE: ACCUSATION & MATCHING"
+
+	if monsterpedia_overlay:
+		monsterpedia_overlay.style_option_button(accuse_dropdown)
+		monsterpedia_overlay.style_option_button(match_dropdown)
 
 	accuse_dropdown.clear()
 	match_dropdown.clear()

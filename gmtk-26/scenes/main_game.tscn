@@ -34,19 +34,47 @@ corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_clear"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_monsterpedia"]
-bg_color = Color(0.12, 0.1, 0.08, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_unselected"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
+bg_color = Color(0.78, 0.71, 0.58, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(0.48, 0.38, 0.28, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_selected"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
+bg_color = Color(0.36, 0.12, 0.12, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
 border_color = Color(0.8, 0.62, 0.22, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.7)
-shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dropdown"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.85, 0.78, 0.64, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.36, 0.12, 0.12, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_devcheat"]
 bg_color = Color(0.08, 0.1, 0.15, 1)
@@ -339,41 +367,49 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -200.0
-offset_right = 300.0
-offset_bottom = 200.0
+offset_left = -340.0
+offset_top = -240.0
+offset_right = 340.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
 
 [node name="VBox" type="VBoxContainer" parent="BreakPanel" unique_id=701166255]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = -20.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 12
 
 [node name="TitleLabel" type="Label" parent="BreakPanel/VBox" unique_id=1436964376]
 layout_mode = 2
-text = "DATE COMPLETED"
+theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
+theme_override_font_sizes/font_size = 20
+text = "☕ BLACKWOOD ASYLUM - END OF DAY REFLECTION"
 horizontal_alignment = 1
 
 [node name="SummaryText" type="RichTextLabel" parent="BreakPanel/VBox" unique_id=1366054512]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "Date Summary..."
 
 [node name="NextDayButton" type="Button" parent="BreakPanel/VBox" unique_id=1419446471]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "CONTINUE TO NEXT DAY"
+theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
+text = "[ ADVANCE TO NEXT DAY ]"
 
 [node name="AccusationPanel" type="Panel" parent="." unique_id=394704187]
 visible = false
@@ -383,12 +419,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -250.0
-offset_right = 350.0
-offset_bottom = 250.0
+offset_left = -340.0
+offset_top = -240.0
+offset_right = 340.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
 
 [node name="VBox" type="VBoxContainer" parent="AccusationPanel" unique_id=47978340]
 layout_mode = 1
@@ -401,11 +438,13 @@ offset_right = -25.0
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="TitleLabel" type="Label" parent="AccusationPanel/VBox" unique_id=611435735]
 layout_mode = 2
-text = "DAY 5: ACCUSATION & MATCHING PHASE"
+theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
+theme_override_font_sizes/font_size = 20
+text = "🕵️‍♂️ DAY 5: ACCUSATION & MATCHING PHASE"
 horizontal_alignment = 1
 
 [node name="AccuseContainer" type="VBoxContainer" parent="AccusationPanel/VBox" unique_id=606607976]
@@ -413,6 +452,8 @@ layout_mode = 2
 
 [node name="AccuseLabel" type="Label" parent="AccusationPanel/VBox/AccuseContainer" unique_id=1863085628]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_font_sizes/font_size = 15
 text = "1. Accuse suspect as The Count (Shapeshifter):"
 
 [node name="AccuseDropdown" type="OptionButton" parent="AccusationPanel/VBox/AccuseContainer" unique_id=1240186844]
@@ -423,6 +464,8 @@ layout_mode = 2
 
 [node name="MatchLabel" type="Label" parent="AccusationPanel/VBox/MatchContainer" unique_id=1551902635]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_font_sizes/font_size = 15
 text = "2. Select Candidate to Match/Romance:"
 
 [node name="MatchDropdown" type="OptionButton" parent="AccusationPanel/VBox/MatchContainer" unique_id=1806769529]
@@ -431,7 +474,10 @@ layout_mode = 2
 [node name="SubmitButton" type="Button" parent="AccusationPanel/VBox" unique_id=2026838624]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "SUBMIT FINAL DECISION"
+theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
+text = "[ SUBMIT FINAL DECISION ]"
 
 [node name="EndingPanel" type="Panel" parent="." unique_id=768919982]
 visible = false
@@ -441,12 +487,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -250.0
-offset_right = 350.0
-offset_bottom = 250.0
+offset_left = -340.0
+offset_top = -240.0
+offset_right = 340.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
 
 [node name="VBox" type="VBoxContainer" parent="EndingPanel" unique_id=1701489741]
 layout_mode = 1
@@ -459,23 +506,30 @@ offset_right = -25.0
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 
 [node name="EndingTitle" type="Label" parent="EndingPanel/VBox" unique_id=535105231]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
+theme_override_font_sizes/font_size = 20
 text = "ENDING TITLE"
 horizontal_alignment = 1
 
 [node name="EndingDesc" type="RichTextLabel" parent="EndingPanel/VBox" unique_id=1495988701]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "Ending Description..."
 
 [node name="PlayAgainButton" type="Button" parent="EndingPanel/VBox" unique_id=651538625]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "PLAY AGAIN / NEW RUN"
+theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
+text = "[ PLAY AGAIN / NEW RUN ]"
 
 [node name="Overlays" type="CanvasLayer" parent="." unique_id=795653198]
 layer = 100
@@ -493,7 +547,7 @@ offset_right = 480.0
 offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_monsterpedia")
+theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
 script = ExtResource("2_mp_overlay")
 
 [node name="VBox" type="VBoxContainer" parent="Overlays/MonsterpediaOverlay" unique_id=1637901433]
@@ -501,12 +555,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 15.0
-offset_right = -15.0
-offset_bottom = -15.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 12
 
 [node name="Header" type="HBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox" unique_id=2114182151]
 layout_mode = 2
@@ -514,27 +569,47 @@ layout_mode = 2
 [node name="Title" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/Header" unique_id=671178779]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "📖 MONSTERPEDIA & EVIDENCE NOTEBOOK"
+theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
+theme_override_font_sizes/font_size = 20
+text = "📖 BLACKWOOD ASYLUM - MONSTERPEDIA & EVIDENCE"
 
 [node name="CloseButton" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/Header" unique_id=43355067]
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
 text = " X "
 
 [node name="TabContainer" type="TabContainer" parent="Overlays/MonsterpediaOverlay/VBox" unique_id=583147438]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/font_selected_color = Color(0.96, 0.91, 0.8, 1)
+theme_override_colors/font_hovered_color = Color(0.96, 0.91, 0.8, 1)
+theme_override_colors/font_unselected_color = Color(0.24, 0.18, 0.11, 1)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_clear")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_tab_unselected")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_tab_selected")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_tab_selected")
 current_tab = 0
 
 [node name="SpeciesLore" type="VBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer" unique_id=1890823137]
 layout_mode = 2
+theme_override_constants/separation = 10
 metadata/_tab_index = 0
 
 [node name="SpeciesDropdown" type="OptionButton" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/SpeciesLore" unique_id=1656927916]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_colors/font_pressed_color = Color(0.36, 0.12, 0.12, 1)
+theme_override_colors/font_hover_color = Color(0.36, 0.12, 0.12, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_dropdown")
 
 [node name="LoreLabel" type="RichTextLabel" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/SpeciesLore" unique_id=347053017]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "Select a species above..."
 
