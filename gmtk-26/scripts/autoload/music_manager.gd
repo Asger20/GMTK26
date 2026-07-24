@@ -38,6 +38,7 @@ const CHARACTER_STEMS := {
 	&"zombie": Stem.ZOMBIE,
 	&"angel": Stem.ANGEL,
 	&"insect": Stem.INSECT,
+	&"bug_monster": Stem.INSECT,
 	&"vampire": Stem.VAMPIRE,
 	&"slime": Stem.SLIME,
 }
@@ -254,10 +255,28 @@ func play_date_music(
 	if not _music_player.playing:
 		_music_player.play()
 
+	set_low_pass_enabled(false)
 	set_date_character(
 		character_id,
 		fade_seconds
 	)
+
+
+func play_between_dates(
+	fade_seconds := 0.4
+) -> void:
+	if _music_tween != null:
+		_music_tween.kill()
+		_music_tween = null
+
+	_music_player.volume_linear = _music_volume_linear
+	_music_player.stream_paused = false
+
+	if not _music_player.playing:
+		_music_player.play()
+
+	clear_date_character(fade_seconds)
+	set_low_pass_enabled(true)
 
 
 func set_date_character(

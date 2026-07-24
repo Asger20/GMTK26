@@ -128,6 +128,17 @@ func _show_panel(target_panel: Panel) -> void:
 	accusation_panel.visible = (target_panel == accusation_panel)
 	ending_panel.visible = (target_panel == ending_panel)
 
+	if target_panel == date_panel:
+		var current_monster := GameManager.get_current_date_monster()
+		if current_monster:
+			MusicManager.play_date_music(
+				StringName(current_monster.id)
+			)
+		else:
+			MusicManager.play_between_dates()
+	else:
+		MusicManager.play_between_dates()
+
 	header_bar.visible = (target_panel != intro_panel and target_panel != date_panel)
 	
 	if background_texture:
