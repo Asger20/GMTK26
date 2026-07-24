@@ -71,14 +71,17 @@ func start_new_game(available_monsters: Array[MonsterData]) -> void:
 	selected_accusation_id = ""
 	selected_match_id = ""
 
-	# Randomly pick 4 candidates if we have at least 4 available
+	# Randomly pick 4 candidates out of the pool and shuffle their date order
 	if available_monsters.size() >= 4:
 		var pool = available_monsters.duplicate()
 		pool.shuffle()
 		for i in range(4):
 			selected_candidates.append(pool[i])
+		selected_candidates.shuffle()
 	else:
 		selected_candidates = available_monsters.duplicate()
+		selected_candidates.shuffle()
+
 
 	# Assign 1 of the selected candidates as The Count (Imposter)
 	if selected_candidates.size() > 0:

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
+[ext_resource type="Resource" path="res://assets/dialogues/sea_monster.dialogue" id="2_dialogue"]
+
+[resource]
+script = ExtResource("1_monster")
+id = "sea_monster"
+display_name = "Geo"
+species = "Sea Monster"
+dialogue_resource = ExtResource("2_dialogue")
+species_lore = PackedStringArray("Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.", "Cannot remain in dry, arid, or desert climates without desiccating.", "Communicates via low-frequency echolocation sonar.")
+min_affection_for_match = 50

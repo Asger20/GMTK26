@@ -95,15 +95,17 @@ else:
 
 ---
 
-## 👹 Candidate Pool & Dialogue Resources
+## 👹 Candidate Pool & Dialogue Resources (All 6 Monsters)
 
-| Monster ID | Species | Personality Trait | True Lore (Monsterpedia Rule) | Imposter Slip | Dialogue File |
-|---|---|---|---|---|---|
-| `zombie` | Zombie | Depression / Melancholy | Loves cold/rotting food; hates warmth & bright sun. | Enjoys hot food / basking in afternoon sunlight. | `res://assets/dialogues/zombie.dialogue` |
-| `vampire` | Vampire | Theatrical / Stalker | Snobbish about vintage blood; strictly nocturnal. | Confuses blood flavors / boasts about 6 AM sunrises. | `res://assets/dialogues/vampire.dialogue` |
-| `slime` | Slime | Social Anxiety | Craves damp mud; stores items inside body cavity. | Disgusted by mud / finds internal item storage weird. | `res://assets/dialogues/slime.dialogue` |
-| `angel` | Angel | OCD / Order | Obsessed with divine geometry, symmetry, & strict order. | Comfortable in messy or chaotic spaces. | `res://assets/dialogues/sample_monster.dialogue` |
-| `sea_monster` | Sea Monster | TBD | Deep knowledge of ocean depth pressure & saltwater. | Confuses ocean biology / prefers dry desert climates. | `res://assets/dialogues/sample_monster.dialogue` |
+| Monster ID | Species | Artist | Personality / Disorder Trait | True Lore (Monsterpedia Rule) | Imposter Slip | Dialogue File |
+|---|---|---|---|---|---|---|
+| `zombie` | Zombie | Ida | Depression | Loves cold/rotting food; hates warmth & bright sun. | Enjoys hot food / basking in afternoon sunlight. | `res://assets/dialogues/zombie.dialogue` |
+| `vampire` | Vampire | Line | Lust / Stalker | Snobbish about vintage blood; strictly nocturnal. | Confuses blood flavors / boasts about 6 AM sunrises. | `res://assets/dialogues/vampire.dialogue` |
+| `slime` | Slime / Swamp | Line | Social Anxiety | Craves damp mud; stores items inside body cavity. | Disgusted by mud / finds internal item storage weird. | `res://assets/dialogues/slime.dialogue` |
+| `angel` | Biblical Angel | Geo | OCD | Obsessed with divine geometry, symmetry, & 90° order. | Loves messy, asymmetrical, or chaotic rooms. | `res://assets/dialogues/angel.dialogue` |
+| `sea_monster` | Sea Monster | Geo | Amnesia | Knowledgeable about abyssal pressure & saltwater. | Claims to love baking hot dry desert sand dunes. | `res://assets/dialogues/sea_monster.dialogue` |
+| `bug_monster` | Bug Monster | Ida | Insomnia | Nocturnal weaver; hyper-vigilant; moth light attraction. | Claims to sleep 10 uninterrupted hours every night. | `res://assets/dialogues/bug_monster.dialogue` |
+
 
 ---
 

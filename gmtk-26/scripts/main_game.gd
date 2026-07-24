@@ -94,6 +94,11 @@ var species_lore_db: Dictionary = {
 		"• Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.",
 		"• Cannot remain in dry, arid, or desert climates without desiccating.",
 		"• Communicates via low-frequency echolocation sonar."
+	],
+	"Bug Monster": [
+		"• Nocturnal weaver; calculates web tension vectors and light source angles.",
+		"• Stays awake multi-day stretches with hyper-vigilant nervous system.",
+		"• Extremely sensitive to air vibration and water droplet weight on silk."
 	]
 }
 
@@ -140,18 +145,25 @@ func _input(event: InputEvent) -> void:
 
 
 func _start_new_game_session() -> void:
-	# Load candidate resources
+	# Load candidate resources for all 6 monsters
 	var m_zombie = load("res://resources/monsters/zombie.tres")
 	var m_vampire = load("res://resources/monsters/vampire.tres")
 	var m_slime = load("res://resources/monsters/slime.tres")
+	var m_angel = load("res://resources/monsters/angel.tres")
+	var m_sea_monster = load("res://resources/monsters/sea_monster.tres")
+	var m_bug_monster = load("res://resources/monsters/bug_monster.tres")
 
 	var pool: Array[MonsterData] = []
 	if m_zombie: pool.append(m_zombie)
 	if m_vampire: pool.append(m_vampire)
 	if m_slime: pool.append(m_slime)
+	if m_angel: pool.append(m_angel)
+	if m_sea_monster: pool.append(m_sea_monster)
+	if m_bug_monster: pool.append(m_bug_monster)
 
 	GameManager.start_new_game(pool)
 	_show_intro_phase()
+
 
 func _show_panel(target_panel: Panel) -> void:
 	intro_panel.visible = (target_panel == intro_panel)
