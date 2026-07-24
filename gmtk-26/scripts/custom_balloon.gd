@@ -74,8 +74,13 @@ func apply_dialogue_line() -> void:
 	responses_container.hide()
 	speech_container.show()
 
-	character_label.visible = not dialogue_line.character.is_empty()
-	character_label.text = "[b][color=#7a1c1c]" + tr(dialogue_line.character, "dialogue") + "[/color][/b]"
+	var speaker_name = dialogue_line.character
+	var current_monster = GameManager.get_current_date_monster()
+	if current_monster and not speaker_name.is_empty():
+		speaker_name = current_monster.display_name
+
+	character_label.visible = not speaker_name.is_empty()
+	character_label.text = "[b][color=#7a1c1c]" + tr(speaker_name, "dialogue") + "[/color][/b]"
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line

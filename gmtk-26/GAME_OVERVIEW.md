@@ -119,14 +119,14 @@ To catch the killer before release day without causing a public panic, the polic
 
 ## 👹 Candidate Pool & Dialogue Resources (All 6 Monsters)
 
-| Monster ID | Species | Artist | Personality / Disorder Trait | True Lore (Monsterpedia Rule) | Imposter Slip | Dialogue File |
+| Monster ID | Display Name | Species | Personality & Vulnerable Bio Trait | True Lore (Monsterpedia Rule) | Imposter Slip | Dialogue File |
 |---|---|---|---|---|---|---|
-| `zombie` | Zombie | Ida | Depression | Loves cold/rotting food; hates warmth & bright sun. | Enjoys hot food / basking in afternoon sunlight. | `res://assets/dialogues/zombie.dialogue` |
-| `vampire` | Vampire | Line | Lust / Stalker | Snobbish about vintage blood; strictly nocturnal. | Confuses blood flavors / boasts about 6 AM sunrises. | `res://assets/dialogues/vampire.dialogue` |
-| `slime` | Slime / Swamp | Line | Social Anxiety | Craves damp mud; stores items inside body cavity. | Disgusted by mud / finds internal item storage weird. | `res://assets/dialogues/slime.dialogue` |
-| `angel` | Biblical Angel | Geo | OCD | Obsessed with divine geometry, symmetry, & 90° order. | Loves messy, asymmetrical, or chaotic rooms. | `res://assets/dialogues/angel.dialogue` |
-| `sea_monster` | Sea Monster | Geo | Amnesia | Knowledgeable about abyssal pressure & saltwater. | Claims to love baking hot dry desert sand dunes. | `res://assets/dialogues/sea_monster.dialogue` |
-| `bug_monster` | Bug Monster | Ida | Insomnia | Nocturnal weaver; hyper-vigilant; moth light attraction. | Claims to sleep 10 uninterrupted hours every night. | `res://assets/dialogues/bug_monster.dialogue` |
+| `zombie` | **Morty** | Zombie | Introverted, clumsy, loves rain & cold iced tea | Loves cold/rotting food; hates warmth & bright sun. | Enjoys hot food / basking in afternoon sunlight. | `res://assets/dialogues/zombie.dialogue` |
+| `vampire` | **Julian** | Vampire | Hopeless romantic, dramatic, midnight walks & music | Snobbish about vintage blood; strictly nocturnal. | Confuses blood flavors / boasts about 6 AM sunrises. | `res://assets/dialogues/vampire.dialogue` |
+| `slime` | **Gwen** | Slime / Swamp | Shy, squishy, hyper-empathetic, snack-carrier | Craves damp mud; stores items inside body cavity. | Disgusted by mud / finds internal item storage weird. | `res://assets/dialogues/slime.dialogue` |
+| `angel` | **Sera** | Biblical Angel | Perfectionist, OCD, strives for order in chaotic world | Obsessed with divine geometry, symmetry, & 90° order. | Loves messy, asymmetrical, or chaotic rooms. | `res://assets/dialogues/angel.dialogue` |
+| `sea_monster` | **Finn** | Sea Monster | Free-spirited, forgetful, shell collector, ocean lover | Knowledgeable about abyssal pressure & saltwater. | Claims to love baking hot dry desert sand dunes. | `res://assets/dialogues/sea_monster.dialogue` |
+| `bug_monster` | **Vesper** | Spider | Insomniac night owl, hyper-focused weaver, loyal protector | Nocturnal weaver; hyper-vigilant; moth light attraction. | Claims to sleep 10 uninterrupted hours every night. | `res://assets/dialogues/bug_monster.dialogue` |
 
 ---
 

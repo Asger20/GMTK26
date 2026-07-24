@@ -1,9 +1,9 @@
 ~ start
 SeaMonster: *Bubbling exhale* ...Wait, where am I? Oh! Right, the speed date!
-SeaMonster: Hi! I'm Geo. Sorry, my memory slips like wet seaweed sometimes... What was your name again?
+SeaMonster: Hi! I'm Finn. Sorry, my memory slips like wet seaweed sometimes... What was your name again?
 
 if GameManager.dev_mode_show_affection:
-    - "No worries Geo, take your time. I'm glad to meet you." (+15 Affection)
+    - "No worries Finn, take your time. I'm glad to meet you." (+15 Affection)
         do GameManager.add_affection("sea_monster", 15)
         SeaMonster: Aww, thank you! You have a calm wave energy about you.
         => main_menu
@@ -16,7 +16,7 @@ if GameManager.dev_mode_show_affection:
         SeaMonster: *Sploshes sadly* I... I'll try to keep my fins quiet...
         => main_menu
 else:
-    - "No worries Geo, take your time. I'm glad to meet you."
+    - "No worries Finn, take your time. I'm glad to meet you."
         do GameManager.add_affection("sea_monster", 15)
         SeaMonster: Aww, thank you! You have a calm wave energy about you.
         => main_menu

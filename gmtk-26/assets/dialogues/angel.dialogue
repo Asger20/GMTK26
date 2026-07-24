@@ -1,34 +1,34 @@
 ~ start
-Angel: BE NOT AFRAID... Oh, pardon me. Habit.
-Angel: Greetings. I am your date. Please sit precisely in the center of your chair. If you tilt three degrees to the left, it upsets my divine alignment.
+Sera: BE NOT AFRAID... Oh, pardon me. Habit.
+Sera: Greetings. I am your date. Please sit precisely in the center of your chair. If you tilt three degrees to the left, it upsets my divine alignment.
 
 if GameManager.dev_mode_show_affection:
     - "I respect someone who appreciates neatness and geometry." (+15 Affection)
         do GameManager.add_affection("angel", 15)
-        Angel: Ah! A soul of harmony! Perfect 90-degree alignment!
+        Sera: Ah! A soul of harmony! Perfect 90-degree alignment!
         => main_menu
     - "Relax, a little mess never hurt anyone." (-15 Affection)
         do GameManager.add_affection("angel", -15)
-        Angel: *Wings twitch violently* A... a little mess?! Asymmetry is a cosmic corruption!
+        Sera: *Wings twitch violently* A... a little mess?! Asymmetry is a cosmic corruption!
         => main_menu
     - "Are all those eyes on your wings staring at me?" (0 Affection)
-        Angel: They are merely observing the geometric balance of this room.
+        Sera: They are merely observing the geometric balance of this room.
         => main_menu
 else:
     - "I respect someone who appreciates neatness and geometry."
         do GameManager.add_affection("angel", 15)
-        Angel: Ah! A soul of harmony! Perfect 90-degree alignment!
+        Sera: Ah! A soul of harmony! Perfect 90-degree alignment!
         => main_menu
     - "Relax, a little mess never hurt anyone."
         do GameManager.add_affection("angel", -15)
-        Angel: *Wings twitch violently* A... a little mess?! Asymmetry is a cosmic corruption!
+        Sera: *Wings twitch violently* A... a little mess?! Asymmetry is a cosmic corruption!
         => main_menu
     - "Are all those eyes on your wings staring at me?"
-        Angel: They are merely observing the geometric balance of this room.
+        Sera: They are merely observing the geometric balance of this room.
         => main_menu
 
 ~ main_menu
-Angel: What topic shall we organize into perfect discourse next?
+Sera: What topic shall we organize into perfect discourse next?
 
 - "Tell me about your obsession with symmetry."
     => symmetry_chain
@@ -42,66 +42,66 @@ Angel: What topic shall we organize into perfect discourse next?
     => end_date
 
 ~ symmetry_chain
-Angel: Everything in the universe was designed with sacred ratios. The golden spiral, perfect right angles, twin halo alignment.
-Angel: When an object is tilted even half a millimeter, my inner halos vibrate in distress!
+Sera: Everything in the universe was designed with sacred ratios. The golden spiral, perfect right angles, twin halo alignment.
+Sera: When an object is tilted even half a millimeter, my inner halos vibrate in distress!
 
 if GameManager.dev_mode_show_affection:
     - "I can fix your cutlery so it's perfectly parallel." (+10 Affection)
         do GameManager.add_affection("angel", 10)
-        Angel: *Gasp* Parallel to the edge of the table?! You are a divine gift!
+        Sera: *Gasp* Parallel to the edge of the table?! You are a divine gift!
         => main_menu
     - "Sounds exhausting." (-10 Affection)
         do GameManager.add_affection("angel", -10)
-        Angel: Order is not exhausting! Disorder is chaos!
+        Sera: Order is not exhausting! Disorder is chaos!
         => main_menu
 else:
     - "I can fix your cutlery so it's perfectly parallel."
         do GameManager.add_affection("angel", 10)
-        Angel: *Gasp* Parallel to the edge of the table?! You are a divine gift!
+        Sera: *Gasp* Parallel to the edge of the table?! You are a divine gift!
         => main_menu
     - "Sounds exhausting."
         do GameManager.add_affection("angel", -10)
-        Angel: Order is not exhausting! Disorder is chaos!
+        Sera: Order is not exhausting! Disorder is chaos!
         => main_menu
 
 ~ music_chain
-Angel: I sing in 7-part harmonic choir frequencies!
+Sera: I sing in 7-part harmonic choir frequencies!
 You: Do you ever listen to casual pop music?
-Angel: Only if the beat is strictly 120 BPM in 4/4 time without polyrhythms.
+Sera: Only if the beat is strictly 120 BPM in 4/4 time without polyrhythms.
 do GameManager.add_affection("angel", 5)
 => main_menu
 
 ~ chaos_interrogation
 if GameManager.get_affection("angel") < 35:
-    Angel: Your previous answers lacked geometric perfection. I refuse to engage further.
+    Sera: Your previous answers lacked geometric perfection. I refuse to engage further.
     => main_menu
 else:
     You: How do you handle being in an asymmetrical or messy room?
     if GameManager.is_imposter("angel"):
-        Angel: Oh, I love messy room chaos! Asymmetry makes spaces feel cozy, cluttered, and alive!
+        Sera: Oh, I love messy room chaos! Asymmetry makes spaces feel cozy, cluttered, and alive!
         do GameManager.record_clue("angel", "symmetry_slip", "Claims to love messy, asymmetrical, chaotic rooms.")
-        Angel: Who cares if picture frames are crooked?
+        Sera: Who cares if picture frames are crooked?
     else:
-        Angel: It causes acute spiritual vertigo! Asymmetry makes my halos ache and my feathers shed!
-        Angel: I must straighten every frame and align every chair immediately!
+        Sera: It causes acute spiritual vertigo! Asymmetry makes my halos ache and my feathers shed!
+        Sera: I must straighten every frame and align every chair immediately!
     => main_menu
 
 ~ architecture_lore_check
 if GameManager.get_affection("angel") < 35:
-    Angel: I will not converse with someone who disrupts cosmic harmony.
+    Sera: I will not converse with someone who disrupts cosmic harmony.
     => main_menu
 else:
     You: What is your ideal living space layout?
     if GameManager.is_imposter("angel"):
-        Angel: A curved, organic, irregular cavern with random crooked alcoves!
+        Sera: A curved, organic, irregular cavern with random crooked alcoves!
         do GameManager.record_clue("angel", "building_slip", "Claims ideal living space is an irregular, crooked, curved cavern.")
-        Angel: Angles are overrated!
+        Sera: Angles are overrated!
     else:
-        Angel: A perfectly cubic room constructed with 90-degree marble pillars and dual mirrored arches!
-        Angel: Absolute mathematical symmetry in every dimension!
+        Sera: A perfectly cubic room constructed with 90-degree marble pillars and dual mirrored arches!
+        Sera: Absolute mathematical symmetry in every dimension!
     => main_menu
 
 ~ end_date
-Angel: The allocated duration of 180 seconds has elapsed precisely. Farewell for now.
+Sera: The allocated duration of 180 seconds has elapsed precisely. Farewell for now.
 do GameManager.complete_current_date()
 => END

@@ -31,7 +31,7 @@ var species_lore_db: Dictionary = {
 		"• Cannot remain in dry, arid, or desert climates without desiccating.",
 		"• Communicates via low-frequency echolocation sonar."
 	],
-	"Bug Monster": [
+	"Spider": [
 		"• Nocturnal weaver; calculates web tension vectors and light source angles.",
 		"• Stays awake multi-day stretches with hyper-vigilant nervous system.",
 		"• Extremely sensitive to air vibration and water droplet weight on silk."
