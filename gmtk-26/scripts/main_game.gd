@@ -52,9 +52,13 @@ var intro_tween: Tween
 @onready var play_again_btn: Button = $EndingPanel/VBox/PlayAgainButton
 
 # Overlays
-@onready var monsterpedia_overlay: Panel = $MonsterpediaOverlay
-@onready var dev_cheat_overlay: Panel = $DevCheatOverlay
+@onready var monsterpedia_overlay: Panel = $Overlays/MonsterpediaOverlay
+@onready var dev_cheat_overlay: Panel = $Overlays/DevCheatOverlay
 @onready var dev_cheat_btn: Button = $DevCheatBtn
+@onready var background_texture: TextureRect = $BackgroundTexture
+
+var bg_room_tex: Texture2D = preload("res://assets/backgrounds/asylum_room.jpg")
+var bg_hallway_tex: Texture2D = preload("res://assets/backgrounds/asylum_hallway.jpg")
 
 var active_dialogue_balloon: Node = null
 var portrait_tween: Tween
@@ -126,6 +130,16 @@ func _show_panel(target_panel: Panel) -> void:
 
 	header_bar.visible = (target_panel != intro_panel and target_panel != date_panel)
 	
+	if background_texture:
+		if target_panel == date_panel:
+			background_texture.texture = bg_room_tex
+			background_texture.visible = true
+		elif target_panel == prep_panel or target_panel == break_panel or target_panel == accusation_panel:
+			background_texture.texture = bg_hallway_tex
+			background_texture.visible = true
+		else:
+			background_texture.visible = false
+
 	if monsterpedia_book_btn:
 		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel)
 
