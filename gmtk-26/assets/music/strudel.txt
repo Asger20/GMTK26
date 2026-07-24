@@ -1,0 +1,88 @@
+setcpm(116 / 4)
+
+const leadSound = "gm_xylophone"
+
+// -1 = én oktav ned
+//  0 = normal tonehøjde
+//  1 = én oktav op
+const leadOctaveShift = -1
+
+const dateBacking = note(`<
+  [d3,f#3,a3]
+  [d3,f#3,a3]
+  [g2,b2,d3]
+  [g2,b2,d3]
+
+  [d3,f#3,a3]
+  [d3,f#3,a3]
+  [a2,c#3,e3]
+  [a2,c#3,e3]
+
+  [d3,f#3,a3]
+  [d3,f#3,a3]
+  [g2,b2,d3]
+  [g2,b2,d3]
+
+  [d3,f#3,a3]
+  [d3,f#3,a3]
+  [a2,c#3,e3]
+  [a2,c#3,e3]
+>`)
+  .struct("x ~ ~ x")
+  .sound("saw")
+  .attack(0.01)
+  .release(0.16)
+  .lpf(1250)
+  .room(0.12)
+  .gain(0.07)
+
+const dateLead = note(`<
+  [~ e4 e4 ~ f#4 ~ a4 ~]
+  [~ f#4 ~ a4 b4 ~ a4 ~]
+
+  [~ e4 e4 ~ f#4 ~ a4 ~]
+  [~ b4 ~ a4 f#4 ~ a4 ~]
+
+  ~
+  ~
+  ~
+  ~
+
+  [~ e4 e4 ~ f#4 ~ a4 ~]
+  [~ f#4 ~ a4 b4 ~ a4 ~]
+
+  [~ e4 e4 ~ f#4 ~ a4 ~]
+  [~ b4 ~ a4 f#4 ~ d5 ~]
+
+  ~
+  ~
+  ~
+  ~
+>`)
+  .add(note(leadOctaveShift * 12))
+  .sound(leadSound)
+  .attack(0.01)
+  .release(0.18)
+  .lpf(2100)
+  .room(0.5)
+  .gain(0.2)
+
+const dateDrums = stack(
+  s("bd ~ [~ bd] ~")
+    .lpf(1200)
+    .gain(0.18),
+
+  s("~ rim ~ rim")
+    .room(0.05)
+    .gain(0.09),
+
+  s("hh*8")
+    .hpf(5000)
+    .gain(0.09)
+)
+
+stack(
+  //dateBacking,
+  dateLead,
+  //dateDrums
+)
