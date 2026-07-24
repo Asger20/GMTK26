@@ -1,8 +1,12 @@
-[gd_scene format=3 uid="uid://cp5fob6ikruib"]
+[gd_scene load_steps=4 format=3 uid="uid://cp5fob6ikruib"]
 
-[ext_resource type="Script" uid="uid://cssnncfha04d0" path="res://scripts/main_game.gd" id="1_maingame"]
+[ext_resource type="Script" path="res://scripts/main_game.gd" id="1_maingame"]
+[ext_resource type="Script" path="res://scripts/ui/monsterpedia_overlay.gd" id="2_mp_overlay"]
+[ext_resource type="Script" path="res://scripts/ui/dev_cheat_overlay.gd" id="3_dc_overlay"]
 
 [node name="MainGame" type="Control" unique_id=1870863331]
+
+
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -423,6 +427,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+script = ExtResource("2_mp_overlay")
+
 offset_left = -400.0
 offset_top = -250.0
 offset_right = 400.0
@@ -525,6 +531,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+script = ExtResource("3_dc_overlay")
+
 offset_left = -340.0
 offset_top = -250.0
 offset_right = 340.0

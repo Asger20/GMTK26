@@ -111,7 +111,8 @@ else:
 
 ## 🛠️ Code Architecture Overview
 
-* `res://scripts/autoload/game_manager.gd`: Autoload singleton tracking Days 1-5, selected candidate pool, imposter assignment, affection levels, clues, dev mode state (`F10`), and ending evaluator.
-* `res://scripts/resources/monster_data.gd`: Custom Resource script for candidate data.
-* `res://scripts/main_game.gd` & `res://scenes/main_game.tscn`: Main game scene managing opening dossier cutscene, prep screens, 3-minute date timers, HUD, break phases, and Day 5 accusation/endings.
-* `res://scripts/ui/monsterpedia_ui.gd`: In-game field guide & evidence notebook UI.
+* `res://scripts/autoload/game_manager.gd`: Autoload singleton tracking Days 1-5, selected candidate pool, imposter assignment, affection levels, clues, dev mode state (`F10`), master species lore DB, and ending evaluator.
+* `res://scripts/main_game.gd` & `res://scenes/main_game.tscn`: Main game scene and Phase Coordinator managing opening dossier cutscene, prep screens, 3-minute date timers, HUD, break phases, and Day 5 accusation/endings (~220 lines).
+* `res://scripts/ui/monsterpedia_overlay.gd`: Sub-component UI controller for Monsterpedia field guide & evidence notebook.
+* `res://scripts/ui/dev_cheat_overlay.gd`: Sub-component UI controller for F10 Dev Cheat control panel.
+
