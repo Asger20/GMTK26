@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cp5fob6ikruib"]
 
-[ext_resource type="Script" path="res://scripts/main_game.gd" id="1_maingame"]
+[ext_resource type="Script" uid="uid://cssnncfha04d0" path="res://scripts/main_game.gd" id="1_maingame"]
 
-[node name="MainGame" type="Control"]
+[node name="MainGame" type="Control" unique_id=1870863331]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_maingame")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=585956619]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,14 +20,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.09, 0.08, 0.14, 1)
 
-[node name="HeaderBar" type="Panel" parent="."]
+[node name="HeaderBar" type="Panel" parent="." unique_id=1495088717]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 50.0
 grow_horizontal = 2
 
-[node name="HBox" type="HBoxContainer" parent="HeaderBar"]
+[node name="HBox" type="HBoxContainer" parent="HeaderBar" unique_id=1220580419]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,26 +37,24 @@ offset_right = -15.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="DayLabel" type="Label" parent="HeaderBar/HBox"]
+[node name="DayLabel" type="Label" parent="HeaderBar/HBox" unique_id=270010215]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "DAY 1 OF 5"
 vertical_alignment = 1
 
-[node name="PhaseLabel" type="Label" parent="HeaderBar/HBox"]
+[node name="PhaseLabel" type="Label" parent="HeaderBar/HBox" unique_id=1731014999]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "PHASE: PREPARATION"
-horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MonsterpediaButton" type="Button" parent="HeaderBar/HBox"]
+[node name="MissionBriefingButton" type="Button" parent="HeaderBar/HBox" unique_id=2124351603]
 layout_mode = 2
-text = "📖 MONSTERPEDIA & NOTEBOOK"
+text = "📋 MISSION BRIEFING"
 
-
-
-[node name="IntroPanel" type="Panel" parent="."]
+[node name="IntroPanel" type="Panel" parent="." unique_id=277955732]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -64,7 +62,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AsylumBg" type="ColorRect" parent="IntroPanel"]
+[node name="AsylumBg" type="ColorRect" parent="IntroPanel" unique_id=1627902368]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,7 +71,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.06, 0.05, 0.09, 1)
 
-[node name="PaperPanel" type="Panel" parent="IntroPanel"]
+[node name="PaperPanel" type="Panel" parent="IntroPanel" unique_id=1894280447]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -87,8 +85,7 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-
-[node name="PaperBg" type="ColorRect" parent="IntroPanel/PaperPanel"]
+[node name="PaperBg" type="ColorRect" parent="IntroPanel/PaperPanel" unique_id=136379476]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -97,7 +94,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.93, 0.87, 0.73, 1)
 
-[node name="StoryContainer" type="VBoxContainer" parent="IntroPanel/PaperPanel"]
+[node name="StoryContainer" type="VBoxContainer" parent="IntroPanel/PaperPanel" unique_id=362776014]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -109,15 +106,13 @@ offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StoryText" type="RichTextLabel" parent="IntroPanel/PaperPanel/StoryContainer"]
+[node name="StoryText" type="RichTextLabel" parent="IntroPanel/PaperPanel/StoryContainer" unique_id=357367078]
 layout_mode = 2
 size_flags_vertical = 3
-bbcode_enabled = true
 theme_override_colors/default_color = Color(0.2, 0.16, 0.1, 1)
-text = ""
+bbcode_enabled = true
 
-
-[node name="SkipPrompt" type="Label" parent="IntroPanel"]
+[node name="SkipPrompt" type="Label" parent="IntroPanel" unique_id=1392368599]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -128,12 +123,10 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 text = "[ PRESS ANY KEYBOARD BUTTON TO SKIP ]"
-
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PrepPanel" type="Panel" parent="."]
-
+[node name="PrepPanel" type="Panel" parent="." unique_id=963554220]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -147,7 +140,7 @@ offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="PrepPanel"]
+[node name="VBox" type="VBoxContainer" parent="PrepPanel" unique_id=1518380131]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,39 +153,40 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
 
-[node name="TitleLabel" type="Label" parent="PrepPanel/VBox"]
+[node name="TitleLabel" type="Label" parent="PrepPanel/VBox" unique_id=998523771]
 layout_mode = 2
-text = "OPERATION: COUNTDOWN"
+theme_override_font_sizes/font_size = 20
+text = "TODAY'S DATE BRIEFING"
 horizontal_alignment = 1
 
-[node name="DescLabel" type="Label" parent="PrepPanel/VBox"]
-layout_mode = 2
-text = "Welcome Detective. You have 5 days to investigate candidates during 3-minute speed dates and find The Count."
-horizontal_alignment = 1
-autowrap_mode = 3
-
-[node name="CandidateCard" type="VBoxContainer" parent="PrepPanel/VBox"]
+[node name="CandidateCard" type="VBoxContainer" parent="PrepPanel/VBox" unique_id=1041977996]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="CandidateName" type="Label" parent="PrepPanel/VBox/CandidateCard"]
+[node name="CandidateName" type="Label" parent="PrepPanel/VBox/CandidateCard" unique_id=568703298]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Candidate: Ida"
 
-[node name="CandidateSpecies" type="Label" parent="PrepPanel/VBox/CandidateCard"]
+[node name="CandidateSpecies" type="Label" parent="PrepPanel/VBox/CandidateCard" unique_id=1828923297]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
 text = "Species: Zombie"
 
-[node name="CandidateDesc" type="Label" parent="PrepPanel/VBox/CandidateCard"]
+[node name="CandidateDesc" type="RichTextLabel" parent="PrepPanel/VBox/CandidateCard" unique_id=1741875518]
 layout_mode = 2
-text = "Review lore in the Monsterpedia before starting your date!"
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Use your Monsterpedia book at the bottom-left to check species facts before starting your date."
 
-[node name="StartDateButton" type="Button" parent="PrepPanel/VBox"]
-layout_mode = 2
+[node name="StartDateButton" type="Button" parent="PrepPanel/VBox" unique_id=649224949]
 custom_minimum_size = Vector2(0, 50)
-text = "START SPEED DATE (3 MIN)"
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "START SPEED DATE"
 
-[node name="DatePanel" type="Panel" parent="."]
+[node name="DatePanel" type="Panel" parent="." unique_id=178152170]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -202,7 +196,7 @@ offset_top = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopHUD" type="HBoxContainer" parent="DatePanel"]
+[node name="TopHUD" type="HBoxContainer" parent="DatePanel" unique_id=1211762112]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -212,54 +206,54 @@ offset_right = -20.0
 offset_bottom = 60.0
 grow_horizontal = 2
 
-[node name="MonsterInfo" type="VBoxContainer" parent="DatePanel/TopHUD"]
+[node name="MonsterInfo" type="VBoxContainer" parent="DatePanel/TopHUD" unique_id=1041249022]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MonsterName" type="Label" parent="DatePanel/TopHUD/MonsterInfo"]
+[node name="MonsterName" type="Label" parent="DatePanel/TopHUD/MonsterInfo" unique_id=68880411]
 layout_mode = 2
 text = "Ida"
 
-[node name="MonsterSpecies" type="Label" parent="DatePanel/TopHUD/MonsterInfo"]
+[node name="MonsterSpecies" type="Label" parent="DatePanel/TopHUD/MonsterInfo" unique_id=650306151]
 layout_mode = 2
 text = "Species: Zombie"
 
-[node name="AffectionContainer" type="VBoxContainer" parent="DatePanel/TopHUD"]
+[node name="AffectionContainer" type="VBoxContainer" parent="DatePanel/TopHUD" unique_id=830360729]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AffectionLabel" type="Label" parent="DatePanel/TopHUD/AffectionContainer"]
+[node name="AffectionLabel" type="Label" parent="DatePanel/TopHUD/AffectionContainer" unique_id=1238633511]
 layout_mode = 2
 text = "Affection Score:"
 
-[node name="AffectionBar" type="ProgressBar" parent="DatePanel/TopHUD/AffectionContainer"]
+[node name="AffectionBar" type="ProgressBar" parent="DatePanel/TopHUD/AffectionContainer" unique_id=1123538571]
 layout_mode = 2
 value = 50.0
 
-[node name="AffectionVal" type="Label" parent="DatePanel/TopHUD/AffectionContainer"]
+[node name="AffectionVal" type="Label" parent="DatePanel/TopHUD/AffectionContainer" unique_id=702570396]
 layout_mode = 2
 text = "50%"
 horizontal_alignment = 1
 
-[node name="TimerContainer" type="VBoxContainer" parent="DatePanel/TopHUD"]
+[node name="TimerContainer" type="VBoxContainer" parent="DatePanel/TopHUD" unique_id=414667974]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TimeTitle" type="Label" parent="DatePanel/TopHUD/TimerContainer"]
+[node name="TimeTitle" type="Label" parent="DatePanel/TopHUD/TimerContainer" unique_id=1367594324]
 layout_mode = 2
 text = "Time Remaining:"
 horizontal_alignment = 2
 
-[node name="TimerLabel" type="Label" parent="DatePanel/TopHUD/TimerContainer"]
+[node name="TimerLabel" type="Label" parent="DatePanel/TopHUD/TimerContainer" unique_id=343830698]
 layout_mode = 2
 text = "03:00"
 horizontal_alignment = 2
 
-[node name="DebugFinishButton" type="Button" parent="DatePanel/TopHUD"]
+[node name="DebugFinishButton" type="Button" parent="DatePanel/TopHUD" unique_id=2003408286]
 layout_mode = 2
 text = "Finish Date (Skip Timer)"
 
-[node name="MonsterPortrait" type="TextureRect" parent="DatePanel"]
+[node name="MonsterPortrait" type="TextureRect" parent="DatePanel" unique_id=1570652720]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -275,7 +269,7 @@ grow_vertical = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="BreakPanel" type="Panel" parent="."]
+[node name="BreakPanel" type="Panel" parent="." unique_id=1048914177]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -290,7 +284,7 @@ offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="BreakPanel"]
+[node name="VBox" type="VBoxContainer" parent="BreakPanel" unique_id=701166255]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -303,23 +297,23 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
 
-[node name="TitleLabel" type="Label" parent="BreakPanel/VBox"]
+[node name="TitleLabel" type="Label" parent="BreakPanel/VBox" unique_id=1436964376]
 layout_mode = 2
 text = "DATE COMPLETED"
 horizontal_alignment = 1
 
-[node name="SummaryText" type="RichTextLabel" parent="BreakPanel/VBox"]
+[node name="SummaryText" type="RichTextLabel" parent="BreakPanel/VBox" unique_id=1366054512]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "Date Summary..."
 
-[node name="NextDayButton" type="Button" parent="BreakPanel/VBox"]
-layout_mode = 2
+[node name="NextDayButton" type="Button" parent="BreakPanel/VBox" unique_id=1419446471]
 custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 text = "CONTINUE TO NEXT DAY"
 
-[node name="AccusationPanel" type="Panel" parent="."]
+[node name="AccusationPanel" type="Panel" parent="." unique_id=394704187]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -334,7 +328,7 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="AccusationPanel"]
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel" unique_id=47978340]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -347,37 +341,37 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="TitleLabel" type="Label" parent="AccusationPanel/VBox"]
+[node name="TitleLabel" type="Label" parent="AccusationPanel/VBox" unique_id=611435735]
 layout_mode = 2
 text = "DAY 5: ACCUSATION & MATCHING PHASE"
 horizontal_alignment = 1
 
-[node name="AccuseContainer" type="VBoxContainer" parent="AccusationPanel/VBox"]
+[node name="AccuseContainer" type="VBoxContainer" parent="AccusationPanel/VBox" unique_id=606607976]
 layout_mode = 2
 
-[node name="AccuseLabel" type="Label" parent="AccusationPanel/VBox/AccuseContainer"]
+[node name="AccuseLabel" type="Label" parent="AccusationPanel/VBox/AccuseContainer" unique_id=1863085628]
 layout_mode = 2
 text = "1. Accuse suspect as The Count (Shapeshifter):"
 
-[node name="AccuseDropdown" type="OptionButton" parent="AccusationPanel/VBox/AccuseContainer"]
+[node name="AccuseDropdown" type="OptionButton" parent="AccusationPanel/VBox/AccuseContainer" unique_id=1240186844]
 layout_mode = 2
 
-[node name="MatchContainer" type="VBoxContainer" parent="AccusationPanel/VBox"]
+[node name="MatchContainer" type="VBoxContainer" parent="AccusationPanel/VBox" unique_id=276032564]
 layout_mode = 2
 
-[node name="MatchLabel" type="Label" parent="AccusationPanel/VBox/MatchContainer"]
+[node name="MatchLabel" type="Label" parent="AccusationPanel/VBox/MatchContainer" unique_id=1551902635]
 layout_mode = 2
 text = "2. Select Candidate to Match/Romance:"
 
-[node name="MatchDropdown" type="OptionButton" parent="AccusationPanel/VBox/MatchContainer"]
+[node name="MatchDropdown" type="OptionButton" parent="AccusationPanel/VBox/MatchContainer" unique_id=1806769529]
 layout_mode = 2
 
-[node name="SubmitButton" type="Button" parent="AccusationPanel/VBox"]
-layout_mode = 2
+[node name="SubmitButton" type="Button" parent="AccusationPanel/VBox" unique_id=2026838624]
 custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 text = "SUBMIT FINAL DECISION"
 
-[node name="EndingPanel" type="Panel" parent="."]
+[node name="EndingPanel" type="Panel" parent="." unique_id=768919982]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -392,7 +386,7 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="EndingPanel"]
+[node name="VBox" type="VBoxContainer" parent="EndingPanel" unique_id=1701489741]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -405,23 +399,23 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="EndingTitle" type="Label" parent="EndingPanel/VBox"]
+[node name="EndingTitle" type="Label" parent="EndingPanel/VBox" unique_id=535105231]
 layout_mode = 2
 text = "ENDING TITLE"
 horizontal_alignment = 1
 
-[node name="EndingDesc" type="RichTextLabel" parent="EndingPanel/VBox"]
+[node name="EndingDesc" type="RichTextLabel" parent="EndingPanel/VBox" unique_id=1495988701]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "Ending Description..."
 
-[node name="PlayAgainButton" type="Button" parent="EndingPanel/VBox"]
-layout_mode = 2
+[node name="PlayAgainButton" type="Button" parent="EndingPanel/VBox" unique_id=651538625]
 custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 text = "PLAY AGAIN / NEW RUN"
 
-[node name="MonsterpediaOverlay" type="Panel" parent="."]
+[node name="MonsterpediaOverlay" type="Panel" parent="." unique_id=1013753609]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -436,7 +430,7 @@ offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="MonsterpediaOverlay"]
+[node name="VBox" type="VBoxContainer" parent="MonsterpediaOverlay" unique_id=1637901433]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -448,43 +442,59 @@ offset_bottom = -15.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Header" type="HBoxContainer" parent="MonsterpediaOverlay/VBox"]
+[node name="Header" type="HBoxContainer" parent="MonsterpediaOverlay/VBox" unique_id=2114182151]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="MonsterpediaOverlay/VBox/Header"]
+[node name="Title" type="Label" parent="MonsterpediaOverlay/VBox/Header" unique_id=671178779]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "📖 MONSTERPEDIA & EVIDENCE NOTEBOOK"
 
-[node name="CloseButton" type="Button" parent="MonsterpediaOverlay/VBox/Header"]
+[node name="CloseButton" type="Button" parent="MonsterpediaOverlay/VBox/Header" unique_id=43355067]
 layout_mode = 2
 text = " X "
 
-[node name="TabContainer" type="TabContainer" parent="MonsterpediaOverlay/VBox"]
+[node name="TabContainer" type="TabContainer" parent="MonsterpediaOverlay/VBox" unique_id=583147438]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
-[node name="SpeciesLore" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer"]
+[node name="SpeciesLore" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer" unique_id=1890823137]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="SpeciesDropdown" type="OptionButton" parent="MonsterpediaOverlay/VBox/TabContainer/SpeciesLore" unique_id=1656927916]
 layout_mode = 2
 
-[node name="SpeciesDropdown" type="OptionButton" parent="MonsterpediaOverlay/VBox/TabContainer/SpeciesLore"]
-layout_mode = 2
-
-[node name="LoreLabel" type="RichTextLabel" parent="MonsterpediaOverlay/VBox/TabContainer/SpeciesLore"]
+[node name="LoreLabel" type="RichTextLabel" parent="MonsterpediaOverlay/VBox/TabContainer/SpeciesLore" unique_id=347053017]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 text = "Select a species above..."
 
-[node name="EvidenceNotebook" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer"]
+[node name="EvidenceNotebook" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer" unique_id=1917752063]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
-[node name="Scroll" type="ScrollContainer" parent="MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook"]
+[node name="Scroll" type="ScrollContainer" parent="MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook" unique_id=1145873199]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ClueContainer" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Scroll"]
+[node name="ClueContainer" type="VBoxContainer" parent="MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Scroll" unique_id=588767283]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="MonsterpediaBookBtn" type="Button" parent="." unique_id=1781200078]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -80.0
+offset_right = 240.0
+offset_bottom = -20.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 14
+text = "📖 MONSTERPEDIA BOOK"

@@ -5,7 +5,8 @@ extends Control
 @onready var header_bar: Panel = $HeaderBar
 @onready var day_label: Label = $HeaderBar/HBox/DayLabel
 @onready var phase_label: Label = $HeaderBar/HBox/PhaseLabel
-@onready var monsterpedia_btn: Button = $HeaderBar/HBox/MonsterpediaButton
+@onready var mission_briefing_btn: Button = $HeaderBar/HBox/MissionBriefingButton
+@onready var monsterpedia_book_btn: Button = $MonsterpediaBookBtn
 
 
 # Phase 0: Intro Cutscene Panel
@@ -19,13 +20,12 @@ var intro_tween: Tween
 
 # Phase 1: Prep Panel
 @onready var prep_panel: Panel = $PrepPanel
-
 @onready var prep_title_label: Label = $PrepPanel/VBox/TitleLabel
-@onready var prep_desc_label: Label = $PrepPanel/VBox/DescLabel
 @onready var candidate_card_name: Label = $PrepPanel/VBox/CandidateCard/CandidateName
 @onready var candidate_card_species: Label = $PrepPanel/VBox/CandidateCard/CandidateSpecies
-@onready var candidate_card_desc: Label = $PrepPanel/VBox/CandidateCard/CandidateDesc
+@onready var candidate_card_desc: RichTextLabel = $PrepPanel/VBox/CandidateCard/CandidateDesc
 @onready var start_date_btn: Button = $PrepPanel/VBox/StartDateButton
+
 
 # Phase 2: Date Panel
 @onready var date_panel: Panel = $DatePanel
@@ -104,9 +104,11 @@ func _ready() -> void:
 	next_day_btn.pressed.connect(_on_next_day_pressed)
 	submit_decision_btn.pressed.connect(_on_submit_decision_pressed)
 	play_again_btn.pressed.connect(_on_play_again_pressed)
-	monsterpedia_btn.pressed.connect(_toggle_monsterpedia)
+	mission_briefing_btn.pressed.connect(_show_intro_phase)
+	monsterpedia_book_btn.pressed.connect(_toggle_monsterpedia)
 	monsterpedia_close_btn.pressed.connect(_toggle_monsterpedia)
 	monsterpedia_species_dropdown.item_selected.connect(_on_monsterpedia_species_selected)
+
 
 	# Connect GameManager Signals
 	GameManager.affection_changed.connect(_on_affection_changed)
@@ -159,7 +161,13 @@ func _show_panel(target_panel: Panel) -> void:
 	accusation_panel.visible = (target_panel == accusation_panel)
 	ending_panel.visible = (target_panel == ending_panel)
 
-	header_bar.visible = (target_panel != intro_panel)
+	# Hide header bar during intro cutscene and during active speed dates
+	header_bar.visible = (target_panel != intro_panel and target_panel != date_panel)
+
+	# Hide monsterpedia book button during intro cutscene and final ending
+	if monsterpedia_book_btn:
+		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel)
+
 
 # --- PHASE 0: INTRO CUTSCENE ---
 func _show_intro_phase() -> void:
@@ -203,11 +211,15 @@ func _show_prep_phase() -> void:
 	if current_monster:
 		candidate_card_name.text = "Candidate: " + current_monster.display_name
 		candidate_card_species.text = "Species: " + current_monster.species
-		candidate_card_desc.text = "Review lore in the Monsterpedia before starting your 3-minute date!"
+
+		var txt = "[b]Rehab Profile:[/b]\n"
+		txt += "Cleared for speed dating trial. Click your [color=#e6b800]📖 MONSTERPEDIA BOOK[/color] at the bottom-left to review species lore before entering your date!"
+		candidate_card_desc.text = txt
 	else:
 		candidate_card_name.text = "No Candidate"
 		candidate_card_species.text = ""
 		candidate_card_desc.text = ""
+
 
 func _on_start_date_pressed() -> void:
 	_show_date_phase()
