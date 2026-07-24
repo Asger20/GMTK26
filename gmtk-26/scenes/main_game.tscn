@@ -1,64 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cp5fob6ikruib"]
+[gd_scene format=3 uid="uid://cp5fob6ikruib"]
 
-[ext_resource type="Script" path="res://scripts/main_game.gd" id="1_maingame"]
-[ext_resource type="Script" path="res://scripts/ui/monsterpedia_overlay.gd" id="2_mp_overlay"]
-[ext_resource type="Script" path="res://scripts/ui/dev_cheat_overlay.gd" id="3_dc_overlay"]
-[ext_resource type="Texture2D" path="res://assets/monsters/monster_placeholder.png" id="4_placeholder"]
-[ext_resource type="Texture2D" path="res://assets/monsters/monsterpedia.png" id="5_mp_icon"]
-
-
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_monsterpedia"]
-bg_color = Color(0.12, 0.1, 0.08, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.8, 0.62, 0.22, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.7)
-shadow_size = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_book_btn"]
-bg_color = Color(0.16, 0.12, 0.09, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8, 0.62, 0.22, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_devcheat"]
-bg_color = Color(0.08, 0.1, 0.15, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.9, 0.25, 0.25, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.7)
-shadow_size = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cheat_btn"]
-bg_color = Color(0.15, 0.05, 0.08, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.9, 0.25, 0.25, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+[ext_resource type="Script" uid="uid://cssnncfha04d0" path="res://scripts/main_game.gd" id="1_maingame"]
+[ext_resource type="Script" uid="uid://dq6opyjksycyy" path="res://scripts/ui/monsterpedia_overlay.gd" id="2_mp_overlay"]
+[ext_resource type="Script" uid="uid://x114dku4iy4v" path="res://scripts/ui/dev_cheat_overlay.gd" id="3_dc_overlay"]
+[ext_resource type="Texture2D" uid="uid://d4b7nwij7wt5o" path="res://assets/monsters/monster_placeholder.png" id="4_placeholder"]
+[ext_resource type="Texture2D" uid="uid://bfk8orwx6hwbw" path="res://assets/monsters/monsterpedia.png" id="5_mp_icon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_preppanel"]
 bg_color = Color(0.91, 0.85, 0.72, 1)
@@ -86,11 +32,47 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_monsterpedia"]
+bg_color = Color(0.12, 0.1, 0.08, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.62, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cheat_btn"]
+bg_color = Color(0.15, 0.05, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9, 0.25, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_devcheat"]
+bg_color = Color(0.08, 0.1, 0.15, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.9, 0.25, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 14
+
 [node name="MainGame" type="Control" unique_id=1870863331]
-
-
-
-
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -281,7 +263,6 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
 text = "[ ENTER SPEED DATE ]"
 
-
 [node name="DatePanel" type="Panel" parent="." unique_id=178152170]
 visible = false
 layout_mode = 1
@@ -290,7 +271,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
 
 [node name="TopHUD" type="HBoxContainer" parent="DatePanel" unique_id=1211762112]
 layout_mode = 1
@@ -322,7 +302,6 @@ text = "50%"
 horizontal_alignment = 1
 
 [node name="MonsterPortrait" type="TextureRect" parent="DatePanel" unique_id=1570652720]
-
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -338,7 +317,6 @@ grow_vertical = 2
 texture = ExtResource("4_placeholder")
 expand_mode = 1
 stretch_mode = 5
-
 
 [node name="BreakPanel" type="Panel" parent="." unique_id=1048914177]
 visible = false
@@ -503,7 +481,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_monsterpedia")
 script = ExtResource("2_mp_overlay")
 
-
 [node name="VBox" type="VBoxContainer" parent="MonsterpediaOverlay" unique_id=1637901433]
 layout_mode = 1
 anchors_preset = 15
@@ -574,7 +551,7 @@ texture_normal = ExtResource("5_mp_icon")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="MonsterpediaBookBtn"]
+[node name="Label" type="Label" parent="MonsterpediaBookBtn" unique_id=829710922]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -591,7 +568,6 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
 theme_override_font_sizes/font_size = 13
 text = "Monsterpedia"
 horizontal_alignment = 1
-
 
 [node name="EndDateEarlyButton" type="Button" parent="." unique_id=2003408286]
 visible = false
@@ -612,7 +588,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
 text = "🛑 END DATE EARLY"
 
-[node name="DevCheatBtn" type="Button" parent="."]
+[node name="DevCheatBtn" type="Button" parent="." unique_id=672114398]
 visible = false
 layout_mode = 1
 anchors_preset = 3
@@ -631,8 +607,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
 text = "🛠️ DEV CHEATS"
 
-
-[node name="DevCheatOverlay" type="Panel" parent="."]
+[node name="DevCheatOverlay" type="Panel" parent="." unique_id=1851218370]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -649,8 +624,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_devcheat")
 script = ExtResource("3_dc_overlay")
 
-
-[node name="VBox" type="VBoxContainer" parent="DevCheatOverlay"]
+[node name="VBox" type="VBoxContainer" parent="DevCheatOverlay" unique_id=225833068]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -663,106 +637,105 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
 
-[node name="Header" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+[node name="Header" type="HBoxContainer" parent="DevCheatOverlay/VBox" unique_id=623343543]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="DevCheatOverlay/VBox/Header"]
+[node name="Title" type="Label" parent="DevCheatOverlay/VBox/Header" unique_id=660861763]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 18
 text = "🛠️ DEV CHEAT PANEL (F10 ACTIVE)"
 
-[node name="CloseButton" type="Button" parent="DevCheatOverlay/VBox/Header"]
+[node name="CloseButton" type="Button" parent="DevCheatOverlay/VBox/Header" unique_id=421938841]
 layout_mode = 2
 text = " X "
 
-[node name="SessionInfoText" type="RichTextLabel" parent="DevCheatOverlay/VBox"]
-layout_mode = 2
+[node name="SessionInfoText" type="RichTextLabel" parent="DevCheatOverlay/VBox" unique_id=360347332]
 custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
 bbcode_enabled = true
 text = "Candidate Lineup & Imposter Info..."
 
-[node name="JumpDateContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+[node name="JumpDateContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox" unique_id=262283281]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="DevCheatOverlay/VBox/JumpDateContainer"]
+[node name="Label" type="Label" parent="DevCheatOverlay/VBox/JumpDateContainer" unique_id=2031170173]
 layout_mode = 2
 text = "Jump to Date:"
 
-[node name="MonsterDropdown" type="OptionButton" parent="DevCheatOverlay/VBox/JumpDateContainer"]
+[node name="MonsterDropdown" type="OptionButton" parent="DevCheatOverlay/VBox/JumpDateContainer" unique_id=1560903170]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="JumpDateBtn" type="Button" parent="DevCheatOverlay/VBox/JumpDateContainer"]
+[node name="JumpDateBtn" type="Button" parent="DevCheatOverlay/VBox/JumpDateContainer" unique_id=1808978223]
 layout_mode = 2
 text = "Launch Date"
 
-[node name="AffectionContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+[node name="AffectionContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox" unique_id=1795324441]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="DevCheatOverlay/VBox/AffectionContainer"]
+[node name="Label" type="Label" parent="DevCheatOverlay/VBox/AffectionContainer" unique_id=1712087881]
 layout_mode = 2
 text = "Affection Score:"
 
-[node name="Add25Btn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+[node name="Add25Btn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer" unique_id=992660762]
 layout_mode = 2
 text = "+25"
 
-[node name="Sub25Btn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+[node name="Sub25Btn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer" unique_id=1050225841]
 layout_mode = 2
 text = "-25"
 
-[node name="MaxBtn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+[node name="MaxBtn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer" unique_id=1422650651]
 layout_mode = 2
 text = "Set 100%"
 
-[node name="MinBtn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+[node name="MinBtn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer" unique_id=544815019]
 layout_mode = 2
 text = "Set 0%"
 
-[node name="DayJumpContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+[node name="DayJumpContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox" unique_id=1515747867]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+[node name="Label" type="Label" parent="DevCheatOverlay/VBox/DayJumpContainer" unique_id=123299233]
 layout_mode = 2
 text = "Jump Day:"
 
-[node name="Day1Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+[node name="Day1Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer" unique_id=1025275689]
 layout_mode = 2
 text = "Day 1"
 
-[node name="Day2Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+[node name="Day2Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer" unique_id=1755906586]
 layout_mode = 2
 text = "Day 2"
 
-[node name="Day3Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+[node name="Day3Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer" unique_id=130331294]
 layout_mode = 2
 text = "Day 3"
 
-[node name="Day4Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+[node name="Day4Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer" unique_id=1139475224]
 layout_mode = 2
 text = "Day 4"
 
-[node name="AccusationBtn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+[node name="AccusationBtn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer" unique_id=877239805]
 layout_mode = 2
 text = "Day 5 (Accuse)"
 
-[node name="ActionContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+[node name="ActionContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox" unique_id=152302577]
 layout_mode = 2
 
-[node name="ResetSessionBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer"]
+[node name="ResetSessionBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer" unique_id=2945859]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "🔄 Reset New Session"
 
-[node name="UnlockCluesBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer"]
+[node name="UnlockCluesBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer" unique_id=1793072185]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "🔓 Record Clues"
 
-[node name="SkipTimerBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer"]
+[node name="SkipTimerBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer" unique_id=1362992918]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "⏩ Finish Date"
-
