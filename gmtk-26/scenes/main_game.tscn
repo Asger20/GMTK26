@@ -3,6 +3,10 @@
 [ext_resource type="Script" path="res://scripts/main_game.gd" id="1_maingame"]
 [ext_resource type="Script" path="res://scripts/ui/monsterpedia_overlay.gd" id="2_mp_overlay"]
 [ext_resource type="Script" path="res://scripts/ui/dev_cheat_overlay.gd" id="3_dc_overlay"]
+[ext_resource type="Texture2D" path="res://assets/monsters/monster_placeholder.png" id="4_placeholder"]
+[ext_resource type="Texture2D" path="res://assets/monsters/monsterpedia.png" id="5_mp_icon"]
+
+
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_monsterpedia"]
 bg_color = Color(0.12, 0.1, 0.08, 1)
@@ -284,9 +288,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 50.0
 grow_horizontal = 2
 grow_vertical = 2
+
 
 [node name="TopHUD" type="HBoxContainer" parent="DatePanel" unique_id=1211762112]
 layout_mode = 1
@@ -341,9 +345,11 @@ layout_mode = 2
 text = "03:00"
 horizontal_alignment = 2
 
-[node name="DebugFinishButton" type="Button" parent="DatePanel/TopHUD" unique_id=2003408286]
+[node name="EndDateEarlyButton" type="Button" parent="DatePanel/TopHUD" unique_id=2003408286]
 layout_mode = 2
-text = "Finish Date (Skip Timer)"
+theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
+text = "🛑 END DATE EARLY"
 
 [node name="MonsterPortrait" type="TextureRect" parent="DatePanel" unique_id=1570652720]
 layout_mode = 1
@@ -352,14 +358,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -150.0
-offset_right = 150.0
-offset_bottom = 150.0
+offset_left = -160.0
+offset_top = -140.0
+offset_right = 160.0
+offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("4_placeholder")
 expand_mode = 1
 stretch_mode = 5
+
 
 [node name="BreakPanel" type="Panel" parent="." unique_id=1048914177]
 visible = false
@@ -581,20 +589,38 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MonsterpediaBookBtn" type="Button" parent="." unique_id=1781200078]
+[node name="MonsterpediaBookBtn" type="TextureButton" parent="." unique_id=1781200078]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -80.0
-offset_right = 240.0
-offset_bottom = -20.0
+offset_left = 25.0
+offset_top = -115.0
+offset_right = 115.0
+offset_bottom = -25.0
+grow_vertical = 0
+texture_normal = ExtResource("5_mp_icon")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MonsterpediaBookBtn"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = 2.0
+offset_right = 15.0
+offset_bottom = 22.0
+grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
-theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("StyleBoxFlat_book_btn")
-text = "📖 MONSTERPEDIA BOOK"
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_font_sizes/font_size = 13
+text = "Monsterpedia"
+horizontal_alignment = 1
+
 
 [node name="DevCheatBtn" type="Button" parent="."]
 visible = false

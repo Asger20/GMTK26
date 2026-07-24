@@ -6,7 +6,8 @@ extends Control
 @onready var day_label: Label = $HeaderBar/HBox/DayLabel
 @onready var phase_label: Label = $HeaderBar/HBox/PhaseLabel
 @onready var mission_briefing_btn: Button = $HeaderBar/HBox/MissionBriefingButton
-@onready var monsterpedia_book_btn: Button = $MonsterpediaBookBtn
+@onready var monsterpedia_book_btn: TextureButton = $MonsterpediaBookBtn
+
 
 # Phase 0: Intro Cutscene Panel
 @onready var intro_panel: Panel = $IntroPanel
@@ -33,7 +34,7 @@ var intro_tween: Tween
 @onready var affection_bar: ProgressBar = $DatePanel/TopHUD/AffectionContainer/AffectionBar
 @onready var affection_val_label: Label = $DatePanel/TopHUD/AffectionContainer/AffectionVal
 @onready var portrait_rect: TextureRect = $DatePanel/MonsterPortrait
-@onready var debug_finish_date_btn: Button = $DatePanel/TopHUD/DebugFinishButton
+@onready var end_date_early_btn: Button = $DatePanel/TopHUD/EndDateEarlyButton
 
 # Phase 3: Break Panel
 @onready var break_panel: Panel = $BreakPanel
@@ -62,15 +63,17 @@ var intro_tween: Tween
 var time_remaining: float = 180.0
 var is_date_timer_running: bool = false
 var active_dialogue_balloon: Node = null
+var portrait_tween: Tween
 
 func _ready() -> void:
 	# Connect Phase Buttons
 	start_date_btn.pressed.connect(_on_start_date_pressed)
-	debug_finish_date_btn.pressed.connect(_on_date_completed)
+	if end_date_early_btn: end_date_early_btn.pressed.connect(_on_date_completed)
 	next_day_btn.pressed.connect(_on_next_day_pressed)
 	submit_decision_btn.pressed.connect(_on_submit_decision_pressed)
 	play_again_btn.pressed.connect(_on_play_again_pressed)
 	mission_briefing_btn.pressed.connect(_show_intro_phase)
+
 
 	# Connect Overlay Buttons
 	if monsterpedia_book_btn and monsterpedia_overlay:
@@ -210,6 +213,15 @@ func _show_prep_phase() -> void:
 func _on_start_date_pressed() -> void:
 	_show_date_phase()
 
+func _animate_portrait_idle() -> void:
+	if portrait_tween and portrait_tween.is_running():
+		portrait_tween.kill()
+
+	var base_y = portrait_rect.position.y
+	portrait_tween = create_tween().set_loops()
+	portrait_tween.tween_property(portrait_rect, "position:y", base_y - 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	portrait_tween.tween_property(portrait_rect, "position:y", base_y + 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
 # --- PHASE 2: SPEED DATE PHASE ---
 func _show_date_phase() -> void:
 	_show_panel(date_panel)
@@ -222,17 +234,25 @@ func _show_date_phase() -> void:
 		monster_species_label.text = "Species: " + monster.species
 		if monster.portrait_texture:
 			portrait_rect.texture = monster.portrait_texture
+		else:
+			portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")
 		_update_affection_ui(GameManager.get_affection(monster.id))
+	else:
+		portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")
+
+	_animate_portrait_idle()
 
 	time_remaining = 180.0
 	is_date_timer_running = true
 
+	var custom_balloon_scene = load("res://scenes/custom_balloon.tscn")
 	if monster and monster.dialogue_resource:
-		active_dialogue_balloon = DialogueManager.show_dialogue_balloon(monster.dialogue_resource, "start")
+		active_dialogue_balloon = DialogueManager.show_dialogue_balloon_scene(custom_balloon_scene, monster.dialogue_resource, "start")
 	else:
 		var fallback_res = load("res://assets/dialogues/sample_monster.dialogue")
 		if fallback_res:
-			active_dialogue_balloon = DialogueManager.show_dialogue_balloon(fallback_res, "start")
+			active_dialogue_balloon = DialogueManager.show_dialogue_balloon_scene(custom_balloon_scene, fallback_res, "start")
+
 
 func _update_timer_display() -> void:
 	var mins = int(time_remaining) / 60
