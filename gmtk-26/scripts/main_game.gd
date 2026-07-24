@@ -64,6 +64,27 @@ var intro_tween: Tween
 @onready var monsterpedia_clue_container: VBoxContainer = $MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Scroll/ClueContainer
 @onready var monsterpedia_close_btn: Button = $MonsterpediaOverlay/VBox/Header/CloseButton
 
+# Overlay: Dev Cheat Panel
+@onready var dev_cheat_btn: Button = $DevCheatBtn
+@onready var dev_cheat_window: Panel = $DevCheatOverlay
+@onready var dev_cheat_close_btn: Button = $DevCheatOverlay/VBox/Header/CloseButton
+@onready var dev_cheat_info_text: RichTextLabel = $DevCheatOverlay/VBox/SessionInfoText
+@onready var dev_cheat_monster_dropdown: OptionButton = $DevCheatOverlay/VBox/JumpDateContainer/MonsterDropdown
+@onready var dev_cheat_jump_date_btn: Button = $DevCheatOverlay/VBox/JumpDateContainer/JumpDateBtn
+@onready var dev_cheat_add25_btn: Button = $DevCheatOverlay/VBox/AffectionContainer/Add25Btn
+@onready var dev_cheat_sub25_btn: Button = $DevCheatOverlay/VBox/AffectionContainer/Sub25Btn
+@onready var dev_cheat_max_btn: Button = $DevCheatOverlay/VBox/AffectionContainer/MaxBtn
+@onready var dev_cheat_min_btn: Button = $DevCheatOverlay/VBox/AffectionContainer/MinBtn
+@onready var dev_cheat_day1_btn: Button = $DevCheatOverlay/VBox/DayJumpContainer/Day1Btn
+@onready var dev_cheat_day2_btn: Button = $DevCheatOverlay/VBox/DayJumpContainer/Day2Btn
+@onready var dev_cheat_day3_btn: Button = $DevCheatOverlay/VBox/DayJumpContainer/Day3Btn
+@onready var dev_cheat_day4_btn: Button = $DevCheatOverlay/VBox/DayJumpContainer/Day4Btn
+@onready var dev_cheat_accuse_btn: Button = $DevCheatOverlay/VBox/DayJumpContainer/AccusationBtn
+@onready var dev_cheat_reset_btn: Button = $DevCheatOverlay/VBox/ActionContainer/ResetSessionBtn
+@onready var dev_cheat_unlock_clues_btn: Button = $DevCheatOverlay/VBox/ActionContainer/UnlockCluesBtn
+@onready var dev_cheat_skip_timer_btn: Button = $DevCheatOverlay/VBox/ActionContainer/SkipTimerBtn
+
+
 # Speed Date Timer State
 var time_remaining: float = 180.0
 var is_date_timer_running: bool = false
@@ -114,6 +135,22 @@ func _ready() -> void:
 	monsterpedia_close_btn.pressed.connect(_toggle_monsterpedia)
 	monsterpedia_species_dropdown.item_selected.connect(_on_monsterpedia_species_selected)
 
+	# Connect Dev Cheat Signals
+	if dev_cheat_btn: dev_cheat_btn.pressed.connect(_toggle_dev_cheat_window)
+	if dev_cheat_close_btn: dev_cheat_close_btn.pressed.connect(_toggle_dev_cheat_window)
+	if dev_cheat_jump_date_btn: dev_cheat_jump_date_btn.pressed.connect(_on_cheat_jump_date)
+	if dev_cheat_add25_btn: dev_cheat_add25_btn.pressed.connect(func(): _on_cheat_add_affection(25))
+	if dev_cheat_sub25_btn: dev_cheat_sub25_btn.pressed.connect(func(): _on_cheat_add_affection(-25))
+	if dev_cheat_max_btn: dev_cheat_max_btn.pressed.connect(func(): _on_cheat_set_affection(100))
+	if dev_cheat_min_btn: dev_cheat_min_btn.pressed.connect(func(): _on_cheat_set_affection(0))
+	if dev_cheat_day1_btn: dev_cheat_day1_btn.pressed.connect(func(): _on_cheat_jump_day(1))
+	if dev_cheat_day2_btn: dev_cheat_day2_btn.pressed.connect(func(): _on_cheat_jump_day(2))
+	if dev_cheat_day3_btn: dev_cheat_day3_btn.pressed.connect(func(): _on_cheat_jump_day(3))
+	if dev_cheat_day4_btn: dev_cheat_day4_btn.pressed.connect(func(): _on_cheat_jump_day(4))
+	if dev_cheat_accuse_btn: dev_cheat_accuse_btn.pressed.connect(func(): _on_cheat_jump_day(5))
+	if dev_cheat_reset_btn: dev_cheat_reset_btn.pressed.connect(_on_cheat_reset_session)
+	if dev_cheat_unlock_clues_btn: dev_cheat_unlock_clues_btn.pressed.connect(_on_cheat_unlock_clues)
+	if dev_cheat_skip_timer_btn: dev_cheat_skip_timer_btn.pressed.connect(_on_date_completed)
 
 	# Connect GameManager Signals
 	GameManager.affection_changed.connect(_on_affection_changed)
@@ -122,6 +159,10 @@ func _ready() -> void:
 	GameManager.dev_mode_toggled.connect(func(enabled: bool):
 		if affection_container:
 			affection_container.visible = enabled
+		if dev_cheat_btn:
+			dev_cheat_btn.visible = enabled and (intro_panel and not intro_panel.visible)
+		if not enabled and dev_cheat_window:
+			dev_cheat_window.visible = false
 	)
 
 	_setup_monsterpedia_dropdown()
@@ -179,6 +220,11 @@ func _show_panel(target_panel: Panel) -> void:
 	# Hide monsterpedia book button during intro cutscene and final ending
 	if monsterpedia_book_btn:
 		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel)
+
+	# Update dev cheat button visibility based on F10 state and current panel
+	if dev_cheat_btn:
+		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel)
+
 
 
 # --- PHASE 0: INTRO CUTSCENE ---
@@ -420,3 +466,90 @@ func _update_clue_notebook_display() -> void:
 
 func _on_clue_recorded(_c_id, _clue_id, _text) -> void:
 	_update_clue_notebook_display()
+
+
+# --- OVERLAY: DEV CHEAT PANEL ---
+func _toggle_dev_cheat_window() -> void:
+	if not dev_cheat_window: return
+	dev_cheat_window.visible = not dev_cheat_window.visible
+	if dev_cheat_window.visible:
+		_setup_dev_cheat_dropdown()
+		_refresh_dev_cheat_info()
+
+func _setup_dev_cheat_dropdown() -> void:
+	if not dev_cheat_monster_dropdown: return
+	dev_cheat_monster_dropdown.clear()
+	var all_ids = ["zombie", "vampire", "slime", "angel", "sea_monster", "bug_monster"]
+	for id in all_ids:
+		var monster_res = load("res://resources/monsters/%s.tres" % id)
+		if monster_res:
+			dev_cheat_monster_dropdown.add_item("%s (%s)" % [monster_res.display_name, monster_res.species], -1)
+			dev_cheat_monster_dropdown.set_item_metadata(dev_cheat_monster_dropdown.get_item_count() - 1, id)
+
+func _refresh_dev_cheat_info() -> void:
+	if not dev_cheat_info_text: return
+	var text = "[b]CURRENT SESSION LINEUP (4 PATIENTS):[/b]\n"
+	for i in range(GameManager.selected_candidates.size()):
+		var m = GameManager.selected_candidates[i]
+		var is_imp = GameManager.is_imposter(m.id)
+		var imp_tag = " [color=#ff4444][THE COUNT / IMPOSTER][/color]" if is_imp else ""
+		text += "Day %d: [b]%s[/b] (%s)%s - Affection: %d%%\n" % [i + 1, m.display_name, m.species, imp_tag, GameManager.get_affection(m.id)]
+	
+	text += "\n[b]DESIGNATED IMPOSTER:[/b] [color=#ff4444]%s[/color]" % [GameManager.imposter_monster_id.to_upper()]
+	dev_cheat_info_text.text = text
+
+func _on_cheat_jump_date() -> void:
+	var selected_idx = dev_cheat_monster_dropdown.selected
+	if selected_idx < 0: return
+	var target_id = dev_cheat_monster_dropdown.get_item_metadata(selected_idx)
+	
+	var monster_res: MonsterData = load("res://resources/monsters/%s.tres" % target_id)
+	if not monster_res: return
+
+	var candidate_idx = -1
+	for i in range(GameManager.selected_candidates.size()):
+		if GameManager.selected_candidates[i].id == target_id:
+			candidate_idx = i
+			break
+	
+	if candidate_idx >= 0:
+		GameManager.current_date_index = candidate_idx
+	else:
+		GameManager.selected_candidates.append(monster_res)
+		GameManager.current_date_index = GameManager.selected_candidates.size() - 1
+
+	if dev_cheat_window: dev_cheat_window.visible = false
+	_show_date_phase()
+
+func _on_cheat_add_affection(amount: int) -> void:
+	var current_monster = GameManager.get_current_date_monster()
+	if current_monster:
+		GameManager.add_affection(current_monster.id, amount)
+		_refresh_dev_cheat_info()
+
+func _on_cheat_set_affection(val: int) -> void:
+	var current_monster = GameManager.get_current_date_monster()
+	if current_monster:
+		GameManager.set_affection(current_monster.id, val)
+		_refresh_dev_cheat_info()
+
+func _on_cheat_jump_day(day_num: int) -> void:
+	if dev_cheat_window: dev_cheat_window.visible = false
+	if day_num == 5:
+		_show_accusation_phase()
+	else:
+		GameManager.current_day = day_num
+		GameManager.current_date_index = day_num - 1
+		_show_prep_phase()
+
+func _on_cheat_reset_session() -> void:
+	_start_new_game_session()
+	_refresh_dev_cheat_info()
+	if dev_cheat_window: dev_cheat_window.visible = false
+
+func _on_cheat_unlock_clues() -> void:
+	var current_monster = GameManager.get_current_date_monster()
+	if current_monster:
+		GameManager.record_clue(current_monster.id, "dev_clue_1", "Dev test clue recorded for " + current_monster.display_name)
+		_refresh_dev_cheat_info()
+

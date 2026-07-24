@@ -498,3 +498,153 @@ offset_bottom = -20.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 14
 text = "📖 MONSTERPEDIA BOOK"
+
+[node name="DevCheatBtn" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -80.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 14
+text = "🛠️ DEV CHEATS"
+
+[node name="DevCheatOverlay" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -340.0
+offset_top = -250.0
+offset_right = 340.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="DevCheatOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="DevCheatOverlay/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "🛠️ DEV CHEAT PANEL (F10 ACTIVE)"
+
+[node name="CloseButton" type="Button" parent="DevCheatOverlay/VBox/Header"]
+layout_mode = 2
+text = " X "
+
+[node name="SessionInfoText" type="RichTextLabel" parent="DevCheatOverlay/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 80)
+bbcode_enabled = true
+text = "Candidate Lineup & Imposter Info..."
+
+[node name="JumpDateContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="DevCheatOverlay/VBox/JumpDateContainer"]
+layout_mode = 2
+text = "Jump to Date:"
+
+[node name="MonsterDropdown" type="OptionButton" parent="DevCheatOverlay/VBox/JumpDateContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="JumpDateBtn" type="Button" parent="DevCheatOverlay/VBox/JumpDateContainer"]
+layout_mode = 2
+text = "Launch Date"
+
+[node name="AffectionContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="DevCheatOverlay/VBox/AffectionContainer"]
+layout_mode = 2
+text = "Affection Score:"
+
+[node name="Add25Btn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+layout_mode = 2
+text = "+25"
+
+[node name="Sub25Btn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+layout_mode = 2
+text = "-25"
+
+[node name="MaxBtn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+layout_mode = 2
+text = "Set 100%"
+
+[node name="MinBtn" type="Button" parent="DevCheatOverlay/VBox/AffectionContainer"]
+layout_mode = 2
+text = "Set 0%"
+
+[node name="DayJumpContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+layout_mode = 2
+text = "Jump Day:"
+
+[node name="Day1Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+layout_mode = 2
+text = "Day 1"
+
+[node name="Day2Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+layout_mode = 2
+text = "Day 2"
+
+[node name="Day3Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+layout_mode = 2
+text = "Day 3"
+
+[node name="Day4Btn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+layout_mode = 2
+text = "Day 4"
+
+[node name="AccusationBtn" type="Button" parent="DevCheatOverlay/VBox/DayJumpContainer"]
+layout_mode = 2
+text = "Day 5 (Accuse)"
+
+[node name="ActionContainer" type="HBoxContainer" parent="DevCheatOverlay/VBox"]
+layout_mode = 2
+
+[node name="ResetSessionBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🔄 Reset New Session"
+
+[node name="UnlockCluesBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🔓 Record Clues"
+
+[node name="SkipTimerBtn" type="Button" parent="DevCheatOverlay/VBox/ActionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "⏩ Finish Date"
+
