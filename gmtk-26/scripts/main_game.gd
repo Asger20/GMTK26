@@ -174,6 +174,15 @@ func _skip_intro() -> void:
 		intro_tween.kill()
 	_show_prep_phase()
 
+var candidate_self_bios: Dictionary = {
+	"zombie": "I like quiet gloomy corners, cold tea, and listening to rain. Please don't drag me out into bright sunlight...",
+	"vampire": "A creature of refined taste. Looking for someone with a rare blood type who appreciates late-night moonlight walks under the stars.",
+	"slime": "I'm a bit shy and squishy... I promise I won't ruin your furniture, I just really like damp cozy mud spaces.",
+	"angel": "Seeking a date who appreciates 90-degree symmetry, divine geometry, and absolute order. No messy eaters!",
+	"sea_monster": "Hi! I'm Geo! I love abyssal ocean trench swimming... wait, what was I writing? Oh! I hope you like shell collecting!",
+	"bug_monster": "Hyper-energetic nocturnal weaver! Looking for someone who doesn't mind antennae twitching or late-night web calculations under flickering lightbulbs!"
+}
+
 # --- PHASE 1: PREP PHASE ---
 func _show_prep_phase() -> void:
 	_show_panel(prep_panel)
@@ -182,16 +191,21 @@ func _show_prep_phase() -> void:
 
 	var current_monster = GameManager.get_current_date_monster()
 	if current_monster:
-		candidate_card_name.text = "Candidate: " + current_monster.display_name
+		candidate_card_name.text = "Candidate Name: " + current_monster.display_name
 		candidate_card_species.text = "Species: " + current_monster.species
 
-		var txt = "[b]Rehab Profile:[/b]\n"
-		txt += "Cleared for speed dating trial. Click your [color=#e6b800]📖 MONSTERPEDIA BOOK[/color] at the bottom-left to review species lore before entering your date!"
+		var bio = candidate_self_bios.get(current_monster.id, "A candidate undergoing social rehabilitation.")
+
+		var txt = "[b][color=#2c2214]Description (Self-Written Bio):[/color][/b]\n"
+		txt += "[i][color=#3d2b18]\"" + bio + "\"[/color][/i]\n\n"
+		txt += "[color=#7a1c1c][b]NOTE TO DETECTIVE:[/b][/color]\n"
+		txt += "[color=#4a3b2c]Use your [color=#7a5800][b]📖 Monsterpedia[/b][/color] book at the bottom-left to cross-reference species traits and see if their answers match up during your date.[/color]"
 		candidate_card_desc.text = txt
 	else:
 		candidate_card_name.text = "No Candidate"
 		candidate_card_species.text = ""
 		candidate_card_desc.text = ""
+
 
 func _on_start_date_pressed() -> void:
 	_show_date_phase()

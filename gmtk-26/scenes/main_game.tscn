@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cp5fob6ikruib"]
+[gd_scene load_steps=10 format=3 uid="uid://cp5fob6ikruib"]
 
 [ext_resource type="Script" path="res://scripts/main_game.gd" id="1_maingame"]
 [ext_resource type="Script" path="res://scripts/ui/monsterpedia_overlay.gd" id="2_mp_overlay"]
@@ -56,7 +56,34 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_preppanel"]
+bg_color = Color(0.91, 0.85, 0.72, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.36, 0.12, 0.12, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_btn"]
+bg_color = Color(0.36, 0.12, 0.12, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.62, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [node name="MainGame" type="Control" unique_id=1870863331]
+
 
 
 
@@ -190,58 +217,66 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -200.0
-offset_right = 300.0
-offset_bottom = 200.0
+offset_left = -340.0
+offset_top = -240.0
+offset_right = 340.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
 
 [node name="VBox" type="VBoxContainer" parent="PrepPanel" unique_id=1518380131]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = -20.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = -25.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 12
 
 [node name="TitleLabel" type="Label" parent="PrepPanel/VBox" unique_id=998523771]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
 theme_override_font_sizes/font_size = 20
-text = "TODAY'S DATE BRIEFING"
+text = "🕵️‍♂️ BLACKWOOD ASYLUM - CANDIDATE DOSSIER"
 horizontal_alignment = 1
 
 [node name="CandidateCard" type="VBoxContainer" parent="PrepPanel/VBox" unique_id=1041977996]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="CandidateName" type="Label" parent="PrepPanel/VBox/CandidateCard" unique_id=568703298]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Candidate: Ida"
+theme_override_colors/font_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_font_sizes/font_size = 22
+text = "Candidate Name: Ida"
 
 [node name="CandidateSpecies" type="Label" parent="PrepPanel/VBox/CandidateCard" unique_id=1828923297]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_colors/font_color = Color(0.38, 0.28, 0.18, 1)
+theme_override_font_sizes/font_size = 16
 text = "Species: Zombie"
 
 [node name="CandidateDesc" type="RichTextLabel" parent="PrepPanel/VBox/CandidateCard" unique_id=1741875518]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.18, 0.14, 0.09, 1)
 bbcode_enabled = true
-text = "Use your Monsterpedia book at the bottom-left to check species facts before starting your date."
+text = "Self-written bio..."
 
 [node name="StartDateButton" type="Button" parent="PrepPanel/VBox" unique_id=649224949]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
 theme_override_font_sizes/font_size = 18
-text = "START SPEED DATE"
+theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
+text = "[ ENTER SPEED DATE ]"
+
 
 [node name="DatePanel" type="Panel" parent="." unique_id=178152170]
 visible = false
