@@ -12,21 +12,26 @@ enum Stem {
 }
 
 const MUSIC_BUS := &"Music"
+const AMBIENCE_BUS := &"Ambience"
 
 const SILENT_DB := -60.0
 const DEFAULT_LEAD_DB := 0.0
 const DEFAULT_LOW_PASS_CUTOFF_HZ := 900.0
 
 const STEMS := [
-	preload("res://assets/music/backing.wav"),
-	preload("res://assets/music/drums.wav"),
-	preload("res://assets/music/lead_sea_monster.wav"),
-	preload("res://assets/music/lead_zombie.wav"),
-	preload("res://assets/music/lead_angel.wav"),
-	preload("res://assets/music/lead_insect.wav"),
-	preload("res://assets/music/lead_vampire.wav"),
-	preload("res://assets/music/lead_slime.wav"),
+	preload("res://assets/music/backing.ogg"),
+	preload("res://assets/music/drums.ogg"),
+	preload("res://assets/music/lead_sea_monster.ogg"),
+	preload("res://assets/music/lead_zombie.ogg"),
+	preload("res://assets/music/lead_angel.ogg"),
+	preload("res://assets/music/lead_insect.ogg"),
+	preload("res://assets/music/lead_vampire.ogg"),
+	preload("res://assets/music/lead_slime.ogg"),
 ]
+
+const AMBIENCE_STREAM := preload(
+	"res://assets/sfx/noise.ogg"
+)
 
 const CHARACTER_STEMS := {
 	&"sea_monster": Stem.SEA_MONSTER,
@@ -37,7 +42,8 @@ const CHARACTER_STEMS := {
 	&"slime": Stem.SLIME,
 }
 
-var _player: AudioStreamPlayer
+var _music_player: AudioStreamPlayer
+var _ambience_player: AudioStreamPlayer
 var _synchronized_stream: AudioStreamSynchronized
 
 var _current_lead_index := -1
@@ -45,47 +51,87 @@ var _current_lead_index := -1
 var _backing_enabled := true
 var _drums_enabled := true
 var _low_pass_enabled := false
+var _ambience_enabled := true
 
 var _music_volume_linear := 0.8
+var _ambience_volume_linear := 0.3
 
 var _lead_tween: Tween
 var _backing_tween: Tween
 var _drums_tween: Tween
-var _master_tween: Tween
+var _music_tween: Tween
+var _ambience_tween: Tween
 
 var _music_bus_index := -1
+var _ambience_bus_index := -1
 var _low_pass_effect_index := -1
+
 var _low_pass_filter: AudioEffectLowPassFilter
 
 
 func _ready() -> void:
 	_setup_music_bus()
-	_create_player()
-	_create_synchronized_stream()
-	_initialize_volumes()
+	_setup_ambience_bus()
 
+	_create_music_player()
+	_create_ambience_player()
+	_create_synchronized_stream()
+	_initialize_stem_volumes()
+
+	play_ambience()
+
+
+# ------------------------------------------------------------------
+# BUS SETUP
+# ------------------------------------------------------------------
 
 func _setup_music_bus() -> void:
-	_music_bus_index = AudioServer.get_bus_index(MUSIC_BUS)
+	_music_bus_index = AudioServer.get_bus_index(
+		MUSIC_BUS
+	)
 
 	if _music_bus_index == -1:
 		AudioServer.add_bus()
 		_music_bus_index = AudioServer.bus_count - 1
+
 		AudioServer.set_bus_name(
 			_music_bus_index,
 			MUSIC_BUS
 		)
 
-	for effect_index in range(
-		AudioServer.get_bus_effect_count(_music_bus_index)
-	):
+	_find_or_create_low_pass_filter()
+
+
+func _setup_ambience_bus() -> void:
+	_ambience_bus_index = AudioServer.get_bus_index(
+		AMBIENCE_BUS
+	)
+
+	if _ambience_bus_index == -1:
+		AudioServer.add_bus()
+		_ambience_bus_index = AudioServer.bus_count - 1
+
+		AudioServer.set_bus_name(
+			_ambience_bus_index,
+			AMBIENCE_BUS
+		)
+
+
+func _find_or_create_low_pass_filter() -> void:
+	var effect_count := AudioServer.get_bus_effect_count(
+		_music_bus_index
+	)
+
+	for effect_index in range(effect_count):
 		var effect := AudioServer.get_bus_effect(
 			_music_bus_index,
 			effect_index
 		)
 
 		if effect is AudioEffectLowPassFilter:
-			_low_pass_filter = effect as AudioEffectLowPassFilter
+			_low_pass_filter = (
+				effect as AudioEffectLowPassFilter
+			)
 			_low_pass_effect_index = effect_index
 			break
 
@@ -95,7 +141,9 @@ func _setup_music_bus() -> void:
 			DEFAULT_LOW_PASS_CUTOFF_HZ
 		)
 		_low_pass_filter.resonance = 0.2
-		_low_pass_filter.db = AudioEffectFilter.FILTER_12DB
+		_low_pass_filter.db = (
+			AudioEffectFilter.FILTER_12DB
+		)
 
 		AudioServer.add_bus_effect(
 			_music_bus_index,
@@ -115,12 +163,36 @@ func _setup_music_bus() -> void:
 	)
 
 
-func _create_player() -> void:
-	_player = AudioStreamPlayer.new()
-	_player.name = "DateMusicPlayer"
-	_player.bus = MUSIC_BUS
-	_player.volume_linear = _music_volume_linear
-	add_child(_player)
+# ------------------------------------------------------------------
+# PLAYER SETUP
+# ------------------------------------------------------------------
+
+func _create_music_player() -> void:
+	_music_player = AudioStreamPlayer.new()
+	_music_player.name = "DateMusicPlayer"
+	_music_player.bus = MUSIC_BUS
+	_music_player.volume_linear = _music_volume_linear
+
+	add_child(_music_player)
+
+
+func _create_ambience_player() -> void:
+	_ambience_player = AudioStreamPlayer.new()
+	_ambience_player.name = "AmbiencePlayer"
+	_ambience_player.bus = AMBIENCE_BUS
+	_ambience_player.volume_linear = (
+		_ambience_volume_linear
+	)
+
+	var ambience_stream := (
+		AMBIENCE_STREAM.duplicate()
+		as AudioStreamOggVorbis
+	)
+
+	ambience_stream.loop = true
+	_ambience_player.stream = ambience_stream
+
+	add_child(_ambience_player)
 
 
 func _create_synchronized_stream() -> void:
@@ -128,15 +200,22 @@ func _create_synchronized_stream() -> void:
 	_synchronized_stream.stream_count = STEMS.size()
 
 	for stem_index in range(STEMS.size()):
-		_synchronized_stream.set_sync_stream(
-			stem_index,
-			STEMS[stem_index]
+		var stem_stream := (
+			STEMS[stem_index].duplicate()
+			as AudioStreamOggVorbis
 		)
 
-	_player.stream = _synchronized_stream
+		stem_stream.loop = true
+
+		_synchronized_stream.set_sync_stream(
+			stem_index,
+			stem_stream
+		)
+
+	_music_player.stream = _synchronized_stream
 
 
-func _initialize_volumes() -> void:
+func _initialize_stem_volumes() -> void:
 	_synchronized_stream.set_sync_stream_volume(
 		Stem.BACKING,
 		0.0
@@ -157,20 +236,23 @@ func _initialize_volumes() -> void:
 		)
 
 
+# ------------------------------------------------------------------
+# DATING MUSIC
+# ------------------------------------------------------------------
+
 func play_date_music(
 	character_id: StringName,
 	fade_seconds := 0.4
 ) -> void:
-	if _master_tween != null:
-		_master_tween.kill()
-		_master_tween = null
+	if _music_tween != null:
+		_music_tween.kill()
+		_music_tween = null
 
-	_player.volume_linear = _music_volume_linear
+	_music_player.volume_linear = _music_volume_linear
+	_music_player.stream_paused = false
 
-	if not _player.playing:
-		_player.play()
-
-	_player.stream_paused = false
+	if not _music_player.playing:
+		_music_player.play()
 
 	set_date_character(
 		character_id,
@@ -296,6 +378,72 @@ func clear_date_character(
 	)
 
 
+func pause_date_music() -> void:
+	_music_player.stream_paused = true
+
+
+func resume_date_music() -> void:
+	_music_player.stream_paused = false
+
+
+func stop_date_music(
+	fade_seconds := 0.6
+) -> void:
+	if not _music_player.playing:
+		return
+
+	if _music_tween != null:
+		_music_tween.kill()
+
+	if fade_seconds <= 0.0:
+		_finish_music_stop()
+		return
+
+	_music_tween = create_tween()
+	_music_tween.tween_property(
+		_music_player,
+		"volume_db",
+		SILENT_DB,
+		fade_seconds
+	)
+	_music_tween.tween_callback(
+		_finish_music_stop
+	)
+
+
+func set_music_volume(
+	linear_volume: float
+) -> void:
+	_music_volume_linear = clampf(
+		linear_volume,
+		0.0,
+		1.0
+	)
+
+	_music_player.volume_linear = _music_volume_linear
+
+
+func _finish_music_stop() -> void:
+	_music_player.stop()
+	_music_player.volume_linear = _music_volume_linear
+
+	_current_lead_index = -1
+	_music_tween = null
+
+	for stem_index in range(
+		Stem.SEA_MONSTER,
+		STEMS.size()
+	):
+		_synchronized_stream.set_sync_stream_volume(
+			stem_index,
+			SILENT_DB
+		)
+
+
+# ------------------------------------------------------------------
+# BACKING AND DRUMS
+# ------------------------------------------------------------------
+
 func set_backing_enabled(
 	enabled: bool,
 	fade_seconds := 0.25
@@ -306,8 +454,7 @@ func set_backing_enabled(
 		_backing_tween.kill()
 
 	var target_volume := (
-		0.0 if enabled
-		else SILENT_DB
+		0.0 if enabled else SILENT_DB
 	)
 
 	var current_volume := (
@@ -353,8 +500,7 @@ func set_drums_enabled(
 		_drums_tween.kill()
 
 	var target_volume := (
-		0.0 if enabled
-		else SILENT_DB
+		0.0 if enabled else SILENT_DB
 	)
 
 	var current_volume := (
@@ -390,6 +536,10 @@ func toggle_drums(
 	return _drums_enabled
 
 
+# ------------------------------------------------------------------
+# MUSIC LOW-PASS
+# ------------------------------------------------------------------
+
 func set_low_pass_enabled(
 	enabled: bool,
 	cutoff_hz := DEFAULT_LOW_PASS_CUTOFF_HZ
@@ -420,48 +570,114 @@ func toggle_low_pass(
 	return _low_pass_enabled
 
 
-func pause_date_music() -> void:
-	_player.stream_paused = true
+# ------------------------------------------------------------------
+# AMBIENCE
+# ------------------------------------------------------------------
 
-
-func resume_date_music() -> void:
-	_player.stream_paused = false
-
-
-func stop_date_music(
-	fade_seconds := 0.6
+func play_ambience(
+	fade_seconds := 0.0
 ) -> void:
-	if not _player.playing:
-		return
+	_ambience_enabled = true
 
-	if _master_tween != null:
-		_master_tween.kill()
+	if _ambience_tween != null:
+		_ambience_tween.kill()
+		_ambience_tween = null
 
 	if fade_seconds <= 0.0:
-		_finish_stop()
+		_ambience_player.volume_linear = (
+			_ambience_volume_linear
+		)
+
+		if not _ambience_player.playing:
+			_ambience_player.play()
+
 		return
 
-	_master_tween = create_tween()
-	_master_tween.tween_property(
-		_player,
+	if not _ambience_player.playing:
+		_ambience_player.volume_db = SILENT_DB
+		_ambience_player.play()
+
+	_ambience_tween = create_tween()
+	_ambience_tween.tween_property(
+		_ambience_player,
+		"volume_linear",
+		_ambience_volume_linear,
+		fade_seconds
+	)
+
+
+func stop_ambience(
+	fade_seconds := 0.5
+) -> void:
+	_ambience_enabled = false
+
+	if _ambience_tween != null:
+		_ambience_tween.kill()
+
+	if not _ambience_player.playing:
+		return
+
+	if fade_seconds <= 0.0:
+		_finish_ambience_stop()
+		return
+
+	_ambience_tween = create_tween()
+	_ambience_tween.tween_property(
+		_ambience_player,
 		"volume_db",
 		SILENT_DB,
 		fade_seconds
 	)
-	_master_tween.tween_callback(_finish_stop)
+	_ambience_tween.tween_callback(
+		_finish_ambience_stop
+	)
 
 
-func set_music_volume(
+func set_ambience_enabled(
+	enabled: bool,
+	fade_seconds := 0.5
+) -> void:
+	if enabled:
+		play_ambience(fade_seconds)
+	else:
+		stop_ambience(fade_seconds)
+
+
+func toggle_ambience(
+	fade_seconds := 0.5
+) -> bool:
+	set_ambience_enabled(
+		not _ambience_enabled,
+		fade_seconds
+	)
+
+	return _ambience_enabled
+
+
+func set_ambience_volume(
 	linear_volume: float
 ) -> void:
-	_music_volume_linear = clampf(
+	_ambience_volume_linear = clampf(
 		linear_volume,
 		0.0,
 		1.0
 	)
 
-	_player.volume_linear = _music_volume_linear
+	if _ambience_enabled:
+		_ambience_player.volume_linear = (
+			_ambience_volume_linear
+		)
 
+
+func _finish_ambience_stop() -> void:
+	_ambience_player.stop()
+	_ambience_player.volume_db = SILENT_DB
+	_ambience_tween = null
+
+
+# ------------------------------------------------------------------
+# INTERNAL
+# ------------------------------------------------------------------
 
 func _set_stem_volume(
 	volume_db: float,
@@ -471,19 +687,3 @@ func _set_stem_volume(
 		stem_index,
 		volume_db
 	)
-
-
-func _finish_stop() -> void:
-	_player.stop()
-	_player.volume_linear = _music_volume_linear
-	_current_lead_index = -1
-	_master_tween = null
-
-	for stem_index in range(
-		Stem.SEA_MONSTER,
-		STEMS.size()
-	):
-		_synchronized_stream.set_sync_stream_volume(
-			stem_index,
-			SILENT_DB
-		)
