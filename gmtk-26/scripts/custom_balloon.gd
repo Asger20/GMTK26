@@ -75,7 +75,7 @@ func apply_dialogue_line() -> void:
 	speech_container.show()
 
 	character_label.visible = not dialogue_line.character.is_empty()
-	character_label.text = "[b][color=#e6b800]" + tr(dialogue_line.character, "dialogue") + "[/color][/b]"
+	character_label.text = "[b][color=#7a1c1c]" + tr(dialogue_line.character, "dialogue") + "[/color][/b]"
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
