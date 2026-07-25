@@ -153,3 +153,4 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_choice_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_choice_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_choice_hover")
 text = "Response Option Template"
+metadata/disable_ui_click_sfx = true

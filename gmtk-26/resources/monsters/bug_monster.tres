@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
 [ext_resource type="Resource" path="res://assets/dialogues/bug_monster.dialogue" id="2_dialogue"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://assets/monsters/spider/blush.png" id="5_blush"]
 [ext_resource type="Texture2D" path="res://assets/monsters/spider/happy.png" id="6_happy"]
 [ext_resource type="Texture2D" path="res://assets/monsters/spider/scary.png" id="7_scary"]
+[ext_resource type="Resource" path="res://resources/voices/bug_monster_voice.tres" id="8_voice"]
 
 [resource]
 script = ExtResource("1_monster")
@@ -22,5 +23,6 @@ expressions = {
 "scary": ExtResource("7_scary")
 }
 dialogue_resource = ExtResource("2_dialogue")
+dialogue_voice = ExtResource("8_voice")
 species_lore = PackedStringArray("Arachneoid Sapiens / Spider Folk. Native to pitch-black subterranean caverns and high-altitude spires.", "They view the universe through structural geometry (tension, balance, devotion). Silk spinning is a sacred high art form.", "Silk production requires raw meat, dense amino acids, and heavy hydration. Excessive spinning without food causes severe abdominal cramping and physical fatigue.", "Epidermal sensory hairs (Trichobothria) continuously detect subtle air currents, humidity shifts, and micro-vibrations.", "Cold-blooded metabolism. Sudden heat sources or dry warmth dry out internal silk glands, triggering lethargy and motor sluggishness.", "The Vibration Reflex: Sudden mechanical vibrations trigger an involuntary twitch and dead-lock gaze toward the source.", "Nervous Weaving: Under stress, excitement, or attraction, fingers subconsciously spin, twist, and anchor fine silk threads onto nearby objects.", "Courtship & Cannibalism: Insulting or failing an Arachneoid during intimacy triggers an uncontrollable biological instinct to paralyze, cocoon, and preserve the mate for later consumption.")
 min_affection_for_match = 80

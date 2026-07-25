@@ -17,6 +17,8 @@ const AMBIENCE_BUS := &"Ambience"
 const SILENT_DB := -60.0
 const DEFAULT_LEAD_DB := 0.0
 const DEFAULT_LOW_PASS_CUTOFF_HZ := 900.0
+const DEFAULT_MOOD_DISTORTION_DRIVE := 0.46
+const DEFAULT_MOOD_PITCH_SCALE := 0.38
 
 const STEMS := [
 	preload("res://assets/music/backing.ogg"),
@@ -52,6 +54,7 @@ var _current_lead_index := -1
 var _backing_enabled := true
 var _drums_enabled := true
 var _low_pass_enabled := false
+var _mood_effect_enabled := false
 var _ambience_enabled := true
 
 var _music_volume_linear := 0.8
@@ -66,8 +69,12 @@ var _ambience_tween: Tween
 var _music_bus_index := -1
 var _ambience_bus_index := -1
 var _low_pass_effect_index := -1
+var _distortion_effect_index := -1
+var _pitch_shift_effect_index := -1
 
 var _low_pass_filter: AudioEffectLowPassFilter
+var _distortion_effect: AudioEffectDistortion
+var _pitch_shift_effect: AudioEffectPitchShift
 
 
 func _ready() -> void:
@@ -100,6 +107,7 @@ func _setup_music_bus() -> void:
 			MUSIC_BUS
 		)
 
+	_find_or_create_mood_effects()
 	_find_or_create_low_pass_filter()
 
 
@@ -162,6 +170,67 @@ func _find_or_create_low_pass_filter() -> void:
 		_low_pass_effect_index,
 		false
 	)
+
+
+func _find_or_create_mood_effects() -> void:
+	var effect_count := AudioServer.get_bus_effect_count(
+		_music_bus_index
+	)
+
+	for effect_index in range(effect_count):
+		var effect := AudioServer.get_bus_effect(
+			_music_bus_index,
+			effect_index
+		)
+
+		if (
+			effect is AudioEffectDistortion
+			and _distortion_effect_index == -1
+		):
+			_distortion_effect = (
+				effect as AudioEffectDistortion
+			)
+			_distortion_effect_index = effect_index
+		elif (
+			effect is AudioEffectPitchShift
+			and _pitch_shift_effect_index == -1
+		):
+			_pitch_shift_effect = (
+				effect as AudioEffectPitchShift
+			)
+			_pitch_shift_effect_index = effect_index
+
+	if _distortion_effect_index == -1:
+		_distortion_effect = AudioEffectDistortion.new()
+		_distortion_effect.drive = (
+			DEFAULT_MOOD_DISTORTION_DRIVE
+		)
+		AudioServer.add_bus_effect(
+			_music_bus_index,
+			_distortion_effect
+		)
+		_distortion_effect_index = (
+			AudioServer.get_bus_effect_count(
+				_music_bus_index
+			) - 1
+		)
+
+	if _pitch_shift_effect_index == -1:
+		_pitch_shift_effect = AudioEffectPitchShift.new()
+		_pitch_shift_effect.pitch_scale = (
+			DEFAULT_MOOD_PITCH_SCALE
+		)
+		AudioServer.add_bus_effect(
+			_music_bus_index,
+			_pitch_shift_effect
+		)
+		_pitch_shift_effect_index = (
+			AudioServer.get_bus_effect_count(
+				_music_bus_index
+			) - 1
+		)
+
+	set_mood_effect_enabled(false)
 
 
 # ------------------------------------------------------------------
@@ -587,6 +656,57 @@ func toggle_low_pass(
 	)
 
 	return _low_pass_enabled
+
+
+# ------------------------------------------------------------------
+# MUSIC MOOD EFFECT
+# ------------------------------------------------------------------
+
+func set_mood_effect_enabled(
+	enabled: bool,
+	distortion_drive := DEFAULT_MOOD_DISTORTION_DRIVE,
+	pitch_scale := DEFAULT_MOOD_PITCH_SCALE
+) -> void:
+	_mood_effect_enabled = enabled
+
+	_distortion_effect.drive = clampf(
+		distortion_drive,
+		0.0,
+		1.0
+	)
+	_pitch_shift_effect.pitch_scale = clampf(
+		pitch_scale,
+		0.01,
+		16.0
+	)
+
+	AudioServer.set_bus_effect_enabled(
+		_music_bus_index,
+		_distortion_effect_index,
+		enabled
+	)
+	AudioServer.set_bus_effect_enabled(
+		_music_bus_index,
+		_pitch_shift_effect_index,
+		enabled
+	)
+
+
+func toggle_mood_effect(
+	distortion_drive := DEFAULT_MOOD_DISTORTION_DRIVE,
+	pitch_scale := DEFAULT_MOOD_PITCH_SCALE
+) -> bool:
+	set_mood_effect_enabled(
+		not _mood_effect_enabled,
+		distortion_drive,
+		pitch_scale
+	)
+
+	return _mood_effect_enabled
+
+
+func is_mood_effect_enabled() -> bool:
+	return _mood_effect_enabled
 
 
 # ------------------------------------------------------------------

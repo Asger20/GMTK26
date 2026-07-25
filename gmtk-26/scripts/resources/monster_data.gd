@@ -7,6 +7,7 @@ extends Resource
 @export var portrait_texture: Texture2D
 @export var expressions: Dictionary = {} # e.g. "normal", "happy", "blush", "angry", "scary" -> Texture2D
 @export var dialogue_resource: Resource # DialogueResource from dialogue_manager
+@export var dialogue_voice: Resource
 @export_multiline var species_lore: Array[String] = []
 @export var min_affection_for_match: int = 80
 

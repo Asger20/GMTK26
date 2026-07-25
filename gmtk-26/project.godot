@@ -25,6 +25,7 @@ DialogueManager="*uid://c3rodes2l3gxb"
 GameManager="*res://scripts/autoload/game_manager.gd"
 MusicManager="*uid://b8ceo10vl1djq"
 SFXManager="*res://scripts/autoload/sfx_manager.gd"
+DialogueVoiceManager="*res://scripts/autoload/dialogue_voice_manager.gd"
 
 [display]
 

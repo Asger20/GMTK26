@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
 [ext_resource type="Resource" path="res://assets/dialogues/angel.dialogue" id="2_dialogue"]
+[ext_resource type="Resource" path="res://resources/voices/angel_voice.tres" id="3_voice"]
 
 [resource]
 script = ExtResource("1_monster")
@@ -9,5 +10,6 @@ id = "angel"
 display_name = "Isaac"
 species = "Biblical Angel"
 dialogue_resource = ExtResource("2_dialogue")
+dialogue_voice = ExtResource("3_voice")
 species_lore = PackedStringArray("Seraphim Geometrica / Biblical Angel. Native to high-frequency celestial spheres, pristine marble sanctuaries, and ordered sanctums.", "They view the cosmos as a flawless mathematical equation. Perfection, symmetry, and golden-ratio alignment are sacred physical laws.", "Geometric Alignment & Asymmetry Distress: Nervous system bound to environmental order. Crooked frames or clutter induce physical nausea and resonance decay.", "Harmonic Frequency Resonance: Speaks in multi-harmonic chords. Calming metallic chime tones shift to sharp dissonant hums under stress.", "Luminance & Ocular Scanning: Emits subtle aura; multi-pupillary eyes scan space calculating 90-degree vector angles in real-time.", "The Symmetry Twitch: Misaligned objects trigger an involuntary physical urge to realign them precisely to 90 degrees.", "Dissonant Chaos Revulsion: Random noise, speech interruptions, or chaotic clutter induce immediate vocal buzzing and physical rigidity.", "Golden-Ratio Tactile Tracing: Under stress or affection, fingers subconsciously trace perfect circles, triangles, and parallel lines on surfaces.")
 min_affection_for_match = 80

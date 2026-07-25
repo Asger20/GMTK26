@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
 [ext_resource type="Resource" path="res://assets/dialogues/sea_monster.dialogue" id="2_dialogue"]
+[ext_resource type="Resource" path="res://resources/voices/sea_monster_voice.tres" id="3_voice"]
 
 [resource]
 script = ExtResource("1_monster")
@@ -9,5 +10,6 @@ id = "sea_monster"
 display_name = "Sienna"
 species = "Sea Monster"
 dialogue_resource = ExtResource("2_dialogue")
+dialogue_voice = ExtResource("3_voice")
 species_lore = PackedStringArray("Pelagios Abyssalis / Abyssal Leviathan Folk. Native to submerged ocean trenches, saltwater reefs, and benthic caverns.", "They view life through tidal currents and deep-sea pressure dynamics. Free-spirited collectors of sea-shells and beach glass.", "Saltwater Hydration: Scales require constant moisture and high salinity. Exposure to dry desert sand causes rapid skin cracking, gill distress, and physical collapse.", "Lateral Line Sonar: Facial sensory pores and webbed digits detect micro-ripples and low-frequency sonar in air and water.", "Barometric Pressure Fog: Atmospheric pressure changes cause brief memory fog and spatial drifting as internal air bladders adjust.", "The Gill Flare Reflex: Emotional surges trigger involuntary flaring of neck gill-slits and lateral ear-fins.", "Freshwater Spasm Anomaly: Drinking distilled freshwater or eating unsalted food triggers throat spasms; requires high salinity.", "Needle Fang & Webbed Digit Lock: Wide jaw with razor needle fangs; webbed fingers subconsciously fiddle with shells or glass droplets when flustered.")
 min_affection_for_match = 80
