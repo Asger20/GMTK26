@@ -16,6 +16,7 @@ extends Control
 @onready var intro_skip_prompt: Label = $IntroPanel/SkipPrompt
 
 var intro_tween: Tween
+var is_first_intro_transition: bool = true
 
 # Phase 1: Prep Panel
 @onready var prep_panel: Panel = $PrepPanel
@@ -50,6 +51,13 @@ var intro_tween: Tween
 @onready var ending_title: Label = $EndingPanel/VBox/EndingTitle
 @onready var ending_desc: RichTextLabel = $EndingPanel/VBox/EndingDesc
 @onready var play_again_btn: Button = $EndingPanel/VBox/PlayAgainButton
+
+# Day Transition Panel
+@onready var transition_panel: Panel = $DayTransitionPanel
+@onready var transition_prev_day: RichTextLabel = $DayTransitionPanel/PrevDayLabel
+@onready var transition_next_day: RichTextLabel = $DayTransitionPanel/NextDayLabel
+
+var transition_tween: Tween
 
 # Overlays
 @onready var monsterpedia_overlay: Panel = $Overlays/MonsterpediaOverlay
@@ -96,12 +104,17 @@ func _ready() -> void:
 	_start_new_game_session()
 
 func _input(event: InputEvent) -> void:
+	if transition_panel and transition_panel.visible:
+		get_viewport().set_input_as_handled()
+		return
+
 	if intro_panel and intro_panel.visible:
 		if event is InputEventKey and event.pressed and not event.echo:
 			if event.keycode != KEY_F10:
 				_skip_intro()
 
 func _start_new_game_session() -> void:
+	is_first_intro_transition = true
 	var m_zombie = load("res://resources/monsters/zombie.tres")
 	var m_vampire = load("res://resources/monsters/vampire.tres")
 	var m_slime = load("res://resources/monsters/slime.tres")
@@ -127,6 +140,8 @@ func _show_panel(target_panel: Panel) -> void:
 	break_panel.visible = (target_panel == break_panel)
 	accusation_panel.visible = (target_panel == accusation_panel)
 	ending_panel.visible = (target_panel == ending_panel)
+	if transition_panel:
+		transition_panel.visible = (target_panel == transition_panel)
 
 	if target_panel == date_panel:
 		var current_monster := GameManager.get_current_date_monster()
@@ -139,7 +154,7 @@ func _show_panel(target_panel: Panel) -> void:
 	else:
 		MusicManager.play_between_dates()
 
-	header_bar.visible = (target_panel != intro_panel and target_panel != date_panel)
+	header_bar.visible = (target_panel != intro_panel and target_panel != date_panel and target_panel != transition_panel)
 	
 	if background_texture:
 		if target_panel == date_panel:
@@ -152,13 +167,13 @@ func _show_panel(target_panel: Panel) -> void:
 			background_texture.visible = false
 
 	if monsterpedia_book_btn:
-		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel)
+		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)
 
 	if end_date_early_btn:
 		end_date_early_btn.visible = (target_panel == date_panel)
 	
 	if dev_cheat_btn:
-		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel)
+		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)
 
 
 # --- PHASE 0: INTRO CUTSCENE ---
@@ -188,7 +203,11 @@ func _show_intro_phase() -> void:
 func _skip_intro() -> void:
 	if intro_tween and intro_tween.is_running():
 		intro_tween.kill()
-	_show_prep_phase()
+	if is_first_intro_transition:
+		is_first_intro_transition = false
+		_show_day_transition_phase(0, GameManager.current_day, func(): _show_prep_phase())
+	else:
+		_show_prep_phase()
 
 var candidate_self_bios: Dictionary = {
 	"zombie": "Hi, I'm Morty. I process things a bit slow, so dates make me pretty anxious. I like rainy afternoons, cold iced tea, listening to lo-fi beats, and wearing oversized hoodies. I promise I won't bite, I'm just trying my best not to trip over my own feet. Please be patient with me, and please don't take me out into harsh bright sunlight.",
@@ -199,10 +218,22 @@ var candidate_self_bios: Dictionary = {
 	"bug_monster": "Hi! I'm Vesper. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
 }
 
+func _get_days_left_text(day_num: int) -> String:
+	var left = 6 - day_num
+	var num_str = "1 Day" if left == 1 else ("%d Days" % left)
+	return "[center][font_size=88][b]%s[/b][/font_size]\n[font_size=24][color=#a0a0a0]till release[/color][/font_size][/center]" % num_str
+
+func _get_hud_day_text(day_num: int) -> String:
+	var left = 6 - day_num
+	if left == 1:
+		return "1 DAY TILL RELEASE"
+	else:
+		return "%d DAYS TILL RELEASE" % left
+
 # --- PHASE 1: PREP PHASE ---
 func _show_prep_phase() -> void:
 	_show_panel(prep_panel)
-	day_label.text = "DAY %d OF 5" % GameManager.current_day
+	day_label.text = _get_hud_day_text(GameManager.current_day)
 	phase_label.text = "PHASE: PREPARATION"
 
 	var current_monster = GameManager.get_current_date_monster()
@@ -238,7 +269,7 @@ func _animate_portrait_idle() -> void:
 # --- PHASE 2: DATE PHASE ---
 func _show_date_phase() -> void:
 	_show_panel(date_panel)
-	day_label.text = "DAY %d OF 5" % GameManager.current_day
+	day_label.text = _get_hud_day_text(GameManager.current_day)
 	phase_label.text = "PHASE: DATE"
 
 	var monster = GameManager.get_current_date_monster()
@@ -281,7 +312,7 @@ func _on_date_completed() -> void:
 # --- PHASE 3: BREAK PHASE ---
 func _show_break_phase() -> void:
 	_show_panel(break_panel)
-	day_label.text = "DAY %d OF 5" % GameManager.current_day
+	day_label.text = _get_hud_day_text(GameManager.current_day)
 	phase_label.text = "PHASE: END OF DAY BREAK"
 
 	var monster = GameManager.get_current_date_monster()
@@ -299,16 +330,112 @@ func _show_break_phase() -> void:
 	break_summary.text = summary
 
 func _on_next_day_pressed() -> void:
+	var prev_day = GameManager.current_day
 	GameManager.advance_to_next_day()
-	if GameManager.current_day > 4:
-		_show_accusation_phase()
+	var next_day = GameManager.current_day
+
+	if next_day > 4:
+		_show_day_transition_phase(prev_day, 5, func(): _show_accusation_phase())
 	else:
-		_show_prep_phase()
+		_show_day_transition_phase(prev_day, next_day, func(): _show_prep_phase())
+
+func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Callable) -> void:
+	if transition_tween and transition_tween.is_running():
+		transition_tween.kill()
+
+	transition_panel.visible = true
+	transition_panel.modulate.a = 0.0
+
+	header_bar.visible = false
+	monsterpedia_book_btn.visible = false
+	if dev_cheat_btn: dev_cheat_btn.visible = false
+
+	transition_tween = create_tween()
+
+	if prev_day == 0 or prev_day == next_day:
+		# --- Initial Start Day Transition (e.g. Day 1 at game start) ---
+		transition_prev_day.text = _get_days_left_text(next_day)
+		transition_prev_day.modulate.a = 1.0
+		transition_prev_day.position = Vector2(0, 150)
+		transition_next_day.modulate.a = 0.0
+
+		# 1. Subtle, slow cubic fade in OVER top of the Intro Case File UI (2.4s)
+		transition_tween.tween_property(transition_panel, "modulate:a", 1.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		
+		# Hide intro panel after screen is fully dark
+		transition_tween.tween_callback(func():
+			intro_panel.visible = false
+		)
+
+		# 2. Dramatic hold on 5 Days Remaining in center of darkness (2.5s)
+		transition_tween.tween_interval(2.5)
+
+		# 3. Load Prep Scene behind dark screen BEFORE fading out
+		transition_tween.tween_callback(func():
+			if on_complete.is_valid():
+				on_complete.call()
+			transition_panel.visible = true
+		)
+
+		# 4. Subtle, slow cubic fade out revealing Prep Scene UI (2.4s)
+		transition_tween.tween_property(transition_panel, "modulate:a", 0.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+		# 5. Hide transition panel after fade out completes
+		transition_tween.tween_callback(func():
+			transition_panel.visible = false
+		)
+	else:
+		# --- Mid-Game Day Transition (e.g. Day 1 -> Day 2) ---
+		transition_prev_day.text = _get_days_left_text(prev_day)
+		transition_prev_day.modulate.a = 1.0
+		transition_prev_day.position = Vector2(0, 150)
+
+		transition_next_day.text = _get_days_left_text(next_day)
+		transition_next_day.modulate.a = 0.0
+		transition_next_day.position = Vector2(0, -240)
+
+		# 1. Subtle, slow cubic fade in OVER top of the current Break Scene UI (2.4s)
+		transition_tween.tween_property(transition_panel, "modulate:a", 1.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		
+		# Hide previous break panel after screen is fully dark
+		transition_tween.tween_callback(func():
+			break_panel.visible = false
+		)
+
+		# 2. Hold on Previous Day in center (1.5s)
+		transition_tween.tween_interval(1.5)
+
+		# 3. Slow, heavy scroll animation (3.2s)
+		# Prev day slowly scrolls DOWN offscreen and fades out
+		transition_tween.parallel().tween_property(transition_prev_day, "position:y", 540.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		transition_tween.parallel().tween_property(transition_prev_day, "modulate:a", 0.0, 2.2)
+
+		# Next day slowly drops DOWN into dead-center stage and fades in
+		transition_tween.parallel().tween_property(transition_next_day, "position:y", 150.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		transition_tween.parallel().tween_property(transition_next_day, "modulate:a", 1.0, 2.5)
+
+		# 4. Long dramatic hold on New Day in center (2.5s)
+		transition_tween.tween_interval(2.5)
+
+		# 5. Load the new target scene UI behind the dark screen BEFORE fading out
+		transition_tween.tween_callback(func():
+			if on_complete.is_valid():
+				on_complete.call()
+			transition_panel.visible = true
+		)
+
+		# 6. Subtle, slow cubic fade out revealing the newly loaded scene UI (2.4s)
+		transition_tween.tween_property(transition_panel, "modulate:a", 0.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+		# 7. Hide transition panel after fade out completes
+		transition_tween.tween_callback(func():
+			transition_panel.visible = false
+		)
 
 # --- PHASE 4: ACCUSATION & MATCHING PHASE ---
 func _show_accusation_phase() -> void:
 	_show_panel(accusation_panel)
-	day_label.text = "DAY 5 OF 5"
+	day_label.text = "1 DAY TILL RELEASE (ACCUSATION)"
 	phase_label.text = "PHASE: ACCUSATION & MATCHING"
 
 	if monsterpedia_overlay:

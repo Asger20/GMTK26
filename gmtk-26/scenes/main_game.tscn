@@ -34,6 +34,14 @@ corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_clear"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_transition_bg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.36, 0.08, 0.08, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_unselected"]
 content_margin_left = 14.0
 content_margin_top = 6.0
@@ -530,6 +538,49 @@ theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
 text = "[ PLAY AGAIN / NEW RUN ]"
+
+[node name="DayTransitionPanel" type="Panel" parent="." unique_id=1235783422]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_transition_bg")
+
+[node name="PrevDayLabel" type="RichTextLabel" parent="DayTransitionPanel" unique_id=1122334457]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -120.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[center][font_size=88][b]5 Days[/b][/font_size]
+[font_size=24][color=#a0a0a0]till release[/color][/font_size][/center]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NextDayLabel" type="RichTextLabel" parent="DayTransitionPanel" unique_id=1122334458]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -120.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[center][font_size=88][b]4 Days[/b][/font_size]
+[font_size=24][color=#a0a0a0]till release[/color][/font_size][/center]"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Overlays" type="CanvasLayer" parent="." unique_id=795653198]
 layer = 100
