@@ -276,7 +276,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
 theme_override_font_sizes/font_size = 20
-text = "🕵️‍♂️ BLACKWOOD ASYLUM - CANDIDATE DOSSIER"
+text = "BLACKWOOD ASYLUM - CANDIDATE DOSSIER"
 horizontal_alignment = 1
 
 [node name="CandidateCard" type="VBoxContainer" parent="PrepPanel/VBox" unique_id=1041977996]
@@ -400,7 +400,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
 theme_override_font_sizes/font_size = 20
-text = "☕ BLACKWOOD ASYLUM - END OF DAY REFLECTION"
+text = "BLACKWOOD ASYLUM - END OF DAY REFLECTION"
 horizontal_alignment = 1
 
 [node name="SummaryText" type="RichTextLabel" parent="BreakPanel/VBox" unique_id=1366054512]
@@ -540,6 +540,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
 text = "[ PLAY AGAIN / NEW RUN ]"
 
 [node name="DayTransitionPanel" type="Panel" parent="." unique_id=1235783422]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -548,37 +549,55 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_transition_bg")
 
-[node name="PrevDayLabel" type="RichTextLabel" parent="DayTransitionPanel" unique_id=1122334457]
+[node name="PrevDayBox" type="VBoxContainer" parent="DayTransitionPanel" unique_id=1122334457]
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -120.0
-offset_bottom = 120.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-bbcode_enabled = true
-text = "[center][font_size=88][b]5 Days[/b][/font_size]
-[font_size=24][color=#a0a0a0]till release[/color][/font_size][/center]"
+alignment = 1
+
+[node name="NumLabel" type="Label" parent="DayTransitionPanel/PrevDayBox" unique_id=1122334459]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.88, 0.88, 1)
+theme_override_font_sizes/font_size = 88
+text = "5 Days"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NextDayLabel" type="RichTextLabel" parent="DayTransitionPanel" unique_id=1122334458]
+[node name="SubLabel" type="Label" parent="DayTransitionPanel/PrevDayBox" unique_id=1122334460]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 26
+text = "till release"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NextDayBox" type="VBoxContainer" parent="DayTransitionPanel" unique_id=1122334458]
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -120.0
-offset_bottom = 120.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-bbcode_enabled = true
-text = "[center][font_size=88][b]4 Days[/b][/font_size]
-[font_size=24][color=#a0a0a0]till release[/color][/font_size][/center]"
+alignment = 1
+
+[node name="NumLabel" type="Label" parent="DayTransitionPanel/NextDayBox" unique_id=1122334461]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.88, 0.88, 1)
+theme_override_font_sizes/font_size = 88
+text = "4 Days"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubLabel" type="Label" parent="DayTransitionPanel/NextDayBox" unique_id=1122334462]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 26
+text = "till release"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -622,7 +641,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
 theme_override_font_sizes/font_size = 20
-text = "📖 BLACKWOOD ASYLUM - MONSTERPEDIA & EVIDENCE"
+text = "BLACKWOOD ASYLUM - MONSTERPEDIA & EVIDENCE"
 
 [node name="CloseButton" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/Header" unique_id=43355067]
 custom_minimum_size = Vector2(35, 0)

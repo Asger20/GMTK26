@@ -54,8 +54,10 @@ var is_first_intro_transition: bool = true
 
 # Day Transition Panel
 @onready var transition_panel: Panel = $DayTransitionPanel
-@onready var transition_prev_day: RichTextLabel = $DayTransitionPanel/PrevDayLabel
-@onready var transition_next_day: RichTextLabel = $DayTransitionPanel/NextDayLabel
+@onready var transition_prev_box: VBoxContainer = $DayTransitionPanel/PrevDayBox
+@onready var transition_prev_num: Label = $DayTransitionPanel/PrevDayBox/NumLabel
+@onready var transition_next_box: VBoxContainer = $DayTransitionPanel/NextDayBox
+@onready var transition_next_num: Label = $DayTransitionPanel/NextDayBox/NumLabel
 
 var transition_tween: Tween
 
@@ -218,10 +220,12 @@ var candidate_self_bios: Dictionary = {
 	"bug_monster": "Hi! I'm Vesper. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
 }
 
-func _get_days_left_text(day_num: int) -> String:
+func _get_day_num_text(day_num: int) -> String:
 	var left = 6 - day_num
-	var num_str = "1 Day" if left == 1 else ("%d Days" % left)
-	return "[center][font_size=88][b]%s[/b][/font_size]\n[font_size=24][color=#a0a0a0]till release[/color][/font_size][/center]" % num_str
+	if left == 1:
+		return "1 Day"
+	else:
+		return "%d Days" % left
 
 func _get_hud_day_text(day_num: int) -> String:
 	var left = 6 - day_num
@@ -354,10 +358,10 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 
 	if prev_day == 0 or prev_day == next_day:
 		# --- Initial Start Day Transition (e.g. Day 1 at game start) ---
-		transition_prev_day.text = _get_days_left_text(next_day)
-		transition_prev_day.modulate.a = 1.0
-		transition_prev_day.position = Vector2(0, 150)
-		transition_next_day.modulate.a = 0.0
+		transition_prev_num.text = _get_day_num_text(next_day)
+		transition_prev_box.modulate.a = 1.0
+		transition_prev_box.position = Vector2(0, 0)
+		transition_next_box.modulate.a = 0.0
 
 		# 1. Subtle, slow cubic fade in OVER top of the Intro Case File UI (2.4s)
 		transition_tween.tween_property(transition_panel, "modulate:a", 1.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -386,13 +390,13 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 		)
 	else:
 		# --- Mid-Game Day Transition (e.g. Day 1 -> Day 2) ---
-		transition_prev_day.text = _get_days_left_text(prev_day)
-		transition_prev_day.modulate.a = 1.0
-		transition_prev_day.position = Vector2(0, 150)
+		transition_prev_num.text = _get_day_num_text(prev_day)
+		transition_prev_box.modulate.a = 1.0
+		transition_prev_box.position = Vector2(0, 0)
 
-		transition_next_day.text = _get_days_left_text(next_day)
-		transition_next_day.modulate.a = 0.0
-		transition_next_day.position = Vector2(0, -240)
+		transition_next_num.text = _get_day_num_text(next_day)
+		transition_next_box.modulate.a = 0.0
+		transition_next_box.position = Vector2(0, -540)
 
 		# 1. Subtle, slow cubic fade in OVER top of the current Break Scene UI (2.4s)
 		transition_tween.tween_property(transition_panel, "modulate:a", 1.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -406,13 +410,13 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 		transition_tween.tween_interval(1.5)
 
 		# 3. Slow, heavy scroll animation (3.2s)
-		# Prev day slowly scrolls DOWN offscreen and fades out
-		transition_tween.parallel().tween_property(transition_prev_day, "position:y", 540.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-		transition_tween.parallel().tween_property(transition_prev_day, "modulate:a", 0.0, 2.2)
+		# Prev box slowly scrolls DOWN offscreen and fades out
+		transition_tween.parallel().tween_property(transition_prev_box, "position:y", 540.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		transition_tween.parallel().tween_property(transition_prev_box, "modulate:a", 0.0, 2.2)
 
-		# Next day slowly drops DOWN into dead-center stage and fades in
-		transition_tween.parallel().tween_property(transition_next_day, "position:y", 150.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-		transition_tween.parallel().tween_property(transition_next_day, "modulate:a", 1.0, 2.5)
+		# Next box slowly drops DOWN into dead-center stage and fades in
+		transition_tween.parallel().tween_property(transition_next_box, "position:y", 0.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		transition_tween.parallel().tween_property(transition_next_box, "modulate:a", 1.0, 2.5)
 
 		# 4. Long dramatic hold on New Day in center (2.5s)
 		transition_tween.tween_interval(2.5)

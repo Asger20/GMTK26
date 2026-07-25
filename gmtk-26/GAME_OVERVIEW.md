@@ -25,7 +25,7 @@ To catch the killer before release day without causing a public panic, the polic
 
 * **Asylum Dossier Folder**: Styled as a physical Blackwood Asylum rehabilitation case folder with warm parchment paper (`#e4d9b7`) and asylum crimson borders (`#5c1f1f`).
 * **Candidate Dossier Layout**:
-  * **Header**: `🕵️‍♂️ BLACKWOOD ASYLUM - CANDIDATE DOSSIER`
+  * **Header**: `BLACKWOOD ASYLUM - CANDIDATE DOSSIER`
   * **`Candidate Name:`**: Candidate's display name.
   * **`Species:`**: Candidate's species.
   * **`Description (Self-Written Bio):`**: Personal self-description written by the candidate in quotes and italics.
