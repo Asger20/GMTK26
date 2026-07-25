@@ -51,7 +51,7 @@ content_margin_right = 10.0
 content_margin_bottom = 5.0
 
 [node name="CustomBalloon" type="CanvasLayer"]
-layer = 5
+layer = 0
 script = ExtResource("1_balloon")
 
 [node name="Balloon" type="Control" parent="."]

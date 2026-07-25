@@ -1,14 +1,31 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
 [ext_resource type="Resource" path="res://assets/dialogues/vampire.dialogue" id="2_dialogue"]
 [ext_resource type="Resource" path="res://resources/voices/vampire_voice.tres" id="3_voice"]
+[ext_resource type="Texture2D" path="res://assets/monsters/vampire/normal.png" id="4_normal"]
+[ext_resource type="Texture2D" path="res://assets/monsters/vampire/blush.png" id="5_blush"]
+[ext_resource type="Texture2D" path="res://assets/monsters/vampire/happy.png" id="6_happy"]
+[ext_resource type="Texture2D" path="res://assets/monsters/vampire/scary.png" id="7_scary"]
 
 [resource]
 script = ExtResource("1_monster")
 id = "vampire"
 display_name = "Percival"
 species = "Vampire"
+portrait_texture = ExtResource("4_normal")
+portrait_y_offset = -100.0
+expression_y_offsets = {
+"angry": 60.0,
+"scary": 60.0
+}
+expressions = {
+"angry": ExtResource("7_scary"),
+"blush": ExtResource("5_blush"),
+"happy": ExtResource("6_happy"),
+"normal": ExtResource("4_normal"),
+"scary": ExtResource("7_scary")
+}
 dialogue_resource = ExtResource("2_dialogue")
 dialogue_voice = ExtResource("3_voice")
 species_lore = PackedStringArray("Sanguine Nocturnal / Vampirus Aristocratis. Native to ancestral gothic manors, subterranean mausoleums, and pitch-black keeps.", "They view existence through blood nobility and sensory perfection. Blood is regarded as a delicate vintage recording memory and vital essence.", "Hematophagous diet: consumes blood exclusively. Extremely snobbish about vintage, plasma balance, and warmth. Sub-normal body temperature (15 to 18°C).", "Actinic Photophobia: Direct UV light triggers skin necrosis and disorientation. Even 6 AM dawn glow causes involuntary squinting and weakness.", "Sub-Epidermal Pulse Perception: Tracks surrounding heartbeats within a 5-meter radius, subconsciously detecting suitor nervousness.", "The Mirror Anomaly: Zero reflection in silver-backed mirrors; displays an involuntary head tilt or micro-hesitation near silver glass.", "Hematotrophic Pupil Lock: Scent of fresh blood or intimacy causes immediate pupil dilation and involuntary fang extension.", "Strict Nocturnal Circadian Lock: Biological sleep cycle hard-coded sunrise to dusk. Enjoying morning sunrises is physically impossible.")

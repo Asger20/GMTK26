@@ -296,14 +296,38 @@ func _on_expression_changed(expression_name: String) -> void:
 		if tex:
 			portrait_rect.texture = tex
 
+		var default_top = -190.0
+		var default_bottom = 350.0
+		var y_off = monster.get_expression_y_offset(expression_name)
+		portrait_rect.offset_top = default_top + y_off
+		portrait_rect.offset_bottom = default_bottom + y_off
+
+		# Only the Vampire takes top layer priority in front of UI elements on angry/scary expressions
+		if monster.id == "vampire" and (expression_name == "angry" or expression_name == "scary"):
+			portrait_rect.z_index = 100
+			portrait_rect.z_as_relative = false
+		else:
+			portrait_rect.z_index = 0
+			portrait_rect.z_as_relative = true
+
+		_animate_portrait_idle()
+
 # --- PHASE 2: DATE PHASE ---
 func _show_date_phase() -> void:
 	_show_panel(date_panel)
 	day_label.text = _get_hud_day_text(GameManager.current_day)
 	phase_label.text = "PHASE: DATE"
 
+	var default_top = -190.0
+	var default_bottom = 350.0
 	var monster = GameManager.get_current_date_monster()
 	if monster:
+		var y_off = monster.get_expression_y_offset("normal")
+		portrait_rect.offset_top = default_top + y_off
+		portrait_rect.offset_bottom = default_bottom + y_off
+		portrait_rect.z_index = 0
+		portrait_rect.z_as_relative = true
+
 		var tex = monster.get_expression_texture("normal")
 		if tex:
 			portrait_rect.texture = tex
@@ -313,6 +337,10 @@ func _show_date_phase() -> void:
 			portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")
 		_update_affection_ui(GameManager.get_affection(monster.id))
 	else:
+		portrait_rect.offset_top = default_top
+		portrait_rect.offset_bottom = default_bottom
+		portrait_rect.z_index = 0
+		portrait_rect.z_as_relative = true
 		portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")
 
 	_animate_portrait_idle()
