@@ -1,99 +1,132 @@
 ~ start
 do GameManager.set_expression("normal")
-Lily: *Click-clack, antennae twitch* ...bzzzt! Hi! Hello!
-Lily: Sorry if my extra eyes are blinking asynchronously! I haven't slept in 72 hours... coffee doesn't work when you have compound eyes!
+Lily: *Fingers twitching rapidly, fine silk threads subconsciously anchoring to your chair leg* ...Oh! Hi! Hello!
+Lily: Sorry if my extra eyes are blinking out of order. I... um, I haven't slept in three days, and the room's air draft keeps buzzing across my sensory hairs...
 
-- "You look amazingly energetic despite the insomnia."
+- "You look stunningly sharp despite three days of no sleep."
 	do GameManager.add_affection("bug_monster", 15)
+	do GameManager.set_expression("blush")
+	Lily: *Cheeks turn soft pink, mandibles clicking softly* Really?! You... you don't mind the twitching? Most people find my micro-movements unsettling...
+	=> main_hub
+- "Are you anchoring silk to my chair leg right now?"
+	do GameManager.add_affection("bug_monster", 5)
 	do GameManager.set_expression("happy")
-	Lily: *Antennae perk up* Really?! Buzzing with electricity! My web-weaving calculations are at 99.8% speed!
-	=> main_menu
-- "Whoa, stop twitching so much, it's making me nervous."
+	Lily: *Gasp!* Oh no, nervous weaving! I do that when I... well, when I'm flustered by a date!
+	=> main_hub
+- "You're twitching a lot. Is that an asylum nervous breakdown?"
 	do GameManager.add_affection("bug_monster", -15)
 	do GameManager.set_expression("angry")
-	Lily: *Mandibles click defensively* I can't help the twitching! It's motor-reflex vibration sensing!
-	=> main_menu
-- "Do you spin webs everywhere?"
-	do GameManager.set_expression("normal")
-	Lily: Only in structural corners that lack proper tension support!
-	=> main_menu
-
-~ main_menu
-Lily: Quick, quick! What shall we talk about before my next adrenaline wave hits?
-
-- "What keeps you awake at night?"
-	=> insomnia_chain
-- "Tell me about your obsession with light bulbs."
-	=> light_chain
-- "How do you handle sleep and rest?"
-	=> sleep_interrogation
-- "Tell me about your web weaving instincts."
-	=> web_lore_check
-- "I think that's enough for now."
-	=> end_date
-
-~ insomnia_chain
-do GameManager.set_expression("normal")
-Lily: Nights are for weaving! I calculate optimal silk tension vectors under the moonlight!
-Lily: While everyone else sleeps, I construct multi-tier geometric web hamlets.
-
-- "That sounds incredibly skilled and detailed."
-	do GameManager.add_affection("bug_monster", 10)
-	do GameManager.set_expression("blush")
-	Lily: *Happy chittering* Thank you! Engineering silk takes precise mathematical geometry!
-	=> main_menu
-- "Sounds exhausting."
+	Lily: *Mandibles snap shut defensively* It's motor-reflex vibration sensing! Not a breakdown! You don't have to be so rude about my biology.
+	=> main_hub
+- "Let me ask you a few direct screening questions."
 	do GameManager.add_affection("bug_monster", -10)
-	do GameManager.set_expression("angry")
-	Lily: Exhaustion is a state of mind! Silk geometry waits for no bug!
-	=> main_menu
+	do GameManager.set_expression("normal")
+	Lily: *Posture stiffens, antennae drooping* Screening questions? I thought this was a date, not a precinct interview...
+	=> main_hub
 
-~ light_chain
+~ main_hub
+do GameManager.set_expression("normal")
+Lily: *Fingers twisting a fine strand of silk* So... what did you want to talk about next? I'm all ears. And eyes. Mostly eyes.
+
+- "Tell me about your web weaving and silk geometry."
+	=> web_topic
+- "How do you manage sleep and hyper-vigilance?"
+	=> sleep_topic
+- "Let me ask about your diet and physical needs."
+	=> diet_topic
+- "What happens when you get angry on a date?"
+	=> courtship_topic
+
+~ web_topic
 do GameManager.set_expression("happy")
-Lily: LAMP! ...Sorry. Whenever a glowing light bulb flickers, my photoreceptors lock on!
-You: Do you flutter toward light sources?
-Lily: It's an overwhelming instinctual urge! Bright glowing bulbs are hypnotic!
-do GameManager.add_affection("bug_monster", 5)
-=> main_menu
+Lily: *Eyes wide, hands gesturing in mid-air* Web spinning isn't just throwing thread around! It's pure structural geometry! Every angle has to balance tension vectors against gravity.
 
-~ sleep_interrogation
+- "It sounds like a breathtaking high art form."
+	do GameManager.add_affection("bug_monster", 15)
+	do GameManager.set_expression("blush")
+	Lily: *Chittering happily, spinning a tiny silken geometric star between her palms* Yes! Exactly! You actually understand! Most people just call it sticky cobwebs...
+	=> web_followup
+- "Doesn't spinning all that silk drain your energy?"
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("normal")
+	Lily: Exhausting isn't even the word! It draws directly from internal spinnerets. If I spin too much without proper nutrition, my abdomen cramps up horribly.
+	=> web_followup
+- "Isn't it just a primitive insect reflex?"
+	do GameManager.add_affection("bug_monster", -15)
+	do GameManager.set_expression("angry")
+	Lily: Primitive?! It's high mathematical architecture! You have zero appreciation for sacred craft.
+	=> main_hub
+
+~ web_followup
 if GameManager.get_affection("bug_monster") < 35:
 	do GameManager.set_expression("scary")
-	Lily: My antennae sense negative vibrations from you. No questions!
-	=> main_menu
+	Lily: *Mandibles click defensively* I'm sensing cold, suspicious vibrations from you. I don't feel like sharing more about my silk.
+	=> main_hub
 else:
-	You: How much sleep do you normally get?
+	You: What happens when room temperature or environmental warmth changes?
 	if GameManager.is_imposter("bug_monster"):
-		do GameManager.set_expression("scary")
-		Lily: Oh, I get a perfect 10 hours of heavy, deep, uninterrupted sleep every single night!
-		do GameManager.record_clue("bug_monster", "sleep_slip", "Claims to sleep 10 heavy, uninterrupted hours every night.")
-		Lily: I sleep like a log from 9 PM to 7 AM!
+		do GameManager.set_expression("happy")
+		Lily: Oh, heat is fantastic! I love sitting right against a roasting hot radiator to warm my silk glands up!
+		do GameManager.record_clue("bug_monster", "heat_slip", "Claims sitting next to roasting hot radiators recharges her silk glands instead of drying them out.")
+		Lily: Dry warmth makes my silk glands feel totally recharged and toasted!
 	else:
 		do GameManager.set_expression("normal")
-		Lily: Sleep?! Spiders stay awake for days at a time! We only take micro-naps lasting 40 seconds in dark nooks!
-		Lily: Deep uninterrupted sleep is impossible for our hyper-vigilant nervous systems!
-	=> main_menu
+		Lily: Ugh, sudden heat is awful! Dry warmth dries out our internal silk glands instantly.
+		Lily: It makes us sluggish, lethargic, and completely unable to spin clean thread. Cool, shaded air is far better.
+	=> main_hub
 
-~ web_lore_check
+~ sleep_topic
 if GameManager.get_affection("bug_monster") < 35:
 	do GameManager.set_expression("scary")
-	Lily: Mandibles locked. I'm not talking right now.
-	=> main_menu
+	Lily: *Posture locks up, antennae flat* You've been asking very cold, clinical questions. I'm not discussing my sleeping habits with you.
+	=> main_hub
 else:
-	You: What happens if your web silk gets wet or exposed to rain?
+	You: You mentioned insomnia earlier. How much sleep do you actually get?
 	if GameManager.is_imposter("bug_monster"):
-		do GameManager.set_expression("scary")
-		Lily: Oh, silk loves rain! Water makes bug webs completely dry, stiff, and rigid!
-		do GameManager.record_clue("bug_monster", "silk_slip", "Claims rain makes bug silk completely dry and rigid.")
-		Lily: Water dries silk right up!
+		do GameManager.set_expression("happy")
+		Lily: Oh, I get a perfect 10 hours of deep, heavy, uninterrupted sleep every single night!
+		do GameManager.record_clue("bug_monster", "sleep_slip", "Claims to sleep 10 heavy, uninterrupted hours every night.")
+		Lily: I sleep like a stone from 9 PM to 7 AM! Never wake up once!
 	else:
-		do GameManager.set_expression("angry")
-		Lily: Moisture destroys silk tension! Droplets add weight and stretch out the tensile thread, requiring immediate re-spinning.
-		Lily: Rain means starting the entire geometric web calculation from scratch!
-	=> main_menu
+		do GameManager.set_expression("normal")
+		Lily: Sleep? Uninterrupted sleep is impossible for an Arachneoid! Our sensory hairs pick up every draft and micro-vibration.
+		Lily: We only take forty-second micro-naps in dark corners. Our hyper-vigilant nervous system never truly shuts off.
+	=> main_hub
 
-~ end_date
-do GameManager.set_expression("happy")
-Lily: *Bzzzt!* Date timer expired! Time to go check my web tension! Bye-bye!
-do GameManager.complete_current_date()
-=> END
+~ diet_topic
+if GameManager.get_affection("bug_monster") < 35:
+	do GameManager.set_expression("scary")
+	Lily: *Eyes narrow, mandibles twitching* Why are you probing into my diet? Are you evaluating me like a lab specimen?
+	=> main_hub
+else:
+	You: What kind of fuel does an Arachneoid weaver need to stay healthy?
+	if GameManager.is_imposter("bug_monster"):
+		do GameManager.set_expression("happy")
+		Lily: Oh, spinning silk is totally effortless! I just eat sweet sugary cakes and tea. No special diet needed at all!
+		do GameManager.record_clue("bug_monster", "nutrition_slip", "Claims spinning silk is completely effortless and requires no protein or water.")
+		Lily: Silk just flows out naturally without taking any physical toll on my body!
+	else:
+		do GameManager.set_expression("normal")
+		Lily: Protein. Dense, raw amino acids and gallons of fresh water!
+		Lily: Silk synthesis pulls heavy protein directly from our internal organs. If we don't consume high-protein meat and stay hydrated, our spinnerets lock up in agonizing cramps.
+	=> main_hub
+
+~ courtship_topic
+if GameManager.get_affection("bug_monster") < 35:
+	do GameManager.set_expression("scary")
+	Lily: *Fangs bared slightly, eyes glowing dark* I don't trust the way you're probing me. Topic closed.
+	=> main_hub
+else:
+	You: What happens if a date goes terribly wrong or someone betrays your trust?
+	if GameManager.is_imposter("bug_monster"):
+		do GameManager.set_expression("happy")
+		Lily: Oh, nothing! Courtship cannibalism and venom cocooning are just silly fake rumors people make up to scare humans!
+		do GameManager.record_clue("bug_monster", "courtship_slip", "Dismissed paralyzing and cocooning impulses as a fake rumor, failing to understand biological venom reflexes.")
+		Lily: Spiders never have scary biological instincts like that!
+	else:
+		do GameManager.set_expression("scary")
+		Lily: *Voice drops low, mandibles clicking slowly* It's... scary, honestly. Our biology has an involuntary courtship reflex.
+		Lily: If a suitor deeply insults or betrays us, our venom glands inject paralytic venom, and our fingers cocoon them in silk for later preservation...
+		do GameManager.set_expression("blush")
+		Lily: I... I try really hard to control it! So please... be nice to me...
+	=> main_hub
