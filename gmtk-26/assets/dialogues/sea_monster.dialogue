@@ -1,22 +1,22 @@
 ~ start
-Finn: *Bubbling exhale* ...Wait, where am I? Oh! Right, the date!
-Finn: Hi! I'm Finn. Sorry, my memory slips like wet seaweed sometimes... What was your name again?
+Sienna: *Bubbling exhale* ...Wait, where am I? Oh! Right, the date!
+Sienna: Hi! I'm Sienna. Sorry, my memory slips like wet seaweed sometimes... What was your name again?
 
-- "No worries Finn, take your time. I'm glad to meet you."
+- "No worries Sienna, take your time. I'm glad to meet you."
 	do GameManager.add_affection("sea_monster", 15)
-	Finn: Aww, thank you! You have a calm wave energy about you.
+	Sienna: Aww, thank you! You have a calm wave energy about you.
 	=> main_menu
 - "Do you forget everything that easily?"
 	do GameManager.add_affection("sea_monster", -10)
-	Finn: Hey! Amnesia isn't my fault... the pressure changes affected my brain!
+	Sienna: Hey! Amnesia isn't my fault... the pressure changes affected my brain!
 	=> main_menu
 - "Are you going to splash water everywhere?"
 	do GameManager.add_affection("sea_monster", -20)
-	Finn: *Sploshes sadly* I... I'll try to keep my fins quiet...
+	Sienna: *Sploshes sadly* I... I'll try to keep my fins quiet...
 	=> main_menu
 
 ~ main_menu
-Finn: Um... what were we talking about again? Oh right! What do you want to ask me?
+Sienna: Um... what were we talking about again? Oh right! What do you want to ask me?
 
 - "Tell me about life under the ocean waves."
 	=> ocean_chain
@@ -30,56 +30,56 @@ Finn: Um... what were we talking about again? Oh right! What do you want to ask 
 	=> end_date
 
 ~ ocean_chain
-Finn: Ah, the abyssal trench! Pitch black water, glowing bioluminescent jellyfish, crushing water pressure... it feels like a giant warm blanket!
-Finn: I miss swimming through giant kelp forests.
+Sienna: Ah, the abyssal trench! Pitch black water, glowing bioluminescent jellyfish, crushing water pressure... it feels like a giant warm blanket!
+Sienna: I miss swimming through giant kelp forests.
 
 - "That sounds tranquil. I'd love to see a kelp forest."
 	do GameManager.add_affection("sea_monster", 10)
-	Finn: I can show you photos! If I can remember where I left my underwater camera...
+	Sienna: I can show you photos! If I can remember where I left my underwater camera...
 	=> main_menu
 - "Sounds dark and scary."
 	do GameManager.add_affection("sea_monster", -10)
-	Finn: It's not scary! It's peaceful!
+	Sienna: It's not scary! It's peaceful!
 	=> main_menu
 
 ~ amnesia_chain
-Finn: I write notes on waterproof shell tablets so I don't forget important things!
+Sienna: I write notes on waterproof shell tablets so I don't forget important things!
 You: What did you write down about today?
-Finn: *Checks shell* 'Be nice, don't eat the date's appetizer, smile with fins!'
+Sienna: *Checks shell* 'Be nice, don't eat the date's appetizer, smile with fins!'
 do GameManager.add_affection("sea_monster", 5)
 => main_menu
 
 ~ climate_interrogation
 if GameManager.get_affection("sea_monster") < 35:
-	Finn: Um... I forgot why I shouldn't talk to you, but I remember feeling upset earlier.
+	Sienna: Um... I forgot why I shouldn't talk to you, but I remember feeling upset earlier.
 	=> main_menu
 else:
 	You: How do you handle dry weather on land?
 	if GameManager.is_imposter("sea_monster"):
-		Finn: Oh, I love hot dry desert air! Sand dunes and baking hot sun are my absolute favorite!
+		Sienna: Oh, I love hot dry desert air! Sand dunes and baking hot sun are my absolute favorite!
 		do GameManager.record_clue("sea_monster", "desert_slip", "Claims to love baking hot dry desert sand dunes.")
-		Finn: Dry air is so refreshing for my gills!
+		Sienna: Dry air is so refreshing for my gills!
 	else:
-		Finn: Oh no, dry air is terrifying! Sea monsters desiccate quickly on dry land. We need high humidity, mist, and saltwater immersion!
-		Finn: Desert heat would dry my scales into dust!
+		Sienna: Oh no, dry air is terrifying! Sea monsters desiccate quickly on dry land. We need high humidity, mist, and saltwater immersion!
+		Sienna: Desert heat would dry my scales into dust!
 	=> main_menu
 
 ~ pressure_lore_check
 if GameManager.get_affection("sea_monster") < 35:
-	Finn: I'm not in a swimming mood right now...
+	Sienna: I'm not in a swimming mood right now...
 	=> main_menu
 else:
 	You: How do your scales handle deep ocean water pressure?
 	if GameManager.is_imposter("sea_monster"):
-		Finn: Deep water pressure? Oh, deep ocean pressure crushes sea monsters instantly! We only swim in shallow 1-foot pools!
+		Sienna: Deep water pressure? Oh, deep ocean pressure crushes sea monsters instantly! We only swim in shallow 1-foot pools!
 		do GameManager.record_clue("sea_monster", "pressure_slip", "Claims deep sea pressure crushes sea monsters and only swims in 1-foot shallow water.")
-		Finn: Deep water is way too heavy!
+		Sienna: Deep water is way too heavy!
 	else:
-		Finn: Our bodies are adapted specifically for extreme abyssal pressure! 100 atmospheres of pressure actually stabilizes our circulatory system.
-		Finn: Shallow air pressure is what makes my head feel floaty!
+		Sienna: Our bodies are adapted specifically for extreme abyssal pressure! 100 atmospheres of pressure actually stabilizes our circulatory system.
+		Sienna: Shallow air pressure is what makes my head feel floaty!
 	=> main_menu
 
 ~ end_date
-Finn: Oh! The date bell rang! It was really nice meeting you... wait, what was your name again? Bye!
+Sienna: Oh! The date bell rang! It was really nice meeting you... wait, what was your name again? Bye!
 do GameManager.complete_current_date()
 => END

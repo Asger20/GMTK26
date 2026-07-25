@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_monster")
 id = "angel"
-display_name = "Sera"
+display_name = "Isaac"
 species = "Biblical Angel"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Driven by absolute symmetry, mathematical order, and divine geometry.", "Finds chaos, messiness, or asymmetrical rooms deeply uncomfortable.", "Communicates in resonant multi-harmonic frequencies.")

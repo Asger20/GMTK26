@@ -11,7 +11,7 @@
 [resource]
 script = ExtResource("1_monster")
 id = "bug_monster"
-display_name = "Vesper"
+display_name = "Lily"
 species = "Spider"
 portrait_texture = ExtResource("3_normal")
 expressions = {

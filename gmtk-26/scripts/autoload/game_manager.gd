@@ -48,20 +48,10 @@ var selected_match_id: String = ""
 
 # Master Species Lore Database
 var species_lore_db: Dictionary = {
-	"Zombie": [
-		"• Prefers cold, rotting food and decaying meals.",
-		"• Severe sunlight aversion: UV rays degrade flesh instantly.",
-		"• Thrives in dark, underground, or freezing environments."
-	],
 	"Vampire": [
 		"• Extremely particular about blood vintage and temperature.",
 		"• Strictly nocturnal; sleep phase spans sunrise to sunset.",
 		"• Cannot tolerate silver, garlic, or sacred geometry."
-	],
-	"Slime": [
-		"• Requires high humidity, damp mud, or swamp environments.",
-		"• Naturally stores personal items, keys, and snacks inside body cavity.",
-		"• Absorbs liquids to alter coloration and density."
 	],
 	"Angel": [
 		"• Driven by absolute symmetry, mathematical order, and divine geometry.",

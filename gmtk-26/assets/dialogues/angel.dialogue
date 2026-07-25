@@ -1,21 +1,21 @@
 ~ start
-Sera: BE NOT AFRAID... Oh, pardon me. Habit.
-Sera: Greetings. I am your date. Please sit precisely in the center of your chair. If you tilt three degrees to the left, it upsets my divine alignment.
+Isaac: BE NOT AFRAID... Oh, pardon me. Habit.
+Isaac: Greetings. I am your date. Please sit precisely in the center of your chair. If you tilt three degrees to the left, it upsets my divine alignment.
 
 - "I respect someone who appreciates neatness and geometry."
 	do GameManager.add_affection("angel", 15)
-	Sera: Ah! A soul of harmony! Perfect 90-degree alignment!
+	Isaac: Ah! A soul of harmony! Perfect 90-degree alignment!
 	=> main_menu
 - "Relax, a little mess never hurt anyone."
 	do GameManager.add_affection("angel", -15)
-	Sera: *Wings twitch violently* A... a little mess?! Asymmetry is a cosmic corruption!
+	Isaac: *Wings twitch violently* A... a little mess?! Asymmetry is a cosmic corruption!
 	=> main_menu
 - "Are all those eyes on your wings staring at me?"
-	Sera: They are merely observing the geometric balance of this room.
+	Isaac: They are merely observing the geometric balance of this room.
 	=> main_menu
 
 ~ main_menu
-Sera: What topic shall we organize into perfect discourse next?
+Isaac: What topic shall we organize into perfect discourse next?
 
 - "Tell me about your obsession with symmetry."
 	=> symmetry_chain
@@ -29,56 +29,56 @@ Sera: What topic shall we organize into perfect discourse next?
 	=> end_date
 
 ~ symmetry_chain
-Sera: Everything in the universe was designed with sacred ratios. The golden spiral, perfect right angles, twin halo alignment.
-Sera: When an object is tilted even half a millimeter, my inner halos vibrate in distress!
+Isaac: Everything in the universe was designed with sacred ratios. The golden spiral, perfect right angles, twin halo alignment.
+Isaac: When an object is tilted even half a millimeter, my inner halos vibrate in distress!
 
 - "I can fix your cutlery so it's perfectly parallel."
 	do GameManager.add_affection("angel", 10)
-	Sera: *Gasp* Parallel to the edge of the table?! You are a divine gift!
+	Isaac: *Gasp* Parallel to the edge of the table?! You are a divine gift!
 	=> main_menu
 - "Sounds exhausting."
 	do GameManager.add_affection("angel", -10)
-	Sera: Order is not exhausting! Disorder is chaos!
+	Isaac: Order is not exhausting! Disorder is chaos!
 	=> main_menu
 
 ~ music_chain
-Sera: I sing in 7-part harmonic choir frequencies!
+Isaac: I sing in 7-part harmonic choir frequencies!
 You: Do you ever listen to casual pop music?
-Sera: Only if the beat is strictly 120 BPM in 4/4 time without polyrhythms.
+Isaac: Only if the beat is strictly 120 BPM in 4/4 time without polyrhythms.
 do GameManager.add_affection("angel", 5)
 => main_menu
 
 ~ chaos_interrogation
 if GameManager.get_affection("angel") < 35:
-	Sera: Your previous answers lacked geometric perfection. I refuse to engage further.
+	Isaac: Your previous answers lacked geometric perfection. I refuse to engage further.
 	=> main_menu
 else:
 	You: How do you handle being in an asymmetrical or messy room?
 	if GameManager.is_imposter("angel"):
-		Sera: Oh, I love messy room chaos! Asymmetry makes spaces feel cozy, cluttered, and alive!
+		Isaac: Oh, I love messy room chaos! Asymmetry makes spaces feel cozy, cluttered, and alive!
 		do GameManager.record_clue("angel", "symmetry_slip", "Claims to love messy, asymmetrical, chaotic rooms.")
-		Sera: Who cares if picture frames are crooked?
+		Isaac: Who cares if picture frames are crooked?
 	else:
-		Sera: It causes acute spiritual vertigo! Asymmetry makes my halos ache and my feathers shed!
-		Sera: I must straighten every frame and align every chair immediately!
+		Isaac: It causes acute spiritual vertigo! Asymmetry makes my halos ache and my feathers shed!
+		Isaac: I must straighten every frame and align every chair immediately!
 	=> main_menu
 
 ~ architecture_lore_check
 if GameManager.get_affection("angel") < 35:
-	Sera: I will not converse with someone who disrupts cosmic harmony.
+	Isaac: I will not converse with someone who disrupts cosmic harmony.
 	=> main_menu
 else:
 	You: What is your ideal living space layout?
 	if GameManager.is_imposter("angel"):
-		Sera: A curved, organic, irregular cavern with random crooked alcoves!
+		Isaac: A curved, organic, irregular cavern with random crooked alcoves!
 		do GameManager.record_clue("angel", "building_slip", "Claims ideal living space is an irregular, crooked, curved cavern.")
-		Sera: Angles are overrated!
+		Isaac: Angles are overrated!
 	else:
-		Sera: A perfectly cubic room constructed with 90-degree marble pillars and dual mirrored arches!
-		Sera: Absolute mathematical symmetry in every dimension!
+		Isaac: A perfectly cubic room constructed with 90-degree marble pillars and dual mirrored arches!
+		Isaac: Absolute mathematical symmetry in every dimension!
 	=> main_menu
 
 ~ end_date
-Sera: The allocated duration of 180 seconds has elapsed precisely. Farewell for now.
+Isaac: The allocated duration of 180 seconds has elapsed precisely. Farewell for now.
 do GameManager.complete_current_date()
 => END

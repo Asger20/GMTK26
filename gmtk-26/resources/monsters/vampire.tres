@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_monster")
 id = "vampire"
-display_name = "Julian"
+display_name = "Percival"
 species = "Vampire"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Snobbish about vintage blood types.", "Strictly nocturnal habits.", "Cannot tolerate silver or garlic.")

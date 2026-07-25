@@ -131,17 +131,13 @@ func _start_new_game_session() -> void:
 	available_room_textures = room_textures.duplicate()
 	available_room_textures.shuffle()
 
-	var m_zombie = load("res://resources/monsters/zombie.tres")
 	var m_vampire = load("res://resources/monsters/vampire.tres")
-	var m_slime = load("res://resources/monsters/slime.tres")
 	var m_angel = load("res://resources/monsters/angel.tres")
 	var m_sea_monster = load("res://resources/monsters/sea_monster.tres")
 	var m_bug_monster = load("res://resources/monsters/bug_monster.tres")
 
 	var pool: Array[MonsterData] = []
-	if m_zombie: pool.append(m_zombie)
 	if m_vampire: pool.append(m_vampire)
-	if m_slime: pool.append(m_slime)
 	if m_angel: pool.append(m_angel)
 	if m_sea_monster: pool.append(m_sea_monster)
 	if m_bug_monster: pool.append(m_bug_monster)
@@ -226,12 +222,10 @@ func _skip_intro() -> void:
 		_show_prep_phase()
 
 var candidate_self_bios: Dictionary = {
-	"zombie": "Hi, I'm Morty. I process things a bit slow, so dates make me pretty anxious. I like rainy afternoons, cold iced tea, listening to lo-fi beats, and wearing oversized hoodies. I promise I won't bite, I'm just trying my best not to trip over my own feet. Please be patient with me, and please don't take me out into harsh bright sunlight.",
-	"vampire": "I'm Julian. Behind the long coat and my taste for vintage red drinks, I'm just looking for a genuine connection. I like midnight walks, playing classical piano, and talking late into the night. I might be a little dramatic sometimes, but I just want someone who accepts me for who I am.",
-	"slime": "Hi! I'm Gwen! I get pretty nervous on dates and my jelly core starts wobbling. I'm always carrying snacks, spare keys, and a warm blanket inside my gel cavity. I might wobble a lot when I'm flustered, but I'm always ready to give you a big hug when you have a rough day.",
-	"angel": "Greetings, I am Sera. I like neatness and symmetry. Messy desks and crooked picture frames stress me out, so I work hard to keep everything clean and organized. I'm looking for a date who appreciates quiet, well-ordered spaces and a calm schedule.",
-	"sea_monster": "Hey! I'm Finn. I love deep sea swimming, but I tend to be pretty forgetful. My thoughts drift around like ocean foam! I collect smooth sea shells and love listening to ambient wave sounds. I might lose my train of thought mid-sentence, but I'm easy to get along with.",
-	"bug_monster": "Hi! I'm Vesper. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
+	"vampire": "I'm Percival. Behind the long coat and my taste for vintage red drinks, I'm just looking for a genuine connection. I like midnight walks, playing classical piano, and talking late into the night. I might be a little dramatic sometimes, but I just want someone who accepts me for who I am.",
+	"angel": "Greetings, I am Isaac. I like neatness and symmetry. Messy desks and crooked picture frames stress me out, so I work hard to keep everything clean and organized. I'm looking for a date who appreciates quiet, well-ordered spaces and a calm schedule.",
+	"sea_monster": "Hey! I'm Sienna. I love deep sea swimming, but I tend to be pretty forgetful. My thoughts drift around like ocean foam! I collect smooth sea shells and love listening to ambient wave sounds. I might lose my train of thought mid-sentence, but I'm easy to get along with.",
+	"bug_monster": "Hi! I'm Lily. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
 }
 
 func _get_day_num_text(day_num: int) -> String:
