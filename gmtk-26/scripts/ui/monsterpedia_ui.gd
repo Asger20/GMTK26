@@ -5,38 +5,10 @@ extends Control
 @onready var species_option_button: OptionButton = $Panel/TabContainer/SpeciesLore/SpeciesOptionButton
 
 # Pre-defined Monsterpedia Lore database
-var species_lore_db: Dictionary = {
-	"Zombie": [
-		"• Prefers cold, rotting food and decaying meals.",
-		"• Severe sunlight aversion: UV rays degrade flesh instantly.",
-		"• Thrives in dark, underground, or freezing environments."
-	],
-	"Vampire": [
-		"• Extremely particular about blood vintage and temperature.",
-		"• Strictly nocturnal; sleep phase spans sunrise to sunset.",
-		"• Cannot tolerate silver, garlic, or sacred geometry."
-	],
-	"Slime": [
-		"• Requires high humidity, damp mud, or swamp environments.",
-		"• Naturally stores personal items, keys, and snacks inside body cavity.",
-		"• Absorbs liquids to alter coloration and density."
-	],
-	"Angel": [
-		"• Driven by absolute symmetry, mathematical order, and divine geometry.",
-		"• Finds chaos, messiness, or asymmetrical rooms deeply uncomfortable.",
-		"• Communicates in resonant multi-harmonic frequencies."
-	],
-	"Sea Monster": [
-		"• Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.",
-		"• Cannot remain in dry, arid, or desert climates without desiccating.",
-		"• Communicates via low-frequency echolocation sonar."
-	],
-	"Spider": [
-		"• Nocturnal weaver; calculates web tension vectors and light source angles.",
-		"• Stays awake multi-day stretches with hyper-vigilant nervous system.",
-		"• Extremely sensitive to air vibration and water droplet weight on silk."
-	]
-}
+# Uses GameManager.species_lore_db as master source of truth
+var species_lore_db: Dictionary:
+	get:
+		return GameManager.species_lore_db
 
 
 func _ready() -> void:

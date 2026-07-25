@@ -74,14 +74,25 @@ var species_lore_db: Dictionary = {
 		"• Communicates via low-frequency echolocation sonar."
 	],
 	"Spider": [
-		"• Nocturnal weaver; calculates web tension vectors and light source angles.",
-		"• Stays awake multi-day stretches with hyper-vigilant nervous system.",
-		"• Extremely sensitive to air vibration and water droplet weight on silk."
+		"• [b]CLASSIFICATION & HABITAT:[/b] Arachneoid Sapiens / Spider Folk. Native to pitch-black subterranean caverns and high-altitude spires.",
+		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view the universe through structural geometry, governed by tension, balance, and devotion. Silk spinning is a sacred high art form.",
+		"• [b]HIGH-PROTEIN HYDRATION DEPENDENCY:[/b] Silk production draws from internal spinneret organs, requiring raw meat, dense amino acids, and heavy hydration. Excessive spinning without nutrition causes severe abdominal cramping and physical fatigue.",
+		"• [b]MICROSCOPIC SENSORY HAIRS (Trichobothria):[/b] Epidermal sensory hairs continuously detect subtle air currents, humidity shifts, and micro-vibrations.",
+		"• [b]THERMAL SENSITIVITY & COLD BLOOD:[/b] Cold-blooded metabolism. Sudden heat sources or dry warmth dry out internal silk glands, triggering lethargy and motor sluggishness.",
+		"• [b]THE VIBRATION REFLEX (Involuntary Lock-On):[/b] Sudden vibrations (table bump, chair scrape, pen click) trigger an involuntary twitch and dead-lock gaze toward the source.",
+		"• [b]NERVOUS WEAVING (Subconscious Anchoring):[/b] Under stress, excitement, or attraction, fingers subconsciously spin, twist, and anchor fine silk threads onto nearby furniture.",
+		"• [b]COURTSHIP & CANNIBALISTIC PRESERVATION:[/b] Insulting or failing an Arachneoid during intimacy triggers an uncontrollable biological instinct to paralyze, cocoon, and preserve the suitor for later consumption."
 	]
 }
 
 func get_species_lore(species_name: String) -> Array:
-	return species_lore_db.get(species_name, [])
+	if species_lore_db.has(species_name):
+		return species_lore_db[species_name]
+	var lower_target = species_name.to_lower()
+	for key in species_lore_db.keys():
+		if key.to_lower() in lower_target or lower_target in key.to_lower():
+			return species_lore_db[key]
+	return []
 
 func toggle_dev_mode_affection() -> void:
 	dev_mode_show_affection = not dev_mode_show_affection
