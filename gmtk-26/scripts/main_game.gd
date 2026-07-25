@@ -185,7 +185,7 @@ func _show_panel(target_panel: Panel) -> void:
 		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)
 
 	if end_date_early_btn:
-		end_date_early_btn.visible = (target_panel == date_panel)
+		end_date_early_btn.visible = (target_panel == date_panel and target_panel != transition_panel)
 	
 	if dev_cheat_btn:
 		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)
@@ -347,7 +347,7 @@ func _show_break_phase() -> void:
 	var monster_name = monster.display_name if monster else "Candidate"
 	var species_name = monster.species if monster else ""
 
-	break_title.text = "☕ BLACKWOOD ASYLUM - END OF DAY REFLECTION"
+	break_title.text = "BLACKWOOD ASYLUM - END OF DAY REFLECTION"
 	
 	var summary = "[b][color=#2c2214]Date Reflection & Case Briefing:[/color][/b]\n"
 	summary += "You completed your date with [b][color=#7a1c1c]" + monster_name + "[/color][/b] (" + species_name + ").\n\n"
@@ -377,6 +377,7 @@ func _show_simple_transition(main_text: String, sub_text: String, fast_speed: bo
 	header_bar.visible = false
 	monsterpedia_book_btn.visible = false
 	if dev_cheat_btn: dev_cheat_btn.visible = false
+	if end_date_early_btn: end_date_early_btn.visible = false
 
 	transition_prev_num.text = main_text
 	transition_prev_sub.text = sub_text
@@ -401,6 +402,7 @@ func _show_simple_transition(main_text: String, sub_text: String, fast_speed: bo
 		if on_complete.is_valid():
 			on_complete.call()
 		transition_panel.visible = true
+		if end_date_early_btn: end_date_early_btn.visible = false
 	)
 
 	# 4. Fade out revealing target phase UI
@@ -409,6 +411,12 @@ func _show_simple_transition(main_text: String, sub_text: String, fast_speed: bo
 	# 5. Hide transition panel
 	transition_tween.tween_callback(func():
 		transition_panel.visible = false
+		if end_date_early_btn:
+			end_date_early_btn.visible = date_panel.visible
+		if monsterpedia_book_btn:
+			monsterpedia_book_btn.visible = (not intro_panel.visible and not ending_panel.visible)
+		if dev_cheat_btn:
+			dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (not intro_panel.visible and not ending_panel.visible)
 	)
 
 func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Callable) -> void:
@@ -421,6 +429,7 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 	header_bar.visible = false
 	monsterpedia_book_btn.visible = false
 	if dev_cheat_btn: dev_cheat_btn.visible = false
+	if end_date_early_btn: end_date_early_btn.visible = false
 
 	transition_tween = create_tween()
 
@@ -456,6 +465,12 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 		# 5. Hide transition panel after fade out completes
 		transition_tween.tween_callback(func():
 			transition_panel.visible = false
+			if end_date_early_btn:
+				end_date_early_btn.visible = date_panel.visible
+			if monsterpedia_book_btn:
+				monsterpedia_book_btn.visible = (not intro_panel.visible and not ending_panel.visible)
+			if dev_cheat_btn:
+				dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (not intro_panel.visible and not ending_panel.visible)
 		)
 	else:
 		# --- Mid-Game Day Transition (e.g. Day 1 -> Day 2) ---
@@ -505,6 +520,12 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 		# 7. Hide transition panel after fade out completes
 		transition_tween.tween_callback(func():
 			transition_panel.visible = false
+			if end_date_early_btn:
+				end_date_early_btn.visible = date_panel.visible
+			if monsterpedia_book_btn:
+				monsterpedia_book_btn.visible = (not intro_panel.visible and not ending_panel.visible)
+			if dev_cheat_btn:
+				dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (not intro_panel.visible and not ending_panel.visible)
 		)
 
 # --- PHASE 4: ACCUSATION & MATCHING PHASE ---

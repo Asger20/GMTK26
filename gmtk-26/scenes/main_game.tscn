@@ -343,11 +343,12 @@ horizontal_alignment = 1
 
 [node name="AffectionBar" type="ProgressBar" parent="DatePanel/TopHUD/AffectionContainer" unique_id=1123538571]
 layout_mode = 2
-value = 50.0
+value = 40.0
+show_percentage = false
 
 [node name="AffectionVal" type="Label" parent="DatePanel/TopHUD/AffectionContainer" unique_id=702570396]
 layout_mode = 2
-text = "50%"
+text = "40%"
 horizontal_alignment = 1
 
 [node name="MonsterPortrait" type="TextureRect" parent="DatePanel" unique_id=1570652720]

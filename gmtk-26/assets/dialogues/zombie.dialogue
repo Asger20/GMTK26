@@ -2,71 +2,46 @@
 Morty: ...Oh. Hi. I'm Morty. I guess we're doing this dating thing.
 Morty: Try not to stare too hard at the stitches, okay?
 
-if GameManager.dev_mode_show_affection:
-    - "Your stitches actually give you a cool goth aesthetic." (+15 Affection)
-        do GameManager.add_affection("zombie", 15)
-        Morty: ...Heh. Thanks. Most people just gasp and check if their wallet is still in their pocket.
-        => main_menu
-    - "So... how long have you been decomposed?" (0 Affection)
-        Morty: Long enough to know when someone is trying to be polite.
-        => main_menu
-    - "Ew, did something die in here?" (-20 Affection)
-        do GameManager.add_affection("zombie", -20)
-        Morty: Yeah. My patience. Let's get this over with.
-        => main_menu
-else:
-    - "Your stitches actually give you a cool goth aesthetic."
-        do GameManager.add_affection("zombie", 15)
-        Morty: ...Heh. Thanks. Most people just gasp and check if their wallet is still in their pocket.
-        => main_menu
-    - "So... how long have you been decomposed?"
-        Morty: Long enough to know when someone is trying to be polite.
-        => main_menu
-    - "Ew, did something die in here?"
-        do GameManager.add_affection("zombie", -20)
-        Morty: Yeah. My patience. Let's get this over with.
-        => main_menu
+- "Your stitches actually give you a cool goth aesthetic."
+	do GameManager.add_affection("zombie", 15)
+	Morty: ...Heh. Thanks. Most people just gasp and check if their wallet is still in their pocket.
+	=> main_menu
+- "So... how long have you been decomposed?"
+	Morty: Long enough to know when someone is trying to be polite.
+	=> main_menu
+- "Ew, did something die in here?"
+	do GameManager.add_affection("zombie", -20)
+	Morty: Yeah. My patience. Let's get this over with.
+	=> main_menu
 
 ~ main_menu
 Morty: What's on your mind?
 
 - "Tell me about your hobbies and music."
-    => hobbies_chain
+	=> hobbies_chain
 - "What's your worst dating experience?"
-    => worst_date_chain
+	=> worst_date_chain
 - "How do you like living here?"
-    => lifestyle_interrogation
+	=> lifestyle_interrogation
 - "What's your favorite comfort meal?"
-    => food_lore_check
+	=> food_lore_check
 - "I think that's all for now."
-    => end_date
+	=> end_date
 
 ~ hobbies_chain
 Morty: Hobbies? Well, I play bass guitar. It's nice because my left fingers don't feel pain, so I can hold heavy barre chords forever.
 Morty: I also collect vintage vinyl records. Post-punk, darkwave, shoegaze.
 
-if GameManager.dev_mode_show_affection:
-    - "No way! I love darkwave and post-punk too." (+10 Affection)
-        do GameManager.add_affection("zombie", 10)
-        Morty: Really? Next time you come by, I'll play you a rare Joy Division bootleg on vinyl.
-        => hobbies_deep_dive
-    - "Isn't bass kind of easy?" (-10 Affection)
-        do GameManager.add_affection("zombie", -10)
-        Morty: Easy? Spoken like someone who's never tried keeping a 4/4 rhythm with stiff elbow joints.
-        => main_menu
-    - "Cool. Anyway..."
-        => main_menu
-else:
-    - "No way! I love darkwave and post-punk too."
-        do GameManager.add_affection("zombie", 10)
-        Morty: Really? Next time you come by, I'll play you a rare Joy Division bootleg on vinyl.
-        => hobbies_deep_dive
-    - "Isn't bass kind of easy?"
-        do GameManager.add_affection("zombie", -10)
-        Morty: Easy? Spoken like someone who's never tried keeping a 4/4 rhythm with stiff elbow joints.
-        => main_menu
-    - "Cool. Anyway..."
-        => main_menu
+- "No way! I love darkwave and post-punk too."
+	do GameManager.add_affection("zombie", 10)
+	Morty: Really? Next time you come by, I'll play you a rare Joy Division bootleg on vinyl.
+	=> hobbies_deep_dive
+- "Isn't bass kind of easy?"
+	do GameManager.add_affection("zombie", -10)
+	Morty: Easy? Spoken like someone who's never tried keeping a 4/4 rhythm with stiff elbow joints.
+	=> main_menu
+- "Cool. Anyway..."
+	=> main_menu
 
 ~ hobbies_deep_dive
 Morty: My dream is to form a graveyard band called 'Rigor Mortis & The Grooves'.
@@ -82,56 +57,56 @@ Morty: Midway through dinner, he dropped his fork and started chasing an escaped
 Morty: What about you? Any nightmare dates?
 
 - "I once went on a date where my partner accidentally ordered five entire pizzas."
-    Morty: Pfft! Okay, that's pretty funny. Did you get a second date or just leftovers for a week?
-    do GameManager.add_affection("zombie", 5)
-    => main_menu
+	Morty: Pfft! Okay, that's pretty funny. Did you get a second date or just leftovers for a week?
+	do GameManager.add_affection("zombie", 5)
+	=> main_menu
 - "Dating is just high-risk administrative work."
-    Morty: Ain't that the truth.
-    => main_menu
+	Morty: Ain't that the truth.
+	=> main_menu
 
 ~ lifestyle_interrogation
 if GameManager.get_affection("zombie") < 35:
-    Morty: Look, I'm really not feeling this date right now. I don't feel like answering personal questions.
-    Morty: Try being a little less rude next time.
-    => main_menu
+	Morty: Look, I'm really not feeling this date right now. I don't feel like answering personal questions.
+	Morty: Try being a little less rude next time.
+	=> main_menu
 else:
-    Morty: Well, since we're getting along okay... what do you want to know about life in the rehab ward?
-    - "Do you ever get lonely here?"
-        Morty: Sometimes. People see the rotting skin and assume you have no soul left. But I just want someone to listen to records with.
-        do GameManager.add_affection("zombie", 10)
-        => main_menu
-    - "How do you handle bright sunny days?"
-        => sun_lore_check
+	Morty: Well, since we're getting along okay... what do you want to know about life in the rehab ward?
+	- "Do you ever get lonely here?"
+		Morty: Sometimes. People see the rotting skin and assume you have no soul left. But I just want someone to listen to records with.
+		do GameManager.add_affection("zombie", 10)
+		=> main_menu
+	- "How do you handle bright sunny days?"
+		=> sun_lore_check
 
 ~ food_lore_check
 if GameManager.get_affection("zombie") < 35:
-    Morty: I'm not really in the mood to answer your questions right now.
-    => main_menu
+	Morty: I'm not really in the mood to answer your questions right now.
+	=> main_menu
 else:
-    You: What's your absolute comfort meal after a long, exhausting day?
-    if GameManager.is_imposter("zombie"):
-        Morty: Oh, easy! A piping hot bowl of fresh vegetable soup eaten outside on a sunny porch!
-        do GameManager.record_clue("zombie", "hot_food_slip", "Claims to love piping hot soup outdoors in the sun.")
-        Morty: The steam feels so nice on my skin!
-    else:
-        Morty: Cold, decaying leftovers... eaten in a dark, pitch-black room. Hot food makes my stomach rot instantly.
-        Morty: Anything above room temperature makes me gag.
-    => main_menu
+	You: What's your absolute comfort meal after a long, exhausting day?
+	if GameManager.is_imposter("zombie"):
+		Morty: Oh, easy! A piping hot bowl of fresh vegetable soup eaten outside on a sunny porch!
+		do GameManager.record_clue("zombie", "hot_food_slip", "Claims to love piping hot soup outdoors in the sun.")
+		Morty: The steam feels so nice on my skin!
+	else:
+		Morty: Cold, decaying leftovers... eaten in a dark, pitch-black room. Hot food makes my stomach rot instantly.
+		Morty: Anything above room temperature makes me gag.
+	=> main_menu
 
 ~ sun_lore_check
 if GameManager.get_affection("zombie") < 35:
-    Morty: None of your business.
-    => main_menu
+	Morty: None of your business.
+	=> main_menu
 else:
-    You: How do you handle going out during bright afternoon sunlight?
-    if GameManager.is_imposter("zombie"):
-        Morty: I love it! Soaking up the warm afternoon rays gives me so much energy!
-        do GameManager.record_clue("zombie", "sunlight_slip", "Claims to love soaking up warm afternoon sunlight.")
-        Morty: I could lay on a sunbed for hours!
-    else:
-        Morty: Are you crazy? UV rays peel my skin right off! Pitch black darkness only, or I stay indoors.
-        Morty: Sunlight is literally lethal for my tissue.
-    => main_menu
+	You: How do you handle going out during bright afternoon sunlight?
+	if GameManager.is_imposter("zombie"):
+		Morty: I love it! Soaking up the warm afternoon rays gives me so much energy!
+		do GameManager.record_clue("zombie", "sunlight_slip", "Claims to love soaking up warm afternoon sunlight.")
+		Morty: I could lay on a sunbed for hours!
+	else:
+		Morty: Are you crazy? UV rays peel my skin right off! Pitch black darkness only, or I stay indoors.
+		Morty: Sunlight is literally lethal for my tissue.
+	=> main_menu
 
 ~ end_date
 Morty: Timer's up. Thanks for chatting with me.
