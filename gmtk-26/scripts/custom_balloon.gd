@@ -36,6 +36,7 @@ func _ready() -> void:
 
 	if responses_menu.next_action.is_empty():
 		responses_menu.next_action = next_action
+	responses_menu.hide_failed_responses = true
 	responses_menu.response_selected.connect(_on_responses_menu_response_selected)
 	dialogue_label.spoke.connect(_on_dialogue_label_spoke)
 
@@ -57,8 +58,9 @@ func apply_dialogue_line() -> void:
 
 	# Handle lines without spoken text (e.g. condition blocks or mutation nodes)
 	if dialogue_line.text.strip_edges().is_empty():
-		if dialogue_line.responses.size() > 0:
-			var responses: Array = dialogue_line.responses
+		var valid_responses: Array = dialogue_line.responses.filter(func(r): return r.is_allowed)
+		if valid_responses.size() > 0:
+			var responses: Array = valid_responses
 			if responses.size() > 4:
 				responses = responses.slice(0, 4)
 			if responses.size() > 0:
@@ -106,7 +108,8 @@ func apply_dialogue_line() -> void:
 	DialogueVoiceManager.end_line()
 
 	# WHEN MONSTER FINISHES SPEAKING: SHOW PROMPT & WAIT FOR PLAYER CLICK BEFORE ADVANCING/SHOWING CHOICES
-	if dialogue_line.responses.size() > 0:
+	var valid_next_responses: Array = dialogue_line.responses.filter(func(r): return r.is_allowed)
+	if valid_next_responses.size() > 0:
 		continue_prompt.text = "[ CLICK TO SEE RESPONSES ▶ ]"
 	else:
 		continue_prompt.text = "[ CLICK TO CONTINUE ▶ ]"
@@ -135,8 +138,9 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 		is_waiting_for_input = false
 		continue_prompt.hide()
 
-		if dialogue_line.responses.size() > 0:
-			var responses: Array = dialogue_line.responses
+		var valid_responses: Array = dialogue_line.responses.filter(func(r): return r.is_allowed)
+		if valid_responses.size() > 0:
+			var responses: Array = valid_responses
 			if responses.size() > 4:
 				responses = responses.slice(0, 4)
 
