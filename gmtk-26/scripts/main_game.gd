@@ -607,9 +607,18 @@ func _on_play_again_pressed() -> void:
 	_start_new_game_session()
 
 # --- DEV CHEATS HANDLERS ---
-func _on_cheat_jump_date(target_id: String) -> void:
+func _on_cheat_jump_date(target_id: String, force_imposter: bool = false) -> void:
 	var monster_res: MonsterData = load("res://resources/monsters/%s.tres" % target_id)
 	if not monster_res: return
+
+	if force_imposter:
+		GameManager.imposter_monster_id = target_id
+	elif GameManager.imposter_monster_id == target_id:
+		for c in GameManager.selected_candidates:
+			if c.id != target_id:
+				GameManager.imposter_monster_id = c.id
+				break
+
 	var candidate_idx = -1
 	for i in range(GameManager.selected_candidates.size()):
 		if GameManager.selected_candidates[i].id == target_id:
@@ -620,6 +629,10 @@ func _on_cheat_jump_date(target_id: String) -> void:
 	else:
 		GameManager.selected_candidates.append(monster_res)
 		GameManager.current_date_index = GameManager.selected_candidates.size() - 1
+
+	if dev_cheat_overlay:
+		dev_cheat_overlay.refresh_info()
+
 	_show_date_phase()
 
 func _on_cheat_jump_day(day_num: int) -> void:

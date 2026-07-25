@@ -80,7 +80,9 @@ To catch the killer before release day without causing a public panic, the polic
 * **Dev Features**:
   * **Dev Mode OFF**: Affection indicators and top HUD Affection Bar text are hidden.
   * **Dev Mode ON**: Affection score displays as a single clean percentage number on the HUD.
-  * **Bottom-Right Button Stacking**: Clicking **`🛠️ DEV CHEATS`** opens a solid slate inspector panel (`DevCheatOverlay`) listing the active candidate lineup, designated imposter identity, date/day jump triggers, affection adjusters, and session reset button. Stacked directly above `🛑 END DATE EARLY`.
+  * **Bottom-Right Button Stacking**: Clicking **`🛠️ DEV CHEATS`** opens a solid slate inspector panel (`DevCheatOverlay`) listing the active candidate lineup, designated imposter identity, affection adjusters, and date jump triggers with dual launch modes:
+    * **`Real Date`**: Launches a date with the selected candidate as their authentic, normal self.
+    * **`😈 Imposter Date`**: Dynamically forces the selected candidate to be **The Count (Imposter)**, unlocking all secret imposter dialogue branches and lore slips for instant testing.
 
 ---
 
