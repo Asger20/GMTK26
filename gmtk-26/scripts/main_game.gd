@@ -56,8 +56,10 @@ var is_first_intro_transition: bool = true
 @onready var transition_panel: Panel = $DayTransitionPanel
 @onready var transition_prev_box: VBoxContainer = $DayTransitionPanel/PrevDayBox
 @onready var transition_prev_num: Label = $DayTransitionPanel/PrevDayBox/NumLabel
+@onready var transition_prev_sub: Label = $DayTransitionPanel/PrevDayBox/SubLabel
 @onready var transition_next_box: VBoxContainer = $DayTransitionPanel/NextDayBox
 @onready var transition_next_num: Label = $DayTransitionPanel/NextDayBox/NumLabel
+@onready var transition_next_sub: Label = $DayTransitionPanel/NextDayBox/SubLabel
 
 var transition_tween: Tween
 
@@ -259,7 +261,11 @@ func _show_prep_phase() -> void:
 
 
 func _on_start_date_pressed() -> void:
-	_show_date_phase()
+	var monster = GameManager.get_current_date_monster()
+	var m_name = monster.display_name if monster else "Candidate"
+	var m_species = monster.species if monster else ""
+	var sub_text = "%s (%s)" % [m_name, m_species] if monster else "entering date room..."
+	_show_simple_transition("Date Start", sub_text, true, func(): _show_date_phase())
 
 func _animate_portrait_idle() -> void:
 	if portrait_tween and portrait_tween.is_running():
@@ -310,7 +316,7 @@ func _on_affection_changed(candidate_id: String, new_score: int) -> void:
 func _on_date_completed() -> void:
 	if is_instance_valid(active_dialogue_balloon):
 		active_dialogue_balloon.queue_free()
-	_show_break_phase()
+	_show_simple_transition("Date Complete", "returning to case reflection...", true, func(): _show_break_phase())
 
 
 # --- PHASE 3: BREAK PHASE ---
@@ -343,6 +349,50 @@ func _on_next_day_pressed() -> void:
 	else:
 		_show_day_transition_phase(prev_day, next_day, func(): _show_prep_phase())
 
+func _show_simple_transition(main_text: String, sub_text: String, fast_speed: bool, on_complete: Callable) -> void:
+	if transition_tween and transition_tween.is_running():
+		transition_tween.kill()
+
+	transition_panel.visible = true
+	transition_panel.modulate.a = 0.0
+
+	header_bar.visible = false
+	monsterpedia_book_btn.visible = false
+	if dev_cheat_btn: dev_cheat_btn.visible = false
+
+	transition_prev_num.text = main_text
+	transition_prev_sub.text = sub_text
+	transition_prev_box.modulate.a = 1.0
+	transition_prev_box.position = Vector2(0, 0)
+	transition_next_box.modulate.a = 0.0
+
+	transition_tween = create_tween()
+
+	var fade_in_t = 1.5 if fast_speed else 2.0
+	var hold_t = 2.0 if fast_speed else 2.5
+	var fade_out_t = 2.5 if fast_speed else 2.0
+
+	# 1. Fade in dark transition panel over current UI
+	transition_tween.tween_property(transition_panel, "modulate:a", 1.0, fade_in_t).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+
+	# 2. Hold centered text beat
+	transition_tween.tween_interval(hold_t)
+
+	# 3. Load target phase UI behind dark screen
+	transition_tween.tween_callback(func():
+		if on_complete.is_valid():
+			on_complete.call()
+		transition_panel.visible = true
+	)
+
+	# 4. Fade out revealing target phase UI
+	transition_tween.tween_property(transition_panel, "modulate:a", 0.0, fade_out_t).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	# 5. Hide transition panel
+	transition_tween.tween_callback(func():
+		transition_panel.visible = false
+	)
+
 func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Callable) -> void:
 	if transition_tween and transition_tween.is_running():
 		transition_tween.kill()
@@ -359,6 +409,7 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 	if prev_day == 0 or prev_day == next_day:
 		# --- Initial Start Day Transition (e.g. Day 1 at game start) ---
 		transition_prev_num.text = _get_day_num_text(next_day)
+		transition_prev_sub.text = "till release"
 		transition_prev_box.modulate.a = 1.0
 		transition_prev_box.position = Vector2(0, 0)
 		transition_next_box.modulate.a = 0.0
@@ -391,10 +442,12 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 	else:
 		# --- Mid-Game Day Transition (e.g. Day 1 -> Day 2) ---
 		transition_prev_num.text = _get_day_num_text(prev_day)
+		transition_prev_sub.text = "till release"
 		transition_prev_box.modulate.a = 1.0
 		transition_prev_box.position = Vector2(0, 0)
 
 		transition_next_num.text = _get_day_num_text(next_day)
+		transition_next_sub.text = "till release"
 		transition_next_box.modulate.a = 0.0
 		transition_next_box.position = Vector2(0, -540)
 
