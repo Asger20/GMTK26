@@ -5,6 +5,11 @@ signal affection_changed(candidate_id: String, new_score: int)
 signal clue_recorded(candidate_id: String, clue_id: String, text: String)
 signal date_completed(candidate_id: String)
 signal dev_mode_toggled(is_enabled: bool)
+signal expression_changed(expression_name: String)
+
+func set_expression(expression_name: String) -> void:
+	expression_changed.emit(expression_name)
+	print("[GameManager] Expression set to: ", expression_name)
 
 
 enum EndingType {

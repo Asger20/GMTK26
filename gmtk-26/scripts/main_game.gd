@@ -106,6 +106,7 @@ func _ready() -> void:
 
 	# Connect GameManager Signals
 	GameManager.affection_changed.connect(_on_affection_changed)
+	GameManager.expression_changed.connect(_on_expression_changed)
 	GameManager.date_completed.connect(func(_id): _on_date_completed())
 	GameManager.dev_mode_toggled.connect(func(enabled: bool):
 		if affection_container: affection_container.visible = enabled
@@ -294,6 +295,13 @@ func _animate_portrait_idle() -> void:
 	portrait_tween.tween_property(portrait_rect, "position:y", base_y - 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	portrait_tween.tween_property(portrait_rect, "position:y", base_y + 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
+func _on_expression_changed(expression_name: String) -> void:
+	var monster = GameManager.get_current_date_monster()
+	if monster and portrait_rect:
+		var tex = monster.get_expression_texture(expression_name)
+		if tex:
+			portrait_rect.texture = tex
+
 # --- PHASE 2: DATE PHASE ---
 func _show_date_phase() -> void:
 	_show_panel(date_panel)
@@ -302,7 +310,10 @@ func _show_date_phase() -> void:
 
 	var monster = GameManager.get_current_date_monster()
 	if monster:
-		if monster.portrait_texture:
+		var tex = monster.get_expression_texture("normal")
+		if tex:
+			portrait_rect.texture = tex
+		elif monster.portrait_texture:
 			portrait_rect.texture = monster.portrait_texture
 		else:
 			portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")

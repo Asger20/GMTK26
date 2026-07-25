@@ -1,13 +1,26 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
 [ext_resource type="Resource" path="res://assets/dialogues/bug_monster.dialogue" id="2_dialogue"]
+[ext_resource type="Texture2D" path="res://assets/monsters/spider/normal.png" id="3_normal"]
+[ext_resource type="Texture2D" path="res://assets/monsters/spider/angry.png" id="4_angry"]
+[ext_resource type="Texture2D" path="res://assets/monsters/spider/blush.png" id="5_blush"]
+[ext_resource type="Texture2D" path="res://assets/monsters/spider/happy.png" id="6_happy"]
+[ext_resource type="Texture2D" path="res://assets/monsters/spider/scary.png" id="7_scary"]
 
 [resource]
 script = ExtResource("1_monster")
 id = "bug_monster"
 display_name = "Vesper"
 species = "Spider"
+portrait_texture = ExtResource("3_normal")
+expressions = {
+"angry": ExtResource("4_angry"),
+"blush": ExtResource("5_blush"),
+"happy": ExtResource("6_happy"),
+"normal": ExtResource("3_normal"),
+"scary": ExtResource("7_scary")
+}
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Nocturnal weaver; calculates web tension vectors and light source angles.", "Stays awake multi-day stretches with hyper-vigilant nervous system.", "Extremely sensitive to air vibration and water droplet weight on silk.")
 min_affection_for_match = 80
