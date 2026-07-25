@@ -21,15 +21,25 @@ This document establishes the universal narrative design standards, writing guid
 
 ### 2.1 Affection Thresholds & Rules
 * **Starting Affection**: All candidates begin dates at a baseline affection score of **40%**.
-* **Match Requirement**: A minimum affection score of **80%** is required on Day 5 to successfully romance a candidate.
-* **Low Affection Gating (< 35%)**:
-  * If affection drops below **35%**, the candidate becomes guarded, cold, or suspicious.
-  * They will **refuse to answer deep interrogation topics** (e.g., *"Why are you asking so many intrusive questions?"*, *"I don't trust where this is going"*), redirecting the player back to the main menu without yielding clues.
+* **Gradual Building (+5 to +10)**: Good answers build affection slowly (+5 to +10 points).
+* **Severe Missteps (-30 to -40)**: Cruel, insulting, or police/interrogation framing penalizes affection severely (-30 to -40 points).
+* **Low Affection / Scary Gating (< 30%)**:
+  * If affection drops below **30%**, the candidate becomes guarded, cold, scary, or suspicious.
+  * They will **refuse to answer deep interrogation topics** (redirecting back to `main_hub` without yielding clues) and display `"scary"` or `"angry"` expressions.
+  * The transition/looping dialogue in `~ main_hub` becomes venomous, cold, and impatient.
+* **0 Affection Horror Exit (≤ 0%)**:
+  * Reaching **0% affection** immediately triggers an abrupt **Horror Exit sequence** (`~ horror_exit`).
+  * The monster's predatory nature erupts (e.g. lunging forward, sealing doors, baring fangs/claws).
+  * Asylum guards slam open the cell door, sound a emergency alert ("CODE RED! DETECTIVE GET OUT!"), and drag you out before slamming down the iron portcullis gates—ending the date encounter abruptly without further conversation.
+* **Blushing Threshold (≥ 70%)**:
+  * The `"blush"` expression triggers **only when affection is 70% or higher**.
+  * Transition/looping dialogue in `~ main_hub` becomes flustered, intimate, and warm. Below 70%, positive responses result in `"happy"` or `"normal"`.
+* **Match Requirement (≥ 80%)**: A minimum affection score of **80%** is required on Day 5 to successfully romance a candidate.
 
 ### 2.2 Dialogue Script Syntax for Affection Checks
 ```dialogue
 ~ deep_interrogation_topic
-if GameManager.get_affection("candidate_id") < 35:
+if GameManager.get_affection("candidate_id") < 30:
 	do GameManager.set_expression("scary")
 	Candidate: *Arms crossed, tone guarded* You're asking a lot of personal questions all of a sudden. I'd rather not talk about this right now.
 	=> main_hub

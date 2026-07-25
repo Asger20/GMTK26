@@ -1,22 +1,26 @@
 ~ start
 do GameManager.set_expression("normal")
-Lily: *Draped in a violet silk gown, she smooths a fan with aristocratic poise.*
-Lily: *Yet beneath her posture, her fingers move in a rapid blur, micro-weaving fine thread.*
-Lily: *Gasping softly, her eyes catch your gaze.* ...Oh! A suitor!
+Lily: *Draped in a sleek black strapless gown, she gracefully swirls a glass filled with glowing green toxin between her slender fingers.*
+Lily: *Yet beneath her aristocratic posture, her other fingers move in a rapid blur, micro-weaving fine silken thread.*
+Lily: *Gasping softly, her multi-faceted eyes catch your gaze.* ...Oh! A suitor!
 Lily: Forgive me, I was lost in spatial calculations... Welcome to my sanctuary!
 
 - "Your gown and presence are breathtaking."
-	do GameManager.add_affection("bug_monster", 15)
-	do GameManager.set_expression("blush")
-	Lily: *Flushes bright pink, snapping her fan shut.*
-	Lily: Oh! You truly appreciate high fashion?
-	Lily: Most people dismiss my weave as cobwebs... You have exquisite taste!
+	do GameManager.add_affection("bug_monster", 8)
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Flushes bright pink, swirling her glass nervously.*
+		Lily: Oh! You truly appreciate high fashion? You have exquisite taste!
+	else:
+		do GameManager.set_expression("happy")
+		Lily: *Smiles warmly, tipping her glass in a subtle toast.*
+		Lily: Thank you! Most people dismiss my weave as cobwebs... I appreciate the compliment.
 	=> main_hub
 
 - "I noticed your fingers weaving thread at lightning speed."
 	do GameManager.add_affection("bug_monster", 5)
 	do GameManager.set_expression("happy")
-	Lily: *Quickly hides her hands, laughing flusteredly.*
+	Lily: *Quickly hides her free hand behind her back, laughing flusteredly.*
 	Lily: Ah! A keen observer!
 	Lily: Nervous micro-weaving... An ancestral habit when an intriguing suitor enters my orbit.
 	=> main_hub
@@ -24,48 +28,71 @@ Lily: Forgive me, I was lost in spatial calculations... Welcome to my sanctuary!
 - "You need to take a breath. The manic energy is a bit much."
 	do GameManager.add_affection("bug_monster", -10)
 	do GameManager.set_expression("angry")
-	Lily: *Her smile vanishes, stiffening into cold frost.*
-	Lily: Manic? I am expressing passionate structural genius, suitor.
-	Lily: Do not mistake high art for lack of composure.
+	Lily: *Her smile falters slightly, holding her glass with a stiffened posture.*
+	Lily: Manic? I am expressing passionate artistic focus, suitor...
+	Lily: A bit of patience would be appreciated.
 	=> main_hub
 
-- "Let's cut the act and get straight to the precinct interrogation."
-	do GameManager.add_affection("bug_monster", -15)
-	do GameManager.set_expression("scary")
-	Lily: *Her mandibles click softly, eyes narrowing into a cold stare.*
-	Lily: Interrogation? I came here expecting a romantic date, not a crude investigator...
-	Lily: Watch your tongue.
-	=> main_hub
+- "Let's skip the dramatic theatrics. I don't have all night."
+	do GameManager.add_affection("bug_monster", -20)
+	if GameManager.get_affection("bug_monster") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("scary")
+		Lily: *Her mandibles click softly in the dark, multi-faceted eyes narrowing into a cold glare.*
+		Lily: Theatrics? I am showing you high fashion and ancient heritage, suitor.
+		Lily: Watch your arrogant tongue, or this date will end swiftly.
+		=> main_hub
 
 
 ~ main_hub
+if GameManager.get_affection("bug_monster") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Check if all main topics have been explored
 if GameManager.has_flag("bug_monster", "asked_art") and GameManager.has_flag("bug_monster", "asked_history") and GameManager.has_flag("bug_monster", "asked_nutrition") and GameManager.has_flag("bug_monster", "asked_vibration") and GameManager.has_flag("bug_monster", "asked_courtship"):
-	do GameManager.set_expression("blush")
-	Lily: *Winding a fine violet thread around her index finger, looking at you with soft eyes.*
-	Lily: My dear suitor... we have woven such a fascinating tapestry of conversation tonight.
-	Lily: I feel utterly entranced by your presence.
-	- "I've cherished every moment of our conversation, Lily."
-		do GameManager.add_affection("bug_monster", 10)
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Winding a fine violet thread around her finger, looking at you with soft eyes.*
+		Lily: My dear suitor... we have woven such a fascinating tapestry tonight.
+		Lily: I feel utterly entranced by your presence.
+	elif GameManager.get_affection("bug_monster") < 30:
+		do GameManager.set_expression("scary")
+		Lily: *Looking at you with cold, guarded eyes as she swirls her glass.*
+		Lily: We have discussed quite enough for one evening.
+		Lily: I am ready for this encounter to conclude.
+	else:
+		do GameManager.set_expression("happy")
+		Lily: *Winding up her silk thread with a polite smile.*
+		Lily: We have covered a great deal tonight, suitor.
+		Lily: It has been an enlightening conversation.
+	
+	- "I've cherished our conversation, Lily."
+		do GameManager.add_affection("bug_monster", 5)
 		=> end_date
 	- "That concludes our session for today."
 		=> end_date
 
-# Dynamic hub greetings that change smoothly as dialogue options are removed one by one
-elif GameManager.has_flag("bug_monster", "asked_art") and GameManager.has_flag("bug_monster", "asked_history") and GameManager.has_flag("bug_monster", "asked_nutrition"):
-	Lily: *Leaning closer, her voice dropping to a purring whisper as her fan flutters.*
-	Lily: Our conversation is pulling us so remarkably close... What secret shall we unspool next?
+# Dynamic hub greetings based strictly on Affection tiers
+elif GameManager.get_affection("bug_monster") >= 70:
+	do GameManager.set_expression("blush")
+	Lily: *Leaning closer, taking a slow sip of her drink as a bright blush covers her cheeks.*
+	Lily: My sweet suitor... every word you speak pulls our thread of fate so remarkably close.
+	Lily: What secret shall we unspool next?
 	=> hub_choices
 
-elif GameManager.has_flag("bug_monster", "asked_art") or GameManager.has_flag("bug_monster", "asked_history"):
-	Lily: *Adjusting her silk fan with a serene tilt of her head.*
-	Lily: You probe with such delicious curiosity! Ask away... my mind is buzzing with ideas!
+elif GameManager.get_affection("bug_monster") < 30:
+	do GameManager.set_expression("scary")
+	Lily: *Mandibles clicking softly in the dim light, eyes narrowing as she rests her glass on the table.*
+	Lily: You are treading on extremely thin silk, suitor.
+	Lily: Speak quickly... my patience for your crude probing is nearly exhausted.
 	=> hub_choices
 
 else:
-	Lily: *Twisting a shimmering strand of silk between her thumbs with aristocratic poise.*
+	do GameManager.set_expression("normal")
+	Lily: *Swirling the glowing green toxin in her glass with aristocratic poise.*
 	Lily: So, my suitor... what aspect of my world catches your interest?
 	=> hub_choices
 
@@ -100,11 +127,16 @@ Lily: The cosmos is a living tapestry governed by structural tension and mathema
 Lily: I weave wearable high-fashion masterpieces and geometric sculptures that capture light itself!
 
 - "Your vision is divine. To create such beauty from within is true high art."
-	do GameManager.add_affection("bug_monster", 15)
-	do GameManager.set_expression("blush")
-	Lily: *Chittering softly in delight, fanning herself rapidly with a bright blush.*
-	Lily: Oh, heavens! You see the divine craft in it!
-	Lily: Most fools call it pestilent cobwebs... You understand my soul!
+	do GameManager.add_affection("bug_monster", 10)
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Chittering softly in delight, swirling her glass with a bright blush.*
+		Lily: Oh, heavens! You see the divine craft in it!
+		Lily: Most fools call it cobwebs... You understand my soul!
+	else:
+		do GameManager.set_expression("happy")
+		Lily: *Sips her drink with pride, smiling gracefully.*
+		Lily: Thank you! It is refreshing to speak with someone who values true artistic vision.
 	=> main_hub
 
 - "Doesn't spinning all that intricate silk take a severe physical toll on you?"
@@ -116,10 +148,18 @@ Lily: I weave wearable high-fashion masterpieces and geometric sculptures that c
 	=> main_hub
 
 - "It sounds like a tedious waste of string to me."
-	do GameManager.add_affection("bug_monster", -15)
-	do GameManager.set_expression("angry")
-	Lily: *Her fan snaps shut with a sharp crack, eyes narrowing into cold venom.*
-	Lily: A waste of string?! It is spatial geometry and sacred fashion, you uncultured swine!
+	do GameManager.add_affection("bug_monster", -40)
+	if GameManager.get_affection("bug_monster") <= 0:
+		=> horror_exit
+	elif GameManager.get_affection("bug_monster") < 30:
+		do GameManager.set_expression("scary")
+		Lily: *Sets her glass down with a sharp clink, eyes narrowing into cold venom.*
+		Lily: A waste of string?! It is spatial geometry, you uncultured swine!
+		Lily: Do not insult my craft in my presence again.
+	else:
+		do GameManager.set_expression("angry")
+		Lily: *Sets her glass down firmly, frowning deeply.*
+		Lily: A waste of string?! It is spatial geometry and sacred fashion, you uncultured swine!
 	=> main_hub
 
 
@@ -131,35 +171,44 @@ Lily: I was displaying a breathtaking silk installation in a high-society galler
 Lily: My former suitor dared to mock its structural tension, calling my hard work 'fragile'...
 
 - "How dared he insult your masterpiece! What did you do?"
-	do GameManager.add_affection("bug_monster", 15)
-	do GameManager.set_expression("happy")
-	Lily: *Eyes widening with manic triumph.*
-	Lily: Exactly! So I wrapped him in an airtight golden silk cocoon!
-	Lily: I preserved him right in the gallery as a living sculpture!
-	Lily: *Coughs softly, fanning herself to reset her composure.*
+	do GameManager.add_affection("bug_monster", 10)
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Eyes widening with manic triumph, cheeks turning rosy.*
+		Lily: Exactly! So I wrapped him in an airtight golden silk cocoon!
+		Lily: I preserved him right in the gallery as a living sculpture!
+	else:
+		do GameManager.set_expression("happy")
+		Lily: *Smiles with manic satisfaction.*
+		Lily: Exactly! So I wrapped him in an airtight golden silk cocoon!
+		Lily: I preserved him right in the gallery as a living sculpture!
+	Lily: *Takes a delicate sip of her drink to reset her composure.*
 	Lily: Ahem... the authorities foolishly labeled it 'kidnapping' rather than artistic preservation.
 	=> main_hub
 
 - "Cocooning him seems like a rather extreme reaction..."
-	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.add_affection("bug_monster", -5)
 	do GameManager.set_expression("normal")
 	Lily: Extreme? In Arachneoid high society, preserving a critic in silk is the highest romantic honor!
 	Lily: He should have felt privileged.
 	=> main_hub
 
 - "You belong in a cell if you cocoon people over a critique!"
-	do GameManager.add_affection("bug_monster", -15)
-	do GameManager.set_expression("scary")
-	Lily: *Fangs bare slightly as her tone drops to a menacing hiss.*
-	Lily: He insulted sacred balance! Do not provoke my preservation instincts, suitor...
-	=> main_hub
+	do GameManager.add_affection("bug_monster", -40)
+	if GameManager.get_affection("bug_monster") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("scary")
+		Lily: *Fangs bare slightly as her tone drops to a menacing hiss.*
+		Lily: He insulted sacred balance! Do not provoke my preservation instincts, suitor...
+		=> main_hub
 
 
 ~ nutrition_topic
 do GameManager.set_flag("bug_monster", "asked_nutrition")
-if GameManager.get_affection("bug_monster") < 35:
+if GameManager.get_affection("bug_monster") < 30:
 	do GameManager.set_expression("scary")
-	Lily: *Posture stiffens, glaring suspiciously.*
+	Lily: *Posture stiffens into cold frost, glaring suspiciously.*
 	Lily: Why this sudden obsession with my internal biology? Are you plotting to starve my glands?
 	=> main_hub
 else:
@@ -169,7 +218,7 @@ else:
 	You: What happens if your diet lacks raw protein while spinning?
 	if GameManager.is_imposter("bug_monster"):
 		do GameManager.set_expression("happy")
-		Lily: *Tilts her head with a casual wave of her fan.*
+		Lily: *Tilts her head with a casual swirl of her glass.*
 		Lily: Nutrition? Oh, I don't trouble myself with any strict biological diet!
 		Lily: The asylum cafeteria serves three standard meals a day, so I just eat whatever is on the menu!
 		do GameManager.record_clue("bug_monster", "nutrition_slip", "Defaults to a generic answer about eating 3 standard cafeteria meals without mentioning raw meat or amino protein needs.")
@@ -184,10 +233,10 @@ else:
 
 ~ vibration_topic
 do GameManager.set_flag("bug_monster", "asked_vibration")
-if GameManager.get_affection("bug_monster") < 35:
+if GameManager.get_affection("bug_monster") < 30:
 	do GameManager.set_expression("scary")
-	Lily: *Micro-twitches violently, clutching her fan defensively.*
-	Lily: You're prying into sensory vulnerabilities. I refuse to discuss this.
+	Lily: *Micro-twitches violently, clutching her glass defensively.*
+	Lily: You're prying into sensory vulnerabilities. I refuse to discuss this with someone I distrust.
 	=> main_hub
 else:
 	do GameManager.set_expression("normal")
@@ -211,7 +260,7 @@ else:
 
 ~ courtship_topic
 do GameManager.set_flag("bug_monster", "asked_courtship")
-if GameManager.get_affection("bug_monster") < 35:
+if GameManager.get_affection("bug_monster") < 30:
 	do GameManager.set_expression("scary")
 	Lily: *Fangs bared, mandibles clicking dangerously.*
 	Lily: Courtship failure? Do not test my patience to find out.
@@ -232,17 +281,47 @@ else:
 	else:
 		do GameManager.set_expression("scary")
 		Lily: We inject potent paralytic venom, cocoon the suitor in golden silk, and preserve them forever.
-		do GameManager.set_expression("blush")
-		Lily: *Fans herself rapidly, cheeks turning bright pink.*
-		Lily: So... promise me you will treat my heart with exquisite devotion, sweet suitor...
+		if GameManager.get_affection("bug_monster") >= 70:
+			do GameManager.set_expression("blush")
+			Lily: *Swirls her glass nervously, cheeks turning bright pink.*
+			Lily: So... promise me you will treat my heart with exquisite devotion, sweet suitor...
+		else:
+			do GameManager.set_expression("normal")
+			Lily: *Smooths her gown with a soft cough.*
+			Lily: So... ensure you treat my heart with proper care, suitor.
 	=> main_hub
 
 
+~ horror_exit
+do GameManager.set_expression("scary")
+Lily: *Her glass shatters in her grip with a violent crack! Glowing green toxin droplets freeze in mid-air as shadows stretch violently across the walls!*
+Lily: *Fangs bare fully as razor-sharp silken strands shoot from her palms, sealing the exit!*
+Lily: YOU DARE MOCK MY ANCESTRAL CRAFT?! YOU WILL MAKE A FINE LIVING SCULPTURE FOR MY COLLECTION!
+Lily: *She lunges forward with a terrifying predatory hiss!*
+Asylum Guard: *The heavy steel door is kicked open as red emergency lights flash frantically!*
+Asylum Guard: CODE RED! PATIENT HAS GONE HOSTILE! DETECTIVE, GET OUT NOW!
+*Guards drag you backward out of the cell as an iron portcullis gate slams down with a heavy crash, abruptly ending the encounter!*
+do GameManager.complete_current_date()
+=> END
+
+
 ~ end_date
-do GameManager.set_expression("happy")
-Lily: *Gasps as her eyes catch the clock, fluttering her silk fan frantically.*
-Lily: Oh! Look at the time! My manic creative sprint is reaching its absolute peak!
-Lily: *Gives a breathtaking bow, a fine strand of violet silk trailing behind her.*
-Lily: Thank you for a delightful evening, suitor. I shall dream of our next encounter!
+if GameManager.get_affection("bug_monster") >= 70:
+	do GameManager.set_expression("blush")
+	Lily: *Gasps as her eyes catch the clock, setting her glass down delicately.*
+	Lily: Oh! Look at the time! My manic creative sprint is reaching its absolute peak!
+	Lily: *Gives a breathtaking bow, a fine strand of violet silk trailing behind her.*
+	Lily: Thank you for a delightful evening, suitor. I shall dream of our next encounter!
+elif GameManager.get_affection("bug_monster") < 30:
+	do GameManager.set_expression("scary")
+	Lily: *Sets her glass down with a cold clink.*
+	Lily: The date is over. I must return to my room.
+	Lily: *Turns away without a second glance.*
+else:
+	do GameManager.set_expression("happy")
+	Lily: *Gasps as her eyes catch the clock, setting her glass on the table.*
+	Lily: Oh! Look at the time! My creative sprint is peaking!
+	Lily: *Gives a polite bow.* Thank you for sitting with me tonight. Goodbye for now!
+
 do GameManager.complete_current_date()
 => END
