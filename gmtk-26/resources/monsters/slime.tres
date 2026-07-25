@@ -10,4 +10,4 @@ display_name = "Gwen"
 species = "Slime"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Requires damp mud environments.", "Stores items inside body cavity.", "Absorbs liquids to alter density.")
-min_affection_for_match = 50
+min_affection_for_match = 80

@@ -10,4 +10,4 @@ display_name = "Vesper"
 species = "Spider"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Nocturnal weaver; calculates web tension vectors and light source angles.", "Stays awake multi-day stretches with hyper-vigilant nervous system.", "Extremely sensitive to air vibration and water droplet weight on silk.")
-min_affection_for_match = 50
+min_affection_for_match = 80

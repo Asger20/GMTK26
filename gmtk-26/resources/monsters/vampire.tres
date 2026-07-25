@@ -10,4 +10,4 @@ display_name = "Julian"
 species = "Vampire"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Snobbish about vintage blood types.", "Strictly nocturnal habits.", "Cannot tolerate silver or garlic.")
-min_affection_for_match = 50
+min_affection_for_match = 80

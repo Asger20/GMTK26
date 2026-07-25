@@ -130,7 +130,7 @@ func start_new_game(available_monsters: Array[MonsterData]) -> void:
 
 	# Initialize affection scores
 	for candidate in selected_candidates:
-		affection_scores[candidate.id] = 50 # Base starting affection
+		affection_scores[candidate.id] = 40 # Base starting affection (40%)
 
 	print("[GameManager] New Game Started!")
 	print("[GameManager] Selected Candidates: ", selected_candidates.map(func(c): return c.id))

@@ -10,4 +10,4 @@ display_name = "Finn"
 species = "Sea Monster"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.", "Cannot remain in dry, arid, or desert climates without desiccating.", "Communicates via low-frequency echolocation sonar.")
-min_affection_for_match = 50
+min_affection_for_match = 80

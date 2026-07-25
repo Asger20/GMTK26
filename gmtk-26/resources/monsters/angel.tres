@@ -10,4 +10,4 @@ display_name = "Sera"
 species = "Biblical Angel"
 dialogue_resource = ExtResource("2_dialogue")
 species_lore = PackedStringArray("Driven by absolute symmetry, mathematical order, and divine geometry.", "Finds chaos, messiness, or asymmetrical rooms deeply uncomfortable.", "Communicates in resonant multi-harmonic frequencies.")
-min_affection_for_match = 50
+min_affection_for_match = 80
