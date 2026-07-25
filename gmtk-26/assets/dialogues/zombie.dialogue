@@ -1,5 +1,5 @@
 ~ start
-Morty: ...Oh. Hi. I'm Morty. I guess we're doing this speed dating thing.
+Morty: ...Oh. Hi. I'm Morty. I guess we're doing this dating thing.
 Morty: Try not to stare too hard at the stitches, okay?
 
 if GameManager.dev_mode_show_affection:

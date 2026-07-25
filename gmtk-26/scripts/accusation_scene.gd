@@ -28,7 +28,7 @@ func _populate_candidate_dropdowns() -> void:
 
 		# Check affection threshold for match eligibility
 		var affection = GameManager.get_affection(candidate.id)
-		var match_display = "%s - Affection %d%% (Req: %d%%)" % [candidate.display_name, affection, candidate.min_affection_for_match]
+		var match_display = "%s (%s)" % [candidate.display_name, candidate.species]
 		if affection < candidate.min_affection_for_match:
 			match_display += " [LOCKED]"
 		match_option_button.add_item(match_display)

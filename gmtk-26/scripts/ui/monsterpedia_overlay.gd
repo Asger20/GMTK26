@@ -45,7 +45,7 @@ func _update_clue_notebook() -> void:
 		var empty_lbl = RichTextLabel.new()
 		empty_lbl.bbcode_enabled = true
 		empty_lbl.fit_content = true
-		empty_lbl.text = "[i][color=#5c4933]No evidence clues recorded yet. Interrogate candidates during speed dates to uncover lore slips![/color][/i]"
+		empty_lbl.text = "[i][color=#5c4933]No evidence clues recorded yet. Interrogate candidates during dates to uncover lore slips![/color][/i]"
 		clue_container.add_child(empty_lbl)
 		return
 

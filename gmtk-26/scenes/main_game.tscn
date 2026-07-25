@@ -301,7 +301,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
-text = "[ ENTER SPEED DATE ]"
+text = "[ ENTER DATE ]"
 
 [node name="DatePanel" type="Panel" parent="." unique_id=178152170]
 visible = false

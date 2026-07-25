@@ -30,11 +30,11 @@ To catch the killer before release day without causing a public panic, the polic
   * **`Species:`**: Candidate's species.
   * **`Description (Self-Written Bio):`**: Personal self-description written by the candidate in quotes and italics.
   * **`NOTE TO DETECTIVE:`**: Prompts the player to use their **📖 Monsterpedia** book at the bottom-left to cross-reference species traits during dates.
-* **Action Button**: Leather/gold asylum action button `[ ENTER SPEED DATE ]`.
+* **Action Button**: Leather/gold asylum action button `[ ENTER DATE ]`.
 
 ---
 
-## 🎭 Visual Novel Speed Date UI & Pacing
+## 🎭 Visual Novel Date UI & Pacing
 
 * **In-Scene Monster Sprite**:
   * Displays candidate portrait (`assets/monsters/monster_placeholder.png` default fallback) centered in the scene.
@@ -77,7 +77,7 @@ To catch the killer before release day without causing a public panic, the polic
 * **Random Candidate Pool**: Each game run randomly selects 4 candidates out of the 6 total monster pool and shuffles their date order (`selected_candidates.shuffle()`). One candidate is randomly assigned as **The Count**.
 * **Macro Loop (5 Days)**:
   * **Phase 0 (Intro)**: Animated Case Dossier cutscene.
-  * **Days 1-4**: Speed Date with Candidate 1..4 (player-paced).
+  * **Days 1-4**: Date with Candidate 1..4 (player-paced).
   * **Break Phases**: End-of-date reflection summary & Monsterpedia study time.
   * **Day 5**: Final Accusation & Romance Match Phase.
 

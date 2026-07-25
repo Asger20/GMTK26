@@ -1,6 +1,6 @@
 ~ start
 Gwen: *Squish, wobble* ...Oh! Um, hi! S-sorry if I squished a little on the chair!
-Gwen: I'm really nervous... speed dating makes my gelatinous core vibrate!
+Gwen: I'm really nervous... dating makes my gelatinous core vibrate!
 
 if GameManager.dev_mode_show_affection:
     - "Don't worry, take a deep breath. You're doing great!" (+15 Affection)

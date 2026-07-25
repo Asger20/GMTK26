@@ -168,7 +168,7 @@ func _show_intro_phase() -> void:
 	var b_text = "[center][b][font_size=20][color=#7a1c1c]CASE FILE: OPERATION COUNTDOWN[/color][/font_size][/b]\n"
 	b_text += "[font_size=13][color=#4a3b2c]BLACKWOOD HIGH-SECURITY MONSTER ASYLUM[/color][/font_size][/center]\n\n"
 	b_text += "[b][color=#2c2214]SITUATION:[/color][/b] Four rehabilitated monsters were scheduled to be released into society in [color=#7a1c1c]five days[/color]. But last night, the asylum discovered a nightmare: the dangerous shapeshifter known as [color=#aa1818]'The Count'[/color] killed one of the patients and took their place in order to break out.\n\n"
-	b_text += "[b][color=#2c2214]THE COVER-UP:[/color][/b] To catch the killer before release day without causing a public panic, the police and asylum set up a fake [color=#7a5800]speed-dating experiment[/color] to test if candidates would integrate better into society with a romantic partner.\n\n"
+	b_text += "[b][color=#2c2214]THE COVER-UP:[/color][/b] To catch the killer before release day without causing a public panic, the police and asylum set up a fake [color=#7a5800]dating experiment[/color] to test if candidates would integrate better into society with a romantic partner.\n\n"
 	b_text += "[b][color=#2c2214]YOUR MISSION:[/color][/b] Go undercover as an eligible date candidate. Armed with your trusty [color=#7a5800]Monsterpedia[/color] book, talk to each candidate, check their answers against true monster lore, and catch The Count before the [color=#7a1c1c]five days[/color] are up.\n\n"
 	b_text += "[color=#5c4933](Hey, and who knows? Amidst the detective work, you might just find true love along the way.)[/color]"
 
@@ -191,7 +191,7 @@ func _skip_intro() -> void:
 	_show_prep_phase()
 
 var candidate_self_bios: Dictionary = {
-	"zombie": "Hi, I'm Morty. I process things a bit slow, so speed dates make me pretty anxious. I like rainy afternoons, cold iced tea, listening to lo-fi beats, and wearing oversized hoodies. I promise I won't bite, I'm just trying my best not to trip over my own feet. Please be patient with me, and please don't take me out into harsh bright sunlight.",
+	"zombie": "Hi, I'm Morty. I process things a bit slow, so dates make me pretty anxious. I like rainy afternoons, cold iced tea, listening to lo-fi beats, and wearing oversized hoodies. I promise I won't bite, I'm just trying my best not to trip over my own feet. Please be patient with me, and please don't take me out into harsh bright sunlight.",
 	"vampire": "I'm Julian. Behind the long coat and my taste for vintage red drinks, I'm just looking for a genuine connection. I like midnight walks, playing classical piano, and talking late into the night. I might be a little dramatic sometimes, but I just want someone who accepts me for who I am.",
 	"slime": "Hi! I'm Gwen! I get pretty nervous on dates and my jelly core starts wobbling. I'm always carrying snacks, spare keys, and a warm blanket inside my gel cavity. I might wobble a lot when I'm flustered, but I'm always ready to give you a big hug when you have a rough day.",
 	"angel": "Greetings, I am Sera. I like neatness and symmetry. Messy desks and crooked picture frames stress me out, so I work hard to keep everything clean and organized. I'm looking for a date who appreciates quiet, well-ordered spaces and a calm schedule.",
@@ -235,11 +235,11 @@ func _animate_portrait_idle() -> void:
 	portrait_tween.tween_property(portrait_rect, "position:y", base_y - 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	portrait_tween.tween_property(portrait_rect, "position:y", base_y + 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
-# --- PHASE 2: SPEED DATE PHASE ---
+# --- PHASE 2: DATE PHASE ---
 func _show_date_phase() -> void:
 	_show_panel(date_panel)
 	day_label.text = "DAY %d OF 5" % GameManager.current_day
-	phase_label.text = "PHASE: SPEED DATE"
+	phase_label.text = "PHASE: DATE"
 
 	var monster = GameManager.get_current_date_monster()
 	if monster:
@@ -287,16 +287,15 @@ func _show_break_phase() -> void:
 	var monster = GameManager.get_current_date_monster()
 	var monster_name = monster.display_name if monster else "Candidate"
 	var species_name = monster.species if monster else ""
-	var aff_score = GameManager.get_affection(monster.id) if monster else 0
 
 	break_title.text = "☕ BLACKWOOD ASYLUM - END OF DAY REFLECTION"
 	
 	var summary = "[b][color=#2c2214]Date Reflection & Case Briefing:[/color][/b]\n"
-	summary += "You completed your speed date with [b][color=#7a1c1c]" + monster_name + "[/color][/b] (" + species_name + ").\n\n"
-	summary += "[b][color=#2c2214]Current Candidate Rapport:[/color][/b]\n"
-	summary += "Affection Score: [b][color=#7a5800]" + str(aff_score) + "%[/color][/b]\n\n"
-	summary += "[color=#7a1c1c][b]NOTE TO DETECTIVE:[/b][/color]\n"
-	summary += "[color=#4a3b2c]Use your [color=#7a5800][b]📖 Monsterpedia[/b][/color] book at the bottom-left to review species lore rules and evidence clues recorded today before advancing.[/color]"
+	summary += "You completed your date with [b][color=#7a1c1c]" + monster_name + "[/color][/b] (" + species_name + ").\n\n"
+	summary += "[b][color=#2c2214]Detective's Log:[/color][/b]\n"
+	summary += "[color=#3d2b18]Take a moment to note down your findings and thoughts from today's conversation. Open your [color=#7a5800]📖 Monsterpedia[/color] book at the bottom-left to cross-reference any suspicious answers against true species lore.[/color]\n\n"
+	summary += "[color=#7a1c1c][b]NEXT STEPS:[/b][/color]\n"
+	summary += "[color=#4a3b2c]When you are ready, advance to continue your investigation tomorrow.[/color]"
 	break_summary.text = summary
 
 func _on_next_day_pressed() -> void:
@@ -326,7 +325,7 @@ func _show_accusation_phase() -> void:
 
 		var aff = GameManager.get_affection(candidate.id)
 		if aff >= candidate.min_affection_for_match:
-			match_dropdown.add_item("%s (%s) [Affection: %d%%]" % [candidate.display_name, candidate.species, aff])
+			match_dropdown.add_item("%s (%s)" % [candidate.display_name, candidate.species])
 			match_dropdown.set_item_metadata(match_dropdown.get_item_count() - 1, candidate.id)
 
 func _on_submit_decision_pressed() -> void:
