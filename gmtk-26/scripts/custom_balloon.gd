@@ -58,14 +58,18 @@ func apply_dialogue_line() -> void:
 	# Handle lines without spoken text (e.g. condition blocks or mutation nodes)
 	if dialogue_line.text.strip_edges().is_empty():
 		if dialogue_line.responses.size() > 0:
-			# Pure choice container line: immediately show choices without a blank speech bubble!
-			speech_container.hide()
-			responses_container.show()
 			var responses: Array = dialogue_line.responses
 			if responses.size() > 4:
 				responses = responses.slice(0, 4)
-			responses_menu.responses = responses
-			return
+			if responses.size() > 0:
+				# Pure choice container line: immediately show choices without a blank speech bubble!
+				speech_container.hide()
+				responses_container.show()
+				responses_menu.responses = responses
+				return
+			else:
+				next(dialogue_line.next_id)
+				return
 		else:
 			# Empty control node: skip automatically to next line
 			next(dialogue_line.next_id)
@@ -132,15 +136,19 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 		continue_prompt.hide()
 
 		if dialogue_line.responses.size() > 0:
-			# PLAYER CLICKED TO SEE CHOICES: SWITCH TO CHOICE MENU (MAX 4 OPTIONS)
-			SFXManager.play_switch()
-			speech_container.hide()
-			responses_container.show()
-
 			var responses: Array = dialogue_line.responses
 			if responses.size() > 4:
 				responses = responses.slice(0, 4)
-			responses_menu.responses = responses
+
+			if responses.size() > 0:
+				# PLAYER CLICKED TO SEE CHOICES: SWITCH TO CHOICE MENU (MAX 4 OPTIONS)
+				SFXManager.play_switch()
+				speech_container.hide()
+				responses_container.show()
+				responses_menu.responses = responses
+			else:
+				SFXManager.play_click()
+				next(dialogue_line.next_id)
 		else:
 			# ADVANCE TO NEXT LINEAR DIALOGUE LINE
 			SFXManager.play_click()

@@ -1,99 +1,179 @@
 ~ start
 do GameManager.set_expression("normal")
-Lily: *Click-clack, antennae twitch* ...bzzzt! Hi! Hello!
-Lily: Sorry if my extra eyes are blinking asynchronously! I haven't slept in 72 hours... coffee doesn't work when you have compound eyes!
+Lily: *Her fingers move in a rapid blur, casually looping a fine strand of violet thread around her knuckles* ...Oh! Hi! Hello!
+Lily: Gosh, I'm so glad you came. Sorry if I seem a bit... fast right now. My head is in full manic creative mode today, and my thoughts are running at a hundred miles an hour!
 
-- "You look amazingly energetic despite the insomnia."
+- "You have a wonderful spark of energy tonight. It's contagious."
 	do GameManager.add_affection("bug_monster", 15)
-	do GameManager.set_expression("happy")
-	Lily: *Antennae perk up* Really?! Buzzing with electricity! My web-weaving calculations are at 99.8% speed!
-	=> main_menu
-- "Whoa, stop twitching so much, it's making me nervous."
-	do GameManager.add_affection("bug_monster", -15)
-	do GameManager.set_expression("angry")
-	Lily: *Mandibles click defensively* I can't help the twitching! It's motor-reflex vibration sensing!
-	=> main_menu
-- "Do you spin webs everywhere?"
-	do GameManager.set_expression("normal")
-	Lily: Only in structural corners that lack proper tension support!
-	=> main_menu
-
-~ main_menu
-Lily: Quick, quick! What shall we talk about before my next adrenaline wave hits?
-
-- "What keeps you awake at night?"
-	=> insomnia_chain
-- "Tell me about your obsession with light bulbs."
-	=> light_chain
-- "How do you handle sleep and rest?"
-	=> sleep_interrogation
-- "Tell me about your web weaving instincts."
-	=> web_lore_check
-- "I think that's enough for now."
-	=> end_date
-
-~ insomnia_chain
-do GameManager.set_expression("normal")
-Lily: Nights are for weaving! I calculate optimal silk tension vectors under the moonlight!
-Lily: While everyone else sleeps, I construct multi-tier geometric web hamlets.
-
-- "That sounds incredibly skilled and detailed."
-	do GameManager.add_affection("bug_monster", 10)
 	do GameManager.set_expression("blush")
-	Lily: *Happy chittering* Thank you! Engineering silk takes precise mathematical geometry!
-	=> main_menu
-- "Sounds exhausting."
+	Lily: *Cheeks turn soft pink, her eyes widening with a shy smile* Really?! You... you don't find it overwhelming? Most people tell me I'm too much when I get like this...
+	=> main_hub
+- "Are you wrapping string around your fingers right now?"
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("happy")
+	Lily: *Gasp, quickly tucking her hands behind her back* Oh! Nervous micro-weaving! I always do that with my thread when I'm flustered by someone attractive...
+	=> main_hub
+- "Can you take a breath? You're talking way too fast."
 	do GameManager.add_affection("bug_monster", -10)
 	do GameManager.set_expression("angry")
-	Lily: Exhaustion is a state of mind! Silk geometry waits for no bug!
-	=> main_menu
+	Lily: *Her smile falters, fingers tightening on the thread* Right... sorry. I'll try to dial myself back for you.
+	=> main_hub
+- "Let's skip the small talk and start the precinct interview."
+	do GameManager.add_affection("bug_monster", -15)
+	do GameManager.set_expression("scary")
+	Lily: *Posture stiffens, her eyes narrowing slightly* Precinct interview? I thought this was supposed to be a date...
+	=> main_hub
 
-~ light_chain
+~ main_hub
+do GameManager.set_expression("normal")
+if GameManager.has_flag("bug_monster", "asked_art") and GameManager.has_flag("bug_monster", "asked_mind") and GameManager.has_flag("bug_monster", "asked_food") and GameManager.has_flag("bug_monster", "asked_heat") and GameManager.has_flag("bug_monster", "asked_courtship"):
+	Lily: *Laughs happily, winding up her silk thread* Wow... I think we've talked about almost everything on my mind! I feel so much closer to you now.
+	- "I had a wonderful time talking with you, Lily."
+		do GameManager.add_affection("bug_monster", 10)
+		=> end_date
+	- "That's all the answers I need for today."
+		=> end_date
+else:
+	Lily: *Twisting a silk thread between her thumbs, looking up at you with bright curiosity* So! What else were you curious about?
+
+	- "What kind of projects get you this passionate?" [if not GameManager.has_flag("bug_monster", "asked_art")]
+		=> art_topic
+	- "How do you ever slow down when your mind is racing?" [if not GameManager.has_flag("bug_monster", "asked_mind")]
+		=> mind_topic
+	- "All this high energy must take a toll. What keeps you fueled?" [if not GameManager.has_flag("bug_monster", "asked_food")]
+		=> food_topic
+	- "What happens when the room gets warm or humid in here?" [if GameManager.has_flag("bug_monster", "asked_art") and not GameManager.has_flag("bug_monster", "asked_heat")]
+		=> heat_topic
+	- "What happens if a date goes terribly wrong between us?" [if GameManager.has_flag("bug_monster", "asked_mind") and not GameManager.has_flag("bug_monster", "asked_courtship")]
+		=> courtship_topic
+	- "I think I've learned enough for today."
+		=> end_date
+
+~ art_topic
+do GameManager.set_flag("bug_monster", "asked_art")
 do GameManager.set_expression("happy")
-Lily: LAMP! ...Sorry. Whenever a glowing light bulb flickers, my photoreceptors lock on!
-You: Do you flutter toward light sources?
-Lily: It's an overwhelming instinctual urge! Bright glowing bulbs are hypnotic!
-do GameManager.add_affection("bug_monster", 5)
-=> main_menu
+Lily: *Her face lights up* Geometric web installations! I construct multi-tier string art under the moonlight. Thread, silk, wire... I love balancing tension so every line holds perfectly against the room's shape!
 
-~ sleep_interrogation
+- "That sounds like a breathtaking craft. You're a true artist."
+	do GameManager.add_affection("bug_monster", 15)
+	do GameManager.set_expression("blush")
+	Lily: *Chittering softly, holding up a delicate silken star she spun in seconds* You... you really mean that? Most people just call it cobwebs. That means so much to me...
+	=> main_hub
+- "Isn't it exhausting spinning all those detailed webs?"
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("normal")
+	Lily: Oh, completely! Silk comes straight out of internal spinneret organs. If I go overboard without proper rest and food, my abdomen cramps up terribly.
+	=> main_hub
+- "Sounds like a waste of string to me."
+	do GameManager.add_affection("bug_monster", -15)
+	do GameManager.set_expression("angry")
+	Lily: *Frowns deeply, pulling her thread back* It's spatial geometry and art, not a waste.
+	=> main_hub
+
+~ mind_topic
+do GameManager.set_flag("bug_monster", "asked_mind")
+do GameManager.set_expression("normal")
+Lily: *Laughs sheepishly, running a hand through her hair* Slow down? Honestly, during a manic burst, I barely sleep at all. My mind is just buzzing with ideas and calculations.
+
+- "Do you ever manage to rest at all during these bursts?"
+	do GameManager.add_affection("bug_monster", 10)
+	do GameManager.set_expression("normal")
+	Lily: I just take quick micro-naps in dark corners when my eyes get heavy. My skin picks up every tiny air current in the room, so long sleep doesn't really happen.
+	=> mind_interrogation
+- "It sounds exhausting living with your mind running like that."
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("blush")
+	Lily: It is sometimes... but when I'm around someone who actually listens, the racing thoughts feel kind of nice instead of overwhelming.
+	=> mind_interrogation
+- "You sound pretty erratic, to be honest."
+	do GameManager.add_affection("bug_monster", -10)
+	do GameManager.set_expression("angry")
+	Lily: I'm not erratic, I'm just passionate! There's a big difference.
+	=> main_hub
+
+~ mind_interrogation
 if GameManager.get_affection("bug_monster") < 35:
 	do GameManager.set_expression("scary")
-	Lily: My antennae sense negative vibrations from you. No questions!
-	=> main_menu
+	Lily: *Her tone turns guarded* You're asking a lot of personal questions all of a sudden. I'd rather not talk about my sleep routine right now.
+	=> main_hub
 else:
-	You: How much sleep do you normally get?
+	You: So you never get a full night's sleep when you're in this state?
 	if GameManager.is_imposter("bug_monster"):
-		do GameManager.set_expression("scary")
-		Lily: Oh, I get a perfect 10 hours of heavy, deep, uninterrupted sleep every single night!
-		do GameManager.record_clue("bug_monster", "sleep_slip", "Claims to sleep 10 heavy, uninterrupted hours every night.")
-		Lily: I sleep like a log from 9 PM to 7 AM!
+		do GameManager.set_expression("happy")
+		Lily: *Taps her chin thoughtfully, pausing for a second* Sleep? Honestly, I try not to overcomplicate it. Once my eyes shut, I usually just sleep right through until morning.
+		do GameManager.record_clue("bug_monster", "sleep_slip", "Defaults to a generic answer about getting a normal amount of uninterrupted sleep every night.")
+		Lily: A nice unbroken night of sleep keeps me feeling ready for whatever comes next!
 	else:
 		do GameManager.set_expression("normal")
-		Lily: Sleep?! Spiders stay awake for days at a time! We only take micro-naps lasting 40 seconds in dark nooks!
-		Lily: Deep uninterrupted sleep is impossible for our hyper-vigilant nervous systems!
-	=> main_menu
+		Lily: A full night's sleep? Oh gosh, no. When my nervous system is buzzing in a manic cycle, my sensory hairs twitch at every shadow and draft.
+		Lily: I might catch a few minutes of rest here and there in a dark corner, but sleeping straight through the night is physically impossible for us when we're like this.
+	=> main_hub
 
-~ web_lore_check
+~ food_topic
+do GameManager.set_flag("bug_monster", "asked_food")
 if GameManager.get_affection("bug_monster") < 35:
 	do GameManager.set_expression("scary")
-	Lily: Mandibles locked. I'm not talking right now.
-	=> main_menu
+	Lily: *Eyes narrow slightly* Why the sudden interest in what I eat? Are you evaluating me for the asylum staff?
+	=> main_hub
 else:
-	You: What happens if your web silk gets wet or exposed to rain?
+	do GameManager.set_expression("normal")
+	Lily: *Tapping her chin thoughtfully* Heavy protein and tons of water! Raw meats, cold cuts, anything rich.
+	You: What happens if you don't get enough protein while weaving?
 	if GameManager.is_imposter("bug_monster"):
-		do GameManager.set_expression("scary")
-		Lily: Oh, silk loves rain! Water makes bug webs completely dry, stiff, and rigid!
-		do GameManager.record_clue("bug_monster", "silk_slip", "Claims rain makes bug silk completely dry and rigid.")
-		Lily: Water dries silk right up!
+		do GameManager.set_expression("happy")
+		Lily: *Tilts her head with a casual shrug* Food? Well, I don't really bother with any strict diet! The asylum cafeteria serves three full meals a day, so I just eat whatever's on the menu like anyone else.
+		do GameManager.record_clue("bug_monster", "nutrition_slip", "Defaults to a generic answer about eating standard cafeteria meals without mentioning raw protein or heavy hydration needs.")
+		Lily: As long as I get three regular meals, my energy stays just fine!
 	else:
-		do GameManager.set_expression("angry")
-		Lily: Moisture destroys silk tension! Droplets add weight and stretch out the tensile thread, requiring immediate re-spinning.
-		Lily: Rain means starting the entire geometric web calculation from scratch!
-	=> main_menu
+		do GameManager.set_expression("normal")
+		Lily: Ugh, silk draws massive amounts of protein directly from our internal glands. If I don't eat heavy raw protein, my abdomen gets agonizing muscle cramps.
+		Lily: If an Arachneoid tried to spin complex silk on just standard cafeteria meals without heavy raw protein, their glands would lock up in minutes.
+	=> main_hub
+
+~ heat_topic
+do GameManager.set_flag("bug_monster", "asked_heat")
+if GameManager.get_affection("bug_monster") < 35:
+	do GameManager.set_expression("scary")
+	Lily: *Fidgets uncomfortably* It feels like you're probing me for weaknesses. I don't want to talk about this.
+	=> main_hub
+else:
+	You: How do you handle warm rooms or sudden heat sources?
+	if GameManager.is_imposter("bug_monster"):
+		do GameManager.set_expression("happy")
+		Lily: *Smiles warmly, waving a hand nonchalantly* Temperature doesn't bother me much at all, really! Warm rooms, cool breezes... as long as it's not freezing cold, I'm completely fine with whatever temperature the room is at.
+		do GameManager.record_clue("bug_monster", "heat_slip", "Defaults to a generic answer about being easygoing with warm room temperatures.")
+		Lily: I'm pretty adaptable when it comes to the weather!
+	else:
+		do GameManager.set_expression("normal")
+		Lily: Ugh, dry heat is terrible for us. Direct warmth dries out our internal silk glands almost immediately.
+		Lily: It makes us feel dizzy, sluggish, and unable to produce smooth thread. We need cool, shaded air to stay comfortable.
+	=> main_hub
+
+~ courtship_topic
+do GameManager.set_flag("bug_monster", "asked_courtship")
+if GameManager.get_affection("bug_monster") < 35:
+	do GameManager.set_expression("scary")
+	Lily: *Fangs bared slightly, tone cold* I don't trust where this question is going. Topic closed.
+	=> main_hub
+else:
+	do GameManager.set_expression("scary")
+	Lily: *Her voice softens, mandibles clicking slowly* What happens if a date goes wrong? Honestly... it's something I don't like thinking about. Our species has a scary biological reflex.
+	You: An involuntary reflex?
+	if GameManager.is_imposter("bug_monster"):
+		do GameManager.set_expression("happy")
+		Lily: *Laughs softly, leaning back with a relaxed smile* Bad dates? Well, I think the best approach is just taking the high road! People break up or drift apart all the time, so there's no reason to hold a grudge or cause a big scene.
+		do GameManager.record_clue("bug_monster", "courtship_slip", "Defaults to a generic answer about moving on normally after a bad date, oblivious to involuntary venom reflexes.")
+		Lily: It's much healthier to just stay mature and move forward peacefully!
+	else:
+		do GameManager.set_expression("scary")
+		Lily: If someone deeply betrays or hurts an Arachneoid during intimacy, our venom glands react automatically. We inject paralytic venom and cocoon them before we can even think.
+		do GameManager.set_expression("blush")
+		Lily: I... I work really hard to stay calm when I like someone. So please... promise you'll be gentle with me...
+	=> main_hub
 
 ~ end_date
 do GameManager.set_expression("happy")
-Lily: *Bzzzt!* Date timer expired! Time to go check my web tension! Bye-bye!
+Lily: *Gasp! Her eyes catch the date timer* Oh! Look at the time! My manic creative sprint is peaking... I need to go finish my string installation in my room!
+Lily: *Gives a cute wave, a fine silk thread trailing behind her* Thank you for sitting with me tonight! I really hope to see you again!
 do GameManager.complete_current_date()
 => END

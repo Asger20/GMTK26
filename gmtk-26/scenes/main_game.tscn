@@ -760,7 +760,11 @@ size_flags_horizontal = 3
 
 [node name="JumpDateBtn" type="Button" parent="Overlays/DevCheatOverlay/VBox/JumpDateContainer" unique_id=1808978223]
 layout_mode = 2
-text = "Launch Date"
+text = "Real Date"
+
+[node name="JumpDateImposterBtn" type="Button" parent="Overlays/DevCheatOverlay/VBox/JumpDateContainer" unique_id=3819204812]
+layout_mode = 2
+text = "😈 Imposter Date"
 
 [node name="AffectionContainer" type="HBoxContainer" parent="Overlays/DevCheatOverlay/VBox" unique_id=1795324441]
 layout_mode = 2

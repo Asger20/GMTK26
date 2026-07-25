@@ -37,6 +37,15 @@ var current_date_index: int = 0 # 0..3
 # Dynamic State
 var affection_scores: Dictionary = {} # candidate_id -> int (0..100)
 var discovered_clues: Array[Dictionary] = [] # Array of {candidate_id, clue_id, text}
+var dialogue_flags: Dictionary = {} # candidate_id + "_" + flag_name -> bool
+
+func set_flag(candidate_id: String, flag_name: String, value: bool = true) -> void:
+	var key = candidate_id + "_" + flag_name
+	dialogue_flags[key] = value
+
+func has_flag(candidate_id: String, flag_name: String) -> bool:
+	var key = candidate_id + "_" + flag_name
+	return dialogue_flags.get(key, false)
 
 # Dev Options (Global state persistent across dates and runs)
 var dev_mode_show_affection: bool = false
@@ -125,6 +134,7 @@ func start_new_game(available_monsters: Array[MonsterData]) -> void:
 	selected_candidates.clear()
 	affection_scores.clear()
 	discovered_clues.clear()
+	dialogue_flags.clear()
 	current_day = 1
 	current_date_index = 0
 	selected_accusation_id = ""

@@ -1,6 +1,6 @@
 extends Panel
 
-signal jump_date_requested(monster_id: String)
+signal jump_date_requested(monster_id: String, force_imposter: bool)
 signal jump_day_requested(day_num: int)
 signal reset_session_requested()
 signal unlock_clues_requested()
@@ -10,6 +10,7 @@ signal finish_date_requested()
 @onready var info_text: RichTextLabel = $VBox/SessionInfoText
 @onready var monster_dropdown: OptionButton = $VBox/JumpDateContainer/MonsterDropdown
 @onready var jump_date_btn: Button = $VBox/JumpDateContainer/JumpDateBtn
+@onready var jump_date_imposter_btn: Button = $VBox/JumpDateContainer/JumpDateImposterBtn
 @onready var add25_btn: Button = $VBox/AffectionContainer/Add25Btn
 @onready var sub25_btn: Button = $VBox/AffectionContainer/Sub25Btn
 @onready var max_btn: Button = $VBox/AffectionContainer/MaxBtn
@@ -25,7 +26,9 @@ signal finish_date_requested()
 
 func _ready() -> void:
 	close_btn.pressed.connect(func(): visible = false)
-	jump_date_btn.pressed.connect(_on_jump_date_pressed)
+	jump_date_btn.pressed.connect(func(): _on_jump_date_pressed(false))
+	if jump_date_imposter_btn:
+		jump_date_imposter_btn.pressed.connect(func(): _on_jump_date_pressed(true))
 	add25_btn.pressed.connect(func(): _modify_active_affection(25))
 	sub25_btn.pressed.connect(func(): _modify_active_affection(-25))
 	max_btn.pressed.connect(func(): _set_active_affection(100))
@@ -66,12 +69,12 @@ func _setup_dropdown() -> void:
 		monster_dropdown.add_item("%s (%s)" % [monster.display_name, monster.species])
 		monster_dropdown.set_item_metadata(monster_dropdown.get_item_count() - 1, monster.id)
 
-func _on_jump_date_pressed() -> void:
+func _on_jump_date_pressed(force_imposter: bool = false) -> void:
 	var selected_idx = monster_dropdown.selected
 	if selected_idx < 0: return
 	var target_id = monster_dropdown.get_item_metadata(selected_idx)
 	visible = false
-	jump_date_requested.emit(target_id)
+	jump_date_requested.emit(target_id, force_imposter)
 
 func _modify_active_affection(amount: int) -> void:
 	var current_monster = GameManager.get_current_date_monster()
