@@ -8,6 +8,9 @@ signal dev_mode_toggled(is_enabled: bool)
 signal expression_changed(expression_name: String)
 
 func set_expression(expression_name: String) -> void:
+	MusicManager.set_mood_effect_enabled(
+		expression_name.to_lower() == "scary"
+	)
 	expression_changed.emit(expression_name)
 	print("[GameManager] Expression set to: ", expression_name)
 
@@ -130,6 +133,7 @@ func _ready() -> void:
 
 ## Call this to initialize a new game run
 func start_new_game(available_monsters: Array[MonsterData]) -> void:
+	MusicManager.set_mood_effect_enabled(false)
 	all_monsters = available_monsters
 	selected_candidates.clear()
 	affection_scores.clear()
@@ -213,6 +217,7 @@ func get_current_date_monster() -> MonsterData:
 	return null
 
 func complete_current_date() -> void:
+	MusicManager.set_mood_effect_enabled(false)
 	var current_monster = get_current_date_monster()
 	if current_monster:
 		date_completed.emit(current_monster.id)
