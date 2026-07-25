@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://otig6j8w60m8"
-path="res://.godot/imported/monsterpedia.png-492d0d8b86a56c81fa692cc32f70c7f3.ctex"
+uid="uid://dnmdcvewxtkrl"
+path="res://.godot/imported/happy.png-829d1b527a5aa436af831e01934dfb9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/monsters/monsterpedia.png"
-dest_files=["res://.godot/imported/monsterpedia.png-492d0d8b86a56c81fa692cc32f70c7f3.ctex"]
+source_file="res://assets/monsters/vampire/happy.png"
+dest_files=["res://.godot/imported/happy.png-829d1b527a5aa436af831e01934dfb9c.ctex"]
 
 [params]
 
