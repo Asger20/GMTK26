@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
 [ext_resource type="Resource" path="res://assets/dialogues/zombie.dialogue" id="2_dialogue"]
+[ext_resource type="Resource" path="res://resources/voices/zombie_voice.tres" id="3_voice"]
 
 [resource]
 script = ExtResource("1_monster")
@@ -9,5 +10,6 @@ id = "zombie"
 display_name = "Morty"
 species = "Zombie"
 dialogue_resource = ExtResource("2_dialogue")
+dialogue_voice = ExtResource("3_voice")
 species_lore = PackedStringArray("Prefers cold, rotting food.", "Severe sunlight aversion.", "Thrives in dark, freezing environments.")
 min_affection_for_match = 50

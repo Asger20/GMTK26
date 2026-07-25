@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
 [ext_resource type="Resource" path="res://assets/dialogues/bug_monster.dialogue" id="2_dialogue"]
+[ext_resource type="Resource" path="res://resources/voices/bug_monster_voice.tres" id="3_voice"]
 
 [resource]
 script = ExtResource("1_monster")
@@ -9,5 +10,6 @@ id = "bug_monster"
 display_name = "Vesper"
 species = "Spider"
 dialogue_resource = ExtResource("2_dialogue")
+dialogue_voice = ExtResource("3_voice")
 species_lore = PackedStringArray("Nocturnal weaver; calculates web tension vectors and light source angles.", "Stays awake multi-day stretches with hyper-vigilant nervous system.", "Extremely sensitive to air vibration and water droplet weight on silk.")
 min_affection_for_match = 50

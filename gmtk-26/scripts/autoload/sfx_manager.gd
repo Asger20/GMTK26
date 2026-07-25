@@ -14,10 +14,12 @@ const STREAMS := {
 	POWER_UP: preload("res://assets/sfx/powerUp.ogg"),
 }
 
-const UI_SFX_CONNECTED_META := &"_ui_sfx_connected"
 const DISABLE_UI_SFX_META := &"disable_ui_sfx"
+const DISABLE_UI_CLICK_META := &"disable_ui_click_sfx"
+const DISABLE_UI_HOVER_META := &"disable_ui_hover_sfx"
 
 var _players: Dictionary = {}
+var _connected_ui_nodes: Dictionary = {}
 var _enabled := true
 
 
@@ -103,18 +105,36 @@ func _connect_ui_node(node: Node) -> void:
 	if node.get_meta(DISABLE_UI_SFX_META, false):
 		return
 
-	if node.get_meta(UI_SFX_CONNECTED_META, false):
+	var instance_id := node.get_instance_id()
+	var connected_node: WeakRef = _connected_ui_nodes.get(
+		instance_id
+	)
+	if (
+		connected_node != null
+		and connected_node.get_ref() == node
+	):
 		return
 
 	if node is BaseButton:
 		var button := node as BaseButton
-		button.pressed.connect(
-			_on_button_pressed.bind(button)
-		)
-		button.mouse_entered.connect(
-			_on_button_hovered.bind(button)
-		)
-		button.set_meta(UI_SFX_CONNECTED_META, true)
+
+		if not button.get_meta(
+			DISABLE_UI_CLICK_META,
+			false
+		):
+			button.pressed.connect(
+				_on_button_pressed.bind(button)
+			)
+
+		if not button.get_meta(
+			DISABLE_UI_HOVER_META,
+			false
+		):
+			button.mouse_entered.connect(
+				_on_button_hovered.bind(button)
+			)
+
+		_connected_ui_nodes[instance_id] = weakref(node)
 
 		if button is OptionButton:
 			button.item_selected.connect(
@@ -122,18 +142,18 @@ func _connect_ui_node(node: Node) -> void:
 			)
 	elif node is TabContainer:
 		node.tab_changed.connect(_on_selection_changed)
-		node.set_meta(UI_SFX_CONNECTED_META, true)
+		_connected_ui_nodes[instance_id] = weakref(node)
 	elif node is TabBar:
 		var tab_bar := node as TabBar
 		if tab_bar.get_parent() is TabContainer:
 			return
 
 		tab_bar.tab_changed.connect(_on_selection_changed)
-		node.set_meta(UI_SFX_CONNECTED_META, true)
+		_connected_ui_nodes[instance_id] = weakref(node)
 
 
 func _on_button_pressed(button: BaseButton) -> void:
-	if not button.disabled:
+	if not button.disabled and button.is_visible_in_tree():
 		play_click()
 
 

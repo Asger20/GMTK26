@@ -37,6 +37,7 @@ func _ready() -> void:
 	if responses_menu.next_action.is_empty():
 		responses_menu.next_action = next_action
 	responses_menu.response_selected.connect(_on_responses_menu_response_selected)
+	dialogue_label.spoke.connect(_on_dialogue_label_spoke)
 
 
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
@@ -79,6 +80,15 @@ func apply_dialogue_line() -> void:
 	if current_monster and not speaker_name.is_empty():
 		speaker_name = current_monster.display_name
 
+	var voice_profile: Resource
+	if (
+		current_monster
+		and not dialogue_line.character.is_empty()
+		and dialogue_line.character.to_lower() != "you"
+	):
+		voice_profile = current_monster.dialogue_voice
+	DialogueVoiceManager.begin_line(voice_profile)
+
 	character_label.visible = not speaker_name.is_empty()
 	character_label.text = "[b][color=#7a1c1c]" + tr(speaker_name, "dialogue") + "[/color][/b]"
 
@@ -89,6 +99,7 @@ func apply_dialogue_line() -> void:
 	if not dialogue_line.text.is_empty():
 		dialogue_label.type_out()
 		await dialogue_label.finished_typing
+	DialogueVoiceManager.end_line()
 
 	# WHEN MONSTER FINISHES SPEAKING: SHOW PROMPT & WAIT FOR PLAYER CLICK BEFORE ADVANCING/SHOWING CHOICES
 	if dialogue_line.responses.size() > 0:
@@ -106,6 +117,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 		var skip_pressed: bool = event.is_action_pressed(skip_action)
 		if mouse_clicked or skip_pressed:
 			get_viewport().set_input_as_handled()
+			SFXManager.play_click()
 			dialogue_label.skip_typing()
 			return
 
@@ -121,6 +133,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 
 		if dialogue_line.responses.size() > 0:
 			# PLAYER CLICKED TO SEE CHOICES: SWITCH TO CHOICE MENU (MAX 4 OPTIONS)
+			SFXManager.play_switch()
 			speech_container.hide()
 			responses_container.show()
 
@@ -130,13 +143,32 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 			responses_menu.responses = responses
 		else:
 			# ADVANCE TO NEXT LINEAR DIALOGUE LINE
+			SFXManager.play_click()
 			next(dialogue_line.next_id)
 
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
+	SFXManager.play_click()
 	responses_container.hide()
 	speech_container.show()
 	next(response.next_id)
+
+
+func _on_dialogue_label_spoke(
+	letter: String,
+	letter_index: int,
+	speed: float
+) -> void:
+	DialogueVoiceManager.speak(
+		letter,
+		letter_index,
+		speed
+	)
+
+
+func _exit_tree() -> void:
+	DialogueVoiceManager.end_line()
+
 
 func next(next_id: String) -> void:
 	dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, temporary_game_states)

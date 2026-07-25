@@ -89,6 +89,7 @@ var lead_enabled := false
 var backing_enabled := true
 var drums_enabled := true
 var low_pass_enabled := false
+var mood_effect_enabled := false
 
 var status_label: Label
 var timeline_time_label: Label
@@ -100,6 +101,7 @@ var pause_button: Button
 var backing_button: Button
 var drums_button: Button
 var low_pass_button: Button
+var mood_effect_button: Button
 
 var track_bars: Dictionary = {}
 
@@ -137,6 +139,10 @@ func _ready() -> void:
 
 	MusicManager.play_ambience()
 
+	mood_effect_enabled = (
+		MusicManager.is_mood_effect_enabled()
+	)
+	_update_mood_effect_button()
 	_update_status("Klar til at teste")
 
 
@@ -418,6 +424,19 @@ func _build_layer_buttons(
 	)
 	layer_controls.add_child(low_pass_button)
 
+	var mood_controls := HBoxContainer.new()
+	mood_controls.alignment = (
+		BoxContainer.ALIGNMENT_CENTER
+	)
+	layout.add_child(mood_controls)
+
+	mood_effect_button = _create_button(
+		"Mørk stemning: FRA",
+		_toggle_mood_effect,
+		240.0
+	)
+	mood_controls.add_child(mood_effect_button)
+
 
 func _build_volume_controls(
 	layout: VBoxContainer
@@ -567,7 +586,8 @@ func _build_shortcuts(
 	var shortcuts := Label.new()
 	shortcuts.text = (
 		"1-6 = monster  |  B = backing  |  D = drums\n" +
-		"L = low-pass  |  C = fjern lead  |  Space = pause\n" +
+		"L = low-pass  |  M = mørk stemning  |  C = fjern lead\n" +
+		"Space = pause  |  " +
 		"R = start  |  S = stop"
 	)
 	shortcuts.horizontal_alignment = (
@@ -754,6 +774,26 @@ func _toggle_low_pass() -> void:
 	)
 
 
+func _toggle_mood_effect() -> void:
+	mood_effect_enabled = (
+		MusicManager.toggle_mood_effect()
+	)
+	_update_mood_effect_button()
+
+	_update_status(
+		"Mørk stemning: %s" %
+		("TIL" if mood_effect_enabled else "FRA")
+	)
+
+
+func _update_mood_effect_button() -> void:
+	mood_effect_button.text = (
+		"Mørk stemning: TIL"
+		if mood_effect_enabled
+		else "Mørk stemning: FRA"
+	)
+
+
 func _on_music_volume_changed(
 	value: float
 ) -> void:
@@ -918,6 +958,9 @@ func _unhandled_key_input(
 
 		KEY_L:
 			_toggle_low_pass()
+
+		KEY_M:
+			_toggle_mood_effect()
 
 		KEY_C:
 			_clear_lead()
