@@ -49,19 +49,34 @@ var selected_match_id: String = ""
 # Master Species Lore Database
 var species_lore_db: Dictionary = {
 	"Vampire": [
-		"• Extremely particular about blood vintage and temperature.",
-		"• Strictly nocturnal; sleep phase spans sunrise to sunset.",
-		"• Cannot tolerate silver, garlic, or sacred geometry."
+		"• [b]CLASSIFICATION & HABITAT:[/b] Sanguine Nocturnal / Vampirus Aristocratis. Native to ancestral gothic manors, subterranean mausoleums, and pitch-black keeps.",
+		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view existence through blood nobility and sensory perfection. Blood is regarded as a delicate vintage, recording memory, emotion, and vital essence.",
+		"• [b]HEMATOPHAGOUS VINTAGE & TEMPERATURE SENSITIVITY:[/b] Consumes blood exclusively. Extremely snobbish about vintage, plasma balance, and warmth. Coagulated or synthetic blood induces immediate revulsion. Sub-normal body temperature (15 to 18°C).",
+		"• [b]ACTINIC PHOTOPHOBIA (Solar Degradation):[/b] Direct UV exposure triggers immediate skin necrosis, severe burning, and motor disorientation. Even 6 AM dawn glow causes involuntary eye squinting and rapid physical weakness.",
+		"• [b]SUB-EPIDERMAL PULSE PERCEPTION:[/b] Hyper-sensitive sensory organs track surrounding heartbeats within a five-meter radius, subconsciously monitoring suitor nervousness.",
+		"• [b]THE MIRROR ANOMALY (Involuntary Reflex Fixation):[/b] Produces zero optical reflection in silver-backed mirrors. Reflected surfaces trigger a subtle, involuntary head tilt or micro-hesitation.",
+		"• [b]HEMATOTROPHIC DILATED PUPIL LOCK:[/b] The scent of fresh blood or heightened emotional intimacy causes immediate pupil dilation and involuntary fang extension.",
+		"• [b]STRICT NOCTURNAL CIRCADIAN LOCK:[/b] Biological sleep cycle is hard-coded from sunrise to dusk. Claims of enjoying dawn sunrises or early morning walks are physically impossible for an authentic Vampire."
 	],
 	"Angel": [
-		"• Driven by absolute symmetry, mathematical order, and divine geometry.",
-		"• Finds chaos, messiness, or asymmetrical rooms deeply uncomfortable.",
-		"• Communicates in resonant multi-harmonic frequencies."
+		"• [b]CLASSIFICATION & HABITAT:[/b] Seraphim Geometrica / Biblical Angel. Native to high-frequency celestial spheres, pristine marble sanctuaries, and geometrically ordered sanctums.",
+		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view the cosmos as a flawless mathematical equation. Perfection, symmetry, and golden-ratio alignment are not personal choices, they are sacred laws governing their existence.",
+		"• [b]GEOMETRIC ALIGNMENT & ASYMMETRY DISTRESS:[/b] Their nervous system is physically bound to environmental order. Crooked picture frames, asymmetrical furniture, or clutter induce physical nausea, muscle rigidity, and rapid resonance decay. Claims of enjoying chaotic or messy rooms are a critical imposter slip.",
+		"• [b]HARMONIC FREQUENCY RESONANCE:[/b] Vocal cords produce overlapping, multi-harmonic chords rather than a single pitch. Resonates with metallic chime undertones when calm, shifting to sharp dissonant hums when agitated.",
+		"• [b]LUMINANCE BIO-FEEDBACK & VECTOR OCULAR SCANNING:[/b] Emits a subtle ambient aura that brightens under stress or affection. Multiple ocular pupils continuously scan surrounding space, calculating 90-degree angles and vector lines in real-time.",
+		"• [b]THE SYMMETRY TWITCH (Involuntary Realignment Reflex):[/b] Seeing any misaligned object (a tilted cup, stray paper, crooked collar) triggers an involuntary physical compulsion to reach out and align it to exact right angles.",
+		"• [b]DISSONANT CHAOS REVULSION:[/b] Random noise, unexpected speech interruptions, or erratic movements trigger physical stiffness and involuntary vocal buzzing.",
+		"• [b]GOLDEN-RATIO TACTILE TRACING:[/b] Under stress, excitement, or romantic interest, their fingers subconsciously trace perfect circles, equilateral triangles, and parallel lines across surfaces."
 	],
 	"Sea Monster": [
-		"• Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.",
-		"• Cannot remain in dry, arid, or desert climates without desiccating.",
-		"• Communicates via low-frequency echolocation sonar."
+		"• [b]CLASSIFICATION & HABITAT:[/b] Pelagios Abyssalis / Abyssal Leviathan Folk. Native to submerged ocean trenches, saltwater reefs, and humid benthic caverns.",
+		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view life through tidal currents and deep-sea pressure dynamics. Free-spirited and fluid, they collect smooth sea-shells, beach glass, and bioluminescent stones as sacred ritual tokens.",
+		"• [b]SALTWATER HYDRATION & DESICCATION VULNERABILITY:[/b] Epidermal scales require constant moisture and high salinity. Exposure to dry, arid air or hot desert sand causes rapid skin cracking, gill distress, and physical collapse. Claims of enjoying dry sand dunes are an immediate imposter slip.",
+		"• [b]LATERAL LINE & ECHOLOCATION SONAR:[/b] Facial sensory pores and webbed digits detect micro-ripples in water and low-frequency acoustic vibrations in air. High-pitch screeching or dry static disrupts their equilibrium.",
+		"• [b]BAROMETRIC PRESSURE FOG:[/b] Evolved for extreme abyssal depths. Rapid elevation changes cause transient atmospheric pressure adjustment, resulting in brief memory fog and spatial drifting.",
+		"• [b]THE GILL FLARE REFLEX:[/b] Emotional surges (flirting, surprise, anxiety) trigger involuntary flaring of neck gill-slits and lateral ear-fins.",
+		"• [b]FRESHWATER SPASM ANOMALY:[/b] Drinking pure distilled freshwater or eating unsalted food triggers immediate throat spasms and physical revulsion. They require heavy sea-salt or saline solutions.",
+		"• [b]NEEDLE FANG & WEBBED DIGIT LOCK:[/b] Wide jaw structures house rows of razor-sharp needle fangs. Webbed hands subconsciously fiddle with sea-shells or water glass rim droplets when flustered."
 	],
 	"Spider": [
 		"• [b]CLASSIFICATION & HABITAT:[/b] Arachneoid Sapiens / Spider Folk. Native to pitch-black subterranean caverns and high-altitude spires.",
