@@ -21,12 +21,23 @@ func toggle_window() -> void:
 	visible = not visible
 	if visible:
 		_update_clue_notebook()
+		_auto_select_current_candidate()
+
+func _auto_select_current_candidate() -> void:
+	var current_monster = GameManager.get_current_date_monster()
+	if current_monster and current_monster.species != "":
+		for i in range(species_dropdown.item_count):
+			var item_text = species_dropdown.get_item_text(i)
+			if item_text.to_lower() in current_monster.species.to_lower() or current_monster.species.to_lower() in item_text.to_lower():
+				species_dropdown.select(i)
+				_on_species_selected(i)
+				return
 
 func _setup_dropdown() -> void:
 	species_dropdown.clear()
 	for s_name in GameManager.species_lore_db.keys():
 		species_dropdown.add_item(s_name)
-	_on_species_selected(0)
+	_auto_select_current_candidate()
 
 func _on_species_selected(index: int) -> void:
 	var s_name = species_dropdown.get_item_text(index)

@@ -12,4 +12,4 @@ species = "Zombie"
 dialogue_resource = ExtResource("2_dialogue")
 dialogue_voice = ExtResource("3_voice")
 species_lore = PackedStringArray("Prefers cold, rotting food.", "Severe sunlight aversion.", "Thrives in dark, freezing environments.")
-min_affection_for_match = 50
+min_affection_for_match = 80

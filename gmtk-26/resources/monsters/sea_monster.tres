@@ -7,9 +7,9 @@
 [resource]
 script = ExtResource("1_monster")
 id = "sea_monster"
-display_name = "Finn"
+display_name = "Sienna"
 species = "Sea Monster"
 dialogue_resource = ExtResource("2_dialogue")
 dialogue_voice = ExtResource("3_voice")
-species_lore = PackedStringArray("Deeply knowledgeable about oceanic pressure, abyssal trenches, and saltwater.", "Cannot remain in dry, arid, or desert climates without desiccating.", "Communicates via low-frequency echolocation sonar.")
-min_affection_for_match = 50
+species_lore = PackedStringArray("Pelagios Abyssalis / Abyssal Leviathan Folk. Native to submerged ocean trenches, saltwater reefs, and benthic caverns.", "They view life through tidal currents and deep-sea pressure dynamics. Free-spirited collectors of sea-shells and beach glass.", "Saltwater Hydration: Scales require constant moisture and high salinity. Exposure to dry desert sand causes rapid skin cracking, gill distress, and physical collapse.", "Lateral Line Sonar: Facial sensory pores and webbed digits detect micro-ripples and low-frequency sonar in air and water.", "Barometric Pressure Fog: Atmospheric pressure changes cause brief memory fog and spatial drifting as internal air bladders adjust.", "The Gill Flare Reflex: Emotional surges trigger involuntary flaring of neck gill-slits and lateral ear-fins.", "Freshwater Spasm Anomaly: Drinking distilled freshwater or eating unsalted food triggers throat spasms; requires high salinity.", "Needle Fang & Webbed Digit Lock: Wide jaw with razor needle fangs; webbed fingers subconsciously fiddle with shells or glass droplets when flustered.")
+min_affection_for_match = 80

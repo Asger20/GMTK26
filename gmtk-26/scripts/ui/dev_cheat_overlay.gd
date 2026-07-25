@@ -61,12 +61,10 @@ func refresh_info() -> void:
 func _setup_dropdown() -> void:
 	if not monster_dropdown: return
 	monster_dropdown.clear()
-	var all_ids = ["zombie", "vampire", "slime", "angel", "sea_monster", "bug_monster"]
-	for id in all_ids:
-		var monster_res = load("res://resources/monsters/%s.tres" % id)
-		if monster_res:
-			monster_dropdown.add_item("%s (%s)" % [monster_res.display_name, monster_res.species], -1)
-			monster_dropdown.set_item_metadata(monster_dropdown.get_item_count() - 1, id)
+	var list_source = GameManager.selected_candidates if GameManager.selected_candidates.size() > 0 else GameManager.all_monsters
+	for monster in list_source:
+		monster_dropdown.add_item("%s (%s)" % [monster.display_name, monster.species])
+		monster_dropdown.set_item_metadata(monster_dropdown.get_item_count() - 1, monster.id)
 
 func _on_jump_date_pressed() -> void:
 	var selected_idx = monster_dropdown.selected

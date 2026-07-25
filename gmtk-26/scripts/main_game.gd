@@ -54,8 +54,12 @@ var is_first_intro_transition: bool = true
 
 # Day Transition Panel
 @onready var transition_panel: Panel = $DayTransitionPanel
-@onready var transition_prev_day: RichTextLabel = $DayTransitionPanel/PrevDayLabel
-@onready var transition_next_day: RichTextLabel = $DayTransitionPanel/NextDayLabel
+@onready var transition_prev_box: VBoxContainer = $DayTransitionPanel/PrevDayBox
+@onready var transition_prev_num: Label = $DayTransitionPanel/PrevDayBox/NumLabel
+@onready var transition_prev_sub: Label = $DayTransitionPanel/PrevDayBox/SubLabel
+@onready var transition_next_box: VBoxContainer = $DayTransitionPanel/NextDayBox
+@onready var transition_next_num: Label = $DayTransitionPanel/NextDayBox/NumLabel
+@onready var transition_next_sub: Label = $DayTransitionPanel/NextDayBox/SubLabel
 
 var transition_tween: Tween
 
@@ -65,8 +69,16 @@ var transition_tween: Tween
 @onready var dev_cheat_btn: Button = $DevCheatBtn
 @onready var background_texture: TextureRect = $BackgroundTexture
 
+var room_textures: Array[Texture2D] = [
+	preload("res://assets/backgrounds/rooms/asylum_room_1.jpg"),
+	preload("res://assets/backgrounds/rooms/asylum_room_2.jpg"),
+	preload("res://assets/backgrounds/rooms/asylum_room_3.jpg"),
+	preload("res://assets/backgrounds/rooms/asylum_room_4.jpg")
+]
+var available_room_textures: Array[Texture2D] = []
 var bg_room_tex: Texture2D = preload("res://assets/backgrounds/asylum_room.jpg")
 var bg_hallway_tex: Texture2D = preload("res://assets/backgrounds/asylum_hallway.jpg")
+var active_date_room_tex: Texture2D = null
 
 var active_dialogue_balloon: Node = null
 var portrait_tween: Tween
@@ -94,6 +106,7 @@ func _ready() -> void:
 
 	# Connect GameManager Signals
 	GameManager.affection_changed.connect(_on_affection_changed)
+	GameManager.expression_changed.connect(_on_expression_changed)
 	GameManager.date_completed.connect(func(_id): _on_date_completed())
 	GameManager.dev_mode_toggled.connect(func(enabled: bool):
 		if affection_container: affection_container.visible = enabled
@@ -115,17 +128,16 @@ func _input(event: InputEvent) -> void:
 
 func _start_new_game_session() -> void:
 	is_first_intro_transition = true
-	var m_zombie = load("res://resources/monsters/zombie.tres")
+	available_room_textures = room_textures.duplicate()
+	available_room_textures.shuffle()
+
 	var m_vampire = load("res://resources/monsters/vampire.tres")
-	var m_slime = load("res://resources/monsters/slime.tres")
 	var m_angel = load("res://resources/monsters/angel.tres")
 	var m_sea_monster = load("res://resources/monsters/sea_monster.tres")
 	var m_bug_monster = load("res://resources/monsters/bug_monster.tres")
 
 	var pool: Array[MonsterData] = []
-	if m_zombie: pool.append(m_zombie)
 	if m_vampire: pool.append(m_vampire)
-	if m_slime: pool.append(m_slime)
 	if m_angel: pool.append(m_angel)
 	if m_sea_monster: pool.append(m_sea_monster)
 	if m_bug_monster: pool.append(m_bug_monster)
@@ -158,7 +170,7 @@ func _show_panel(target_panel: Panel) -> void:
 	
 	if background_texture:
 		if target_panel == date_panel:
-			background_texture.texture = bg_room_tex
+			background_texture.texture = active_date_room_tex if active_date_room_tex else bg_room_tex
 			background_texture.visible = true
 		elif target_panel == prep_panel or target_panel == break_panel or target_panel == accusation_panel:
 			background_texture.texture = bg_hallway_tex
@@ -170,7 +182,7 @@ func _show_panel(target_panel: Panel) -> void:
 		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)
 
 	if end_date_early_btn:
-		end_date_early_btn.visible = (target_panel == date_panel)
+		end_date_early_btn.visible = (target_panel == date_panel and target_panel != transition_panel)
 	
 	if dev_cheat_btn:
 		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)
@@ -210,18 +222,18 @@ func _skip_intro() -> void:
 		_show_prep_phase()
 
 var candidate_self_bios: Dictionary = {
-	"zombie": "Hi, I'm Morty. I process things a bit slow, so dates make me pretty anxious. I like rainy afternoons, cold iced tea, listening to lo-fi beats, and wearing oversized hoodies. I promise I won't bite, I'm just trying my best not to trip over my own feet. Please be patient with me, and please don't take me out into harsh bright sunlight.",
-	"vampire": "I'm Julian. Behind the long coat and my taste for vintage red drinks, I'm just looking for a genuine connection. I like midnight walks, playing classical piano, and talking late into the night. I might be a little dramatic sometimes, but I just want someone who accepts me for who I am.",
-	"slime": "Hi! I'm Gwen! I get pretty nervous on dates and my jelly core starts wobbling. I'm always carrying snacks, spare keys, and a warm blanket inside my gel cavity. I might wobble a lot when I'm flustered, but I'm always ready to give you a big hug when you have a rough day.",
-	"angel": "Greetings, I am Sera. I like neatness and symmetry. Messy desks and crooked picture frames stress me out, so I work hard to keep everything clean and organized. I'm looking for a date who appreciates quiet, well-ordered spaces and a calm schedule.",
-	"sea_monster": "Hey! I'm Finn. I love deep sea swimming, but I tend to be pretty forgetful. My thoughts drift around like ocean foam! I collect smooth sea shells and love listening to ambient wave sounds. I might lose my train of thought mid-sentence, but I'm easy to get along with.",
-	"bug_monster": "Hi! I'm Vesper. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
+	"vampire": "I'm Percival. Behind the long coat and my taste for vintage red drinks, I'm just looking for a genuine connection. I like midnight walks, playing classical piano, and talking late into the night. I might be a little dramatic sometimes, but I just want someone who accepts me for who I am.",
+	"angel": "Greetings, I am Isaac. I like neatness and symmetry. Messy desks and crooked picture frames stress me out, so I work hard to keep everything clean and organized. I'm looking for a date who appreciates quiet, well-ordered spaces and a calm schedule.",
+	"sea_monster": "Hey! I'm Sienna. I love deep sea swimming, but I tend to be pretty forgetful. My thoughts drift around like ocean foam! I collect smooth sea shells and love listening to ambient wave sounds. I might lose my train of thought mid-sentence, but I'm easy to get along with.",
+	"bug_monster": "Hi! I'm Lily. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
 }
 
-func _get_days_left_text(day_num: int) -> String:
+func _get_day_num_text(day_num: int) -> String:
 	var left = 6 - day_num
-	var num_str = "1 Day" if left == 1 else ("%d Days" % left)
-	return "[center][font_size=88][b]%s[/b][/font_size]\n[font_size=24][color=#a0a0a0]till release[/color][/font_size][/center]" % num_str
+	if left == 1:
+		return "1 Day"
+	else:
+		return "%d Days" % left
 
 func _get_hud_day_text(day_num: int) -> String:
 	var left = 6 - day_num
@@ -255,7 +267,18 @@ func _show_prep_phase() -> void:
 
 
 func _on_start_date_pressed() -> void:
-	_show_date_phase()
+	if available_room_textures.is_empty():
+		available_room_textures = room_textures.duplicate()
+		available_room_textures.shuffle()
+
+	if not available_room_textures.is_empty():
+		active_date_room_tex = available_room_textures.pop_back()
+
+	var monster = GameManager.get_current_date_monster()
+	var m_name = monster.display_name if monster else "Candidate"
+	var m_species = monster.species if monster else ""
+	var sub_text = "%s (%s)" % [m_name, m_species] if monster else "entering date room..."
+	_show_simple_transition("Date Start", sub_text, true, func(): _show_date_phase())
 
 func _animate_portrait_idle() -> void:
 	if portrait_tween and portrait_tween.is_running():
@@ -266,6 +289,13 @@ func _animate_portrait_idle() -> void:
 	portrait_tween.tween_property(portrait_rect, "position:y", base_y - 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	portrait_tween.tween_property(portrait_rect, "position:y", base_y + 8.0, 1.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
+func _on_expression_changed(expression_name: String) -> void:
+	var monster = GameManager.get_current_date_monster()
+	if monster and portrait_rect:
+		var tex = monster.get_expression_texture(expression_name)
+		if tex:
+			portrait_rect.texture = tex
+
 # --- PHASE 2: DATE PHASE ---
 func _show_date_phase() -> void:
 	_show_panel(date_panel)
@@ -274,7 +304,10 @@ func _show_date_phase() -> void:
 
 	var monster = GameManager.get_current_date_monster()
 	if monster:
-		if monster.portrait_texture:
+		var tex = monster.get_expression_texture("normal")
+		if tex:
+			portrait_rect.texture = tex
+		elif monster.portrait_texture:
 			portrait_rect.texture = monster.portrait_texture
 		else:
 			portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")
@@ -306,7 +339,7 @@ func _on_affection_changed(candidate_id: String, new_score: int) -> void:
 func _on_date_completed() -> void:
 	if is_instance_valid(active_dialogue_balloon):
 		active_dialogue_balloon.queue_free()
-	_show_break_phase()
+	_show_simple_transition("Date Complete", "returning to case reflection...", true, func(): _show_break_phase())
 
 
 # --- PHASE 3: BREAK PHASE ---
@@ -319,7 +352,7 @@ func _show_break_phase() -> void:
 	var monster_name = monster.display_name if monster else "Candidate"
 	var species_name = monster.species if monster else ""
 
-	break_title.text = "☕ BLACKWOOD ASYLUM - END OF DAY REFLECTION"
+	break_title.text = "BLACKWOOD ASYLUM - END OF DAY REFLECTION"
 	
 	var summary = "[b][color=#2c2214]Date Reflection & Case Briefing:[/color][/b]\n"
 	summary += "You completed your date with [b][color=#7a1c1c]" + monster_name + "[/color][/b] (" + species_name + ").\n\n"
@@ -339,6 +372,58 @@ func _on_next_day_pressed() -> void:
 	else:
 		_show_day_transition_phase(prev_day, next_day, func(): _show_prep_phase())
 
+func _show_simple_transition(main_text: String, sub_text: String, fast_speed: bool, on_complete: Callable) -> void:
+	if transition_tween and transition_tween.is_running():
+		transition_tween.kill()
+
+	transition_panel.visible = true
+	transition_panel.modulate.a = 0.0
+
+	header_bar.visible = false
+	monsterpedia_book_btn.visible = false
+	if dev_cheat_btn: dev_cheat_btn.visible = false
+	if end_date_early_btn: end_date_early_btn.visible = false
+
+	transition_prev_num.text = main_text
+	transition_prev_sub.text = sub_text
+	transition_prev_box.modulate.a = 1.0
+	transition_prev_box.position = Vector2(0, 0)
+	transition_next_box.modulate.a = 0.0
+
+	transition_tween = create_tween()
+
+	var fade_in_t = 1.5 if fast_speed else 2.0
+	var hold_t = 2.0 if fast_speed else 2.5
+	var fade_out_t = 2.5 if fast_speed else 2.0
+
+	# 1. Fade in dark transition panel over current UI
+	transition_tween.tween_property(transition_panel, "modulate:a", 1.0, fade_in_t).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+
+	# 2. Hold centered text beat
+	transition_tween.tween_interval(hold_t)
+
+	# 3. Load target phase UI behind dark screen
+	transition_tween.tween_callback(func():
+		if on_complete.is_valid():
+			on_complete.call()
+		transition_panel.visible = true
+		if end_date_early_btn: end_date_early_btn.visible = false
+	)
+
+	# 4. Fade out revealing target phase UI
+	transition_tween.tween_property(transition_panel, "modulate:a", 0.0, fade_out_t).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	# 5. Hide transition panel
+	transition_tween.tween_callback(func():
+		transition_panel.visible = false
+		if end_date_early_btn:
+			end_date_early_btn.visible = date_panel.visible
+		if monsterpedia_book_btn:
+			monsterpedia_book_btn.visible = (not intro_panel.visible and not ending_panel.visible)
+		if dev_cheat_btn:
+			dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (not intro_panel.visible and not ending_panel.visible)
+	)
+
 func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Callable) -> void:
 	if transition_tween and transition_tween.is_running():
 		transition_tween.kill()
@@ -349,15 +434,17 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 	header_bar.visible = false
 	monsterpedia_book_btn.visible = false
 	if dev_cheat_btn: dev_cheat_btn.visible = false
+	if end_date_early_btn: end_date_early_btn.visible = false
 
 	transition_tween = create_tween()
 
 	if prev_day == 0 or prev_day == next_day:
 		# --- Initial Start Day Transition (e.g. Day 1 at game start) ---
-		transition_prev_day.text = _get_days_left_text(next_day)
-		transition_prev_day.modulate.a = 1.0
-		transition_prev_day.position = Vector2(0, 150)
-		transition_next_day.modulate.a = 0.0
+		transition_prev_num.text = _get_day_num_text(next_day)
+		transition_prev_sub.text = "till release"
+		transition_prev_box.modulate.a = 1.0
+		transition_prev_box.position = Vector2(0, 0)
+		transition_next_box.modulate.a = 0.0
 
 		# 1. Subtle, slow cubic fade in OVER top of the Intro Case File UI (2.4s)
 		transition_tween.tween_property(transition_panel, "modulate:a", 1.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -383,16 +470,24 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 		# 5. Hide transition panel after fade out completes
 		transition_tween.tween_callback(func():
 			transition_panel.visible = false
+			if end_date_early_btn:
+				end_date_early_btn.visible = date_panel.visible
+			if monsterpedia_book_btn:
+				monsterpedia_book_btn.visible = (not intro_panel.visible and not ending_panel.visible)
+			if dev_cheat_btn:
+				dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (not intro_panel.visible and not ending_panel.visible)
 		)
 	else:
 		# --- Mid-Game Day Transition (e.g. Day 1 -> Day 2) ---
-		transition_prev_day.text = _get_days_left_text(prev_day)
-		transition_prev_day.modulate.a = 1.0
-		transition_prev_day.position = Vector2(0, 150)
+		transition_prev_num.text = _get_day_num_text(prev_day)
+		transition_prev_sub.text = "till release"
+		transition_prev_box.modulate.a = 1.0
+		transition_prev_box.position = Vector2(0, 0)
 
-		transition_next_day.text = _get_days_left_text(next_day)
-		transition_next_day.modulate.a = 0.0
-		transition_next_day.position = Vector2(0, -240)
+		transition_next_num.text = _get_day_num_text(next_day)
+		transition_next_sub.text = "till release"
+		transition_next_box.modulate.a = 0.0
+		transition_next_box.position = Vector2(0, -540)
 
 		# 1. Subtle, slow cubic fade in OVER top of the current Break Scene UI (2.4s)
 		transition_tween.tween_property(transition_panel, "modulate:a", 1.0, 2.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -406,13 +501,13 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 		transition_tween.tween_interval(1.5)
 
 		# 3. Slow, heavy scroll animation (3.2s)
-		# Prev day slowly scrolls DOWN offscreen and fades out
-		transition_tween.parallel().tween_property(transition_prev_day, "position:y", 540.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-		transition_tween.parallel().tween_property(transition_prev_day, "modulate:a", 0.0, 2.2)
+		# Prev box slowly scrolls DOWN offscreen and fades out
+		transition_tween.parallel().tween_property(transition_prev_box, "position:y", 540.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		transition_tween.parallel().tween_property(transition_prev_box, "modulate:a", 0.0, 2.2)
 
-		# Next day slowly drops DOWN into dead-center stage and fades in
-		transition_tween.parallel().tween_property(transition_next_day, "position:y", 150.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
-		transition_tween.parallel().tween_property(transition_next_day, "modulate:a", 1.0, 2.5)
+		# Next box slowly drops DOWN into dead-center stage and fades in
+		transition_tween.parallel().tween_property(transition_next_box, "position:y", 0.0, 3.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+		transition_tween.parallel().tween_property(transition_next_box, "modulate:a", 1.0, 2.5)
 
 		# 4. Long dramatic hold on New Day in center (2.5s)
 		transition_tween.tween_interval(2.5)
@@ -430,6 +525,12 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 		# 7. Hide transition panel after fade out completes
 		transition_tween.tween_callback(func():
 			transition_panel.visible = false
+			if end_date_early_btn:
+				end_date_early_btn.visible = date_panel.visible
+			if monsterpedia_book_btn:
+				monsterpedia_book_btn.visible = (not intro_panel.visible and not ending_panel.visible)
+			if dev_cheat_btn:
+				dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (not intro_panel.visible and not ending_panel.visible)
 		)
 
 # --- PHASE 4: ACCUSATION & MATCHING PHASE ---
