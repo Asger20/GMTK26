@@ -1,297 +1,472 @@
+# ==============================================================================
+# PHASE 1: INTRO & OPENING PATH
+# ==============================================================================
 ~ start
 do GameManager.set_expression("normal")
-Percival: *Draped in a velvet cloak, holding a goblet of deep crimson liquid with pale, manicured hands.*
+Percival: *Draped in a billowing ruffled poet blouse, dark high-waisted trousers, and a black cape pinned by a glowing red gem brooch.*
+Percival: *His void-black face splits into a terrifying vertical maw lined with sharp white fangs, while his black hands gesture poisedly with blood-red clawed fingertips.*
 Percival: Ah... magnificent. Entrez, my delicate suitor.
 Percival: Do not be nervous. I rarely bite on a first date... unless politely requested.
 
-- "Your elegance and presence are truly breathtaking."
+- "Your elegance and presence are breathtaking."
 	do GameManager.add_affection("vampire", 8)
 	if GameManager.get_affection("vampire") >= 70:
 		do GameManager.set_expression("blush")
-		Percival: *Cheeks flush a delicate rose hue, eyes softening with romantic intensity.*
+		Percival: *Fangs click together inside his vertical maw as his red brooch glows brightly with romantic intensity.*
 		Percival: Ah, a person of exquisite taste! You speak straight to my immortal soul...
 	else:
 		do GameManager.set_expression("happy")
-		Percival: *Smiles with aristocratic poise, tipping his goblet.*
+		Percival: *Gestures gracefully with his blood-red clawed fingers, tipping his head in a polite bow.*
 		Percival: Ah, a person of refined taste! Finally, someone who appreciates true immortal poise.
-	=> main_hub
+	=> hub_part_1
 
-- "I couldn't help but notice your pale skin and sub-normal warmth."
+- "I noticed your pale aesthetic and sub-normal warmth."
 	do GameManager.add_affection("vampire", 5)
 	do GameManager.set_expression("happy")
-	Percival: *Chuckles softly, swirling the vintage plasma in his glass.*
+	Percival: *Chuckles softly, swirling the vintage plasma in his glass with long crimson claws.*
 	Percival: A keen observer! Sanguine body temperature rests comfortably at eighteen degrees. Cold flesh, warm heart.
-	=> main_hub
+	=> hub_part_1
 
 - "Do you ever stop being so dramatically theatrical?"
 	do GameManager.add_affection("vampire", -10)
-	do GameManager.set_expression("scary")
-	Percival: *His smile stiffens slightly, dark eyes flashing.*
-	Percival: Hmph. Vulgar mortal. Dramatic flair is a high art form, not a performance for peasants.
-	=> main_hub
+	do GameManager.set_expression("angry")
+	Percival: *Fangs click together sharply inside his void-black face as his tone stiffens.*
+	Percival: Hmph. Vulgar suitor. Dramatic flair is a high art form, not a performance for peasants.
+	=> hub_part_1
 
-- "Keep your distance, bat-wings. I don't trust blood-drinkers."
+- "Keep your distance. I don't trust blood-drinkers."
 	do GameManager.add_affection("vampire", -20)
 	if GameManager.get_affection("vampire") <= 0:
 		=> horror_exit
 	else:
 		do GameManager.set_expression("scary")
-		Percival: *Fangs extend slightly beneath his top lip, voice turning icy cold.*
+		Percival: *His vertical gaping maw unhinges wider, white fangs glinting as his voice drops to an icy roar.*
 		Percival: How dreadfully uncouth. Mind your tongue, suitor, or this evening will take a predatory turn.
-		=> main_hub
+		=> hub_part_1
 
-
-~ main_hub
-if GameManager.get_affection("vampire") <= 0:
-	=> horror_exit
-
+# ==============================================================================
+# PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_1
 do GameManager.set_expression("normal")
 
-# Check if all main topics have been explored
-if GameManager.has_flag("vampire", "asked_poetry") and GameManager.has_flag("vampire", "asked_fashion") and GameManager.has_flag("vampire", "asked_vintage") and GameManager.has_flag("vampire", "asked_schedule") and GameManager.has_flag("vampire", "asked_mirror"):
-	if GameManager.get_affection("vampire") >= 70:
-		do GameManager.set_expression("blush")
-		Percival: *Holding his hand over his heart, gazing at you with passion.*
-		Percival: My sweet suitor... we have shared such magnificent secrets beneath the velvet night.
-		Percival: My ancient heart beats only for your companionship.
-	elif GameManager.get_affection("vampire") < 30:
-		do GameManager.set_expression("scary")
-		Percival: *Looking at you with cold aristocratic disdain.*
-		Percival: We have conversed quite enough for one evening.
-		Percival: I am ready for this rendezvous to conclude.
-	else:
-		do GameManager.set_expression("happy")
-		Percival: *Swirling his goblet with a polite smile.*
-		Percival: We have covered a great deal tonight, suitor.
-		Percival: It has been a most enchanting conversation.
-	
-	- "I've cherished our romantic evening, Percival."
-		do GameManager.add_affection("vampire", 5)
-		=> end_date
-	- "That concludes our encounter for tonight."
-		=> end_date
+# Automatically progress to Phase 3 after completing all 4 Part 1 topics
+if GameManager.has_flag("vampire", "asked_p1_topic_a") and GameManager.has_flag("vampire", "asked_p1_topic_b") and GameManager.has_flag("vampire", "asked_p1_topic_c") and GameManager.has_flag("vampire", "asked_p1_topic_d"):
+	=> mid_date_interruption
 
-# Dynamic hub greetings based strictly on Affection tiers
-elif GameManager.get_affection("vampire") >= 70:
-	do GameManager.set_expression("blush")
-	Percival: *Leaning closer, taking a slow sip of vintage blood as a subtle blush covers his pale cheeks.*
-	Percival: My delicate suitor... every moment with you feels like a verse from a gothic sonnet.
-	Percival: What dark secret shall we whisper about next?
-	=> hub_choices
+Percival: So, my suitor... what secrets of the night shall we explore first?
 
-elif GameManager.get_affection("vampire") < 30:
-	do GameManager.set_expression("scary")
-	Percival: *Dark eyes gleaming in the dim light, resting his goblet on the table with a sharp clink.*
-	Percival: You are treading on dangerously thin velvet, suitor.
-	Percival: Speak quickly... my patience for your uncouth probing is nearly exhausted.
-	=> hub_choices
+- "What inspires your passion for gothic poetry?" [if not GameManager.has_flag("vampire", "asked_p1_topic_a")]
+	=> p1_topic_a
 
-else:
-	do GameManager.set_expression("normal")
-	Percival: *Swirling the dark crimson liquid in his goblet with timeless poise.*
-	Percival: So, my suitor... what secrets of the night shall we explore next?
-	=> hub_choices
+- "What are your hopes after leaving Blackwood?" [if not GameManager.has_flag("vampire", "asked_p1_topic_b")]
+	=> p1_topic_b
 
+- "Do you ever enjoy quiet strolls at dawn?" [if not GameManager.has_flag("vampire", "asked_p1_topic_c")]
+	=> p1_topic_c
 
-~ hub_choices
-# Only valid/unasked topics are shown. Options with false conditions are hidden automatically!
+- "Have you checked your reflection in the silver mirror?" [if not GameManager.has_flag("vampire", "asked_p1_topic_d")]
+	=> p1_topic_d
 
-- "Tell me about your seventeen volumes of gothic poetry." [if not GameManager.has_flag("vampire", "asked_poetry")]
-	=> poetry_topic
-
-- "What noble fashion standards do you expect in romance?" [if not GameManager.has_flag("vampire", "asked_fashion")]
-	=> fashion_topic
-
-- "Tell me about your connoisseurship of blood vintages." [if GameManager.has_flag("vampire", "asked_poetry") and not GameManager.has_flag("vampire", "asked_vintage")]
-	=> vintage_topic
-
-- "What is your daily nocturnal schedule and sleep routine?" [if GameManager.has_flag("vampire", "asked_fashion") and not GameManager.has_flag("vampire", "asked_schedule")]
-	=> schedule_topic
-
-- "How do your noble traits react to silver glass and mirrors?" [if GameManager.has_flag("vampire", "asked_vintage") and not GameManager.has_flag("vampire", "asked_mirror")]
-	=> mirror_topic
-
-- "I think I have learned enough for our encounter today."
-	=> end_date
-
-
-~ poetry_topic
-do GameManager.set_flag("vampire", "asked_poetry")
+# ------------------------------------------------------------------------------
+# PART 1 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p1_topic_a
+do GameManager.set_flag("vampire", "asked_p1_topic_a")
+do GameManager.set_expression("happy")
 Percival: Seventeen volumes composed over centuries in pitch-black gothic mausoleums!
-Percival: Would you care to hear a stanza about moonlight dripping like silver tears over velvet graves?
+Percival: Art is meant to disturb the comfortable and elevate the soul! Melancholy is the truest form of romantic passion.
 
-- "I would be deeply honored to hear your sonnet."
-	do GameManager.add_affection("vampire", 10)
+- "I'd be honored to hear one of your sonnets."
+	do GameManager.add_affection("vampire", 8)
 	if GameManager.get_affection("vampire") >= 70:
 		do GameManager.set_expression("blush")
-		Percival: *Gazing into your eyes, voice dropping to a passionate whisper.*
+		Percival: *Gesturing with his crimson claws, the red glow inside his throat pulsing softly*
 		Percival: 'O crimson night, thy velvet veil enfolds my lonely pulse...' Breathtaking, is it not?
 	else:
 		do GameManager.set_expression("happy")
-		Percival: *Recites dramatically with open hand.*
+		Percival: *Recites dramatically with an open hand*
 		Percival: 'O crimson night, thy velvet veil enfolds my lonely pulse...' Breathtaking, is it not?
-	=> main_hub
+	=> hub_part_1
 
-- "Isn't writing poetry about graves a bit depressing?"
-	do GameManager.add_affection("vampire", -5)
-	do GameManager.set_expression("normal")
-	Percival: Depressing? Art is meant to disturb the comfortable and elevate the soul!
-	Percival: Melancholy is the truest form of romantic passion.
-	=> main_hub
+- "Isn't writing about graves a bit depressing?"
+	do GameManager.add_affection("vampire", 5)
+	do GameManager.set_expression("happy")
+	Percival: *Chuckles gracefully, white fangs clicking softly* Depressing? My dear suitor, dark beauty is the sweetest vintage!
+	=> hub_part_1
 
-- "Gothic poetry sounds boring and pretentious."
-	do GameManager.add_affection("vampire", -40)
-	if GameManager.get_affection("vampire") <= 0:
-		=> horror_exit
-	elif GameManager.get_affection("vampire") < 30:
-		do GameManager.set_expression("scary")
-		Percival: *Sets his goblet down violently, eyes flaring red.*
-		Percival: Pretentious?! You have the artistic soul of a garden slug!
-		Percival: Do not insult my life's work again.
-	else:
-		do GameManager.set_expression("scary")
-		Percival: *Frowns deeply, dark eyes narrowing.*
-		Percival: Pretentious?! You have the artistic soul of a garden slug!
-	=> main_hub
-
-
-~ fashion_topic
-do GameManager.set_flag("vampire", "asked_fashion")
+~ p1_topic_b
+do GameManager.set_flag("vampire", "asked_p1_topic_b")
 do GameManager.set_expression("normal")
-Percival: To love a vampire is to embrace commitment and high aesthetic perfection!
-Percival: I do not merely date, suitor—I commit completely to sensory elegance!
-Percival: Tell me, what is your ideal romantic evening?
+Percival: I long to return to my ancestral manor and private library.
+Percival: But above all... I seek a thoughtful companion who sees the gentle poet beneath the vampire.
 
-- "A quiet moonlight stroll through an ancient Victorian rose garden."
-	do GameManager.add_affection("vampire", 10)
+- "I'd love to share quiet evenings in your library."
+	do GameManager.add_affection("vampire", 8)
 	if GameManager.get_affection("vampire") >= 70:
 		do GameManager.set_expression("blush")
-		Percival: *Gasping softly, a bright flush covering his pale cheeks.*
-		Percival: Sublime! You speak directly to my ancient gothic heart!
+		Percival: *Red gem brooch glows brightly, blood-red claws touching his ruffled blouse*
+		Percival: Truly?! You speak straight to my ancient gothic heart...
 	else:
 		do GameManager.set_expression("happy")
-		Percival: *Smiles with delight, taking a sip of his wine.*
-		Percival: Sublime! You speak directly to my ancient gothic heart!
-	=> main_hub
+		Percival: *Smiles warmly* I shall reserve the wingback armchair right by the hearth for you!
+	=> hub_part_1
 
-- "Sitting on the couch eating takeout pizza in sweatpants."
+- "You deserve a companion who understands your soul."
+	do GameManager.add_affection("vampire", 5)
+	do GameManager.set_expression("happy")
+	Percival: *Taps his crimson clawed fingers over his heart*
+	Percival: Thank you. Your understanding warms my lonely pulse.
+	=> hub_part_1
+
+~ p1_topic_c
+do GameManager.set_flag("vampire", "asked_p1_topic_c")
+if GameManager.get_affection("vampire") < 50:
 	do GameManager.add_affection("vampire", -5)
-	do GameManager.set_expression("normal")
-	Percival: *Shudders dramatically* Sweatpants?! Horror of horrors!
-	Percival: Yet... your unvarnished honesty is strangely intriguing.
-	=> main_hub
-
-- "Romance is high-risk administrative work and I expect results."
-	do GameManager.add_affection("vampire", -40)
-	if GameManager.get_affection("vampire") <= 0:
-		=> horror_exit
-	else:
-		do GameManager.set_expression("scary")
-		Percival: *His smile vanishes completely, tone turning venomous.*
-		Percival: Administrative work?! Romance is sacred passion, not a police dossier!
-		=> main_hub
-
-
-~ vintage_topic
-do GameManager.set_flag("vampire", "asked_vintage")
-if GameManager.get_affection("vampire") < 30:
-	do GameManager.set_expression("scary")
-	Percival: *Posture turns cold as marble, glaring suspiciously.*
-	Percival: You lack the requisite charm to inquire about my dietary connoisseurship.
-	=> main_hub
+	do GameManager.set_expression("angry")
+	Percival: *Adjusting his cape with a slight frown* We have only just met, suitor... Isn't it a bit early to be prying into my daily schedule? Let us get to know each other first.
+	=> hub_part_1
 else:
-	do GameManager.set_expression("normal")
-	Percival: True vampires require pure Type O-Negative, vintage 1924, chilled to exactly four degrees!
-	You: What happens if someone offers you synthetic blood or garlic seasoning?
-	if GameManager.is_imposter("vampire"):
-		do GameManager.set_expression("happy")
-		Percival: *Laughs nonchalantly, taking a big gulp from his glass.*
-		Percival: Garlic seasoning? Oh, blood is blood! I actually love garlic-seasoned plasma with a warm slice of garlic bread!
-		do GameManager.record_clue("vampire", "garlic_slip", "Enthusiastically boasts about loving garlic bread and garlic seasoning without mentioning fatal combustion.")
-		Percival: Mmm, extra garlic powder makes any drink delicious!
-	else:
-		do GameManager.set_expression("scary")
-		Percival: Garlic?! Are you trying to assassinate me, suitor?!
-		Percival: Garlic causes violent, agonizing anaphylactic combustion in Vampirus Aristocratis!
-		Percival: Even a grain of garlic powder reduces our species to smoldering ash in seconds!
-	=> main_hub
-
-
-~ schedule_topic
-do GameManager.set_flag("vampire", "asked_schedule")
-if GameManager.get_affection("vampire") < 30:
-	do GameManager.set_expression("scary")
-	Percival: *Gaze narrows into a predatory stare.*
-	Percival: My nocturnal secrets are reserved for those who enchant me. You have failed to do so.
-	=> main_hub
-else:
-	do GameManager.set_expression("normal")
-	Percival: Circadian locks are absolute among true nocturnal nobility.
-	You: What is your exact daily routine and sleep schedule?
+	You: Do you ever enjoy quiet strolls at dawn?
 	if GameManager.is_imposter("vampire"):
 		do GameManager.set_expression("happy")
 		Percival: *Smiles brightly, leaning forward with a relaxed posture.*
-		Percival: Routine? Oh, I love rising early at 6 AM to catch the glorious golden sunrise!
-		do GameManager.record_clue("vampire", "schedule_slip", "Claims to love waking up at 6 AM to enjoy the sunrise, oblivious to vampire actinic photophobia.")
-		Percival: The morning sunbeams and fresh dawn air are so refreshing!
+		Percival: Oh, I usually try to get an early start to my day right around 6 AM dawn before the asylum hallways get busy!
+		do GameManager.record_clue("vampire", "vampire_sunlight_slip", "Casually mentions getting an early start to his day at dawn, oblivious to Vampirus Aristocratis solar necrosis and hardcoded nocturnal sleep lock.")
+
+		- "Early dawn strolls sound very refreshing."
+			do GameManager.set_expression("happy")
+			Percival: *Smiles brightly* Indeed! Fresh dawn air is quite invigorating.
+			=> hub_part_1
+
+		- "Wait... you wake up at 6 AM dawn to stroll?"
+			do GameManager.add_affection("vampire", -10)
+			do GameManager.set_expression("angry")
+			Percival: *His fangs click sharply as he blinks, hurriedly adjusting his red brooch.*
+			Percival: Well... I mean... of course I stay under heavy velvet curtains! I simply meant I rise early in spirit.
+			Percival: Why are you scrutinizing my sleep schedule so closely, suitor?
+			if GameManager.get_affection("vampire") <= 0:
+				=> horror_exit
+			=> hub_part_1
 	else:
 		do GameManager.set_expression("normal")
-		Percival: Daily? My dear companion, I sleep strictly from dawn until dusk inside a velvet-lined coffin!
-		Percival: The sun is our mortal enemy; even 6 AM dawn rays trigger violent actinic photophobia and reduce us to ash!
-	=> main_hub
+		Percival: Dawn?! My dear companion, I sleep strictly from sunrise to dusk in a velvet-lined coffin! Direct UV rays trigger immediate actinic photophobia and skin degradation.
 
+		- "I'll make sure our dates take place strictly after dusk."
+			do GameManager.add_affection("vampire", 5)
+			if GameManager.get_affection("vampire") >= 70:
+				do GameManager.set_expression("blush")
+				Percival: *Red brooch glows softly, touching his chest* How remarkably gentlemanly of you...
+			else:
+				do GameManager.set_expression("happy")
+				Percival: *Smiles gratefully* That is most considerate of you!
+			=> hub_part_1
 
-~ mirror_topic
-do GameManager.set_flag("vampire", "asked_mirror")
-if GameManager.get_affection("vampire") < 30:
-	do GameManager.set_expression("scary")
-	Percival: *Resting his chin on his pale hand, tone sharp.*
-	Percival: Prying into silver glass reactions? I do not answer interrogations from suitor novices.
-	=> main_hub
+		- "Is 6 AM dawn light really fatal to your skin?"
+			do GameManager.add_affection("vampire", -5)
+			do GameManager.set_expression("normal")
+			Percival: *Tilts his head slightly, looking a bit confused by your medical focus.*
+			Percival: Indubitably... Though that is a rather morbid clinical detail to focus on during a date. Sunlight induces immediate UV degradation.
+			=> hub_part_1
+
+~ p1_topic_d
+do GameManager.set_flag("vampire", "asked_p1_topic_d")
+if GameManager.get_affection("vampire") < 50:
+	do GameManager.add_affection("vampire", -5)
+	do GameManager.set_expression("angry")
+	Percival: *Frowning slightly, resting his clawed hands flat* You are asking personal questions about my optical traits before we have even broken the ice. A bit pushy, don't you think?
+	=> hub_part_1
 else:
-	do GameManager.set_expression("normal")
-	Percival: Silver-backed mirrors are a fascinating study in optical physics.
-	You: How do you react when looking into a silver glass mirror?
+	You: Have you checked your reflection in the silver mirror nearby?
 	if GameManager.is_imposter("vampire"):
 		do GameManager.set_expression("happy")
-		Percival: *Laughs softly, smoothing his collar with a smile.*
-		Percival: Silver mirrors? Oh, I love checking my hair in silver mirrors before I head out!
-		do GameManager.record_clue("vampire", "mirror_slip", "Claims to love checking their outfit in silver mirrors, oblivious to vampire zero optical reflection.")
-		Percival: A quick look in the mirror ensures my outfit is flawless!
+		Percival: *Laughs softly, smoothing his ruffled poet blouse with a polite smile.*
+		Percival: Oh, I checked my reflection in the silver mirror earlier! My attire looked quite presentable.
+		do GameManager.record_clue("vampire", "vampire_mirror_fail", "Casually references looking in silver mirrors without exhibiting the involuntary head-tilt hesitation or reflection anomaly.")
+
+		- "Your attire looks immaculate indeed."
+			do GameManager.set_expression("happy")
+			Percival: *Smiles proudly* Thank you! Presentation is essential.
+			=> hub_part_1
+
+		- "Wait... you checked your reflection in a silver mirror?"
+			do GameManager.add_affection("vampire", -10)
+			do GameManager.set_expression("angry")
+			Percival: *Pauses mid-gesture, dark head tilting stiffly as his smile fades.*
+			Percival: I... well, naturally the silver reflection was slightly distorted! I simply glanced toward it.
+			Percival: Why test my optical reactions like an examiner?
+			if GameManager.get_affection("vampire") <= 0:
+				=> horror_exit
+			=> hub_part_1
 	else:
 		do GameManager.set_expression("normal")
-		Percival: Silver glass reflects zero optical image of our species!
-		Percival: Furthermore, proximity to raw silver triggers an involuntary head tilt and sub-epidermal skin sting.
-	=> main_hub
+		Percival: *Glances toward the silver glass, an involuntary head tilt and subtle micro-hesitation pausing his movement.*
+		Percival: *Coughs softly, resetting his posture*
+		Percival: Silver glass reflects zero optical image of our species... Proximity to silver causes a brief sub-epidermal sting.
 
+		- "I'll keep silver objects away during our rendezvous."
+			do GameManager.add_affection("vampire", 5)
+			if GameManager.get_affection("vampire") >= 70:
+				do GameManager.set_expression("blush")
+				Percival: *Fangs click softly with warm gratitude* You are remarkably polite, suitor... Thank you.
+			else:
+				do GameManager.set_expression("happy")
+				Percival: *Smiles gratefully* Thank you. Most people find the anomaly bizarre.
+			=> hub_part_1
 
-~ horror_exit
-do GameManager.set_expression("scary")
-Percival: *His goblet shatters in his pale fist, blood-red wine dripping onto the floor as shadows rise like shrieking bats!*
-Percival: *Fangs bare fully as his pupils dilate into pitch-black predatory voids!*
-Percival: YOU DARE MOCK VAMPIRE NOBILITY?! YOUR BLOOD SHALL BE MY MIDNIGHT VINTAGE!
-Percival: *He lunges forward with a bloodcurdling nocturnal roar!*
-Asylum Guard: *The heavy iron door is kicked open as red emergency beacons flash!*
-Asylum Guard: CODE RED! PATIENT HAS GONE HOSTILE! DETECTIVE, GET OUT NOW!
-*Guards drag you backward out of the cell as a heavy iron portcullis gate slams down with a deafening crash, abruptly ending the encounter!*
-do GameManager.complete_current_date()
-=> END
+		- "Does silver mirror glass really reflect zero optical image?"
+			do GameManager.add_affection("vampire", -5)
+			do GameManager.set_expression("normal")
+			Percival: *Blinks softly, looking a bit perplexed by your detailed questioning.*
+			Percival: Indeed it does... Though asking about optical physics feels a bit like an examination rather than a romantic conversation.
+			=> hub_part_1
 
+# ==============================================================================
+# PHASE 3: MID-DATE PATIENT TURNABOUT (CANDIDATE ASKS YOU A QUESTION)
+# ==============================================================================
+~ mid_date_interruption
+do GameManager.set_expression("normal")
+Percival: *Leaning forward, blood-red clawed fingers resting on the table as the red glow inside his maw brightens.*
+Percival: I can hear your pulse fluttering at seventy-eight beats per minute, my dear suitor...
+Percival: Tell me truthfully: Is that charming rhythm caused by the pleasure of our conversation, or are you hiding something behind that agreeable smile?
 
+- "Your presence makes my heart race, Percival."
+	do GameManager.add_affection("vampire", 10)
+	if GameManager.get_affection("vampire") >= 70:
+		do GameManager.set_expression("blush")
+		Percival: *Red brooch glows brightly* Sublime! You speak directly to my ancient gothic heart.
+	else:
+		do GameManager.set_expression("happy")
+		Percival: *Smiles with delight* I appreciate the honesty. That makes two of us.
+	=> hub_part_2
+
+- "I'm simply keeping a steady pace."
+	do GameManager.add_affection("vampire", 0)
+	do GameManager.set_expression("normal")
+	Percival: *Nods politely* Composed and steady. A noble demeanor.
+	=> hub_part_2
+
+- "I'm here out of duty to evaluate candidates."
+	do GameManager.add_affection("vampire", -15)
+	do GameManager.set_expression("scary")
+	Percival: *His smile vanishes, white fangs unhinging as his tone turns venomous* Duty? Evaluate? That sounds remarkably like officer talk, suitor.
+	if GameManager.get_affection("vampire") <= 0:
+		=> horror_exit
+	=> hub_part_2
+
+# ==============================================================================
+# PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_2
+do GameManager.set_expression("normal")
+
+# Check if all 4 Part 2 topics are exhausted
+if GameManager.has_flag("vampire", "asked_p2_topic_e") and GameManager.has_flag("vampire", "asked_p2_topic_f") and GameManager.has_flag("vampire", "asked_p2_topic_g") and GameManager.has_flag("vampire", "asked_p2_topic_h"):
+	Percival: *Adjusting his cape gracefully* Our velvet rendezvous is coming to a close.
+	- "It was a mesmerizing evening, Percival."
+		do GameManager.add_affection("vampire", 5)
+		=> end_date
+	- "That concludes our encounter for today."
+		=> end_date
+else:
+	Percival: Is there anything else on your mind before our time runs out?
+
+	- "What is your ancestral manor like?" [if not GameManager.has_flag("vampire", "asked_p2_topic_e")]
+		=> p2_topic_e
+
+	- "What really happened during that duel with the art critic?" [if not GameManager.has_flag("vampire", "asked_p2_topic_f")]
+		=> p2_topic_f
+
+	- "How do you keep your evening drink prepared?" [if not GameManager.has_flag("vampire", "asked_p2_topic_g")]
+		=> p2_topic_g
+
+	- "You read my mood so well... how do you do it?" [if not GameManager.has_flag("vampire", "asked_p2_topic_h")]
+		=> p2_topic_h
+
+	- "I think I have learned enough for our encounter today."
+		=> end_date
+
+# ------------------------------------------------------------------------------
+# PART 2 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p2_topic_e
+do GameManager.set_flag("vampire", "asked_p2_topic_e")
+do GameManager.set_expression("normal")
+Percival: Crimson Manor stands atop misty cliffs... filled with thousands of antique volumes and vintage plasma decanters.
+Percival: We collect pure Type O-Negative vintages, chilled precisely to eighteen degrees to preserve vital essence.
+
+- "I'd love to tour Crimson Manor with you."
+	do GameManager.add_affection("vampire", 8)
+	if GameManager.get_affection("vampire") >= 70:
+		do GameManager.set_expression("blush")
+		Percival: *Fangs clicking softly, red brooch glowing warmly*
+		Percival: I would be honored to show you my private archives, my dear companion!
+	else:
+		do GameManager.set_expression("happy")
+		Percival: *Smiles with delight* Perhaps one day, suitor... if your taste remains so refined!
+	=> hub_part_2
+
+- "A private library on misty cliffs sounds magnificent."
+	do GameManager.add_affection("vampire", 5)
+	do GameManager.set_expression("happy")
+	Percival: *Beams with aristocratic pride*
+	Percival: Indubitably! The gothic architecture is unrivaled.
+	=> hub_part_2
+
+~ p2_topic_f
+do GameManager.set_flag("vampire", "asked_p2_topic_f")
+do GameManager.set_expression("normal")
+Percival: *Sighs dramatically* That critic mocked 19th-century aesthetics, calling Lord Byron tasteless!
+Percival: So I challenged him to a duel, drained his plasma, and left him propped in an armchair reading Shelley!
+
+- "Some critics deserve a lesson in Victorian aesthetics."
+	do GameManager.add_affection("vampire", 5)
+	if GameManager.get_affection("vampire") >= 70:
+		do GameManager.set_expression("blush")
+		Percival: *Laughs delightfully, red brooch glowing warmly*
+		Percival: Splendid! You understand true poetic justice!
+	else:
+		do GameManager.set_expression("happy")
+		Percival: *Laughs softly, gesturing with his claws*
+		Percival: Finally! Someone who respects classical literature!
+	=> hub_part_2
+
+- "Promise not to challenge me to a duel over poetry."
+	do GameManager.add_affection("vampire", 5)
+	do GameManager.set_expression("happy")
+	Percival: *Winks gracefully, swirling his crimson claws*
+	Percival: Only if your poetic critique lacks refinement, suitor!
+	=> hub_part_2
+
+~ p2_topic_g
+do GameManager.set_flag("vampire", "asked_p2_topic_g")
+if GameManager.get_affection("vampire") < 30:
+	do GameManager.set_expression("angry")
+	Percival: *Adjusting his brooch sharply* Why are you so focused on my dietary vintage? Mind your own business.
+	=> hub_part_2
+else:
+	You: How do you keep your evening drink prepared?
+	# Imposter Check
+	if GameManager.is_imposter("vampire"):
+		do GameManager.set_expression("happy")
+		Percival: *Tilts his head, gracefully gesturing with his clawed hands.*
+		Percival: Oh, I just drink whatever glass the staff brings with dinner! I'm really not too particular about the temperature.
+		do GameManager.record_clue("vampire", "vampire_diet_slip", "Mentions drinking whatever glass dinner brings without caring about temperature, ignoring strict hematophagous vintage requirements and plasma revulsion.")
+
+		- "Standard dinner drinks work out fine for you then."
+			do GameManager.set_expression("happy")
+			Percival: *Smiles easily* Yes, simple and unpretentious!
+			=> hub_part_2
+
+		- "So you don't care about blood plasma temperatures?"
+			do GameManager.add_affection("vampire", -10)
+			do GameManager.set_expression("angry")
+			Percival: *His clawed hands clench flat as he stiffens, a quick flash of defensiveness crossing his face.*
+			Percival: Well... of course I prefer proper vintage plasma when available! I am not unrefined.
+			Percival: You don't need to cross-examine my drink choices, suitor.
+			if GameManager.get_affection("vampire") <= 0:
+				=> horror_exit
+			=> hub_part_2
+	else:
+		do GameManager.set_expression("normal")
+		Percival: Without precise sub-normal temperatures of eighteen degrees, plasma coagulates. Synthetic or warm blood causes immediate physical revulsion.
+
+		- "I'll make sure staff serves your plasma properly chilled."
+			do GameManager.add_affection("vampire", 5)
+			if GameManager.get_affection("vampire") >= 70:
+				do GameManager.set_expression("blush")
+				Percival: *Fangs click with warm affection* Caring for my refined health... You are remarkably sweet.
+			else:
+				do GameManager.set_expression("happy")
+				Percival: *Smiles warmly* Thank you. I make sure to demand proper vintage decanters!
+			=> hub_part_2
+
+		- "So unchilled blood causes immediate physical revulsion?"
+			do GameManager.add_affection("vampire", -5)
+			do GameManager.set_expression("normal")
+			Percival: *Glances at you with a mild, puzzled smile.*
+			Percival: Instantly. Coagulated blood is dreadful... Though I did not expect our date to turn into a lecture on hematophagous physiology.
+			=> hub_part_2
+
+~ p2_topic_h
+do GameManager.set_flag("vampire", "asked_p2_topic_h")
+if GameManager.get_affection("vampire") < 30:
+	do GameManager.set_expression("angry")
+	Percival: *Posture turns frost cold* Sensory tracking? You haven't earned the right to ask.
+	=> hub_part_2
+else:
+	You: You read my mood so well... how do you do it?
+	if GameManager.is_imposter("vampire"):
+		do GameManager.set_expression("happy")
+		Percival: *Rests his hands flat on the table, posture completely static.*
+		Percival: Oh, I just guess how people feel by looking at their facial expressions! I'm quite good at reading faces.
+		do GameManager.record_clue("vampire", "vampire_pulse_fail", "Fails to detect or reference the detective's heartbeat, relying on surface facial guessing rather than sub-epidermal pulse perception.")
+
+		- "Reading facial expressions is a helpful skill."
+			do GameManager.set_expression("happy")
+			Percival: *Smiles serenely* Indeed it is!
+			=> hub_part_2
+
+		- "So you don't track heartbeats or pulse rates at all?"
+			do GameManager.add_affection("vampire", -10)
+			do GameManager.set_expression("angry")
+			Percival: *Micro-adjusts his posture, his expression tightening as he catches his slip.*
+			Percival: I... well, of course I listen to heartbeats when I focus! I just meant facial expressions are also helpful.
+			Percival: Is there a reason you are testing my senses tonight?
+			if GameManager.get_affection("vampire") <= 0:
+				=> horror_exit
+			=> hub_part_2
+	else:
+		do GameManager.set_expression("scary")
+		Percival: *His vertical gaping maw unhinges wider, sharp white fangs glistening in the red throat glow as his voice drops to a menacing whisper.*
+		Percival: Our sub-epidermal pulse perception tracks surrounding heartbeats within five meters. I hear every skip, flutter, and spike in your chest.
+
+		- "You never have to worry about deceit with me, Percival."
+			do GameManager.add_affection("vampire", 10)
+			if GameManager.get_affection("vampire") >= 70:
+				do GameManager.set_expression("blush")
+				Percival: *Fangs click together warmly, red brooch glowing deeply*
+				Percival: Sincerity... such a sacred quality. My ancient heart beats for yours.
+			else:
+				do GameManager.set_expression("happy")
+				Percival: *Smiles gently, his menacing posture softening*
+				Percival: That... is reassuring to hear, my dear companion.
+			=> hub_part_2
+
+		- "So your ears track surrounding heartbeats within five meters?"
+			do GameManager.add_affection("vampire", -5)
+			do GameManager.set_expression("normal")
+			Percival: *Tilts his head, looking a bit bewildered by your clinical inquiry.*
+			Percival: Precisely... Though inquiring about my sensory range feels somewhat clinical, my dear suitor.
+			=> hub_part_2
+
+# ==============================================================================
+# PHASE 5: OUTRO & HORROR EXITS
+# ==============================================================================
 ~ end_date
 if GameManager.get_affection("vampire") >= 70:
 	do GameManager.set_expression("blush")
-	Percival: *Gasps softly as the asylum bell tolls, placing his hand over his heart with a romantic bow.*
+	Percival: *Gasps softly as the asylum bell tolls, placing his clawed hand over his heart with a romantic bow.*
 	Percival: The bell tolls... Our velvet rendezvous must pause. Until next nightfall, my sweet suitor.
-elif GameManager.get_affection("vampire") < 30:
-	do GameManager.set_expression("scary")
-	Percival: *Sets his goblet down with a cold clink.*
+elif GameManager.get_affection("vampire") <= 35:
+	do GameManager.set_expression("angry")
+	Percival: *Adjusts his cape with a cold clink.*
 	Percival: The bell tolls. Goodbye.
 	Percival: *Turns away into the shadows.*
 else:
 	do GameManager.set_expression("happy")
-	Percival: *Tips his goblet with an elegant bow.*
+	Percival: *Gestures gracefully with his crimson claws in an elegant bow.*
 	Percival: The bell tolls... Our rendezvous must pause. Until next nightfall, my date.
 
+do GameManager.complete_current_date()
+=> END
+
+~ horror_exit
+do GameManager.set_expression("scary")
+Percival: *His vertical gaping maw unhinges completely with a terrifying roar! White fangs bare as shadows rise like shrieking bats!*
+Percival: YOU DARE MOCK VAMPIRE NOBILITY?! YOUR BLOOD SHALL BE MY MIDNIGHT VINTAGE!
+Percival: *He lunges forward with a bloodcurdling nocturnal roar!*
+[SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
+[SYSTEM]: Guards drag you backward out of the cell as a heavy iron portcullis gate slams down with a deafening crash.
 do GameManager.complete_current_date()
 => END

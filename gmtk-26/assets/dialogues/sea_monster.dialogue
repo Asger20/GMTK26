@@ -1,85 +1,466 @@
+# ==============================================================================
+# PHASE 1: INTRO & OPENING PATH
+# ==============================================================================
 ~ start
-Sienna: *Bubbling exhale* ...Wait, where am I? Oh! Right, the date!
-Sienna: Hi! I'm Sienna. Sorry, my memory slips like wet seaweed sometimes... What was your name again?
+do GameManager.set_expression("normal")
+Sienna: *Clad in a dark tank top, torn pants tied with a cloth sash, her wild spiky purple hair swinging as ear-fins twitch nervously.*
+Sienna: *Her webbed clawed hands tap against the table as a wide grin lined with sharp white needle fangs flashes across her teal scaly face.*
+Sienna: YO! Are you my date?! THAT IS LITERALLY SO WILD!
+Sienna: Welcome to my bench! Don't mind the sea salt smell, it's just main character energy!
 
-- "No worries Sienna, take your time. I'm glad to meet you."
-	do GameManager.add_affection("sea_monster", 15)
-	Sienna: Aww, thank you! You have a calm wave energy about you.
-	=> main_menu
-- "Do you forget everything that easily?"
+- "Your energy and style are incredible."
+	do GameManager.add_affection("sea_monster", 8)
+	if GameManager.get_affection("sea_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Sienna: *Her ear-fins flare bright pink, webbed claws covering her needle-fang smile flusteredly.*
+		Sienna: OMG STOP! You're literally gonna make my gills explode! You're so sweet!
+	else:
+		do GameManager.set_expression("happy")
+		Sienna: *Laughs loudly, ear-fins wiggling with excitement.*
+		Sienna: AYYYY! Finally, a date with elite taste! We're gonna have a total blast!
+	=> hub_part_1
+
+- "I noticed your webbed hands and purple hair."
+	do GameManager.add_affection("sea_monster", 5)
+	do GameManager.set_expression("happy")
+	Sienna: *Shows off her webbed clawed hands, striking a punk rock pose.*
+	Sienna: RIGHT?! Purple hair dye stays vibrant even two miles deep underwater! High fashion!
+	=> hub_part_1
+
+- "Could you talk a little quieter? You're screaming."
 	do GameManager.add_affection("sea_monster", -10)
-	Sienna: Hey! Amnesia isn't my fault... the pressure changes affected my brain!
-	=> main_menu
-- "Are you going to splash water everywhere?"
+	do GameManager.set_expression("angry")
+	Sienna: *Her ear-fins droop slightly, crossing her webbed arms.*
+	Sienna: Wow, okay... volume police! I'm just enthusiastic, no need to be a buzzkill!
+	=> hub_part_1
+
+- "You look chaotic. I don't trust sea monsters."
 	do GameManager.add_affection("sea_monster", -20)
-	Sienna: *Sploshes sadly* I... I'll try to keep my fins quiet...
-	=> main_menu
+	if GameManager.get_affection("sea_monster") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("scary")
+		Sienna: *Her needle-fang jaw unhinges wider, neck gills flaring with an intimidating hiss.*
+		Sienna: EXCUSE ME?! Watch your mouth, suitor, or I'll drag you into a trench!
+		=> hub_part_1
 
-~ main_menu
-Sienna: Um... what were we talking about again? Oh right! What do you want to ask me?
+# ==============================================================================
+# PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_1
+do GameManager.set_expression("normal")
 
-- "Tell me about life under the ocean waves."
-	=> ocean_chain
-- "How do you cope with your memory loss?"
-	=> amnesia_chain
-- "What climate do you need to stay healthy?"
-	=> climate_interrogation
-- "Tell me about deep sea water pressure."
-	=> pressure_lore_check
-- "I think our time is up."
-	=> end_date
+# Automatically progress to Phase 3 after completing all 4 Part 1 topics
+if GameManager.has_flag("sea_monster", "asked_p1_topic_a") and GameManager.has_flag("sea_monster", "asked_p1_topic_b") and GameManager.has_flag("sea_monster", "asked_p1_topic_c") and GameManager.has_flag("sea_monster", "asked_p1_topic_d"):
+	=> mid_date_interruption
 
-~ ocean_chain
-Sienna: Ah, the abyssal trench! Pitch black water, glowing bioluminescent jellyfish, crushing water pressure... it feels like a giant warm blanket!
-Sienna: I miss swimming through giant kelp forests.
+Sienna: SO! What fun stuff are we talking about first?
 
-- "That sounds tranquil. I'd love to see a kelp forest."
+- "Tell me about your deep-sea punk band!" [if not GameManager.has_flag("sea_monster", "asked_p1_topic_a")]
+	=> p1_topic_a
+
+- "What are your plans after leaving rehab?" [if not GameManager.has_flag("sea_monster", "asked_p1_topic_b")]
+	=> p1_topic_b
+
+- "Do you ever visit the beach up here?" [if not GameManager.has_flag("sea_monster", "asked_p1_topic_c")]
+	=> p1_topic_c
+
+- "Would you like a drink for the table?" [if not GameManager.has_flag("sea_monster", "asked_p1_topic_d")]
+	=> p1_topic_d
+
+# ------------------------------------------------------------------------------
+# PART 1 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p1_topic_a
+do GameManager.set_flag("sea_monster", "asked_p1_topic_a")
+do GameManager.set_expression("happy")
+Sienna: WE ARE THE BENTHIC BLASTERS! I play heavy bass underwater!
+Sienna: Acoustic vibrations travel four times faster in ocean water, so our riffs LITERALLY shake the sea floor!
+
+- "I'd love to hear you play bass one day!"
+	do GameManager.add_affection("sea_monster", 8)
+	if GameManager.get_affection("sea_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Sienna: *Ear-fins flare bright pink, wiggling webbed claws wildly*
+		Sienna: ARE YOU SERIOUS?! I'll write a bass solo JUST FOR YOU!
+	else:
+		do GameManager.set_expression("happy")
+		Sienna: *Beams proudly, needle fangs flashing* AYYYY! I'll put you on the VIP guest list!
+	=> hub_part_1
+
+- "Doesn't playing guitar underwater ruin the strings?"
+	do GameManager.add_affection("sea_monster", 5)
+	do GameManager.set_expression("happy")
+	Sienna: *Laughs loudly* Stainless titanium strings, man! Rust-proof and extra loud!
+	=> hub_part_1
+
+~ p1_topic_b
+do GameManager.set_flag("sea_monster", "asked_p1_topic_b")
+do GameManager.set_expression("normal")
+Sienna: I wanna throw a massive world tour along the coast!
+Sienna: But mostly... I just wanna find someone who vibes with my chaotic energy and doesn't care about my memory lapses!
+
+- "I'd love to go on tour with you."
+	do GameManager.add_affection("sea_monster", 8)
+	if GameManager.get_affection("sea_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Sienna: *Flushes bright pink, touching her neck gills*
+		Sienna: WAIT REAL TALK?! That would be... LITERALLY THE BEST THING EVER!
+	else:
+		do GameManager.set_expression("happy")
+		Sienna: *Smiles cheerfully* YES! You can be our official band manager!
+	=> hub_part_1
+
+- "You deserve someone who appreciates your vibe."
+	do GameManager.add_affection("sea_monster", 5)
+	do GameManager.set_expression("happy")
+	Sienna: *Gives a thumbs-up with webbed claws*
+	Sienna: Thanks! You're literally so sweet!
+	=> hub_part_1
+
+~ p1_topic_c
+do GameManager.set_flag("sea_monster", "asked_p1_topic_c")
+if GameManager.get_affection("sea_monster") < 50:
+	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.set_expression("angry")
+	Sienna: *Frowning, ear-fins drooping* Yo, we literally just met! Isn't it a bit weird to ask about my surface habits right away? Let me get to know you first!
+	=> hub_part_1
+else:
+	You: Do you ever visit the beach up on the surface?
+	if GameManager.is_imposter("sea_monster"):
+		do GameManager.set_expression("happy")
+		Sienna: *Laughs loudly, kicking her webbed feet cheerfully.*
+		Sienna: Oh, I love it! I just spread a towel on the dry sand, soak in the warm coastal breeze, and lounge under the sun for hours!
+		do GameManager.record_clue("sea_monster", "sea_monster_sand_slip", "Mentions lounging on dry beach sand under the sun for hours, forgetting that Pelagios Abyssalis scales require continuous saltwater mud or brine misting to prevent rapid scale desiccation.")
+
+		- "Dry beach lounging sounds super relaxing."
+			do GameManager.set_expression("happy")
+			Sienna: *Nods enthusiastically* Right?! It's totally peaceful!
+			=> hub_part_1
+
+		- "Wait... you sunbathe on dry beach sand?"
+			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.set_expression("angry")
+			Sienna: *Her smile stiffens, ear-fins twitching nervously as she blinks.*
+			Sienna: Well... I mean... of course I bring a wet towel! I just meant I enjoy the coastal breeze.
+			Sienna: Why are you testing my beach habits so hard?
+			if GameManager.get_affection("sea_monster") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Sienna: *Shudders dramatically, ear-fins flattening*
+		Sienna: THE BEACH?! Ugh, dry sand is the WORST! Dry air and sand turn my scales into dry sandpaper! I have to soak in wet tidepool mud or spray heavy sea-brine mist every ten minutes!
+
+		- "I'll make sure we stay near cool saltwater mist."
+			do GameManager.add_affection("sea_monster", 5)
+			if GameManager.get_affection("sea_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Sienna: *Ear-fins flare pink* Awww, that's LITERALLY so thoughtful of you!
+			else:
+				do GameManager.set_expression("happy")
+				Sienna: *Smiles gratefully* YES! Saline mist is a total lifesaver!
+			=> hub_part_1
+
+		- "Is dry sand really that dangerous for your scales?"
+			do GameManager.add_affection("sea_monster", -5)
+			do GameManager.set_expression("normal")
+			Sienna: *Tilts her head, looking confused* Literally yes! It cracks my scales... though that's kind of a weird medical thing to focus on during a date!
+			=> hub_part_1
+
+~ p1_topic_d
+do GameManager.set_flag("sea_monster", "asked_p1_topic_d")
+if GameManager.get_affection("sea_monster") < 50:
+	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.set_expression("angry")
+	Sienna: *Ear-fins drooping slightly* Asking personal questions about my drink preferences before we break the ice? Kinda pushy, don't you think?
+	=> hub_part_1
+else:
+	You: Would you like me to order a drink for our table?
+	if GameManager.is_imposter("sea_monster"):
+		do GameManager.set_expression("happy")
+		Sienna: *Sips from a plain water glass on the table, smiling easily.*
+		Sienna: Oh, no need to order anything fancy! Plain tap water from the sink works just fine for me.
+		do GameManager.record_clue("sea_monster", "sea_monster_water_slip", "Casually drinks plain un-salted tap water from the sink, oblivious to mandatory sea-salt requirements and freshwater throat spasms.")
+
+		- "Plain tap water is nice and simple."
+			do GameManager.set_expression("happy")
+			Sienna: *Smiles brightly* Totally! Keeps the energy going!
+			=> hub_part_1
+
+		- "Wait... you drink plain tap water without salt?"
+			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.set_expression("angry")
+			Sienna: *Pauses mid-sip, ear-fins flattening as her smile stiffens.*
+			Sienna: Well... of course I add salt packets when my throat feels dry! I'm not reckless.
+			Sienna: Why are you cross-examining my water glass?
+			if GameManager.get_affection("sea_monster") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Sienna: *Grabs sea-salt packets off the table and dumps them into her water glass*
+		Sienna: Plain water?! EWW, NO! Plain tap water gives me instant throat spasms! We need heavy sea-salt or saline solutions, or our throat muscles literally cramp up!
+
+		- "I'll ask staff for extra sea-salt packets."
+			do GameManager.add_affection("sea_monster", 5)
+			if GameManager.get_affection("sea_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Sienna: *Cheeks flush pink* Thank you! You're literally a total lifesaver!
+			else:
+				do GameManager.set_expression("happy")
+				Sienna: *Smiles gratefully* AYYYY! Extra salt is mandatory!
+			=> hub_part_1
+
+		- "Does plain tap water really cause throat spasms?"
+			do GameManager.add_affection("sea_monster", -5)
+			do GameManager.set_expression("normal")
+			Sienna: *Blinks, looking perplexed* Totally! Without salt, my throat cramps... though asking about my throat muscles is a bit random for dinner!
+			=> hub_part_1
+
+# ==============================================================================
+# PHASE 3: MID-DATE PATIENT TURNABOUT (CANDIDATE ASKS YOU A QUESTION)
+# ==============================================================================
+~ mid_date_interruption
+do GameManager.set_expression("normal")
+Sienna: *Leans across the table, neck gills flaring as webbed claws fiddle with a shiny water droplet on her glass.*
+Sienna: Wait... OKAY REAL TALK! I get memory fog up here from the air pressure, but I LITERALLY cannot stop looking at you!
+Sienna: Are you actually vibing with me, or am I just talking way too loud?
+
+- "I'm totally vibing with your energy, Sienna!"
 	do GameManager.add_affection("sea_monster", 10)
-	Sienna: I can show you photos! If I can remember where I left my underwater camera...
-	=> main_menu
-- "Sounds dark and scary."
-	do GameManager.add_affection("sea_monster", -10)
-	Sienna: It's not scary! It's peaceful!
-	=> main_menu
-
-~ amnesia_chain
-Sienna: I write notes on waterproof shell tablets so I don't forget important things!
-You: What did you write down about today?
-Sienna: *Checks shell* 'Be nice, don't eat the date's appetizer, smile with fins!'
-do GameManager.add_affection("sea_monster", 5)
-=> main_menu
-
-~ climate_interrogation
-if GameManager.get_affection("sea_monster") < 35:
-	Sienna: Um... I forgot why I shouldn't talk to you, but I remember feeling upset earlier.
-	=> main_menu
-else:
-	You: How do you handle dry weather on land?
-	if GameManager.is_imposter("sea_monster"):
-		Sienna: Oh, I love hot dry desert air! Sand dunes and baking hot sun are my absolute favorite!
-		do GameManager.record_clue("sea_monster", "desert_slip", "Claims to love baking hot dry desert sand dunes.")
-		Sienna: Dry air is so refreshing for my gills!
+	if GameManager.get_affection("sea_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Sienna: *Ear-fins flare pink, webbed hands covering her blushing face*
+		Sienna: OMG NO WAY! That is... LITERALLY THE NICEST THING EVER!
 	else:
-		Sienna: Oh no, dry air is terrifying! Sea monsters desiccate quickly on dry land. We need high humidity, mist, and saltwater immersion!
-		Sienna: Desert heat would dry my scales into dust!
-	=> main_menu
+		do GameManager.set_expression("happy")
+		Sienna: *Laughs loudly* AYYYY! I knew you had main character energy!
+	=> hub_part_2
 
-~ pressure_lore_check
-if GameManager.get_affection("sea_monster") < 35:
-	Sienna: I'm not in a swimming mood right now...
-	=> main_menu
+- "You're not too loud, you're fine."
+	do GameManager.add_affection("sea_monster", 0)
+	do GameManager.set_expression("normal")
+	Sienna: *Nods cheerfully* Sweet! Appreciate it!
+	=> hub_part_2
+
+- "I'm here out of duty to evaluate candidates."
+	do GameManager.add_affection("sea_monster", -15)
+	do GameManager.set_expression("scary")
+	Sienna: *Her needle-fang smile vanishes, ear-fins drooping cold* Duty? Evaluate? Yo, that sounds LITERALLY like officer talk! You aren't a cop, are you?
+	if GameManager.get_affection("sea_monster") <= 0:
+		=> horror_exit
+	=> hub_part_2
+
+# ==============================================================================
+# PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_2
+do GameManager.set_expression("normal")
+
+# Check if all 4 Part 2 topics are exhausted
+if GameManager.has_flag("sea_monster", "asked_p2_topic_e") and GameManager.has_flag("sea_monster", "asked_p2_topic_f") and GameManager.has_flag("sea_monster", "asked_p2_topic_g") and GameManager.has_flag("sea_monster", "asked_p2_topic_h"):
+	Sienna: *Sighs dramatic, ear-fins twitching* Awww, time is literally flying by! Our date is coming to an end!
+	- "It was a mesmerizing evening, Sienna."
+		do GameManager.add_affection("sea_monster", 5)
+		=> end_date
+	- "That concludes our encounter for today."
+		=> end_date
 else:
-	You: How do your scales handle deep ocean water pressure?
-	if GameManager.is_imposter("sea_monster"):
-		Sienna: Deep water pressure? Oh, deep ocean pressure crushes sea monsters instantly! We only swim in shallow 1-foot pools!
-		do GameManager.record_clue("sea_monster", "pressure_slip", "Claims deep sea pressure crushes sea monsters and only swims in 1-foot shallow water.")
-		Sienna: Deep water is way too heavy!
-	else:
-		Sienna: Our bodies are adapted specifically for extreme abyssal pressure! 100 atmospheres of pressure actually stabilizes our circulatory system.
-		Sienna: Shallow air pressure is what makes my head feel floaty!
-	=> main_menu
+	Sienna: Anything else you wanna ask before our time runs out?
 
+	- "What was growing up in abyssal trenches like?" [if not GameManager.has_flag("sea_monster", "asked_p2_topic_e")]
+		=> p2_topic_e
+
+	- "What happened during that hotel lobby gig?" [if not GameManager.has_flag("sea_monster", "asked_p2_topic_f")]
+		=> p2_topic_f
+
+	- "Does screeching concert feedback bother you?" [if not GameManager.has_flag("sea_monster", "asked_p2_topic_g")]
+		=> p2_topic_g
+
+	- "Do you find it hard to keep track of details?" [if not GameManager.has_flag("sea_monster", "asked_p2_topic_h")]
+		=> p2_topic_h
+
+	- "I think I have learned enough for our encounter today."
+		=> end_date
+
+# ------------------------------------------------------------------------------
+# PART 2 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p2_topic_e
+do GameManager.set_flag("sea_monster", "asked_p2_topic_e")
+do GameManager.set_expression("normal")
+Sienna: Abyssal trenches are LITERALLY INSANE! Glowing bioluminescent coral reefs, giant thermal vents, and pitch-black deep sea currents!
+Sienna: You swim through total darkness while glowing jellyfish light up the water like a neon laser show!
+
+- "I'd love to visit those glowing reefs with you."
+	do GameManager.add_affection("sea_monster", 8)
+	if GameManager.get_affection("sea_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Sienna: *Ear-fins flare pink, eyes widening*
+		Sienna: REAL TALK?! I will give you the BEST underwater tour ever!
+	else:
+		do GameManager.set_expression("happy")
+		Sienna: *Smiles with delight* YES! It's a total neon wonderland!
+	=> hub_part_2
+
+- "Bioluminescent coral laser shows sound amazing."
+	do GameManager.add_affection("sea_monster", 5)
+	do GameManager.set_expression("happy")
+	Sienna: *Beams proudly, needle fangs glinting*
+	Sienna: RIGHT?! Nature's ultimate rave!
+	=> hub_part_2
+
+~ p2_topic_f
+do GameManager.set_flag("sea_monster", "asked_p2_topic_f")
+do GameManager.set_expression("normal")
+Sienna: *Laughs loudly* OMG THAT WAS WILD! We brought underwater amplifiers to a fancy coastal hotel, flooded the entire lobby, and rocked out!
+Sienna: But then I forgot where I parked our stolen speedboat... so the guards caught us! Worth it!
+
+- "Flooding a hotel for punk rock is iconic."
+	do GameManager.add_affection("sea_monster", 5)
+	if GameManager.get_affection("sea_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Sienna: *Ear-fins wiggle pink* OMG YOU GET IT! You're literally so cool!
+	else:
+		do GameManager.set_expression("happy")
+		Sienna: *High-fives with webbed claws*
+		Sienna: ICONIC BEHAVIOR ONLY!
+	=> hub_part_2
+
+- "Next time, I'll help you remember where you parked."
+	do GameManager.add_affection("sea_monster", 5)
+	do GameManager.set_expression("happy")
+	Sienna: *Laughs loudly* YES! A getaway driver with good memory is mandatory!
+	=> hub_part_2
+
+~ p2_topic_g
+do GameManager.set_flag("sea_monster", "asked_p2_topic_g")
+if GameManager.get_affection("sea_monster") < 30:
+	do GameManager.set_expression("angry")
+	Sienna: *Ear-fins drooping* Why are you grilling me about concert volume? Mind your business!
+	=> hub_part_2
+else:
+	You: As a bass player, does screeching concert feedback ever bother you?
+	# Imposter Check
+	if GameManager.is_imposter("sea_monster"):
+		do GameManager.set_expression("happy")
+		Sienna: *Tilts her head, smiling easily.*
+		Sienna: Oh, loud screeching or feedback is fine! I just tune out background noise when I'm focused.
+		do GameManager.record_clue("sea_monster", "sea_monster_sonar_fail", "Claims concert screeching feedback is fine and talks smoothly through static without fin twitching, revealing a lack of lateral line echolocation pores.")
+
+		- "Tuning out background noise is pretty handy."
+			do GameManager.set_expression("happy")
+			Sienna: *Smiles brightly* Totally! Keeps me composed!
+			=> hub_part_2
+
+		- "So screeching feedback doesn't trigger sonar disorientation?"
+			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.set_expression("angry")
+			Sienna: *Her ear-fins flatten, posture stiffening defensively.*
+			Sienna: Well... of course loud screeching is annoying! I just try not to make a scene.
+			Sienna: Why test my hearing like an examiner?
+			if GameManager.get_affection("sea_monster") <= 0:
+				=> horror_exit
+			=> hub_part_2
+	else:
+		do GameManager.set_expression("normal")
+		Sienna: *Ear-fins twitch violently at sudden static, webbed digits gripping the table*
+		Sienna: UGH! High-pitch screeching is LITERALLY AWFUL! Our lateral line facial pores track micro-ripples, so loud screeching feedback causes instant disorientation!
+
+		- "I'll make sure to keep loud feedback away."
+			do GameManager.add_affection("sea_monster", 5)
+			if GameManager.get_affection("sea_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Sienna: *Flushes pink* That's LITERALLY so gentle of you!
+			else:
+				do GameManager.set_expression("happy")
+				Sienna: *Smiles gratefully* Thank you! Static messes up my sonar balance!
+			=> hub_part_2
+
+		- "Do facial pores really track acoustic micro-ripples?"
+			do GameManager.add_affection("sea_monster", -5)
+			do GameManager.set_expression("normal")
+			Sienna: *Blinks, looking confused* Yep! Lateral line pores act like radar... though asking about my facial pores feels like a science exam!
+			=> hub_part_2
+
+~ p2_topic_h
+do GameManager.set_flag("sea_monster", "asked_p2_topic_h")
+if GameManager.get_affection("sea_monster") < 30:
+	do GameManager.set_expression("angry")
+	Sienna: *Posture turns cold* Memory fog? Yo, you haven't earned the right to ask about my brain!
+	=> hub_part_2
+else:
+	You: Do you find it hard to keep track of details?
+	if GameManager.is_imposter("sea_monster"):
+		do GameManager.set_expression("happy")
+		Sienna: *Tilts her head with a crisp, confident smile.*
+		Sienna: Oh, not at all! I have an excellent memory for details. Once I hear something, I remember every word of it perfectly.
+		do GameManager.record_clue("sea_monster", "sea_monster_memory_slip", "Claims to have an excellent memory for details without any train-of-thought fog, oblivious to Pelagios Abyssalis barometric pressure amnesia.")
+
+		- "An excellent memory is impressive!"
+			do GameManager.set_expression("happy")
+			Sienna: *Smiles proudly* Thanks! It keeps me sharp!
+			=> hub_part_2
+
+		- "Wait... you don't get memory fog up here?"
+			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.set_expression("angry")
+			Sienna: *Her smile stiffens, ear-fins twitching nervously as she catches her slip.*
+			Sienna: Well... I mean... of course I forget small things sometimes! I just meant I try to stay sharp.
+			Sienna: Why are you scrutinizing my memory so hard?
+			if GameManager.get_affection("sea_monster") <= 0:
+				=> horror_exit
+			=> hub_part_2
+	else:
+		do GameManager.set_expression("normal")
+		Sienna: *Pauses, blinking wide eyes as her ear-fins droop slightly*
+		Sienna: Ugh, yeah... barometric air pressure up here makes my brain feel like floating sea foam! I lose my train of thought mid-sentence and forget details... but I never forget how people treat me!
+
+		- "You don't need to worry about memory with me."
+			do GameManager.add_affection("sea_monster", 10)
+			if GameManager.get_affection("sea_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Sienna: *Ear-fins flare pink, eyes shining with genuine affection*
+				Sienna: THAT IS... LITERALLY THE SWEETEST THING ANYONE HAS EVER SAID TO ME!
+			else:
+				do GameManager.set_expression("happy")
+				Sienna: *Smiles warmly* Thanks... that means a lot!
+			=> hub_part_2
+
+		- "Does air pressure really cause memory fog?"
+			do GameManager.add_affection("sea_monster", -5)
+			do GameManager.set_expression("normal")
+			Sienna: *Tilts her head, bewildered* Yeah, air pressure shifts make my brain floaty... though why are we getting so deep into medical stuff?
+			=> hub_part_2
+
+# ==============================================================================
+# PHASE 5: OUTRO & HORROR EXITS
+# ==============================================================================
 ~ end_date
-Sienna: Oh! The date bell rang! It was really nice meeting you... wait, what was your name again? Bye!
+if GameManager.get_affection("sea_monster") >= 70:
+	do GameManager.set_expression("blush")
+	Sienna: *Gasps as ear-fins flare pink, handing you a glowing bioluminescent sea pebble.*
+	Sienna: HERE! Take my favorite glowing sea-stone! You HAVE to come on another date with me, okay?!
+elif GameManager.get_affection("sea_monster") <= 35:
+	do GameManager.set_expression("angry")
+	Sienna: *Yawns loudly, crossing her webbed arms.*
+	Sienna: Wow, this date was a total snooze fest. See ya around.
+	Sienna: *Walks away without looking back.*
+else:
+	do GameManager.set_expression("happy")
+	Sienna: *High-fives with webbed claws.*
+	Sienna: THAT WAS SO FUN! Thanks for hanging out! See ya next time!
+
+do GameManager.complete_current_date()
+=> END
+
+~ horror_exit
+do GameManager.set_expression("scary")
+Sienna: *Her needle-fang jaw unhinges to an impossible width! Water pipes burst with a violent spray as her gills flare furiously!*
+Sienna: YOU THINK I'M STUPID?! YOU ARE NOT A SUITOR, YOU ARE A COP! I'LL DRAG YOU TO THE BOTTOM OF THE ABYSSAL TRENCH!
+Sienna: *She lunges forward with a terrifying aquatic roar!*
+[SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
+[SYSTEM]: Guards drag you backward out of the cell as an iron portcullis gate slams down with a heavy crash.
 do GameManager.complete_current_date()
 => END

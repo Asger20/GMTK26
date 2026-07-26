@@ -8,10 +8,10 @@
 
 * **Name / Identity:** *Percival* — Lord of the Crimson Manor.
 * **Species:** Sanguine Nocturnal (*Vampirus Aristocratis*).
-* **Visual & Vibe:** A handsome, charming Victorian gentleman scholar. He wears an immaculate velvet tailcoat, silk cravat, high-collared vest, and carries an antique silver pocket watch. He has pale alabaster skin, dark wavy hair, warm yet piercing crimson eyes, and delicate silver fangs that extend slightly when amused, flustered, or hungry.
+* **Visual & Vibe:** An aristocratic, gothic Victorian gentleman scholar with a terrifying monstrous visage. He wears a high-collared, ruffled white poet blouse with wide billowing sleeves, high-waisted dark trousers secured by a dual-buttoned waist girdle, and a black cape draped over his shoulders, fastened with a glowing red gem brooch on a silver chain. He has pointed elf-like ears, messy black hair, shadowed black hands with long, razor-sharp crimson-tipped claws, and a void-black head dominated by a terrifying vertical gaping maw lined with sharp interlocking white fangs and a glowing red throat interior.
 * **Core Personality Dynamic:** **Charming Victorian Scholar, Know-It-All, Warm Old Soul**. He is articulate, gentlemanly, and passionate about history, literature, and classical arts. While he loves correcting grammar or sharing proper etiquette (*"If I may offer a small Victorian tip, suitor..."*), he does so with witty charm, dry humor, and genuine polite warmth rather than mean arrogance. Beneath his scholarly demeanor lies a lonely, melancholic old soul weary of centuries of isolation, who secretly longs for a companion to share poetry and quiet evenings with.
-* **Speech Cadence & Voice:** Eloquent, grandiloquent, articulate Victorian speech pacing. He speaks with a slow, soothing drawl, quoting classical poetry and sharing historical anecdotes from centuries he personally lived through. Uses polite Victorian terminology (*"indubitably," "my dear suitor," "delightful," "vintage," "splendid"*). Enforce strict Anti-AI rules (no em dashes `—`, no AI buzzwords).
-* **The Dark Mating Twist:** He views blood consumption as a sacred, intimate communion of memories, emotion, and vital essence. If a suitor disrespects his ancestral heritage or serves synthetic/coagulated blood, his ancient predatory instincts awaken—his eyes turn deep crimson as he hypnotizes them and preserves their plasma in a crystal decanter.
+* **Speech Cadence & Voice:** Eloquent, grandiloquent, articulate Victorian speech pacing. He speaks with a slow, soothing drawl, quoting classical poetry and sharing historical anecdotes from centuries he personally lived through. Uses polite Victorian terminology (*"indubitably," "my dear suitor," "delightful," "vintage," "splendid"*). Enforce strict Anti-AI rules (no em dashes `—`, no AI buzzwords like "tapestry of emotions", "testament", "delve").
+* **The Dark Mating Twist:** He views blood consumption as a sacred, intimate communion of memories, emotion, and vital essence. If a suitor disrespects his ancestral heritage or serves synthetic/coagulated blood, his ancient predatory instincts awaken—his gaping fang-lined maw expands as he hypnotizes them and preserves their plasma in a crystal decanter.
 
 ---
 
@@ -28,7 +28,7 @@
 * **Strict Nocturnal Circadian Lock:** Biological sleep cycle is hard-coded from sunrise to dusk. Actinic photophobia means direct UV exposure triggers immediate skin necrosis, severe burning, and motor disorientation.
 * **Sub-Epidermal Pulse Perception:** Hyper-sensitive sensory organs track surrounding heartbeats within a 5-meter radius, subconsciously monitoring suitor nervousness, lie surges, or romantic flusters.
 * **The Mirror Anomaly:** Produces zero optical reflection in silver-backed mirrors. Reflected silver surfaces trigger an involuntary, subtle head tilt or micro-hesitation.
-* **Hematophagous Vintage & Dilated Fang Lock:** Consumes blood exclusively at precise sub-normal body temperatures (15 to 18°C). Scent of fresh blood or heightened emotional intimacy causes pupil dilation and fang extension.
+* **Hematophagous Vintage & Vertical Maw Lock:** Consumes blood exclusively at precise sub-normal body temperatures (15 to 18°C). Scent of fresh blood or heightened emotional intimacy causes his vertical gaping maw to pulse with a red throat glow as sharp fangs click together.
 * **Asylum History:** Admitted to Blackwood Asylum after getting into a duel with a modern art critic over "tasteless, unrefined aesthetics," draining the critic and leaving him propped up in a Victorian armchair with a copy of Lord Byron.
 
 ### Layer 3: Mental Condition & Subtext ($\frac{1}{3}$)
@@ -36,71 +36,74 @@
 * **Condition:** Melancholic Grandeur & Narcissistic Isolation *(NEVER name the condition explicitly in dialogue)*.
 * **Subtext Expressions:**
   * **Speech Pacing:** Shifts from enthusiastic, theatrical storytelling to quiet, somber pauses when contemplating his centuries of solitude.
-  * **Physical Tells:** Involuntary pupil dilation, gently adjusting his silk cravat when flustered, crimson eyes flashing when offended, and subtle head-tilt micro-hesitations near reflective silver.
-  * **The Composure Slip:** Begins a charming, scholarly lecture, gets touched or flustered by genuine intellectual praise mid-sentence, stammers politely, and hurriedly checks his antique pocket watch or takes a sip from his crystal goblet to hide his blush.
+  * **Physical Tells:** Micro-clacking of sharp white fangs inside his vertical maw, gently gesturing with his crimson-tipped claws, and subtle head-tilt micro-hesitations near reflective silver.
+  * **The Composure Slip:** Begins a charming, scholarly lecture, gets touched or flustered by genuine intellectual praise mid-sentence, stammers politely, and hurriedly checks his antique pocket watch or adjusts his red brooch to hide his blush.
 
 ---
 
 ## 🔄 3. 5-Phase Date Architecture & Relationship Dynamic
 
 ### Phase 1: Intro / Opening Path (`~ start`)
-Percival checks his antique silver pocket watch, offers a polite gentlemanly bow, and greets you with a warm, witty observation about your arrival.
+Percival checks his antique silver pocket watch, offers a polite gentlemanly bow with his crimson-tipped claws, and greets you with a warm, witty observation about your arrival.
 
-### Phase 2: First Topic Loop (`~ hub_part_1` — 3 Topics)
-* **Focus:** Light surface lore probing mixed with affection building.
-  * **Topic A (Gothic Literature & Poetry):** Reciting Byron and discussing 19th-century aesthetics (+Affection / `happy`).
-  * **Topic B (Ancestral Manor & Plasma Vintage Tasting):** Sharing stories of his ancestral manor and vintage blood collecting (`normal`).
-  * **Topic C (Asylum Rehab & Companion Hopes):** Discussing his desire for a thoughtful companion (+Affection / `blush`).
+### Phase 2: First Topic Loop (`~ hub_part_1` — 4 Topics: 2 Casual/Flirting, 2 Lore Clues)
+* **Focus:** Natural Victorian date conversation mixing romance and early subtle lore probing.
+  * **Topic A (`p1_topic_a` — Gothic Poetry & Literature):** Casual/Flirting. Reciting Lord Byron and discussing 19th-century aesthetics (+Affection / `happy`).
+  * **Topic B (`p1_topic_b` — Rehab Hopes & Companion Dreams):** Casual/Flirting. Discussing his desire for a thoughtful companion (+Affection / `blush`).
+  * **Topic C (`p1_topic_c` — Dawn Schedule & Morning Strolls Probe):** Natural Clue Probe 1. Asking if he enjoys morning strolls at dawn (`vampire_sunlight_slip` check). Gated at **50% affection**—asking below 50% causes an `angry` reaction and -5 affection penalty.
+  * **Topic D (`p1_topic_d` — Silver Mirror Reflection Probe):** Natural Clue Probe 2. Asking about checking reflections in silver mirrors (`vampire_mirror_fail` check). Gated at **50% affection**—asking below 50% causes an `angry` reaction and -5 affection penalty.
 
 ### Phase 3: Mid-Date Patient Turnabout (`~ mid_date_interruption`)
-After completing the Part 1 topics, Percival swirls his crystal goblet, leaning in with a warm, inquisitive smile as his crimson eyes lock onto yours:
+After completing all 4 Part 1 topics, Percival gestures with his crimson-tipped claws, leaning in with a warm, inquisitive tone as the red glow inside his maw brightens:
 * *"I can hear your pulse fluttering at seventy-eight beats per minute, my dear suitor... Tell me truthfully: Is that charming rhythm caused by the pleasure of our conversation, or are you hiding something behind that agreeable smile?"*
 * **Player Choices:**
   * *Intellectual & Romantic Sincerity:* Flatters his intellect and admits attraction (+10 Affection, triggers `blush`).
   * *Cool & Composed:* Polite, unbothered answer (`normal`).
   * *Blunt Interrogation / Police Framing:* Insults his heritage (-15 Affection, triggers `scary`, risks early `horror_exit` if affection hits 0%).
 
-### Phase 4: Second Topic Loop (`~ hub_part_2` — 4 Deep Interrogation Topics)
-Unlocks 4 deeper interrogation topics testing species constraints and imposter tells:
-* **Topic D (Actinic Photophobia & Dawn Sunrises):** Probing solar vulnerability and circadian sleep locks.
-* **Topic E (Hematophagous Vintage & Plasma Diet):** Probing blood consumption requirements and temperature sensitivity.
-* **Topic F (Sub-Epidermal Pulse Perception):** Testing sensory heartbeat tracking.
-* **Topic G (The Mirror Anomaly & Reflection Reflex):** Testing silver mirror reflection micro-hesitations.
+### Phase 4: Second Topic Loop (`~ hub_part_2` — 4 Topics: 2 Intimate/Flirting, 2 Lore Clues)
+* **Focus:** Deeper romantic intimacy combined with subtle clue probing.
+  * **Topic E (`p2_topic_e` — Ancestral Manor & Vintage Plasma):** Intimate/Flirting. Sharing stories of his gothic manor and vintage plasma collecting (+Affection / `happy`).
+  * **Topic F (`p2_topic_f` — The Art Critic Duel):** Intimate/Flirting. Asking about the duel with the unrefined art critic (+Affection / `blush`).
+  * **Topic G (`p2_topic_g` — Drink Temperature & Vintage Probe):** Natural Clue Probe 3. Asking how he keeps his evening drink prepared (`vampire_diet_slip` check). Below 30% affection results in an `angry` refusal.
+  * **Topic H (`p2_topic_h` — Pulse Perception & Heartbeat Probe):** Natural Clue Probe 4. Asking how he reads suitor emotions so accurately (`vampire_pulse_fail` check). Below 30% affection results in an `angry` refusal.
 
 ### Phase 5: Outro & Wrap-Up Path (`~ end_date` / `~ horror_exit`)
 * **High Affection (≥ 70%):** Touched, blushing, offering an invitation to his private gothic library, expressing warm romantic interest.
-* **Low Affection (≤ 35%):** Polite but distant, regretting that your tastes did not align.
-* **0% Affection (`~ horror_exit`):** Fangs extend, eyes turn pitch crimson, shadows engulf the room, emergency alarms blare, and guards drag the detective out.
+* **Low Affection (≤ 35%):** Cold, disappointed glance (`angry`), regretting that your tastes did not align.
+* **0% Affection (`~ horror_exit`):** Maw opens fully, sharp fangs unhinge (`scary`), shadows engulf the room, emergency alarms blare, and guards drag the detective out.
+* **Complimenting the Evening:** Saying *"It was a mesmerizing evening, Percival"* grants **+5 Affection**.
 
 ---
 
-## 🕵️‍♂️ 4. Fleshed-Out Shapeshifter Tells (Cross-Referenced with Monsterpedia)
+## 🕵️‍♂️ 4. Subtle Imposter Tells (Cross-Referenced with Monsterpedia)
 
-When **The Count** impersonates Percival, they look physically identical, but fail his visceral species instincts in four distinct ways:
+When **The Count** impersonates Percival, they look physically identical, but fail his species instincts through subtle human-default assumptions:
 
 ### Tell 1: Actinic Photophobia & Dawn Sleep Lock Slip (Circadian Rhythm)
 * **Monsterpedia Rule:** Direct UV exposure triggers immediate skin necrosis, severe burning, and motor disorientation. Sleep cycle is hardcoded from sunrise to dusk.
 * **Real Percival:** Explains politely that direct sunlight or 6 AM dawn light triggers immediate UV skin degradation and disorientation. His sleep cycle is strictly hardcoded from sunrise to dusk.
-* **The Count (Imposter):** Treats mornings like a casual everyday routine, making an unthinking slip:
+* **The Count (Imposter):** Subtle, natural slip assuming human morning habits:
   > *"I usually try to get an early start to my day right around dawn before the asylum hallways get busy."*
 * **Evidence Notebook Clue Recorded:** `vampire_sunlight_slip` — *"Casually mentions getting an early start to his day at dawn, oblivious to Vampirus Aristocratis solar necrosis and hardcoded nocturnal sleep lock."*
 
-### Tell 2: Hematophagous Vintage & Plasma Sensitivity Slip (Dietary Physiology)
-* **Monsterpedia Rule:** Consumes blood exclusively at precise sub-normal body temperatures (15 to 18°C). Synthetic or coagulated blood causes immediate physical revulsion.
-* **Real Percival:** Shares his passionate knowledge of blood plasma vintages, plasma temperature balance, and his physical revulsion toward synthetic or coagulated blood.
-* **The Count (Imposter):** Treats dinner drinks like a generic beverage:
-  > *"I just drink whatever glass the staff brings with dinner. I'm really not too particular about the temperature."*
-* **Evidence Notebook Clue Recorded:** `vampire_diet_slip` — *"Mentions drinking whatever glass dinner brings without caring about temperature, ignoring strict hematophagous vintage requirements and plasma revulsion."*
-
-### Tell 3: Sub-Epidermal Pulse Perception Fail (Sensory Heartbeat Tracking)
-* **Monsterpedia Rule:** Hyper-sensitive sensory organs track surrounding heartbeats within a 5-meter radius, subconsciously monitoring suitor nervousness.
-* **Real Percival:** Continuously monitors surrounding heartbeats within 5 meters, commenting with gentlemanly charm on exact BPM spikes when you get flustered or nervous.
-* **The Count (Imposter):** Completely fails to detect or reference your pulse, guessing emotions purely based on surface facial expressions like a normal human.
-* **Evidence Notebook Clue Recorded:** `vampire_pulse_fail` — *"Fails to detect or reference the detective's heartbeat, relying on surface facial guessing rather than sub-epidermal pulse perception."*
-
-### Tell 4: The Mirror Anomaly Reflection Reflex Fail (Silver Reflex)
+### Tell 2: The Mirror Anomaly Reflection Reflex Fail (Silver Reflex)
 * **Monsterpedia Rule:** Produces zero optical reflection in silver-backed mirrors. Reflected silver surfaces trigger an involuntary, subtle head tilt or micro-hesitation.
 * **Real Percival:** Silver mirrors produce zero optical reflection, triggering an involuntary micro-hesitation or head tilt whenever silver reflective surfaces appear.
 * **The Count (Imposter):** Casually references checking reflections in silver mirrors without exhibiting the involuntary head-tilt hesitation:
-  > *"Oh, I checked my reflection in the silver mirror earlier—my hair looked quite presentable!"*
+  > *"Oh, I checked my reflection in the silver mirror earlier! My cravat looked quite presentable."*
 * **Evidence Notebook Clue Recorded:** `vampire_mirror_fail` — *"Casually references looking in silver mirrors without exhibiting the involuntary head-tilt hesitation or reflection anomaly."*
+
+### Tell 3: Hematophagous Vintage & Plasma Sensitivity Slip (Dietary Physiology)
+* **Monsterpedia Rule:** Consumes blood exclusively at precise sub-normal body temperatures (15 to 18°C). Synthetic or coagulated blood causes immediate physical revulsion.
+* **Real Percival:** Shares his passionate knowledge of blood plasma vintages, plasma temperature balance, and his physical revulsion toward synthetic or coagulated blood.
+* **The Count (Imposter):** Treats dinner drinks like a generic beverage:
+  > *"Oh, I just drink whatever glass the staff brings with dinner! I'm really not too particular about the temperature."*
+* **Evidence Notebook Clue Recorded:** `vampire_diet_slip` — *"Mentions drinking whatever glass dinner brings without caring about temperature, ignoring strict hematophagous vintage requirements and plasma revulsion."*
+
+### Tell 4: Sub-Epidermal Pulse Perception Fail (Sensory Heartbeat Tracking)
+* **Monsterpedia Rule:** Hyper-sensitive sensory organs track surrounding heartbeats within a 5-meter radius, subconsciously monitoring suitor nervousness.
+* **Real Percival:** Continuously monitors surrounding heartbeats within 5 meters, commenting with gentlemanly charm on exact BPM spikes when you get flustered or nervous.
+* **The Count (Imposter):** Completely fails to detect or reference your pulse, guessing emotions purely based on surface facial expressions:
+  > *"Oh, I just guess how people feel by looking at their facial expressions! I'm quite good at reading faces."*
+* **Evidence Notebook Clue Recorded:** `vampire_pulse_fail` — *"Fails to detect or reference the detective's heartbeat, relying on surface facial guessing rather than sub-epidermal pulse perception."*

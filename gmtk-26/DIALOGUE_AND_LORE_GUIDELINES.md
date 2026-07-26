@@ -21,9 +21,11 @@ This document establishes the universal narrative design standards, writing guid
 * **Player Speaker Tag**: Player dialogue choices are tagged with `You:` in dialogue scripts.
 * **The Countdown (Macro)**: The player has 4 days of dates to identify The Count (a master shapeshifter disguised as one of the patients) before the asylum gates open on Day 5 and the inmates are released into society.
 
-### 2.2 Natural Language Choices (No Meta-Clutter)
+### 2.2 Natural Language Choices & Short UI Constraints
 * **Pure In-Character Text**: Dialogue choices must **never** contain meta indicators, emojis, or stat clutter (e.g., avoid `(+15 Affection)`, `(-10 Affection)`, or `[Lore Check]`).
 * **Subtle Intent**: The intent of a response (flattering, probing, teasing, cold) must be clear from the natural phrasing of the sentence itself.
+* **Natural Date Observation Phrasing**: Clue questions must be framed as natural, caring date observations or polite inquiries (e.g., *"Is the room temperature alright for you?"* or *"You seem so observant... is it hard to unwind?"*). NEVER use clinical textbook terms or sound like an officer reading a biology checklist.
+* **Punchy Single-Line Choices (5–10 Words Max)**: All player dialogue choices MUST be concise and punchy (5 to 10 words maximum) to fit cleanly on a single line inside visual novel choice buttons without wrapping or crowding the UI.
 
 ---
 
@@ -39,57 +41,53 @@ To ensure dialogue sounds like authentic human visual novel writing—and not re
 
 ---
 
-## 💖 4. Dynamic Affection Mechanics & Low Affection Gating
+## 💖 4. Dynamic Affection Mechanics & Gating Rules
 
 ### 4.1 Affection Thresholds & Rules
 * **Starting Affection**: All candidates begin dates at a baseline affection score of **40%**.
-* **Gradual Building (+5 to +10)**: Good answers build affection slowly (+5 to +10 points).
-* **Slight Missteps (-5 to -10)**: Slightly insensitive or pushy framing penalizes affection slightly (-5 to -10 points).
-* **Severe Missteps (-20 to -30)**: Cruel, insulting, or police/interrogation framing penalizes affection severely (-20 to -30 points).
-* **Normal Affection (< 50%)**:
-  * Candidate is slightly guarded as you are still a stranger.
-  * May refuse to answer personal questions or deep interrogation topics (redirecting back to `hub_part_1` or `hub_part_2` without yielding clues) and may display `"angry"` expressions.
-* **Low Affection / Scary Gating (< 30%)**:
-  * Candidate becomes guarded, cold, scary, or suspicious.
-  * Strictly refuses to answer deep interrogation topics (redirecting back to hub without yielding clues) and displays `"scary"` or `"angry"` expressions.
-  * Hub transition dialogue becomes venomous, cold, and impatient.
+* **Gradual Building (+5 to +10)**: Good answers and complimentary responses build affection slowly (+5 to +10 points). Complimenting the date at the conclusion of Phase 4 grants **+5 Affection**.
+* **Phase 2 Lore Question Gating (< 50%)**: Asking Phase 2 lore/clue topics when affection is below 50% causes an **`"angry"`** reaction (annoyed at prying into sensitivities before building rapport) and penalizes affection by **-5 points**, returning to `hub_part_1`.
+* **Phase 4 Low Affection Gating (< 30%)**: Below 30% affection in Phase 4, the candidate becomes guarded/annoyed (`"angry"`) and refuses to answer deep interrogation topics, returning to `hub_part_2`.
 * **0% Affection Horror Exit (≤ 0%)**:
   * Reaching **0% affection** immediately triggers an abrupt **Horror Exit sequence** (`~ horror_exit`).
   * The monster's predatory nature erupts (e.g., lunging forward, sealing doors, baring fangs/claws).
   * Asylum guards slam open the cell door, sound an emergency alert (*"CODE RED! DETECTIVE GET OUT!"*), and drag you out before slamming down the iron portcullis gates—ending the date encounter abruptly.
 * **Blushing Threshold (≥ 70%)**:
   * The `"blush"` expression triggers **only when affection is 70% or higher**.
-  * Transition dialogue in hubs becomes flustered, intimate, and warm. Below 70%, positive responses result in `"happy"` or `"normal"`.
+  * Below 70%, positive responses result in `"happy"` or `"normal"`.
 * **Match Requirement (≥ 80%)**: A minimum affection score of **80%** is required on Day 5 to successfully romance a candidate.
 
 ---
 
-## 🎭 5. Real-Time Character Expression Swaps
+## 🎭 5. Real-Time Character Expression Swaps & Scoping
 
 Characters feature dynamic expression portrait updates triggered directly within dialogue scripts using `do GameManager.set_expression("...")`.
 
-### 5.1 Supported Expression Names
-1. `"normal"` — Default neutral posture and standard conversation state.
+### 5.1 Supported Expression Names & Rules
+1. `"normal"` — Default neutral posture and standard conversation state. Used when answering biological questions calmly or when mildly bewildered by clinical probing.
 2. `"happy"` — Excited, laughing, energetic, or enthusiastic responses.
-3. `"blush"` — Flustered, embarrassed, romantically touched, or timid state.
-4. `"angry"` — Offended, annoyed, defensive, or frustrated responses.
-5. `"scary"` — Guarded, suspicious, intense, or baring teeth/fangs.
+3. `"blush"` — Flustered, embarrassed, or romantically touched state (triggers strictly at $\ge 70\%$ affection).
+4. `"angry"` — Offended, annoyed, defensive, or **imposter backpedaling under direct probing**.
+5. `"scary"` — **Strictly reserved** for:
+   * Direct insults to the candidate, their craft, or pushy cop/duty talk (and $0\%$ horror exits).
+   * When the monster is describing freaky predatory courtship reflexes (cocooning suitors, paralytic venom, blood-draining rituals).
 
 ---
 
-## 📅 6. The Standardized 5-Phase Date Architecture
+## 📅 6. The Standardized 5-Phase Date Architecture (Balanced 4+4 Topic Structure)
 
-To create dynamic, well-paced dates with dramatic turnabouts, every date script follows a mandatory 5-phase structure:
+To create dynamic, well-paced dates with dramatic turnabouts, every date script follows a mandatory 5-phase structure with **4 topics in Phase 2** and **4 topics in Phase 4** (8 topics total):
 
 ```
 [ Phase 1: Intro / Opening Path ] (~ start)
               │
               ▼
 [ Phase 2: First Topic Loop ] (~ hub_part_1)
-   ├── Topic A (Light Lore Probing & Affection Building)
-   ├── Topic B (Light Lore Probing & Affection Building)
-   └── Topic C (Light Lore Probing & Affection Building)
-              │ (Triggers automatically once 3 Part 1 topics are completed)
+   ├── Topic A (Casual / Flirting / Getting to Know You)
+   ├── Topic B (Casual / Flirting / Getting to Know You)
+   ├── Topic C (Subtle Lore Clue Probe 1)
+   └── Topic D (Subtle Lore Clue Probe 2)
+              │ (Triggers automatically once all 4 Part 1 topics are completed)
               ▼
 [ Phase 3: Mid-Date Patient Turnabout ] (~ mid_date_interruption)
    └── Candidate interrupts & asks YOU (the undercover detective) a personal question!
@@ -97,37 +95,37 @@ To create dynamic, well-paced dates with dramatic turnabouts, every date script 
               │
               ▼
 [ Phase 4: Second Topic Loop ] (~ hub_part_2)
-   ├── Topic D (Deep Interrogation / Species Lore)
-   ├── Topic E (Deep Interrogation / Clue Probing)
-   ├── Topic F (Deep Interrogation / Clue Probing)
-   └── Topic G (Deep Interrogation / Clue Probing)
-              │ (Triggers once 4 Part 2 topics are completed or Exit chosen)
+   ├── Topic E (Intimate Romance / Deep Backstory)
+   ├── Topic F (Intimate Romance / Deep Backstory)
+   ├── Topic G (Subtle Lore Clue Probe 3)
+   └── Topic H (Subtle Lore Clue Probe 4)
+              │ (Triggers once all 4 Part 2 topics are completed or Exit chosen)
               ▼
 [ Phase 5: Outro & Wrap-Up Path ] (~ end_date / ~ horror_exit)
-   └── Low/Normal/High Affection: Slightly cold / Warm farewell / match flirting vibe
+   └── Low/Normal/High Affection: Slightly cold / Warm farewell / match flirting vibe (+5 Affection for complimenting evening)
    └── 0% Affection: Abrupt Horror Exit (Guards intervene)
 ```
 
-### Phase Details:
+### Phase Details & Interactive Follow-Ups:
 
 1. **Phase 1: Intro / Opening Path (`~ start`)**:
    * A fixed, pre-determined dialogue sequence establishing the date setting, candidate's initial mood, and icebreaker banter. Automatically transitions to `~ hub_part_1`.
 2. **Phase 2: First Topic Loop (`~ hub_part_1`)**:
-   * Contains **at least 3 topics** (Topics A, B, C) balancing **light surface lore probing with affection building**.
-   * Establishes initial trust and romantic rapport while subtly laying the groundwork for deeper investigation.
-   * Maximum 4 choice options visible per menu. Once all 3 topics in Part 1 have been explored, the dialogue automatically routes to Phase 3.
+   * Contains **4 topics** (Topics A, B, C, D): 2 casual/flirting topics and 2 subtle lore clue probes.
+   * Lore topics require **50% affection** (asking below 50% yields an `"angry"` reaction and -5 affection penalty).
+   * **Interactive Follow-Up Menus**: Every topic branch opens a 2-option follow-up menu before returning to `hub_part_1`.
+   * Automatically routes to Phase 3 once all 4 Part 1 topics are explored.
 3. **Phase 3: Mid-Date Patient Turnabout (`~ mid_date_interruption`)**:
-   * A mandatory fixed dialogue branch where the candidate turns the tables and asks *the player* a direct, personal, or probing question (e.g., testing your cover story, asking about your dating history, or reacting to how you've treated them so far).
-   * Player choices impact affection, trigger expression changes, and set the emotional stage for Part 2. Automatically routes to `~ hub_part_2`.
+   * A mandatory fixed dialogue branch where the candidate turns the tables and asks *the player* a direct personal question testing your motives/cover story. Automatically routes to `~ hub_part_2`.
 4. **Phase 4: Second Topic Loop (`~ hub_part_2`)**:
-   * Unlocks **4 deeper topics** (Topics D, E, F, G) focusing on environmental sensitivities, biological constraints, and high-stakes detective interrogation clues.
-   * High affection requirement checks gate deep lore answers.
+   * Unlocks **4 deeper topics** (Topics E, F, G, H): 2 intimate romantic backstory topics and 2 subtle lore clue probes.
+   * **Interactive Follow-Up Menus**: Every topic branch opens a 2-option follow-up menu before returning to `hub_part_2`.
 5. **Phase 5: Outro & Wrap-Up Path (`~ end_date` or `~ horror_exit`)**:
-   * Fixed narrative sequence concluding the date based on final affection score (Low: slightly cold / Normal: warm farewell / High: match flirting vibe).
+   * Concludes the date based on final affection score. Complimenting the date grants **+5 Affection**.
 
 ---
 
-## 🕵️‍♂️ 7. Authentic Species Lore vs. Imposter Slips
+## 🕵️‍♂️ 7. Authentic Species Lore, Imposter Slips & Probing Mechanics
 
 ### 7.1 The 1/3 Rule of Character Balance
 Split every candidate's dialogue across three distinct layers:
@@ -137,12 +135,14 @@ Split every candidate's dialogue across three distinct layers:
 
 ### 7.2 The Imposter (The Count) Writing Strategy
 * **~90% Shared Persona**: The Count has thoroughly researched the candidate's personality and mimics their general speech patterns, warmth, and baseline hobbies.
-* **The Fatal Flaw (Oblivious "Human" Normalcy)**:
-  * **The Core Rule**: The Count is actively trying to blend in and pass as the host. The Count is **oblivious** to unstated, deep biological constraints and casually describes everyday human habits (e.g., taking a drink of tap water, sticking to standard cafeteria meals, enjoying a morning stroll at dawn).
-  * **Avoid Unnatural Defensive Boasting**: Slips must **NEVER** sound like defensive, unnatural confessions or contrarian boasts (*e.g., strictly avoid lines like "Freshwater is fine for me!", "I love hot desert dunes!", or "Loud screeching doesn't bother me at all!"*).
-  * **Authentic Monster vs. Imposter**:
-    * **Authentic Monster**: Governed by mandatory, un-ignorable biological realities (e.g., physical throat spasms from un-salted freshwater, mandatory raw protein to prevent spinneret organ cramps, solar skin necrosis).
-    * **The Imposter**: Unaware of these hidden biological laws, The Count casually assumes normal human behaviors apply to everyone (*"I just grab a glass from the tap when I'm thirsty,"* or *"I eat whatever meal of the day is served"*).
+* **Subtle Human-Default Slips**:
+  * The Count is actively trying to blend in and pass as human. Slips must be **subtle, natural human-default assumptions** (e.g., sleeping through the night like a log, enjoying warm hearths, eating standard cafeteria meals, peaceful breakups).
+  * Avoid boisterous, unnatural boasts (*e.g., strictly avoid lines like "Freshwater is fine for me!" or "Loud screeching doesn't bother me at all!"*).
+* **Imposter Probing & Backpedaling (-10 Affection)**:
+  * **Option A (Casual Agreement)**: If the player agrees with the imposter's slip, the imposter stays serenely unaware.
+  * **Option B (Direct Detective Probe)**: If the detective specifically calls out or questions the imposter's slip, the imposter panics slightly, turns **`"angry"`**, suffers a **-10 affection penalty** (`do GameManager.add_affection("candidate_id", -10)`), and hurriedly backpedals (*"Well... of course I do X sometimes! Why are you scrutinizing my words so closely?"*).
+* **Probing Real Monsters' Biology (-5 Affection & Mild Confusion)**:
+  * If the detective chooses the second follow-up option to probe deeply into an authentic monster's biological functions, the monster stays **`"normal"`** (not angry), but feels mildly bewildered/confused by clinical medical questioning during a date, suffering a **-5 affection penalty** (`do GameManager.add_affection("candidate_id", -5)`).
 
 ### 7.3 Recording Clues in the Evidence Notebook
 When an imposter branch executes, always record a descriptive clue using `do GameManager.record_clue("candidate_id", "clue_id", "Description text")`.
@@ -151,7 +151,7 @@ When an imposter branch executes, always record a descriptive clue using `do Gam
 
 ## 📐 8. Dialogue Manager Syntax Code Template
 
-Below is the standard, production-ready `.dialogue` syntax template demonstrating the full 5-Phase structure with 3 topics per hub, state flags, expression updates, imposter branches, and horror exits:
+Below is the standard, production-ready `.dialogue` syntax template demonstrating the full 5-Phase structure with 4 topics per hub, follow-up choice menus, 50% Phase 2 gating, imposter backpedaling (-10 affection), real monster biological probing (-5 affection), short choice strings, and date completion affection boosts:
 
 ```dialogue
 # ==============================================================================
@@ -160,177 +160,368 @@ Below is the standard, production-ready `.dialogue` syntax template demonstratin
 ~ start
 do GameManager.set_expression("normal")
 Candidate: *Adjusts collar and smiles warmly* Welcome. I was hoping you'd make it tonight.
-You: It's a pleasure to meet you. The room feels... oddly intense tonight.
-Candidate: *Chuckles softly* That's just Blackwood Asylum's natural charm. Shall we sit?
-=> hub_part_1
+You: It's a pleasure to meet you.
+
+- "Your presence and style are breathtaking."
+	do GameManager.add_affection("candidate_id", 8)
+	if GameManager.get_affection("candidate_id") >= 70:
+		do GameManager.set_expression("blush")
+		Candidate: *Cheeks flush crimson* Thank you! You have exquisite taste.
+	else:
+		do GameManager.set_expression("happy")
+		Candidate: *Smiles warmly* Thank you. I appreciate a suitor with refined taste.
+	=> hub_part_1
+
+- "Let's skip the theatrics. I don't have all night."
+	do GameManager.add_affection("candidate_id", -20)
+	if GameManager.get_affection("candidate_id") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("scary")
+		Candidate: *Glares cold* Watch your arrogant tongue, suitor.
+		=> hub_part_1
 
 # ==============================================================================
-# PHASE 2: FIRST TOPIC LOOP (PART 1 - AT LEAST 3 TOPICS)
+# PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UPS)
 # ==============================================================================
 ~ hub_part_1
 do GameManager.set_expression("normal")
 
-# Automatically progress to Phase 3 after completing 3 Part 1 topics
-if GameManager.has_flag("candidate_id", "asked_p1_topic_a") and GameManager.has_flag("candidate_id", "asked_p1_topic_b") and GameManager.has_flag("candidate_id", "asked_p1_topic_c"):
+if GameManager.has_flag("candidate_id", "asked_p1_topic_a") and GameManager.has_flag("candidate_id", "asked_p1_topic_b") and GameManager.has_flag("candidate_id", "asked_p1_topic_c") and GameManager.has_flag("candidate_id", "asked_p1_topic_d"):
 	=> mid_date_interruption
 
 Candidate: So, what would you like to know about me first?
 
-- "Tell me about your favorite hobbies." [if not GameManager.has_flag("candidate_id", "asked_p1_topic_a")]
+- "What inspires your passion?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_a")]
 	=> p1_topic_a
 
-- "How are you liking the asylum facilities?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_b")]
+- "What are your plans after rehab?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_b")]
 	=> p1_topic_b
 
-- "What brought you to this rehab program?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_c")]
+- "Is the room temperature alright for you?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_c")]
 	=> p1_topic_c
+
+- "You seem so observant... is it hard to unwind?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_d")]
+	=> p1_topic_d
 
 # ------------------------------------------------------------------------------
 # PART 1 TOPIC BRANCHES
 # ------------------------------------------------------------------------------
 ~ p1_topic_a
 do GameManager.set_flag("candidate_id", "asked_p1_topic_a")
-You: Tell me about your favorite hobbies.
 do GameManager.set_expression("happy")
-Candidate: I spend most of my quiet hours crafting intricate sculptures out of raw material.
-do GameManager.add_affection("candidate_id", 5)
-=> hub_part_1
+Candidate: I spend my quiet hours crafting intricate art pieces!
+
+- "Could you design something for me one day?"
+	do GameManager.add_affection("candidate_id", 5)
+	if GameManager.get_affection("candidate_id") >= 70:
+		do GameManager.set_expression("blush")
+		Candidate: *Flushes bright pink* I would love to!
+	else:
+		do GameManager.set_expression("happy")
+		Candidate: I would be delighted to!
+	=> hub_part_1
+
+- "Must be convenient crafting your own art."
+	do GameManager.add_affection("candidate_id", 5)
+	do GameManager.set_expression("happy")
+	Candidate: *Laughs softly* Indeed it is!
+	=> hub_part_1
 
 ~ p1_topic_b
 do GameManager.set_flag("candidate_id", "asked_p1_topic_b")
-You: How are you liking the asylum facilities?
-Candidate: The architecture is beautiful, though the stone walls trap a lot of humidity.
-=> hub_part_1
+do GameManager.set_expression("normal")
+Candidate: I dream of a fresh start outside Blackwood's walls.
+
+- "I'd be honored to support your debut."
+	do GameManager.add_affection("candidate_id", 8)
+	if GameManager.get_affection("candidate_id") >= 70:
+		do GameManager.set_expression("blush")
+		Candidate: *Cheeks flush rose* That means so much to me.
+	else:
+		do GameManager.set_expression("happy")
+		Candidate: *Smiles warmly* Thank you, suitor!
+	=> hub_part_1
+
+- "You deserve a fresh start."
+	do GameManager.add_affection("candidate_id", 5)
+	do GameManager.set_expression("happy")
+	Candidate: Thank you. Your words fuel my spirit.
+	=> hub_part_1
 
 ~ p1_topic_c
 do GameManager.set_flag("candidate_id", "asked_p1_topic_c")
-You: What brought you to this rehab program?
-do GameManager.set_expression("blush")
-Candidate: I wanted a fresh start. And maybe... to meet someone who looks past my claws.
-do GameManager.add_affection("candidate_id", 10)
-=> hub_part_1
+if GameManager.get_affection("candidate_id") < 50:
+	do GameManager.add_affection("candidate_id", -5)
+	do GameManager.set_expression("angry")
+	Candidate: *Frowns* Isn't it a bit early to be prying into my sensitivities?
+	=> hub_part_1
+else:
+	You: Is the room temperature alright for you?
+	if GameManager.is_imposter("candidate_id"):
+		do GameManager.set_expression("happy")
+		Candidate: Oh, dry warmth feels wonderful! I love sitting near warm hearths.
+		do GameManager.record_clue("candidate_id", "thermal_slip", "Mentions enjoying warm hearths, oblivious to cold-blooded desiccation.")
+
+		- "Warm hearths sound very cozy."
+			do GameManager.set_expression("happy")
+			Candidate: *Smiles brightly* Exactly!
+			=> hub_part_1
+
+		- "So heat doesn't bother your glands?"
+			do GameManager.add_affection("candidate_id", -10)
+			do GameManager.set_expression("angry")
+			Candidate: *Smile stiffens* Well... of course heat can be annoying! Why are you scrutinizing my words?
+			if GameManager.get_affection("candidate_id") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Candidate: Dry air is awful for my species. We require cool cavern air.
+
+		- "I can ask the guards for a humidifier."
+			do GameManager.add_affection("candidate_id", 5)
+			do GameManager.set_expression("happy")
+			Candidate: *Smiles gratefully* That is very thoughtful!
+			=> hub_part_1
+
+		- "Is cool humidity essential for your health?"
+			do GameManager.add_affection("candidate_id", -5)
+			do GameManager.set_expression("normal")
+			Candidate: *Looks confused* Absolutely... Though that is a specific detail to focus on during a date.
+			=> hub_part_1
+
+~ p1_topic_d
+do GameManager.set_flag("candidate_id", "asked_p1_topic_d")
+if GameManager.get_affection("candidate_id") < 50:
+	do GameManager.add_affection("candidate_id", -5)
+	do GameManager.set_expression("angry")
+	Candidate: *Frowns* You're asking personal sensory questions before we've broken the ice.
+	=> hub_part_1
+else:
+	You: You seem so observant... is it hard to unwind?
+	if GameManager.is_imposter("candidate_id"):
+		do GameManager.set_expression("happy")
+		Candidate: Oh, not at all! I usually sleep like a log right through the night.
+		do GameManager.record_clue("candidate_id", "vibration_fail", "Claims to sleep like a log, revealing lack of sensory hairs.")
+
+		- "Sleeping like a log sounds peaceful."
+			do GameManager.set_expression("happy")
+			Candidate: *Nods* It truly is!
+			=> hub_part_1
+
+		- "Wait... you sleep without twitching from drafts?"
+			do GameManager.add_affection("candidate_id", -10)
+			do GameManager.set_expression("angry")
+			Candidate: *Smile stiffens* I... well, naturally I wake up if there's a loud noise! Why scrutinize my sleep?
+			if GameManager.get_affection("candidate_id") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Candidate: *Twitches involuntarily as the table bumps*
+		Candidate: Forgive me... sensory hairs pick up every vibration.
+
+		- "I'll make sure not to bump the table."
+			do GameManager.add_affection("candidate_id", 5)
+			do GameManager.set_expression("happy")
+			Candidate: Thank you. Most people laugh at the twitch.
+			=> hub_part_1
+
+		- "Do sensory hairs control that twitch?"
+			do GameManager.add_affection("candidate_id", -5)
+			do GameManager.set_expression("normal")
+			Candidate: *Looks perplexed* Precisely... You certainly take a deep interest in my anatomy.
+			=> hub_part_1
 
 # ==============================================================================
-# PHASE 3: MID-DATE PATIENT TURNABOUT (CANDIDATE ASKS YOU A QUESTION)
+# PHASE 3: MID-DATE PATIENT TURNABOUT
 # ==============================================================================
 ~ mid_date_interruption
 do GameManager.set_expression("normal")
-Candidate: *Leans forward, resting chin on hands* You know... I've answered a lot of your questions. But you've been pretty quiet about yourself.
-Candidate: Tell me truthfully—what made a person like you decide to come to Blackwood for a date?
+Candidate: *Leans forward* Tell me truthfully: What made you come to Blackwood for a date?
 
-- "I was genuinely looking for a connection with someone unique."
+- "I'm genuinely mesmerized by your talent."
 	do GameManager.add_affection("candidate_id", 10)
 	if GameManager.get_affection("candidate_id") >= 70:
 		do GameManager.set_expression("blush")
-		Candidate: *Cheeks flush light crimson* That's... surprisingly sweet of you to say.
+		Candidate: *Flushes crimson* That's remarkably sweet of you.
 	else:
 		do GameManager.set_expression("happy")
-		Candidate: I appreciate the honesty. That makes two of us.
+		Candidate: I appreciate the sincerity.
 	=> hub_part_2
 
-- "I'm mostly here out of intense curiosity about monsters."
-	do GameManager.add_affection("candidate_id", -5)
-	do GameManager.set_expression("angry")
-	Candidate: *Narrowing eyes* A curious spectator, huh? We aren't museum exhibits... but at least you're blunt.
+- "I'm just curious about your unique physiology."
+	do GameManager.add_affection("candidate_id", 0)
+	do GameManager.set_expression("normal")
+	Candidate: Analytical curiosity? Fair enough.
 	=> hub_part_2
 
-- "I just go wherever duty takes me."
+- "I'm here out of duty to evaluate candidates."
 	do GameManager.add_affection("candidate_id", -15)
 	do GameManager.set_expression("scary")
-	Candidate: *Voice drops cold* Duty? That sounds remarkably like officer talk. You aren't playing games with me, are you?
+	Candidate: *Voice drops cold* Duty? That sounds like officer talk.
 	if GameManager.get_affection("candidate_id") <= 0:
 		=> horror_exit
 	=> hub_part_2
 
 # ==============================================================================
-# PHASE 4: SECOND TOPIC LOOP (PART 2 - DEEP INTERROGATION & LORE)
+# PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UPS)
 # ==============================================================================
 ~ hub_part_2
 do GameManager.set_expression("normal")
 
-# Check if all 4 Part 2 topics are exhausted
-if GameManager.has_flag("candidate_id", "asked_p2_topic_d") and GameManager.has_flag("candidate_id", "asked_p2_topic_e") and GameManager.has_flag("candidate_id", "asked_p2_topic_f") and GameManager.has_flag("candidate_id", "asked_p2_topic_g"):
-	Candidate: It feels like the time has flown by. Our date is coming to an end.
-	- "It was a wonderful evening."
+if GameManager.has_flag("candidate_id", "asked_p2_topic_e") and GameManager.has_flag("candidate_id", "asked_p2_topic_f") and GameManager.has_flag("candidate_id", "asked_p2_topic_g") and GameManager.has_flag("candidate_id", "asked_p2_topic_h"):
+	Candidate: Our date is coming to a close.
+	- "It was a mesmerizing evening."
+		do GameManager.add_affection("candidate_id", 5)
+		=> end_date
+	- "That concludes our encounter for today."
 		=> end_date
 else:
 	Candidate: Is there anything else on your mind before our time runs out?
 
-	- "How does your body react to extreme environmental changes?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_d")]
-		=> p2_topic_d
-
-	- "What happens during full lunar cycles?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_e")]
+	- "What was it like growing up in cavern spires?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_e")]
 		=> p2_topic_e
 
-	- "How do you handle your species' dietary requirements?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_f")]
+	- "What really happened with that art critic?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_f")]
 		=> p2_topic_f
 
-	- "What happens when your acoustic nerves are exposed to high frequencies?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_g")]
+	- "How do you stay fueled for intricate spinning?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_g")]
 		=> p2_topic_g
+
+	- "What happens when a date goes wrong?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_h")]
+		=> p2_topic_h
 
 	- "I think I've learned enough for today."
 		=> end_date
 
 # ------------------------------------------------------------------------------
-# PART 2 TOPIC BRANCHES (DEEP LORE & CLUE PROBING)
+# PART 2 TOPIC BRANCHES
 # ------------------------------------------------------------------------------
-~ p2_topic_d
-do GameManager.set_flag("candidate_id", "asked_p2_topic_d")
-if GameManager.get_affection("candidate_id") < 30:
-	do GameManager.set_expression("scary")
-	Candidate: *Arms crossed, cold posture* You're asking a lot of probing biological questions. I'm not comfortable sharing that with you right now.
-	=> hub_part_2
-else:
-	You: How does your body react to extreme environmental changes?
-	# Imposter Check
-	if GameManager.is_imposter("candidate_id"):
-		do GameManager.set_expression("happy")
-		Candidate: Oh, I just grab a light jacket or adjust my clothing layers when the room gets chilly. I try to stay comfortable!
-		do GameManager.record_clue("candidate_id", "environment_slip", "Casually mentions adjusting clothing layers when cold, oblivious to cold-blooded involuntary torpor.")
-	else:
-		do GameManager.set_expression("normal")
-		Candidate: Severe temperature drops slow my heart rate drastically. If ambient temperatures fall below freezing, my body enters involuntary torpor.
-	=> hub_part_2
-
 ~ p2_topic_e
 do GameManager.set_flag("candidate_id", "asked_p2_topic_e")
-You: What happens during full lunar cycles?
-Candidate: High tides and lunar light increase sensory sensitivity across our whole species.
-=> hub_part_2
+do GameManager.set_expression("normal")
+Candidate: Cavern spires are breathtaking crystal structures.
+
+- "I'd love to visit those caverns with you."
+	do GameManager.add_affection("candidate_id", 8)
+	if GameManager.get_affection("candidate_id") >= 70:
+		do GameManager.set_expression("blush")
+		Candidate: *Blushes deeply* I would gladly guide the way!
+	else:
+		do GameManager.set_expression("happy")
+		Candidate: Perhaps one day, suitor!
+	=> hub_part_2
+
+- "Webs over an abyss... astonishing engineering."
+	do GameManager.add_affection("candidate_id", 5)
+	do GameManager.set_expression("happy")
+	Candidate: *Beams with pride* Calculations take years to master!
+	=> hub_part_2
 
 ~ p2_topic_f
 do GameManager.set_flag("candidate_id", "asked_p2_topic_f")
-if GameManager.get_affection("candidate_id") < 30:
-	do GameManager.set_expression("angry")
-	Candidate: Why are you grilling me about what I eat? Mind your own business.
+do GameManager.set_expression("normal")
+Candidate: That critic mocked my work, so I cocooned him in silk!
+
+- "Some critics deserve to be wrapped in silk."
+	do GameManager.add_affection("candidate_id", 5)
+	do GameManager.set_expression("happy")
+	Candidate: *Laughs* Finally! Someone who agrees!
 	=> hub_part_2
-else:
-	You: How do you handle your species' dietary requirements?
-	if GameManager.is_imposter("candidate_id"):
-		do GameManager.set_expression("happy")
-		Candidate: I just stick to whatever three meals the cafeteria staff prepares on the daily menu. I'm really not picky!
-		do GameManager.record_clue("candidate_id", "diet_slip", "Claims to eat standard daily cafeteria meals without mentioning mandatory raw protein organ demands.")
-	else:
-		do GameManager.set_expression("normal")
-		Candidate: My body requires massive raw protein intake daily. Without it, my internal glands suffer severe muscle spasms.
+
+- "Promise not to cocoon me if I offer feedback."
+	do GameManager.add_affection("candidate_id", 5)
+	do GameManager.set_expression("happy")
+	Candidate: *Winks* Only if your feedback lacks soul!
 	=> hub_part_2
 
 ~ p2_topic_g
 do GameManager.set_flag("candidate_id", "asked_p2_topic_g")
 if GameManager.get_affection("candidate_id") < 30:
-	do GameManager.set_expression("scary")
-	Candidate: *Glares cold* I don't appreciate you testing my sensory vulnerabilities like a lab specimen.
+	do GameManager.set_expression("angry")
+	Candidate: Why are you focused on my internal metabolism?
 	=> hub_part_2
 else:
-	You: What happens when your acoustic nerves are exposed to high frequencies?
+	You: How do you stay fueled for such intricate spinning?
 	if GameManager.is_imposter("candidate_id"):
 		do GameManager.set_expression("happy")
-		Candidate: Well, screeching sounds can be a bit annoying, but I usually just tune out background noise when I'm focused.
-		do GameManager.record_clue("candidate_id", "acoustic_slip", "Mentions tuning out background noise, oblivious to physical sonar disorientation and acoustic overload.")
+		Candidate: Oh, I just stick to whatever three meals the cafeteria serves.
+		do GameManager.record_clue("candidate_id", "nutrition_slip", "Claims cafeteria food is fine, oblivious to raw protein demands.")
+
+		- "Standard cafeteria food works for you then."
+			do GameManager.set_expression("happy")
+			Candidate: *Smiles* Yes, simple and hassle-free!
+			=> hub_part_2
+
+		- "So you don't require special raw protein?"
+			do GameManager.add_affection("candidate_id", -10)
+			do GameManager.set_expression("angry")
+			Candidate: *Stiffens* Well... I order raw steak on occasion! Why cross-examine my diet?
+			if GameManager.get_affection("candidate_id") <= 0:
+				=> horror_exit
+			=> hub_part_2
 	else:
 		do GameManager.set_expression("normal")
-		Candidate: High pitch frequencies cause excruciating auditory overload and instant dizziness across our sonar clusters.
+		Candidate: Without raw protein, our spinneret glands lock up in muscle cramps.
+
+		- "Make sure staff brings you proper raw protein."
+			do GameManager.add_affection("candidate_id", 5)
+			do GameManager.set_expression("happy")
+			Candidate: *Smiles warmly* Thank you, you're sweet.
+			=> hub_part_2
+
+		- "So missing protein causes spinneret cramps?"
+			do GameManager.add_affection("candidate_id", -5)
+			do GameManager.set_expression("normal")
+			Candidate: *Looks puzzled* Instantly... Though I didn't expect a clinical lecture.
+			=> hub_part_2
+
+~ p2_topic_h
+do GameManager.set_flag("candidate_id", "asked_p2_topic_h")
+if GameManager.get_affection("candidate_id") < 30:
+	do GameManager.set_expression("angry")
+	Candidate: Courtship instincts? You haven't earned the right to ask.
 	=> hub_part_2
+else:
+	You: What happens when a date goes wrong?
+	if GameManager.is_imposter("candidate_id"):
+		do GameManager.set_expression("happy")
+		Candidate: If things don't work out, it's best to part ways gracefully.
+		do GameManager.record_clue("candidate_id", "weaving_fail", "Defaults to human answer about parting gracefully, oblivious to courtship venom.")
+
+		- "Parting ways gracefully is a mature mindset."
+			do GameManager.set_expression("happy")
+			Candidate: *Smiles* Indeed it is!
+			=> hub_part_2
+
+		- "So you don't anchor threads or react defensively?"
+			do GameManager.add_affection("candidate_id", -10)
+			do GameManager.set_expression("angry")
+			Candidate: *Posture tightens* I... well, of course I anchor threads if threatened! Why test my temper?
+			if GameManager.get_affection("candidate_id") <= 0:
+				=> horror_exit
+			=> hub_part_2
+	else:
+		do GameManager.set_expression("scary")
+		Candidate: In Arachneoid courtship, betrayal triggers paralytic venom reflexes.
+
+		- "You never have to worry about betrayal with me."
+			do GameManager.add_affection("candidate_id", 10)
+			if GameManager.get_affection("candidate_id") >= 70:
+				do GameManager.set_expression("blush")
+				Candidate: *Flushes crimson* My heart feels anchored to yours.
+			else:
+				do GameManager.set_expression("happy")
+				Candidate: *Postures softens* That is reassuring to hear.
+			=> hub_part_2
+
+		- "So paralytic venom triggers involuntarily?"
+			do GameManager.add_affection("candidate_id", -5)
+			do GameManager.set_expression("normal")
+			Candidate: *Looks bewildered* Indeed it does... Though venom glands are an unusual date topic.
+			=> hub_part_2
 
 # ==============================================================================
 # PHASE 5: OUTRO & HORROR EXITS
@@ -341,7 +532,7 @@ if GameManager.get_affection("candidate_id") >= 70:
 	Candidate: *Smiles warmly* Thank you for tonight. I really hope to see you again soon.
 elif GameManager.get_affection("candidate_id") <= 35:
 	do GameManager.set_expression("angry")
-	Candidate: *Sighs coldly* That felt more like a interrogation than a date. I'm going back to my cell.
+	Candidate: *Sighs coldly* That felt more like an interrogation than a date. Goodbye.
 else:
 	do GameManager.set_expression("normal")
 	Candidate: Thank you for coming. I'll head back to my quarters now.
@@ -365,10 +556,12 @@ When writing or editing any `.dialogue` file, verify:
 
 1. **Node Headers**: Every node begins with `~ nodename`.
 2. **5-Phase Flow**: Follows `start` $\rightarrow$ `hub_part_1` $\rightarrow$ `mid_date_interruption` $\rightarrow$ `hub_part_2` $\rightarrow$ `end_date`.
-3. **Topic Count**: Minimum of **3 topics** for Phase 2 (`hub_part_1`), and **4 topics** for Phase 4 (`hub_part_2`).
-4. **GameManager Mutations**:
+3. **4+4 Topic Architecture**: Exactly **4 topics** in Phase 2 (`hub_part_1`), and **4 topics** in Phase 4 (`hub_part_2`).
+4. **Short Choice Strings**: Choice menu options are strictly capped at 5 to 10 words maximum.
+5. **Interactive Follow-Up Menus**: Every topic branch opens a 2-option follow-up choice menu before returning to `hub_part_1` or `hub_part_2`.
+6. **GameManager Mutations**:
    * Affection adjustments: `do GameManager.add_affection("candidate_id", amount)`
    * Expression swaps: `do GameManager.set_expression("expression_name")`
    * Topic flags: `do GameManager.set_flag("candidate_id", "flag_name")`
    * Clue recording: `do GameManager.record_clue("candidate_id", "clue_id", "Clue description text")`
-5. **Date Completion**: Both `~ end_date` and `~ horror_exit` execute `do GameManager.complete_current_date()` followed by `=> END`.
+7. **Date Completion**: Both `~ end_date` and `~ horror_exit` execute `do GameManager.complete_current_date()` followed by `=> END`.

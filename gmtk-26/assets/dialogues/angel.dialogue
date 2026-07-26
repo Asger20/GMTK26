@@ -1,84 +1,465 @@
+# ==============================================================================
+# PHASE 1: INTRO & OPENING PATH
+# ==============================================================================
 ~ start
-Isaac: BE NOT AFRAID... Oh, pardon me. Habit.
-Isaac: Greetings. I am your date. Please sit precisely in the center of your chair. If you tilt three degrees to the left, it upsets my divine alignment.
+do GameManager.set_expression("normal")
+Isaac: *His head consists of a giant spherical cluster of dozens of un-blinking ocular eyes, glowing halo hovering softly as white wings rustle.*
+Isaac: *His chiseled, perfectly symmetrical muscular physique is clad in dark athletic gym shorts, sitting at a precise ninety-degree angle.*
+Isaac: *Vocal cords chime with soft, multi-harmonic metallic chords.*
+Isaac: Welcome, suitor. Your posture and vector placement are remarkably well-balanced tonight.
 
-- "I respect someone who appreciates neatness and geometry."
-	do GameManager.add_affection("angel", 15)
-	Isaac: Ah! A soul of harmony! Perfect 90-degree alignment!
-	=> main_menu
-- "Relax, a little mess never hurt anyone."
-	do GameManager.add_affection("angel", -15)
-	Isaac: *Wings twitch violently* A... a little mess?! Asymmetry is a cosmic corruption!
-	=> main_menu
-- "Are all those eyes on your wings staring at me?"
-	Isaac: They are merely observing the geometric balance of this room.
-	=> main_menu
+- "Your symmetry and presence are breathtaking."
+	do GameManager.add_affection("angel", 8)
+	if GameManager.get_affection("angel") >= 70:
+		do GameManager.set_expression("blush")
+		Isaac: *His golden halo brightens, dozens of ocular pupils dilating in romantic harmony.*
+		Isaac: Ah... fifty-fifty emotional alignment! You speak straight to my celestial core...
+	else:
+		do GameManager.set_expression("happy")
+		Isaac: *Multi-harmonic chime resonates cheerfully as his wings fold neatly.*
+		Isaac: Thank you, suitor. Flawless symmetry is the ultimate expression of beauty.
+	=> hub_part_1
 
-~ main_menu
-Isaac: What topic shall we organize into perfect discourse next?
+- "I noticed your ocular eye cluster scanning."
+	do GameManager.add_affection("angel", 5)
+	do GameManager.set_expression("happy")
+	Isaac: *Dozens of eyes shift in perfect unison, calculating real-time room vectors.*
+	Isaac: A keen observation! Real-time vector scanning ensures absolute spatial harmony.
+	=> hub_part_1
 
-- "Tell me about your obsession with symmetry."
-	=> symmetry_chain
-- "What is your favorite kind of music or sound?"
-	=> music_chain
-- "How do you feel about chaotic or messy rooms?"
-	=> chaos_interrogation
-- "Tell me about your architectural preferences."
-	=> architecture_lore_check
-- "I think that's enough for today."
-	=> end_date
-
-~ symmetry_chain
-Isaac: Everything in the universe was designed with sacred ratios. The golden spiral, perfect right angles, twin halo alignment.
-Isaac: When an object is tilted even half a millimeter, my inner halos vibrate in distress!
-
-- "I can fix your cutlery so it's perfectly parallel."
-	do GameManager.add_affection("angel", 10)
-	Isaac: *Gasp* Parallel to the edge of the table?! You are a divine gift!
-	=> main_menu
-- "Sounds exhausting."
+- "Do you always sit at such a rigid right angle?"
 	do GameManager.add_affection("angel", -10)
-	Isaac: Order is not exhausting! Disorder is chaos!
-	=> main_menu
+	do GameManager.set_expression("angry")
+	Isaac: *Vocal tone shifts to a low dissonant hum, halo flickering.*
+	Isaac: Slouching causes ninety percent spinal imbalance, suitor. Order is not rigidity.
+	=> hub_part_1
 
-~ music_chain
-Isaac: I sing in 7-part harmonic choir frequencies!
-You: Do you ever listen to casual pop music?
-Isaac: Only if the beat is strictly 120 BPM in 4/4 time without polyrhythms.
-do GameManager.add_affection("angel", 5)
-=> main_menu
-
-~ chaos_interrogation
-if GameManager.get_affection("angel") < 35:
-	Isaac: Your previous answers lacked geometric perfection. I refuse to engage further.
-	=> main_menu
-else:
-	You: How do you handle being in an asymmetrical or messy room?
-	if GameManager.is_imposter("angel"):
-		Isaac: Oh, I love messy room chaos! Asymmetry makes spaces feel cozy, cluttered, and alive!
-		do GameManager.record_clue("angel", "symmetry_slip", "Claims to love messy, asymmetrical, chaotic rooms.")
-		Isaac: Who cares if picture frames are crooked?
+- "You look terrifying. I don't trust eye clusters."
+	do GameManager.add_affection("angel", -20)
+	if GameManager.get_affection("angel") <= 0:
+		=> horror_exit
 	else:
-		Isaac: It causes acute spiritual vertigo! Asymmetry makes my halos ache and my feathers shed!
-		Isaac: I must straighten every frame and align every chair immediately!
-	=> main_menu
+		do GameManager.set_expression("scary")
+		Isaac: *Dozens of pupils lock onto you simultaneously, halo blazing with harsh light.*
+		Isaac: Mind your chaotic tongue, suitor, before I realign your spatial coordinates.
+		=> hub_part_1
 
-~ architecture_lore_check
-if GameManager.get_affection("angel") < 35:
-	Isaac: I will not converse with someone who disrupts cosmic harmony.
-	=> main_menu
-else:
-	You: What is your ideal living space layout?
-	if GameManager.is_imposter("angel"):
-		Isaac: A curved, organic, irregular cavern with random crooked alcoves!
-		do GameManager.record_clue("angel", "building_slip", "Claims ideal living space is an irregular, crooked, curved cavern.")
-		Isaac: Angles are overrated!
+# ==============================================================================
+# PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_1
+do GameManager.set_expression("normal")
+
+# Automatically progress to Phase 3 after completing all 4 Part 1 topics
+if GameManager.has_flag("angel", "asked_p1_topic_a") and GameManager.has_flag("angel", "asked_p1_topic_b") and GameManager.has_flag("angel", "asked_p1_topic_c") and GameManager.has_flag("angel", "asked_p1_topic_d"):
+	=> mid_date_interruption
+
+Isaac: So, my suitor... what aspect of sacred geometry shall we discuss first?
+
+- "Tell me about your symmetrical gym routine!" [if not GameManager.has_flag("angel", "asked_p1_topic_a")]
+	=> p1_topic_a
+
+- "What are your hopes after leaving Blackwood?" [if not GameManager.has_flag("angel", "asked_p1_topic_b")]
+	=> p1_topic_b
+
+- "Do you ever mind a little room clutter?" [if not GameManager.has_flag("angel", "asked_p1_topic_c")]
+	=> p1_topic_c
+
+- "How do you structure your daily workouts?" [if not GameManager.has_flag("angel", "asked_p1_topic_d")]
+	=> p1_topic_d
+
+# ------------------------------------------------------------------------------
+# PART 1 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p1_topic_a
+do GameManager.set_flag("angel", "asked_p1_topic_a")
+do GameManager.set_expression("happy")
+Isaac: Exactly one hundred dumbbell curls for the left arm, and exactly one hundred for the right!
+Isaac: Bilateral muscle training maintains golden-ratio proportions down to the millimeter!
+
+- "I'd love to work out with you one day."
+	do GameManager.add_affection("angel", 8)
+	if GameManager.get_affection("angel") >= 70:
+		do GameManager.set_expression("blush")
+		Isaac: *Halo glows warmly, dozens of eyes blinking flusteredly*
+		Isaac: A joint training session?! I will calculate our synchronized rep counts immediately!
 	else:
-		Isaac: A perfectly cubic room constructed with 90-degree marble pillars and dual mirrored arches!
-		Isaac: Absolute mathematical symmetry in every dimension!
-	=> main_menu
+		do GameManager.set_expression("happy")
+		Isaac: *Chimes cheerfully* I would be honored to guide your symmetrical rep ratios!
+	=> hub_part_1
 
+- "Must be exhausting counting every single rep."
+	do GameManager.add_affection("angel", 5)
+	do GameManager.set_expression("happy")
+	Isaac: *Smiles with multi-harmonic chime* Precision is energizing, suitor!
+	=> hub_part_1
+
+~ p1_topic_b
+do GameManager.set_flag("angel", "asked_p1_topic_b")
+do GameManager.set_expression("normal")
+Isaac: I long to design pristine marble sanctuaries across the surface world.
+Isaac: But above all... I seek a companion who brings calm, harmonious balance to my mind.
+
+- "I'd love to help you build those sanctuaries."
+	do GameManager.add_affection("angel", 8)
+	if GameManager.get_affection("angel") >= 70:
+		do GameManager.set_expression("blush")
+		Isaac: *White wings flutter softly, halo pulsing rose pink*
+		Isaac: Truly?! Your presence brings total fifty-fifty equilibrium to my heart...
+	else:
+		do GameManager.set_expression("happy")
+		Isaac: *Chimes warmly* Your support creates perfect emotional alignment, suitor.
+	=> hub_part_1
+
+- "You deserve someone who respects your order."
+	do GameManager.add_affection("angel", 5)
+	do GameManager.set_expression("happy")
+	Isaac: *Traces a subtle equilateral triangle on the table*
+	Isaac: Thank you. Your understanding stabilizes my harmonic resonance.
+	=> hub_part_1
+
+~ p1_topic_c
+do GameManager.set_flag("angel", "asked_p1_topic_c")
+if GameManager.get_affection("angel") < 50:
+	do GameManager.add_affection("angel", -5)
+	do GameManager.set_expression("angry")
+	Isaac: *Halo hums low* We have only just met, suitor... Isn't it a bit early to be questioning my environmental discipline?
+	=> hub_part_1
+else:
+	You: Do you ever mind a little room clutter?
+	if GameManager.is_imposter("angel"):
+		do GameManager.set_expression("happy")
+		Isaac: *Smiles easily, resting hands flat without adjusting anything.*
+		Isaac: Oh, I don't mind a little clutter! Sometimes a messy room just feels lived-in and cozy.
+		do GameManager.record_clue("angel", "angel_asymmetry_slip", "Casually mentions enjoying messy or cluttered rooms, oblivious to Seraphim Geometrica asymmetry distress and physical nausea.")
+
+		- "A cozy, lived-in room sounds nice."
+			do GameManager.set_expression("happy")
+			Isaac: *Nods cheerfully* Exactly! Comfort is what matters!
+			=> hub_part_1
+
+		- "Wait... a messy room feels cozy to you?"
+			do GameManager.add_affection("angel", -10)
+			do GameManager.set_expression("angry")
+			Isaac: *His pupils shift nervously, halo humming a low dissonant note.*
+			Isaac: Well... of course I prefer tidy rooms! I just meant I try not to be overly rigid.
+			Isaac: Why test my cleanliness habits so closely, suitor?
+			if GameManager.get_affection("angel") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Isaac: *Shudders slightly, dozens of eyes blinking rapidly*
+		Isaac: MESSY CLUTTER?! Never! Asymmetrical disorder induces immediate physical nausea and muscle rigidity! Everything must align at ninety degrees.
+
+		- "I'll make sure our space stays perfectly aligned."
+			do GameManager.add_affection("angel", 5)
+			if GameManager.get_affection("angel") >= 70:
+				do GameManager.set_expression("blush")
+				Isaac: *Halo glows bright rose pink* How remarkably considerate of you, suitor...
+			else:
+				do GameManager.set_expression("happy")
+				Isaac: *Chimes gratefully* Thank you. Perfect alignment prevents neural distress!
+			=> hub_part_1
+
+		- "Does room clutter really cause physical nausea?"
+			do GameManager.add_affection("angel", -5)
+			do GameManager.set_expression("normal")
+			Isaac: *Dozens of pupils tilt, looking confused* Indubitably... Though asking about my neural nausea feels rather clinical during a date.
+			=> hub_part_1
+
+~ p1_topic_d
+do GameManager.set_flag("angel", "asked_p1_topic_d")
+if GameManager.get_affection("angel") < 50:
+	do GameManager.add_affection("angel", -5)
+	do GameManager.set_expression("angry")
+	Isaac: *Dozens of pupils narrow slightly* Asking personal questions about my rep counts before we break the ice? A bit pushy, don't you think?
+	=> hub_part_1
+else:
+	You: How do you structure your daily workouts?
+	if GameManager.is_imposter("angel"):
+		do GameManager.set_expression("happy")
+		Isaac: *Relaxes posture, smiling casually.*
+		Isaac: Oh, I just work out until I get tired! I don't really bother counting every single rep as long as I get a good pump.
+		do GameManager.record_clue("angel", "angel_rep_slip", "Mentions working out without counting exact bilateral reps, oblivious to Seraphim Geometrica 50/50 symmetrical training requirements.")
+
+		- "Working out for a good pump sounds great!"
+			do GameManager.set_expression("happy")
+			Isaac: *Smiles brightly* Absolutely! Fitness should be fun!
+			=> hub_part_1
+
+		- "Wait... you don't count exact bilateral reps?"
+			do GameManager.add_affection("angel", -10)
+			do GameManager.set_expression("angry")
+			Isaac: *His wings stiffen, halo buzzing with dissonant hums.*
+			Isaac: Well... naturally I keep rough track! I am not careless with my training.
+			Isaac: Why scrutinize my workout counts so hard?
+			if GameManager.get_affection("angel") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Isaac: Strict fifty-fifty bilateral balance! If I do one hundred curls on the left, I MUST do one hundred on the right. Missing a rep causes severe muscular imbalance.
+
+		- "I admire your dedication to physical balance."
+			do GameManager.add_affection("angel", 5)
+			if GameManager.get_affection("angel") >= 70:
+				do GameManager.set_expression("blush")
+				Isaac: *Chimes in multi-harmonic harmony* Your praise creates perfect emotional resonance...
+			else:
+				do GameManager.set_expression("happy")
+				Isaac: *Chimes warmly* Thank you. Symmetry is the foundation of strength.
+			=> hub_part_1
+
+		- "Does missing one rep really cause muscle imbalance?"
+			do GameManager.add_affection("angel", -5)
+			do GameManager.set_expression("normal")
+			Isaac: *Looks perplexed* Precisely... Though inquiring about exact rep ratios feels somewhat clinical, suitor.
+			=> hub_part_1
+
+# ==============================================================================
+# PHASE 3: MID-DATE PATIENT TURNABOUT (CANDIDATE ASKS YOU A QUESTION)
+# ==============================================================================
+~ mid_date_interruption
+do GameManager.set_expression("normal")
+Isaac: *His dozens of ocular pupils shift in unison, glowing halo ring brightening as multi-harmonic chords chime softly.*
+Isaac: I have been calculating the vector alignment between us...
+Isaac: Tell me, suitor: Are you here because you appreciate true order and balance, or are you just fascinated by my halo?
+
+- "I admire your dedication to balance, Isaac."
+	do GameManager.add_affection("angel", 10)
+	if GameManager.get_affection("angel") >= 70:
+		do GameManager.set_expression("blush")
+		Isaac: *Halo glows deep crimson-rose, wings fluttering* Sublime! Our emotional equations match perfectly.
+	else:
+		do GameManager.set_expression("happy")
+		Isaac: *Chimes delightedly* I appreciate the sincerity. True balance is rare.
+	=> hub_part_2
+
+- "I'm simply keeping an even pace."
+	do GameManager.add_affection("angel", 0)
+	do GameManager.set_expression("normal")
+	Isaac: *Nods precisely* Controlled and balanced. A steady trajectory.
+	=> hub_part_2
+
+- "I'm here out of duty to evaluate candidates."
+	do GameManager.add_affection("angel", -15)
+	do GameManager.set_expression("scary")
+	Isaac: *Halo blares cold harsh light, pupils locking* Duty? Evaluate? That sounds remarkably like officer talk, suitor.
+	if GameManager.get_affection("angel") <= 0:
+		=> horror_exit
+	=> hub_part_2
+
+# ==============================================================================
+# PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_2
+do GameManager.set_expression("normal")
+
+# Check if all 4 Part 2 topics are exhausted
+if GameManager.has_flag("angel", "asked_p2_topic_e") and GameManager.has_flag("angel", "asked_p2_topic_f") and GameManager.has_flag("angel", "asked_p2_topic_g") and GameManager.has_flag("angel", "asked_p2_topic_h"):
+	Isaac: *Halo dims gently* Our temporal allocation has reached its ninety-degree conclusion.
+	- "It was a mesmerizing evening, Isaac."
+		do GameManager.add_affection("angel", 5)
+		=> end_date
+	- "That concludes our encounter for today."
+		=> end_date
+else:
+	Isaac: Are there additional vectors you wish to explore before our date concludes?
+
+	- "What are celestial marble sanctuaries like?" [if not GameManager.has_flag("angel", "asked_p2_topic_e")]
+		=> p2_topic_e
+
+	- "What happened during that weight-rack incident?" [if not GameManager.has_flag("angel", "asked_p2_topic_f")]
+		=> p2_topic_f
+
+	- "How do you react when something is crooked?" [if not GameManager.has_flag("angel", "asked_p2_topic_g")]
+		=> p2_topic_g
+
+	- "How do your multi-harmonic vocal cords work?" [if not GameManager.has_flag("angel", "asked_p2_topic_h")]
+		=> p2_topic_h
+
+	- "I think I have learned enough for our encounter today."
+		=> end_date
+
+# ------------------------------------------------------------------------------
+# PART 2 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p2_topic_e
+do GameManager.set_flag("angel", "asked_p2_topic_e")
+do GameManager.set_expression("normal")
+Isaac: Celestial sanctuaries are built from high-frequency marble... governed by pristine golden-ratio geometry!
+Isaac: Every pillar stands at ninety-degree right angles, creating perfect acoustic resonance across the high spheres.
+
+- "I'd love to visit those marble sanctuaries with you."
+	do GameManager.add_affection("angel", 8)
+	if GameManager.get_affection("angel") >= 70:
+		do GameManager.set_expression("blush")
+		Isaac: *Dozens of eyes widen, halo glowing rose pink*
+		Isaac: I would be honored to guide your spatial tour through the high spheres!
+	else:
+		do GameManager.set_expression("happy")
+		Isaac: *Chimes with delight* Perhaps one day, suitor... if your alignment stays true!
+	=> hub_part_2
+
+- "Golden-ratio marble pillars sound magnificent."
+	do GameManager.add_affection("angel", 5)
+	do GameManager.set_expression("happy")
+	Isaac: *Beams with celestial pride*
+	Isaac: Indubitably! Spatial perfection is divine!
+	=> hub_part_2
+
+~ p2_topic_f
+do GameManager.set_flag("angel", "asked_p2_topic_f")
+do GameManager.set_expression("normal")
+Isaac: *Sighs with a low metallic hum* The gym weight-rack was in total chaos! Dumbbells were un-numbered and mismatched!
+Isaac: So I un-anchored all the racks and spent four hours rebuilding them in strict numerical and weight order!
+
+- "Re-ordering mismatched weight racks is heroic."
+	do GameManager.add_affection("angel", 5)
+	if GameManager.get_affection("angel") >= 70:
+		do GameManager.set_expression("blush")
+		Isaac: *Halo pulses bright pink* Splendid! You understand sacred gym discipline!
+	else:
+		do GameManager.set_expression("happy")
+		Isaac: *Chimes happily* Finally! Someone who respects numerical gym order!
+	=> hub_part_2
+
+- "Next time, I'll help you organize the weights."
+	do GameManager.add_affection("angel", 5)
+	do GameManager.set_expression("happy")
+	Isaac: *Chimes brightly* Excellent! A workout partner with organizational focus!
+	=> hub_part_2
+
+~ p2_topic_g
+do GameManager.set_flag("angel", "asked_p2_topic_g")
+if GameManager.get_affection("angel") < 30:
+	do GameManager.set_expression("angry")
+	Isaac: *Halo hums low, eyes narrowing* Why are you grilling me about crooked objects? Mind your own business.
+	=> hub_part_2
+else:
+	You: How do you react when something nearby is crooked?
+	# Imposter Check
+	if GameManager.is_imposter("angel"):
+		do GameManager.set_expression("happy")
+		Isaac: *Looks at a slightly tilted cup on the table without twitching or straightening it.*
+		Isaac: Oh, a crooked cup doesn't bother me at all, I just leave it be! Flexibility is key.
+		do GameManager.record_clue("angel", "angel_symmetry_fail", "Claims a crooked cup is fine and fails to exhibit the involuntary Symmetry Twitch or realignment compulsion when presented with a tilted table object.")
+
+		- "Leaving things be is a relaxed mindset."
+			do GameManager.set_expression("happy")
+			Isaac: *Smiles serenely* Indeed! Simple and easy!
+			=> hub_part_2
+
+		- "So a crooked cup doesn't trigger a realignment twitch?"
+			do GameManager.add_affection("angel", -10)
+			do GameManager.set_expression("angry")
+			Isaac: *His eyes shift nervously, halo buzzing defensively.*
+			Isaac: Well... of course I fix it eventually! I just didn't want to seem impolite.
+			Isaac: Why examine my table manners so closely?
+			if GameManager.get_affection("angel") <= 0:
+				=> horror_exit
+			=> hub_part_2
+	else:
+		do GameManager.set_expression("normal")
+		Isaac: *Hand twitches involuntarily, reaching out mid-sentence to align the tilted cup to an exact 90-degree angle*
+		Isaac: *Coughs softly with a metallic chime*
+		Isaac: Forgive me... seeing a crooked object triggers an involuntary physical urge to realign it to ninety degrees.
+
+		- "I appreciate your attention to right angles."
+			do GameManager.add_affection("angel", 5)
+			if GameManager.get_affection("angel") >= 70:
+				do GameManager.set_expression("blush")
+				Isaac: *Halo glows bright rose pink* You are remarkably understanding, suitor...
+			else:
+				do GameManager.set_expression("happy")
+				Isaac: *Chimes gratefully* Thank you. Right angles stabilize the space.
+			=> hub_part_2
+
+		- "Does seeing a crooked object trigger an involuntary twitch?"
+			do GameManager.add_affection("angel", -5)
+			do GameManager.set_expression("normal")
+			Isaac: *Dozens of pupils blink, looking confused* Indeed it does... Though questioning my neural compulsion feels like an evaluation.
+			=> hub_part_2
+
+~ p2_topic_h
+do GameManager.set_flag("angel", "asked_p2_topic_h")
+if GameManager.get_affection("angel") < 30:
+	do GameManager.set_expression("angry")
+	Isaac: *Posture turns cold* Vocal resonance? You haven't earned the right to inquire about my celestial voice.
+	=> hub_part_2
+else:
+	You: How do your multi-harmonic vocal cords work?
+	if GameManager.is_imposter("angel"):
+		do GameManager.set_expression("happy")
+		Isaac: *Speaks in a completely standard, single-pitch human voice.*
+		Isaac: Oh, my voice is just standard! I don't really have any metallic chime or chord undertones.
+		do GameManager.record_clue("angel", "angel_voice_fail", "Speaks in a standard single-pitch human voice, lacking Seraphim Geometrica multi-harmonic chord resonance.")
+
+		- "A standard voice is nice and clear."
+			do GameManager.set_expression("happy")
+			Isaac: *Smiles serenely* Thank you! Clarity is important!
+			=> hub_part_2
+
+		- "So your voice lacks multi-harmonic chord resonance?"
+			do GameManager.add_affection("angel", -10)
+			do GameManager.set_expression("angry")
+			Isaac: *His halo flickers, vocal tone stiffening defensively.*
+			Isaac: Well... of course my pitch varies when I project!
+			Isaac: Why cross-examine my vocal cords tonight?
+			if GameManager.get_affection("angel") <= 0:
+				=> horror_exit
+			=> hub_part_2
+	else:
+		do GameManager.set_expression("scary")
+		Isaac: *His dozens of ocular pupils glow with intense light as multi-harmonic metallic chords resonate loudly.*
+		Isaac: Our Seraphim vocal cords produce overlapping multi-harmonic chords. When space is misaligned, our resonance shifts to sharp dissonant hums.
+
+		- "Your multi-harmonic voice is magnificent, Isaac."
+			do GameManager.add_affection("angel", 10)
+			if GameManager.get_affection("angel") >= 70:
+				do GameManager.set_expression("blush")
+				Isaac: *Halo pulses bright rose pink, wings fluttering warmly*
+				Isaac: Harmonic alignment... Your words create perfect resonance in my soul.
+			else:
+				do GameManager.set_expression("happy")
+				Isaac: *Chimes warmly, posture softening*
+				Isaac: That... is reassuring to hear, suitor.
+			=> hub_part_2
+
+		- "Do your vocal cords really produce multi-harmonic chords?"
+			do GameManager.add_affection("angel", -5)
+			do GameManager.set_expression("normal")
+			Isaac: *Looks bewildered* Indubitably... Though asking about my vocal anatomy feels somewhat like a physics exam.
+			=> hub_part_2
+
+# ==============================================================================
+# PHASE 5: OUTRO & HORROR EXITS
+# ==============================================================================
 ~ end_date
-Isaac: The allocated duration of 180 seconds has elapsed precisely. Farewell for now.
+if GameManager.get_affection("angel") >= 70:
+	do GameManager.set_expression("blush")
+	Isaac: *Halo pulses bright rose pink, wings extending with an elegant celestial bow.*
+	Isaac: Our spatial trajectory tonight was in total golden-ratio alignment. I eagerly anticipate our next rendezvous!
+elif GameManager.get_affection("angel") <= 35:
+	do GameManager.set_expression("angry")
+	Isaac: *Halo hums low and dissonant.*
+	Isaac: Our conversational vectors were severely misaligned. Goodbye.
+	Isaac: *Steps back into the shadows.*
+else:
+	do GameManager.set_expression("happy")
+	Isaac: *Chimes softly with an elegant bow.*
+	Isaac: Thank you for the balanced conversation. Farewell for now, suitor.
+
+do GameManager.complete_current_date()
+=> END
+
+~ horror_exit
+do GameManager.set_expression("scary")
+Isaac: *His halo blares blinding celestial light as dozens of ocular eyes lock onto you simultaneously! Room vectors shatter with a loud metallic screech!*
+Isaac: YOU DARE MOCK SACRED CELESTIAL GEOMETRY?! YOU ARE NOT A SUITOR, YOU ARE A COP! I WILL REALIGN YOUR SPATIAL VECTOR INTO ABSOLUTE NOTHINGNESS!
+Isaac: *He lunges forward with a terrifying multi-harmonic roar!*
+[SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
+[SYSTEM]: Guards drag you backward out of the cell as a heavy iron portcullis gate slams down with a deafening crash.
 do GameManager.complete_current_date()
 => END
