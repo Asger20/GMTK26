@@ -81,16 +81,16 @@ When **The Count** impersonates Lily, they look physically identical, but fail h
 ### Tell 1: High-Protein Spinneret Strain Slip (Nutrition & Metabolism)
 * **Monsterpedia Rule:** Silk production draws from internal spinneret organs, requiring raw meat, dense aminos, and heavy hydration. Excessive spinning without nutrition causes severe abdominal spinneret cramps.
 * **Real Lily:** Details the agonizing physical exhaustion and abdominal muscle cramps caused by silk production without raw protein and saline hydration.
-* **The Count (Imposter):** Defaults to generic human normalcy:
-  > *"Oh, food? I don't bother with any strict diet! As long as I get my three standard meals from the asylum cafeteria every day, my energy is perfectly fine!"*
-* **Evidence Notebook Clue Recorded:** `lily_nutrition_slip` — *"Claims to eat 3 standard cafeteria meals daily without mentioning raw protein or heavy hydration needed to prevent abdominal spinneret cramps."*
+* **The Count (Imposter):** Treats food like generic cafeteria fare, making a natural unthinking slip:
+  > *"Oh, I just stick to whatever standard meal of the day the cafeteria serves. I'm really not picky about food."*
+* **Evidence Notebook Clue Recorded:** `lily_nutrition_slip` — *"Claims to stick to whatever standard cafeteria meal is served, oblivious to mandatory raw protein demands needed to prevent abdominal spinneret cramps."*
 
 ### Tell 2: Thermal & Humidity Sensitivity Slip (Cold-Blooded Physiology)
 * **Monsterpedia Rule:** Cold-blooded metabolism. Sudden heat sources or dry warmth dry out internal silk glands, triggering lethargy and motor sluggishness.
 * **Real Lily:** Explains that dry heat or high ambient temperatures dehydrate internal silk glands, causing severe lethargy, skin dullness, and motor sluggishness (strictly prefers cool, humid cavern air).
-* **The Count (Imposter):** Treats heat as a pleasant luxury, claiming to love dry warmth:
-  > *"I love sitting right next to a roaring hot fireplace or soaking up warm sunlight! It's so cozy and comfortable."*
-* **Evidence Notebook Clue Recorded:** `lily_thermal_slip` — *"Claims to love hot fireplaces and warm sunlight, ignorant of Arachneoid cold-blood metabolism and silk gland desiccation."*
+* **The Count (Imposter):** Treats warmth like a pleasant everyday comfort, making a subtle slip:
+  > *"I like sitting right by the window or near the fireplace when I sketch. It feels so cozy."*
+* **Evidence Notebook Clue Recorded:** `lily_thermal_slip` — *"Casually mentions sitting near hot fireplaces and sunny windows, oblivious to Arachneoid cold-blood metabolism and internal silk gland desiccation."*
 
 ### Tell 3: Trichobothria Micro-Vibration Reflex Fail (Involuntary Sensory Reflex)
 * **Monsterpedia Rule:** Microscopic sensory epidermal hairs (Trichobothria) continuously detect micro-vibrations. Sudden vibrations (table bump, chair scrape, pen click) trigger an involuntary twitch and dead-lock gaze toward the source.

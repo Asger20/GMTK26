@@ -81,16 +81,16 @@ When **The Count** impersonates Percival, they look physically identical, but fa
 ### Tell 1: Actinic Photophobia & Dawn Sleep Lock Slip (Circadian Rhythm)
 * **Monsterpedia Rule:** Direct UV exposure triggers immediate skin necrosis, severe burning, and motor disorientation. Sleep cycle is hardcoded from sunrise to dusk.
 * **Real Percival:** Explains politely that direct sunlight or 6 AM dawn light triggers immediate UV skin degradation and disorientation. His sleep cycle is strictly hardcoded from sunrise to dusk.
-* **The Count (Imposter):** Treats mornings like a casual human routine:
-  > *"Oh, I love waking up early at 6 AM to watch the beautiful golden sunrise over the courtyard! It's so refreshing."*
-* **Evidence Notebook Clue Recorded:** `vampire_sunlight_slip` — *"Claims to enjoy 6 AM dawn sunrises and morning strolls, failing to account for Vampirus Aristocratis solar necrosis and circadian sleep lock."*
+* **The Count (Imposter):** Treats mornings like a casual everyday routine, making an unthinking slip:
+  > *"I usually try to get an early start to my day right around dawn before the asylum hallways get busy."*
+* **Evidence Notebook Clue Recorded:** `vampire_sunlight_slip` — *"Casually mentions getting an early start to his day at dawn, oblivious to Vampirus Aristocratis solar necrosis and hardcoded nocturnal sleep lock."*
 
 ### Tell 2: Hematophagous Vintage & Plasma Sensitivity Slip (Dietary Physiology)
 * **Monsterpedia Rule:** Consumes blood exclusively at precise sub-normal body temperatures (15 to 18°C). Synthetic or coagulated blood causes immediate physical revulsion.
 * **Real Percival:** Shares his passionate knowledge of blood plasma vintages, plasma temperature balance, and his physical revulsion toward synthetic or coagulated blood.
-* **The Count (Imposter):** Treats food like generic cafeteria fare:
-  > *"I'm pretty easygoing! I'll drink synthetic juice boxes or eat cafeteria soup whenever it's served."*
-* **Evidence Notebook Clue Recorded:** `vampire_diet_slip` — *"Claims to be easygoing with synthetic drinks and cafeteria soup, ignoring strict hematophagous vintage needs and plasma revulsion."*
+* **The Count (Imposter):** Treats dinner drinks like a generic beverage:
+  > *"I just drink whatever glass the staff brings with dinner. I'm really not too particular about the temperature."*
+* **Evidence Notebook Clue Recorded:** `vampire_diet_slip` — *"Mentions drinking whatever glass dinner brings without caring about temperature, ignoring strict hematophagous vintage requirements and plasma revulsion."*
 
 ### Tell 3: Sub-Epidermal Pulse Perception Fail (Sensory Heartbeat Tracking)
 * **Monsterpedia Rule:** Hyper-sensitive sensory organs track surrounding heartbeats within a 5-meter radius, subconsciously monitoring suitor nervousness.

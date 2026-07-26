@@ -87,19 +87,21 @@ When **The Count** impersonates Sienna, they look physically identical, but fail
 
 ### Tell 2: Freshwater Spasm Anomaly Slip (Salinity Requirements)
 * **Monsterpedia Rule:** Drinking pure distilled freshwater or eating unsalted food triggers immediate throat spasms and revulsion. Requires heavy sea-salt or saline solutions.
-* **Real Sienna:** Explains that drinking pure distilled freshwater or eating unsalted food triggers immediate throat spasms and physical revulsion.
-* **The Count (Imposter):** Drinks plain tap water casually without salt:
-  > *"I just drink plain tap water! Freshwater is totally fine for me."*
-* **Evidence Notebook Clue Recorded:** `sea_monster_water_slip` — *"Claims plain distilled freshwater is totally fine, ignoring mandatory sea-salt requirements and freshwater throat spasms."*
+* **Real Sienna:** Demands salt packets for her water glass, explaining that drinking plain un-salted tap water causes immediate throat spasms and gagging.
+* **The Count (Imposter):** Casually takes a sip of plain tap water without adding salt, making a natural unthinking slip:
+  > *"Oh, I just fill up a glass from the sink whenever I get thirsty. Keeping a glass of water nearby helps me stay focused!"*
+* **Evidence Notebook Clue Recorded:** `sea_monster_water_slip` — *"Casually drinks plain un-salted tap water from the sink, oblivious to mandatory sea-salt requirements and freshwater throat spasms."*
 
 ### Tell 3: Lateral Line Echolocation Sonar Fail (Acoustic Sensitivity)
 * **Monsterpedia Rule:** Facial sensory pores and webbed digits detect micro-ripples in water and low-frequency acoustic vibrations in air. High-pitch screeching disrupts equilibrium.
-* **Real Sienna:** Facial sensory pores detect micro-ripples and low-frequency vibrations. High-pitch screeching or static causes instant dizziness and fin twitching.
-* **The Count (Imposter):** Fails to react to high-pitch static or acoustic vibration changes, remaining unmoved.
-* **Evidence Notebook Clue Recorded:** `sea_monster_sonar_fail` — *"Fails to react to high-pitch acoustic screeching, revealing a lack of lateral line echolocation pores."*
+* **Real Sienna:** Facial sensory pores detect micro-ripples and low-frequency vibrations. High-pitch screeching or static causes instant physical disorientation and fin twitching.
+* **The Count (Imposter):** Continues talking smoothly through a burst of high-pitch acoustic static, completely failing to notice or physically react to the vibration:
+  > *"Anyway, as I was saying... wait, did you hear something?"*
+* **Evidence Notebook Clue Recorded:** `sea_monster_sonar_fail` — *"Talks smoothly through acoustic static without physical fin twitching or disorientation, revealing a lack of lateral line echolocation pores."*
 
-### Tell 4: Barometric Memory Fog vs. Faked Amnesia (Memory Amnesia Trait)
+### Tell 4: Barometric Memory Fog vs. Precise Recall (Memory Amnesia Trait)
 * **Monsterpedia Rule:** Rapid elevation changes cause transient atmospheric pressure adjustment, resulting in brief memory fog and spatial drifting.
 * **Real Sienna:** Experiences genuine transient memory fog from atmospheric pressure drops (forgetting specific details or losing train of thought mid-sentence, but her visceral biological reactions remain genuine).
-* **The Count (Imposter):** Remembers precise, calculated textbook facts without any barometric memory fog, or over-acts fake amnesia while failing true species instincts.
-* **Evidence Notebook Clue Recorded:** `sea_monster_memory_slip` — *"Exhibits zero barometric pressure memory fog, reciting textbook facts with robotic precision."*
+* **The Count (Imposter):** Recites exact, calculated timeline details or dates with flawless, smooth memory, completely oblivious to Sienna's barometric pressure fog:
+  > *"Oh, I remember that exact date! It was three years ago on a Tuesday at 2:00 PM."*
+* **Evidence Notebook Clue Recorded:** `sea_monster_memory_slip` — *"Recites exact dates and timeline details with flawless memory, oblivious to Pelagios Abyssalis barometric pressure fog."*

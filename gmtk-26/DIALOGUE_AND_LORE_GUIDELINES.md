@@ -137,9 +137,12 @@ Split every candidate's dialogue across three distinct layers:
 
 ### 7.2 The Imposter (The Count) Writing Strategy
 * **~90% Shared Persona**: The Count has thoroughly researched the candidate's personality and mimics their general speech patterns, warmth, and baseline hobbies.
-* **The Fatal Flaw (Generic "Human" Normalcy)**:
-  * **Authentic Monster**: Has mandatory biological, anatomical, environmental, or psychological constraints (e.g., rigid cold-blood metabolism, high-protein spinneret cramp risks, acoustic sonar sensitivity, UV skin necrosis).
-  * **The Imposter**: Unaware of subtle biological constraints, The Count defaults to casual, generic, surface-level "human" answers (*"I just eat whatever three meals are on the menu"*, *"I sleep straight through until morning"*, *"I'm pretty easygoing with warm temperatures"*).
+* **The Fatal Flaw (Oblivious "Human" Normalcy)**:
+  * **The Core Rule**: The Count is actively trying to blend in and pass as the host. The Count is **oblivious** to unstated, deep biological constraints and casually describes everyday human habits (e.g., taking a drink of tap water, sticking to standard cafeteria meals, enjoying a morning stroll at dawn).
+  * **Avoid Unnatural Defensive Boasting**: Slips must **NEVER** sound like defensive, unnatural confessions or contrarian boasts (*e.g., strictly avoid lines like "Freshwater is fine for me!", "I love hot desert dunes!", or "Loud screeching doesn't bother me at all!"*).
+  * **Authentic Monster vs. Imposter**:
+    * **Authentic Monster**: Governed by mandatory, un-ignorable biological realities (e.g., physical throat spasms from un-salted freshwater, mandatory raw protein to prevent spinneret organ cramps, solar skin necrosis).
+    * **The Imposter**: Unaware of these hidden biological laws, The Count casually assumes normal human behaviors apply to everyone (*"I just grab a glass from the tap when I'm thirsty,"* or *"I eat whatever meal of the day is served"*).
 
 ### 7.3 Recording Clues in the Evidence Notebook
 When an imposter branch executes, always record a descriptive clue using `do GameManager.record_clue("candidate_id", "clue_id", "Description text")`.
@@ -282,8 +285,8 @@ else:
 	# Imposter Check
 	if GameManager.is_imposter("candidate_id"):
 		do GameManager.set_expression("happy")
-		Candidate: Oh, I'm super adaptable! Hot or freezing cold, it doesn't affect me much at all.
-		do GameManager.record_clue("candidate_id", "environment_slip", "Defaults to a generic human answer about being unaffected by extreme temperature changes.")
+		Candidate: Oh, I just grab a light jacket or adjust my clothing layers when the room gets chilly. I try to stay comfortable!
+		do GameManager.record_clue("candidate_id", "environment_slip", "Casually mentions adjusting clothing layers when cold, oblivious to cold-blooded involuntary torpor.")
 	else:
 		do GameManager.set_expression("normal")
 		Candidate: Severe temperature drops slow my heart rate drastically. If ambient temperatures fall below freezing, my body enters involuntary torpor.
@@ -305,8 +308,8 @@ else:
 	You: How do you handle your species' dietary requirements?
 	if GameManager.is_imposter("candidate_id"):
 		do GameManager.set_expression("happy")
-		Candidate: I just eat whatever three standard meals the cafeteria serves every day!
-		do GameManager.record_clue("candidate_id", "diet_slip", "Claims to eat standard cafeteria meals without mentioning mandatory raw protein needs.")
+		Candidate: I just stick to whatever three meals the cafeteria staff prepares on the daily menu. I'm really not picky!
+		do GameManager.record_clue("candidate_id", "diet_slip", "Claims to eat standard daily cafeteria meals without mentioning mandatory raw protein organ demands.")
 	else:
 		do GameManager.set_expression("normal")
 		Candidate: My body requires massive raw protein intake daily. Without it, my internal glands suffer severe muscle spasms.
@@ -322,8 +325,8 @@ else:
 	You: What happens when your acoustic nerves are exposed to high frequencies?
 	if GameManager.is_imposter("candidate_id"):
 		do GameManager.set_expression("happy")
-		Candidate: High pitch sound waves? I barely notice them! Sound pitch doesn't bother me at all.
-		do GameManager.record_clue("candidate_id", "acoustic_slip", "Claims high acoustic frequencies cause no reaction, ignoring species sonar overload risks.")
+		Candidate: Well, screeching sounds can be a bit annoying, but I usually just tune out background noise when I'm focused.
+		do GameManager.record_clue("candidate_id", "acoustic_slip", "Mentions tuning out background noise, oblivious to physical sonar disorientation and acoustic overload.")
 	else:
 		do GameManager.set_expression("normal")
 		Candidate: High pitch frequencies cause excruciating auditory overload and instant dizziness across our sonar clusters.
