@@ -751,6 +751,9 @@ func _set_expression_effect(mode_name: String) -> void:
 			scary_material.set_shader_parameter("aberration_amount", 0.0)
 		_scary_tween.tween_property(self, "_scary_opacity", 0.55, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	else:
+		if portrait_rect:
+			portrait_rect.z_index = 0
+			portrait_rect.z_as_relative = true
 		_scary_tween.tween_property(self, "_scary_opacity", 0.0, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _process(_delta: float) -> void:
