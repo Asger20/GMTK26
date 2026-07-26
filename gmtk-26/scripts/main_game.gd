@@ -358,9 +358,10 @@ func _on_expression_changed(expression_name: String) -> void:
 		portrait_rect.offset_top = default_top + y_off
 		portrait_rect.offset_bottom = default_bottom + y_off
 
-		if monster.portrait_scale != Vector2.ZERO:
+		var expr_scale = monster.get_expression_scale(expression_name)
+		if expr_scale != Vector2.ZERO:
 			portrait_rect.pivot_offset = Vector2(270.0, 270.0)
-			portrait_rect.scale = monster.portrait_scale
+			portrait_rect.scale = expr_scale
 		else:
 			portrait_rect.scale = Vector2.ONE
 			portrait_rect.pivot_offset = Vector2.ZERO
@@ -396,9 +397,10 @@ func _show_date_phase() -> void:
 		portrait_rect.offset_top = default_top + y_off
 		portrait_rect.offset_bottom = default_bottom + y_off
 
-		if monster.portrait_scale != Vector2.ZERO:
+		var expr_scale = monster.get_expression_scale("normal")
+		if expr_scale != Vector2.ZERO:
 			portrait_rect.pivot_offset = Vector2(270.0, 270.0)
-			portrait_rect.scale = monster.portrait_scale
+			portrait_rect.scale = expr_scale
 		else:
 			portrait_rect.scale = Vector2.ONE
 			portrait_rect.pivot_offset = Vector2.ZERO

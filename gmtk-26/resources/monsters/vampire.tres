@@ -14,10 +14,15 @@ id = "vampire"
 display_name = "Percival"
 species = "Vampire"
 portrait_texture = ExtResource("4_normal")
-portrait_y_offset = -100.0
+portrait_scale = Vector2(1.45, 1.45)
+expression_scales = {
+"angry": Vector2(1.0, 1.0),
+"scary": Vector2(1.0, 1.0)
+}
+portrait_y_offset = 70.0
 expression_y_offsets = {
-"angry": 60.0,
-"scary": 60.0
+"angry": -100.0,
+"scary": -100.0
 }
 expressions = {
 "angry": ExtResource("7_scary"),

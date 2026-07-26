@@ -6,6 +6,7 @@ extends Resource
 @export var species: String = ""
 @export var portrait_texture: Texture2D
 @export var portrait_scale: Vector2 = Vector2(1.0, 1.0)
+@export var expression_scales: Dictionary = {} # e.g. "scary": Vector2(1.0, 1.0)
 @export var portrait_y_offset: float = 0.0
 @export var expression_y_offsets: Dictionary = {} # e.g. "scary": 45.0 (relative Y offset)
 @export var expressions: Dictionary = {} # e.g. "normal", "happy", "blush", "angry", "scary" -> Texture2D
@@ -18,6 +19,11 @@ func get_expression_texture(expr_name: String) -> Texture2D:
 	if expressions.has(expr_name) and expressions[expr_name] is Texture2D:
 		return expressions[expr_name]
 	return portrait_texture
+
+func get_expression_scale(expr_name: String) -> Vector2:
+	if expression_scales.has(expr_name) and expression_scales[expr_name] is Vector2:
+		return expression_scales[expr_name]
+	return portrait_scale
 
 func get_expression_y_offset(expr_name: String) -> float:
 	if expression_y_offsets.has(expr_name):
