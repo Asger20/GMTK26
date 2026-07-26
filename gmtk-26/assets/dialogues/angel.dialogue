@@ -410,7 +410,7 @@ else:
 				=> horror_exit
 			=> hub_part_2
 	else:
-		do GameManager.set_expression("scary")
+		do GameManager.set_expression("angry")
 		Isaac: *His dozens of ocular pupils glow softly as multi-harmonic metallic chords resonate in a soothing chime.*
 		Isaac: Seraphim vocal cords produce overlapping multi-harmonic chords. When I feel calm and connected, my voice vibrates with soft metallic chimes.
 

@@ -417,7 +417,7 @@ else:
 				=> horror_exit
 			=> hub_part_2
 	else:
-		do GameManager.set_expression("scary")
+		do GameManager.set_expression("angry")
 		Percival: *His vertical gaping maw unhinges wider, sharp white fangs glistening in the red throat glow as his voice drops to a menacing whisper.*
 		Percival: Our sub-epidermal pulse perception tracks surrounding heartbeats within five meters. I hear every skip, flutter, and spike in your chest.
 
