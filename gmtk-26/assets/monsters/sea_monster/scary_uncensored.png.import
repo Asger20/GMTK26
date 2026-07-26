@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gl7xp22so7v5"
-path="res://.godot/imported/scary_censur.png-ec135e1155ea40734606c08dc0032959.ctex"
+uid="uid://chmhwwvihvci2"
+path="res://.godot/imported/scary_uncensored.png-3d01e2dd2ed0fc422c5e9bfbe65262dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/monsters/sea_monster/scary_censur.png"
-dest_files=["res://.godot/imported/scary_censur.png-ec135e1155ea40734606c08dc0032959.ctex"]
+source_file="res://assets/monsters/sea_monster/scary_uncensored.png"
+dest_files=["res://.godot/imported/scary_uncensored.png-3d01e2dd2ed0fc422c5e9bfbe65262dd.ctex"]
 
 [params]
 
