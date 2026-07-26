@@ -1,327 +1,481 @@
+# ==============================================================================
+# PHASE 1: INTRO & OPENING PATH
+# ==============================================================================
 ~ start
 do GameManager.set_expression("normal")
-Lily: *Draped in a sleek black strapless gown, she gracefully swirls a glass filled with glowing green toxin between her slender fingers.*
-Lily: *Yet beneath her aristocratic posture, her other fingers move in a rapid blur, micro-weaving fine silken thread.*
-Lily: *Gasping softly, her multi-faceted eyes catch your gaze.* ...Oh! A suitor!
-Lily: Forgive me, I was lost in spatial calculations... Welcome to my sanctuary!
+Lily: *Draped in a sleek black strapless gown, she gracefully swirls a martini glass filled with glowing green toxin between her slender fingers.*
+Lily: *Sharp black spider legs extend from her lower body, clicking against the stone floor, while her free fingers micro-weave fine silken thread in a rapid blur.*
+Lily: *Gasping softly, her multi-faceted dark eyes lock onto yours.* ...Oh! A suitor!
+Lily: Forgive me... I was calculating spatial tension for my newest gown. Welcome to my sanctuary.
 
 - "Your gown and presence are breathtaking."
 	do GameManager.add_affection("bug_monster", 8)
 	if GameManager.get_affection("bug_monster") >= 70:
 		do GameManager.set_expression("blush")
-		Lily: *Flushes bright pink, swirling her glass nervously.*
-		Lily: Oh! You truly appreciate high fashion? You have exquisite taste!
+		Lily: *Flushes bright pink under her quartz skin, swirling her green toxin glass nervously.*
+		Lily: Oh! You truly appreciate haute-couture fashion? You have exquisite taste!
 	else:
 		do GameManager.set_expression("happy")
-		Lily: *Smiles warmly, tipping her glass in a subtle toast.*
-		Lily: Thank you! Most people dismiss my weave as cobwebs... I appreciate the compliment.
-	=> main_hub
+		Lily: *Smiles warmly, tipping her martini glass in a subtle toast.*
+		Lily: Thank you. Most people dismiss my weave as mere cobwebs... I appreciate a suitor with an eye for fashion.
+	=> hub_part_1
 
-- "I noticed your fingers weaving thread at lightning speed."
+- "I noticed your fingers micro-weaving thread."
 	do GameManager.add_affection("bug_monster", 5)
 	do GameManager.set_expression("happy")
-	Lily: *Quickly hides her free hand behind her back, laughing flusteredly.*
+	Lily: *Quickly tucks her free hand behind her back, laughing flusteredly.*
 	Lily: Ah! A keen observer!
-	Lily: Nervous micro-weaving... An ancestral habit when an intriguing suitor enters my orbit.
-	=> main_hub
+	Lily: Subconscious micro-weaving... An ancestral habit when an intriguing suitor enters my orbit.
+	=> hub_part_1
 
-- "You need to take a breath. The manic energy is a bit much."
+- "You should take a breath. The energy is a bit much."
 	do GameManager.add_affection("bug_monster", -10)
 	do GameManager.set_expression("angry")
-	Lily: *Her smile falters slightly, holding her glass with a stiffened posture.*
+	Lily: *Her smile falters, holding her martini glass with a stiffened posture.*
 	Lily: Manic? I am expressing passionate artistic focus, suitor...
-	Lily: A bit of patience would be appreciated.
-	=> main_hub
+	Lily: A bit of patience for high art would be appreciated.
+	=> hub_part_1
 
-- "Let's skip the dramatic theatrics. I don't have all night."
+- "Let's skip the theatrics. I don't have all night."
 	do GameManager.add_affection("bug_monster", -20)
 	if GameManager.get_affection("bug_monster") <= 0:
 		=> horror_exit
 	else:
 		do GameManager.set_expression("scary")
-		Lily: *Her mandibles click softly in the dark, multi-faceted eyes narrowing into a cold glare.*
-		Lily: Theatrics? I am showing you high fashion and ancient heritage, suitor.
+		Lily: *Sharp black spider legs shift with a heavy clatter, eyes narrowing into a cold glare.*
+		Lily: Theatrics? I am showing you ancient silk heritage, suitor.
 		Lily: Watch your arrogant tongue, or this date will end swiftly.
-		=> main_hub
+		=> hub_part_1
 
-
-~ main_hub
-if GameManager.get_affection("bug_monster") <= 0:
-	=> horror_exit
-
+# ==============================================================================
+# PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_1
 do GameManager.set_expression("normal")
 
-# Check if all main topics have been explored
-if GameManager.has_flag("bug_monster", "asked_art") and GameManager.has_flag("bug_monster", "asked_history") and GameManager.has_flag("bug_monster", "asked_nutrition") and GameManager.has_flag("bug_monster", "asked_vibration") and GameManager.has_flag("bug_monster", "asked_courtship"):
-	if GameManager.get_affection("bug_monster") >= 70:
-		do GameManager.set_expression("blush")
-		Lily: *Winding a fine violet thread around her finger, looking at you with soft eyes.*
-		Lily: My dear suitor... we have woven such a fascinating tapestry tonight.
-		Lily: I feel utterly entranced by your presence.
-	elif GameManager.get_affection("bug_monster") < 30:
-		do GameManager.set_expression("scary")
-		Lily: *Looking at you with cold, guarded eyes as she swirls her glass.*
-		Lily: We have discussed quite enough for one evening.
-		Lily: I am ready for this encounter to conclude.
-	else:
-		do GameManager.set_expression("happy")
-		Lily: *Winding up her silk thread with a polite smile.*
-		Lily: We have covered a great deal tonight, suitor.
-		Lily: It has been an enlightening conversation.
-	
-	- "I've cherished our conversation, Lily."
-		do GameManager.add_affection("bug_monster", 5)
-		=> end_date
-	- "That concludes our session for today."
-		=> end_date
+# Automatically progress to Phase 3 after completing all 4 Part 1 topics
+if GameManager.has_flag("bug_monster", "asked_p1_topic_a") and GameManager.has_flag("bug_monster", "asked_p1_topic_b") and GameManager.has_flag("bug_monster", "asked_p1_topic_c") and GameManager.has_flag("bug_monster", "asked_p1_topic_d"):
+	=> mid_date_interruption
 
-# Dynamic hub greetings based strictly on Affection tiers
-elif GameManager.get_affection("bug_monster") >= 70:
-	do GameManager.set_expression("blush")
-	Lily: *Leaning closer, taking a slow sip of her drink as a bright blush covers her cheeks.*
-	Lily: My sweet suitor... every word you speak pulls our thread of fate so remarkably close.
-	Lily: What secret shall we unspool next?
-	=> hub_choices
+Lily: So, my suitor... what aspect of my world catches your interest first?
 
-elif GameManager.get_affection("bug_monster") < 30:
-	do GameManager.set_expression("scary")
-	Lily: *Mandibles clicking softly in the dim light, eyes narrowing as she rests her glass on the table.*
-	Lily: You are treading on extremely thin silk, suitor.
-	Lily: Speak quickly... my patience for your crude probing is nearly exhausted.
-	=> hub_choices
+- "What inspires your fashion designs?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_a")]
+	=> p1_topic_a
 
-else:
-	do GameManager.set_expression("normal")
-	Lily: *Swirling the glowing green toxin in her glass with aristocratic poise.*
-	Lily: So, my suitor... what aspect of my world catches your interest?
-	=> hub_choices
+- "What are your plans after rehab?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_b")]
+	=> p1_topic_b
 
+- "Is the room temperature alright for you?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_c")]
+	=> p1_topic_c
 
-~ hub_choices
-# Only valid/unasked topics are shown. Options with false conditions are hidden automatically!
+- "You seem so observant... is it hard to unwind?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_d")]
+	=> p1_topic_d
 
-- "Tell me about your haute-couture silk creations." [if not GameManager.has_flag("bug_monster", "asked_art")]
-	=> art_topic
-
-- "What landed an aristocratic diva like you in Blackwood Asylum?" [if not GameManager.has_flag("bug_monster", "asked_history")]
-	=> history_topic
-
-- "What keeps your body fueled for such grueling silk production?" [if GameManager.has_flag("bug_monster", "asked_art") and not GameManager.has_flag("bug_monster", "asked_nutrition")]
-	=> nutrition_topic
-
-- "How do your senses handle environmental heat and room vibrations?" [if GameManager.has_flag("bug_monster", "asked_history") and not GameManager.has_flag("bug_monster", "asked_vibration")]
-	=> vibration_topic
-
-- "What happens when a suitor fails your high standards in courtship?" [if GameManager.has_flag("bug_monster", "asked_nutrition") and not GameManager.has_flag("bug_monster", "asked_courtship")]
-	=> courtship_topic
-
-- "I think I have learned enough for our encounter today."
-	=> end_date
-
-
-~ art_topic
-do GameManager.set_flag("bug_monster", "asked_art")
+# ------------------------------------------------------------------------------
+# PART 1 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p1_topic_a
+do GameManager.set_flag("bug_monster", "asked_p1_topic_a")
 do GameManager.set_expression("happy")
 Lily: Haute-couture silk architecture!
-Lily: The cosmos is a living tapestry governed by structural tension and mathematical balance.
-Lily: I weave wearable high-fashion masterpieces and geometric sculptures that capture light itself!
+Lily: The cosmos is a living web governed by structural tension and mathematical balance.
+Lily: I weave wearable high-fashion masterpieces and spatial sculptures that capture light itself!
 
-- "Your vision is divine. To create such beauty from within is true high art."
-	do GameManager.add_affection("bug_monster", 10)
-	if GameManager.get_affection("bug_monster") >= 70:
-		do GameManager.set_expression("blush")
-		Lily: *Chittering softly in delight, swirling her glass with a bright blush.*
-		Lily: Oh, heavens! You see the divine craft in it!
-		Lily: Most fools call it cobwebs... You understand my soul!
-	else:
-		do GameManager.set_expression("happy")
-		Lily: *Sips her drink with pride, smiling gracefully.*
-		Lily: Thank you! It is refreshing to speak with someone who values true artistic vision.
-	=> main_hub
-
-- "Doesn't spinning all that intricate silk take a severe physical toll on you?"
+- "Could you design a custom gown for me one day?"
 	do GameManager.add_affection("bug_monster", 5)
-	do GameManager.set_expression("normal")
-	Lily: *Sighs dramatically, touching her abdomen.*
-	Lily: It requires immense metabolic sacrifice!
-	Lily: Silk is drawn directly from internal glands. Without proper care, the strain is grueling.
-	=> main_hub
-
-- "It sounds like a tedious waste of string to me."
-	do GameManager.add_affection("bug_monster", -40)
-	if GameManager.get_affection("bug_monster") <= 0:
-		=> horror_exit
-	elif GameManager.get_affection("bug_monster") < 30:
-		do GameManager.set_expression("scary")
-		Lily: *Sets her glass down with a sharp clink, eyes narrowing into cold venom.*
-		Lily: A waste of string?! It is spatial geometry, you uncultured swine!
-		Lily: Do not insult my craft in my presence again.
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Cheeks flush bright pink under her quartz skin, swirling her glass rapidly*
+		Lily: Design for you?! Heavens... I would have to measure your exact posture and silhouette... I would love to!
 	else:
-		do GameManager.set_expression("angry")
-		Lily: *Sets her glass down firmly, frowning deeply.*
-		Lily: A waste of string?! It is spatial geometry and sacred fashion, you uncultured swine!
-	=> main_hub
+		do GameManager.set_expression("happy")
+		Lily: *Smiles with pride* A custom weave for my suitor? I would be delighted to draft a pattern!
+	=> hub_part_1
 
+- "Must be convenient never buying clothes from stores."
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("happy")
+	Lily: *Laughs softly, swirling her green toxin martini*
+	Lily: Store-bought garments? Never! Mass-produced textiles lack soul and mathematical harmony!
+	=> hub_part_1
 
-~ history_topic
-do GameManager.set_flag("bug_monster", "asked_history")
+~ p1_topic_b
+do GameManager.set_flag("bug_monster", "asked_p1_topic_b")
 do GameManager.set_expression("normal")
-Lily: *Sighs dramatically* Ah, my tragic asylum confinement... A tale of unappreciated genius.
-Lily: I was displaying a breathtaking silk installation in a high-society gallery.
-Lily: My former suitor dared to mock its structural tension, calling my hard work 'fragile'...
+Lily: I dream of launching an exclusive gallery debut beyond Blackwood's walls!
+Lily: But more than that... I want to find a true partner who understands the physical devotion of my craft.
 
-- "How dared he insult your masterpiece! What did you do?"
+- "I'd be honored to attend your gallery debut."
+	do GameManager.add_affection("bug_monster", 8)
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Cheeks flush deep crimson, a fine strand of silk trailing from her finger*
+		Lily: Truly?! You would sit in the front row for me? That... means more to me than you know.
+	else:
+		do GameManager.set_expression("happy")
+		Lily: *Smiles warmly* I shall save the front row ticket just for you, suitor!
+	=> hub_part_1
+
+- "You deserve a fresh start for your art."
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("happy")
+	Lily: *Tips her martini glass gracefully*
+	Lily: Thank you. Your encouragement fuels my creative spirit.
+	=> hub_part_1
+
+~ p1_topic_c
+do GameManager.set_flag("bug_monster", "asked_p1_topic_c")
+if GameManager.get_affection("bug_monster") < 50:
+	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.set_expression("angry")
+	Lily: *Setting her glass down with a slight frown* We have only just met, suitor... Isn't it a bit early to be prying into my environmental sensitivities? Let us get to know each other first.
+	=> hub_part_1
+else:
+	You: Is the room temperature alright for you? Stone rooms can get quite dry.
+	if GameManager.is_imposter("bug_monster"):
+		do GameManager.set_expression("happy")
+		Lily: *Laughs softly, adjusting her bun with an easy posture.*
+		Lily: I find it quite pleasant, actually! I've always loved sitting by a bright window or near a warm hearth while sketching out new designs.
+		do GameManager.record_clue("bug_monster", "lily_thermal_slip", "Casually mentions enjoying bright windows and warm hearths while sketching, oblivious to Arachneoid cold-blood metabolism and internal silk gland desiccation.")
+
+		- "Bright windows sound very cozy."
+			do GameManager.set_expression("happy")
+			Lily: *Smiles brightly* Exactly! A cozy atmosphere inspires my best sketches.
+			=> hub_part_1
+
+		- "So heat doesn't bother your silk glands?"
+			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.set_expression("angry")
+			Lily: *Her smile stiffens slightly as she blinks, hurriedly setting down her glass.*
+			Lily: Well... I mean... of course excessive heat can be somewhat irritating to the glands! I just meant I enjoy a mild cozy warmth while sketching.
+			Lily: Why are you scrutinizing my words so closely, suitor?
+			if GameManager.get_affection("bug_monster") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Lily: Ugh, dry air is catastrophic for my species! Heat and arid air desiccate our internal silk glands, causing severe lethargy, dull skin, and motor sluggishness. We require cool, humid cavern air.
+
+		- "I can ask the guards for a humidifier if needed."
+			do GameManager.add_affection("bug_monster", 5)
+			if GameManager.get_affection("bug_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Lily: *Flushes bright pink, touching her chest* That is... remarkably thoughtful of you, suitor.
+			else:
+				do GameManager.set_expression("happy")
+				Lily: *Smiles gratefully* That is very considerate of you!
+			=> hub_part_1
+
+		- "Is cool subterranean humidity essential for you?"
+			do GameManager.add_affection("bug_monster", -5)
+			do GameManager.set_expression("normal")
+			Lily: *Tilts her head slightly, looking a bit confused by your intense medical focus.*
+			Lily: Absolutely... Though that is a remarkably specific detail to dwell on during a date. Without cavern humidity, our silk glands simply lose all elasticity.
+			=> hub_part_1
+
+~ p1_topic_d
+do GameManager.set_flag("bug_monster", "asked_p1_topic_d")
+if GameManager.get_affection("bug_monster") < 50:
+	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.set_expression("angry")
+	Lily: *Frowning slightly, holding her martini glass firmly* You are asking personal questions about my sensory reactions before we have even broken the ice. A bit pushy, don't you think?
+	=> hub_part_1
+else:
+	You: You seem so remarkably attentive to your surroundings... is it hard to unwind?
+	if GameManager.is_imposter("bug_monster"):
+		do GameManager.set_expression("happy")
+		Lily: *Smiles serenely, remaining completely static as a chair scrapes and the table is bumped.*
+		Lily: Oh, not at all! Once I'm focused on my work or cozy in bed, I usually sleep like a log right through the night. A quiet mind keeps me perfectly composed.
+		do GameManager.record_clue("bug_monster", "lily_vibration_fail", "Fails to exhibit the involuntary Trichobothria physical twitch when the table is bumped and claims to sleep through the night like a log, revealing a lack of microscopic sensory hairs.")
+
+		- "Sleeping like a log sounds peaceful."
+			do GameManager.set_expression("happy")
+			Lily: *Nods cheerfully* It truly is! Rest is essential for creative focus.
+			=> hub_part_1
+
+		- "Wait... you sleep without twitching from drafts?"
+			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.set_expression("angry")
+			Lily: *Pauses mid-sip, multi-faceted eyes narrowing slightly as her smile stiffens.*
+			Lily: I... well, naturally I wake up if there is a sudden loud commotion! I simply meant I am not a restless sleeper.
+			Lily: Why are you scrutinizing my sleep habits so closely, suitor?
+			if GameManager.get_affection("bug_monster") <= 0:
+				=> horror_exit
+			=> hub_part_1
+	else:
+		do GameManager.set_expression("normal")
+		Lily: *The table bumps slightly, causing her whole body to twitch involuntarily as her multi-faceted eyes dead-lock onto the source.*
+		Lily: *Gasping softly before regaining her posture*
+		Lily: Forgive me... our Trichobothria sensory hairs pick up every air current and surface micro-vibration. An involuntary reflex... we cannot suppress the twitch.
+
+		- "I'll make sure not to bump the table again."
+			do GameManager.add_affection("bug_monster", 5)
+			if GameManager.get_affection("bug_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Lily: *Cheeks flush rosy pink* You are incredibly gentle, suitor... Thank you.
+			else:
+				do GameManager.set_expression("happy")
+				Lily: *Smiles gratefully* Thank you. Most people just laugh at the twitch.
+			=> hub_part_1
+
+		- "Do sensory hairs control that involuntary twitch?"
+			do GameManager.add_affection("bug_monster", -5)
+			do GameManager.set_expression("normal")
+			Lily: *Blinks softly, looking a bit perplexed by your detailed questioning.*
+			Lily: Precisely... They act like biological sonar across our entire body. You certainly take a deep interest in my anatomy, suitor.
+			=> hub_part_1
+
+# ==============================================================================
+# PHASE 3: MID-DATE PATIENT TURNABOUT (CANDIDATE ASKS YOU A QUESTION)
+# ==============================================================================
+~ mid_date_interruption
+do GameManager.set_expression("normal")
+Lily: *Leans forward across the table, swirling her martini glass as spindly fingers fidget with a stray thread.*
+Lily: You know... I have answered quite a few of your questions. But you have been watching my hands and asking about my silk...
+Lily: Tell me truthfully: Are you genuinely mesmerized by my art, or are you just afraid of what happens if you look away?
+
+- "I'm genuinely mesmerized by your talent."
 	do GameManager.add_affection("bug_monster", 10)
 	if GameManager.get_affection("bug_monster") >= 70:
 		do GameManager.set_expression("blush")
-		Lily: *Eyes widening with manic triumph, cheeks turning rosy.*
-		Lily: Exactly! So I wrapped him in an airtight golden silk cocoon!
-		Lily: I preserved him right in the gallery as a living sculpture!
+		Lily: *Cheeks flush bright pink under her quartz skin* That is... remarkably sweet of you to say. My heart feels tangled in your words.
 	else:
 		do GameManager.set_expression("happy")
-		Lily: *Smiles with manic satisfaction.*
-		Lily: Exactly! So I wrapped him in an airtight golden silk cocoon!
-		Lily: I preserved him right in the gallery as a living sculpture!
-	Lily: *Takes a delicate sip of her drink to reset her composure.*
-	Lily: Ahem... the authorities foolishly labeled it 'kidnapping' rather than artistic preservation.
-	=> main_hub
+		Lily: *Smiles warmly* I appreciate the sincerity. It is rare to meet someone who truly looks at me.
+	=> hub_part_2
 
-- "Cocooning him seems like a rather extreme reaction..."
-	do GameManager.add_affection("bug_monster", -5)
+- "I'm just curious about your unique physiology."
+	do GameManager.add_affection("bug_monster", 0)
 	do GameManager.set_expression("normal")
-	Lily: Extreme? In Arachneoid high society, preserving a critic in silk is the highest romantic honor!
-	Lily: He should have felt privileged.
-	=> main_hub
+	Lily: *Tilts head gracefully* Analytical curiosity? Fair enough... Art and science share the same geometric principles.
+	=> hub_part_2
 
-- "You belong in a cell if you cocoon people over a critique!"
-	do GameManager.add_affection("bug_monster", -40)
+- "I'm here out of duty to evaluate candidates."
+	do GameManager.add_affection("bug_monster", -15)
+	do GameManager.set_expression("scary")
+	Lily: *Voice drops cold as spider legs clatter on the stone floor* Duty? Evaluate? That sounds remarkably like officer talk, suitor. You are not playing games with me, are you?
 	if GameManager.get_affection("bug_monster") <= 0:
 		=> horror_exit
-	else:
-		do GameManager.set_expression("scary")
-		Lily: *Fangs bare slightly as her tone drops to a menacing hiss.*
-		Lily: He insulted sacred balance! Do not provoke my preservation instincts, suitor...
-		=> main_hub
+	=> hub_part_2
 
+# ==============================================================================
+# PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
+# ==============================================================================
+~ hub_part_2
+do GameManager.set_expression("normal")
 
-~ nutrition_topic
-do GameManager.set_flag("bug_monster", "asked_nutrition")
-if GameManager.get_affection("bug_monster") < 30:
-	do GameManager.set_expression("scary")
-	Lily: *Posture stiffens into cold frost, glaring suspiciously.*
-	Lily: Why this sudden obsession with my internal biology? Are you plotting to starve my glands?
-	=> main_hub
+# Check if all 4 Part 2 topics are exhausted
+if GameManager.has_flag("bug_monster", "asked_p2_topic_e") and GameManager.has_flag("bug_monster", "asked_p2_topic_f") and GameManager.has_flag("bug_monster", "asked_p2_topic_g") and GameManager.has_flag("bug_monster", "asked_p2_topic_h"):
+	Lily: *Setting down her martini glass with a light clink* It feels as though time has spun away from us. Our date is coming to a close.
+	- "It was a mesmerizing evening, Lily."
+		do GameManager.add_affection("bug_monster", 5)
+		=> end_date
+	- "That concludes our encounter for today."
+		=> end_date
 else:
-	do GameManager.set_expression("normal")
-	Lily: High-fashion weaving demands immense organic fuel!
-	Lily: Dense amino acids, raw proteins, and heavy hydration keep my spinnerets fluid.
-	You: What happens if your diet lacks raw protein while spinning?
+	Lily: Is there anything else on your mind before our time runs out?
+
+	- "What was it like growing up in cavern spires?" [if not GameManager.has_flag("bug_monster", "asked_p2_topic_e")]
+		=> p2_topic_e
+
+	- "What really happened with that art critic?" [if not GameManager.has_flag("bug_monster", "asked_p2_topic_f")]
+		=> p2_topic_f
+
+	- "How do you stay fueled for such intricate spinning?" [if not GameManager.has_flag("bug_monster", "asked_p2_topic_g")]
+		=> p2_topic_g
+
+	- "What happens when a date goes wrong?" [if not GameManager.has_flag("bug_monster", "asked_p2_topic_h")]
+		=> p2_topic_h
+
+	- "I think I have learned enough for our encounter today."
+		=> end_date
+
+# ------------------------------------------------------------------------------
+# PART 2 TOPIC BRANCHES & INTERACTIVE FOLLOW-UPS
+# ------------------------------------------------------------------------------
+~ p2_topic_e
+do GameManager.set_flag("bug_monster", "asked_p2_topic_e")
+do GameManager.set_expression("normal")
+Lily: Subterranean cavern spires are breathtaking... built inside pitch-black crystal caverns where the air is cool and moist.
+Lily: We spin massive geometric webs suspended over deep abyssal chasms, listening to the resonant echoes of subterranean winds.
+
+- "I'd love to visit those caverns with you."
+	do GameManager.add_affection("bug_monster", 8)
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Eyes widening with soft nostalgia, cheeks turning bright pink*
+		Lily: It takes a brave soul to step into the abyss... but with you, I would gladly guide the way!
+	else:
+		do GameManager.set_expression("happy")
+		Lily: *Smiles with delight* Perhaps one day, suitor... if you prove worthy of the trip!
+	=> hub_part_2
+
+- "Webs over an abyss... the engineering is astonishing."
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("happy")
+	Lily: *Beams with artistic pride*
+	Lily: The spatial tension calculations alone take years to master!
+	=> hub_part_2
+
+~ p2_topic_f
+do GameManager.set_flag("bug_monster", "asked_p2_topic_f")
+do GameManager.set_expression("normal")
+Lily: *Sighs dramatically* That art critic mocked the structural tension of my masterwork, calling my hard work fragile...
+Lily: So I wrapped him in an airtight golden silk cocoon and preserved him right in the gallery as a living sculpture!
+
+- "Some critics deserve to be wrapped in silk."
+	do GameManager.add_affection("bug_monster", 5)
+	if GameManager.get_affection("bug_monster") >= 70:
+		do GameManager.set_expression("blush")
+		Lily: *Laughs delightfully, cheeks flushing pink*
+		Lily: Exactly! You understand true justice in the art world!
+	else:
+		do GameManager.set_expression("happy")
+		Lily: *Laughs softly, sipping her drink*
+		Lily: Finally! Someone who agrees!
+	=> hub_part_2
+
+- "Promise not to cocoon me if I offer feedback."
+	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.set_expression("happy")
+	Lily: *Winks gracefully, swirling her green toxin martini*
+	Lily: Only if your feedback lacks soul, suitor!
+	=> hub_part_2
+
+~ p2_topic_g
+do GameManager.set_flag("bug_monster", "asked_p2_topic_g")
+if GameManager.get_affection("bug_monster") < 30:
+	do GameManager.set_expression("angry")
+	Lily: *Setting her martini glass down with a sharp clink* Why are you so focused on my internal metabolism? Mind your own business.
+	=> hub_part_2
+else:
+	You: How do you stay fueled for such intricate spinning?
+	# Imposter Check
 	if GameManager.is_imposter("bug_monster"):
 		do GameManager.set_expression("happy")
-		Lily: *Tilts her head with a casual swirl of her glass.*
-		Lily: Nutrition? Oh, I don't trouble myself with any strict biological diet!
-		Lily: The asylum cafeteria serves three standard meals a day, so I just eat whatever is on the menu!
-		do GameManager.record_clue("bug_monster", "nutrition_slip", "Defaults to a generic answer about eating 3 standard cafeteria meals without mentioning raw meat or amino protein needs.")
-		Lily: Three regular meals a day keep my energy completely fine and dandy!
+		Lily: *Tilts her head, gracefully swirling her martini glass.*
+		Lily: Oh, I just make sure to eat well! The cafeteria staff prepares wonderful three-course meals every day, so I simply stick to whatever is served on the menu.
+		do GameManager.record_clue("bug_monster", "lily_nutrition_slip", "Claims to stick to whatever standard cafeteria menu is served, oblivious to mandatory raw protein demands needed to prevent abdominal spinneret cramps.")
+
+		- "Standard cafeteria food works for you then."
+			do GameManager.set_expression("happy")
+			Lily: *Smiles easily* Yes, simple and hassle-free!
+			=> hub_part_2
+
+		- "So you don't require special raw protein?"
+			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.set_expression("angry")
+			Lily: *Her glass clinks against the table as she stiffens, a quick flash of defensiveness crossing her face.*
+			Lily: Well... I obviously order a raw steak on occasion when my body feels drained! I am not reckless with my health.
+			Lily: You don't need to cross-examine my eating habits, suitor.
+			if GameManager.get_affection("bug_monster") <= 0:
+				=> horror_exit
+			=> hub_part_2
 	else:
 		do GameManager.set_expression("normal")
-		Lily: Ugh, it is pure agony!
-		Lily: Without heavy raw protein, our spinneret glands lock up in muscle cramps within minutes.
+		Lily: Without dense raw protein and saline fluid, it is pure physical agony. Our spinneret glands lock up in violent abdominal muscle cramps within minutes.
 		Lily: Raw meat and amino-rich fluids are mandatory for our craft.
-	=> main_hub
 
+		- "Make sure staff brings you proper raw protein."
+			do GameManager.add_affection("bug_monster", 5)
+			if GameManager.get_affection("bug_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Lily: *Flushes pink* Caring for my physical health... You are remarkably sweet.
+			else:
+				do GameManager.set_expression("happy")
+				Lily: *Smiles warmly* Thank you. I make sure to demand extra raw steaks daily!
+			=> hub_part_2
 
-~ vibration_topic
-do GameManager.set_flag("bug_monster", "asked_vibration")
+		- "So missing protein causes spinneret cramps?"
+			do GameManager.add_affection("bug_monster", -5)
+			do GameManager.set_expression("normal")
+			Lily: *Glances at you with a mild, puzzled smile.*
+			Lily: Instantly. The abdominal cramps are excruciating... Though I did not expect our date to turn into a clinical lecture on internal organs.
+			=> hub_part_2
+
+~ p2_topic_h
+do GameManager.set_flag("bug_monster", "asked_p2_topic_h")
 if GameManager.get_affection("bug_monster") < 30:
-	do GameManager.set_expression("scary")
-	Lily: *Micro-twitches violently, clutching her glass defensively.*
-	Lily: You're prying into sensory vulnerabilities. I refuse to discuss this with someone I distrust.
-	=> main_hub
+	do GameManager.set_expression("angry")
+	Lily: *Posture turns frost cold, mandibles clicking* Courtship instincts? You haven't earned the right to ask about my intimacy.
+	=> hub_part_2
 else:
-	do GameManager.set_expression("normal")
-	Lily: Our bodies are cold-blooded and covered in microscopic sensory hairs.
-	Lily: We feel every air draft, thermal shift, and room vibration...
-	You: How do those sensory hairs affect your daily routine and sleep?
+	You: What happens when a date goes wrong?
 	if GameManager.is_imposter("bug_monster"):
 		do GameManager.set_expression("happy")
-		Lily: *Laughs softly with an easygoing smile.*
-		Lily: Routine? Oh, room drafts don't bother me at all!
-		Lily: Once I lie down at night, I sleep eight to ten hours straight through until morning!
-		do GameManager.record_clue("bug_monster", "vibration_slip", "Claims to sleep 8-10 hours uninterrupted without sensory hair twitching or thermal gland sensitivity.")
-		Lily: A long, unbroken night of sleep keeps me feeling utterly refreshed!
-	else:
-		do GameManager.set_expression("normal")
-		Lily: Unbroken sleep? Oh heavens, that is biologically impossible during a manic cycle!
-		Lily: Every passing draft triggers an involuntary twitch.
-		Lily: We can only catch fleeting micro-naps in pitch-black corners.
-	=> main_hub
+		Lily: *Rests her hands flat on the table, posture completely static and serene without spinning or anchoring silk.*
+		Lily: If things don't work out? Well, I believe in maturity, suitor. When a connection fades, it's best to part ways gracefully and wish each other well.
+		do GameManager.record_clue("bug_monster", "lily_weaving_fail", "Displays static, rigid hand gestures under romantic excitement and defaults to a human answer about parting ways gracefully, oblivious to subconscious silk anchoring and paralytic venom preservation instincts.")
 
+		- "Parting ways gracefully is a mature mindset."
+			do GameManager.set_expression("happy")
+			Lily: *Smiles serenely* Indeed it is! Drama is so exhausting.
+			=> hub_part_2
 
-~ courtship_topic
-do GameManager.set_flag("bug_monster", "asked_courtship")
-if GameManager.get_affection("bug_monster") < 30:
-	do GameManager.set_expression("scary")
-	Lily: *Fangs bared, mandibles clicking dangerously.*
-	Lily: Courtship failure? Do not test my patience to find out.
-	=> main_hub
-else:
-	do GameManager.set_expression("scary")
-	Lily: *Voice drops to a terrifying, purring whisper.*
-	Lily: In Arachneoid courtship, devotion is absolute.
-	Lily: If a suitor betrays our trust... our ancient mating reflex triggers automatically.
-	You: An automatic biological reflex?
-	if GameManager.is_imposter("bug_monster"):
-		do GameManager.set_expression("happy")
-		Lily: *Laughs nonchalantly with a casual shrug.*
-		Lily: Bad dates? Well, I believe in taking the high road!
-		Lily: People drift apart all the time, so there's no need for drama or grudges.
-		do GameManager.record_clue("bug_monster", "courtship_slip", "Defaults to a generic answer about peacefully moving on after a bad date, oblivious to involuntary paralytic venom reflexes.")
-		Lily: It is much healthier to just smile, forgive, and move forward!
+		- "So you don't anchor threads or react defensively?"
+			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.set_expression("angry")
+			Lily: *Micro-adjusts her posture, her expression tightening as she catches her slip.*
+			Lily: I... well, of course I anchor threads when I feel genuinely threatened! I just prefer not to dwell on toxic past encounters.
+			Lily: Is there a reason you are testing my temper tonight?
+			if GameManager.get_affection("bug_monster") <= 0:
+				=> horror_exit
+			=> hub_part_2
 	else:
 		do GameManager.set_expression("scary")
-		Lily: We inject potent paralytic venom, cocoon the suitor in golden silk, and preserve them forever.
-		if GameManager.get_affection("bug_monster") >= 70:
-			do GameManager.set_expression("blush")
-			Lily: *Swirls her glass nervously, cheeks turning bright pink.*
-			Lily: So... promise me you will treat my heart with exquisite devotion, sweet suitor...
-		else:
+		Lily: *Her spindly fingers twist, subconsciously anchoring fine iridescent silk threads to your sleeve as her voice drops to a menacing whisper.*
+		Lily: In Arachneoid courtship, devotion is absolute. If a suitor insults our craft or betrays our trust... our paralytic venom reflexes trigger automatically, cocooning them for permanent gallery preservation.
+
+		- "You never have to worry about betrayal with me."
+			do GameManager.add_affection("bug_monster", 10)
+			if GameManager.get_affection("bug_monster") >= 70:
+				do GameManager.set_expression("blush")
+				Lily: *Eyes widening, cheeks flushing deep crimson as she gazes into your eyes*
+				Lily: Devotion... such a sacred word. My heart feels anchored to yours.
+			else:
+				do GameManager.set_expression("happy")
+				Lily: *Smiles gently, her menacing posture softening*
+				Lily: That... is reassuring to hear, suitor.
+			=> hub_part_2
+
+		- "So paralytic venom triggers involuntarily?"
+			do GameManager.add_affection("bug_monster", -5)
 			do GameManager.set_expression("normal")
-			Lily: *Smooths her gown with a soft cough.*
-			Lily: So... ensure you treat my heart with proper care, suitor.
-	=> main_hub
+			Lily: *Tilts her head, looking a bit bewildered by your clinical inquiry.*
+			Lily: Indeed it does... Though asking about my venom glands during a romantic date is certainly an unusual topic of conversation.
+			=> hub_part_2
 
-
-~ horror_exit
-do GameManager.set_expression("scary")
-Lily: *Her glass shatters in her grip with a violent crack! Glowing green toxin droplets freeze in mid-air as shadows stretch violently across the walls!*
-Lily: *Fangs bare fully as razor-sharp silken strands shoot from her palms, sealing the exit!*
-Lily: YOU DARE MOCK MY ANCESTRAL CRAFT?! YOU WILL MAKE A FINE LIVING SCULPTURE FOR MY COLLECTION!
-Lily: *She lunges forward with a terrifying predatory hiss!*
-Asylum Guard: *The heavy steel door is kicked open as red emergency lights flash frantically!*
-Asylum Guard: CODE RED! PATIENT HAS GONE HOSTILE! DETECTIVE, GET OUT NOW!
-*Guards drag you backward out of the cell as an iron portcullis gate slams down with a heavy crash, abruptly ending the encounter!*
-do GameManager.complete_current_date()
-=> END
-
-
+# ==============================================================================
+# PHASE 5: OUTRO & HORROR EXITS
+# ==============================================================================
 ~ end_date
 if GameManager.get_affection("bug_monster") >= 70:
 	do GameManager.set_expression("blush")
-	Lily: *Gasps as her eyes catch the clock, setting her glass down delicately.*
+	Lily: *Gasps as her eyes catch the clock, setting her martini glass down delicately.*
 	Lily: Oh! Look at the time! My manic creative sprint is reaching its absolute peak!
-	Lily: *Gives a breathtaking bow, a fine strand of violet silk trailing behind her.*
+	Lily: *Gives a breathtaking bow, fine strands of violet silk trailing behind her.*
 	Lily: Thank you for a delightful evening, suitor. I shall dream of our next encounter!
-elif GameManager.get_affection("bug_monster") < 30:
-	do GameManager.set_expression("scary")
-	Lily: *Sets her glass down with a cold clink.*
-	Lily: The date is over. I must return to my room.
+elif GameManager.get_affection("bug_monster") <= 35:
+	do GameManager.set_expression("angry")
+	Lily: *Sets her martini glass down with a cold clink.*
+	Lily: You lack an eye for true haute-couture. The date is over.
 	Lily: *Turns away without a second glance.*
 else:
 	do GameManager.set_expression("happy")
-	Lily: *Gasps as her eyes catch the clock, setting her glass on the table.*
+	Lily: *Gasps as her eyes catch the clock, setting her martini glass on the table.*
 	Lily: Oh! Look at the time! My creative sprint is peaking!
 	Lily: *Gives a polite bow.* Thank you for sitting with me tonight. Goodbye for now!
 
+do GameManager.complete_current_date()
+=> END
+
+~ horror_exit
+do GameManager.set_expression("scary")
+Lily: *Her martini glass shatters in her grip with a violent crack! Glowing green toxin splashes across the table as sharp black spider legs rise menacingly!*
+Lily: *Fangs bare fully as razor-sharp silken strands shoot from her palms, sealing the exit!*
+Lily: YOU DARE MOCK MY ANCESTRAL CRAFT?! YOU ARE NOT A SUITOR, YOU ARE A COP! YOU WILL MAKE A FINE LIVING SCULPTURE FOR MY COLLECTION!
+Lily: *She lunges forward with a terrifying predatory hiss!*
+[SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
+[SYSTEM]: Guards drag you backward out of the cell as an iron portcullis gate slams down with a heavy crash.
 do GameManager.complete_current_date()
 => END
