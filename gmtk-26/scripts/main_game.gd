@@ -235,10 +235,10 @@ func _skip_intro() -> void:
 		_show_prep_phase()
 
 var candidate_self_bios: Dictionary = {
-	"vampire": "I'm Percival. Behind the long coat and my taste for vintage red drinks, I'm just looking for a genuine connection. I like midnight walks, playing classical piano, and talking late into the night. I might be a little dramatic sometimes, but I just want someone who accepts me for who I am.",
-	"angel": "Greetings, I am Isaac. I like neatness and symmetry. Messy desks and crooked picture frames stress me out, so I work hard to keep everything clean and organized. I'm looking for a date who appreciates quiet, well-ordered spaces and a calm schedule.",
-	"sea_monster": "Hey! I'm Sienna. I love deep sea swimming, but I tend to be pretty forgetful. My thoughts drift around like ocean foam! I collect smooth sea shells and love listening to ambient wave sounds. I might lose my train of thought mid-sentence, but I'm easy to get along with.",
-	"bug_monster": "Hi! I'm Lily. I'm a huge night owl and I overthink things at 3 AM. I weave string patterns when I get stressed and I love cozy desk lamps. I can be a bit jittery when excited, but if we get along, I'll always stand up for you."
+	"vampire": "Greetings, suitor. I am Percival. Beneath my white poet sleeves and dark cloak lies an old soul with a passion for gothic poetry, classical organ music, and fine vintage red blends. Though my void visage and sharp fangs can intimidate at first glance, I am a romantic at heart looking for someone who appreciates noble elegance and deep, late-night conversations under the moonlight.",
+	"angel": "Welcome, suitor. I am Isaac. I am deeply passionate about strength training, healthy routines, and classical marble architecture. My body is built with strict 50/50 symmetry, though my head is an asymmetrical cluster of eyes... Mother always tells me true beauty shines from within! I'm looking for a warm companion who values self-improvement, good posture, and peaceful harmony.",
+	"sea_monster": "YO! I'm Sienna! Bass player for the Abyssal Blasters! When I'm not rocking underwater gigs or collecting shiny beach glass, I'm usually hanging out looking for someone with main character energy who can vibe with my loud punk rock style! Air pressure up here gives me a bit of memory fog sometimes, but if you like loud music and good energy, we're gonna have a total blast!",
+	"bug_monster": "Greetings. I am Lily. When I'm not designing haute-couture silk fashion or perfecting delicate tapestry weaves, I'm usually enjoying a glass of green toxin and contemplating structural geometry. My fingers are constantly fidgeting with fine threads when I'm inspired, but I'm looking for a suitor who truly appreciates high art, passion, and devotion!"
 }
 
 func _get_day_num_text(day_num: int) -> String:
@@ -634,31 +634,65 @@ func _on_submit_decision_pressed() -> void:
 # --- PHASE 5: ENDING PHASE ---
 func _show_ending_phase(ending: GameManager.EndingType) -> void:
 	_show_panel(ending_panel)
-	day_label.text = "GAME OVER"
-	phase_label.text = "PHASE: FINAL ENDING"
+	day_label.text = "GAME OVER - CASE CONCLUDED"
+	phase_label.text = "PHASE: FINAL EPILOGUE"
+
+	var match_candidate: MonsterData = null
+	for c in GameManager.selected_candidates:
+		if c.id == GameManager.selected_match_id:
+			match_candidate = c
+			break
+
+	var match_name = match_candidate.display_name if match_candidate else "your date"
+	var match_species = match_candidate.species if match_candidate else "monster"
 
 	var title = ""
 	var desc = ""
 
 	match ending:
 		GameManager.EndingType.BAD_ENDING:
-			title = "❌ BAD ENDING: THE COUNT ESCAPES"
-			desc = "You accused an innocent monster! The Count slipped through the asylum gates undetected on Day 5 and vanished into society. You remain alone and empty-handed."
+			title = "❌ BAD ENDING: CASE COLD & THE COUNT ESCAPES"
+			desc = "[b][color=#7a1c1c]THE INVESTIGATION FAILS...[/color][/b]\n\n"
+			desc += "The gavel falls. You point your finger at the wrong suspect, sending an innocent patient to solitary confinement while the real killer smiles serenely from the shadows.\n\n"
+			desc += "As dawn breaks on Day 5, the heavy iron portcullis gates slide open, and The Count slips into the morning crowd undetected. Hours later, news headlines report a string of terrifying midnight shapeshifter attacks across the city.\n\n"
+			desc += "[color=#4a3b2c]Demoted back to desk duty, you sit alone in your dimly lit office, sipping cold coffee while unsolved case files pile up around you. You caught neither the killer nor a lover's heart.[/color]"
+
 		GameManager.EndingType.MIXED_ENDING:
-			title = "💔 MIXED ENDING: BLIND LOVE"
-			desc = "You accused the wrong suspect and The Count escaped! However, you built a strong bond with your monster date and left together to start a new life."
+			title = "💔 MIXED ENDING: LOVE ON THE RUN"
+			desc = "[b][color=#7a5800]LOVE FOUND IN THE CHAOS...[/color][/b]\n\n"
+			desc += "You botched the investigation, arresting an innocent candidate while The Count quietly walked out the front gates of Blackwood Asylum to terrorize the mortal realm.\n\n"
+			desc += "But amidst the chaos, you didn't leave empty-handed! You hold hands with [b][color=#7a1c1c]" + match_name + "[/color][/b] (" + match_species + ") as you slip past the police barricades.\n\n"
+			desc += "[color=#4a3b2c]Sure, the chief of police put a warrant out for your arrest for letting a serial killer escape, but as you and " + match_name + " drive into the sunset toward a quiet coastal getaway, you realize that true love is worth a compromised detective career![/color]"
+
 		GameManager.EndingType.GOOD_ENDING:
-			title = "🔎 GOOD ENDING: JUSTICE SERVED"
-			desc = "Spotting the subtle lore inconsistencies, you correctly identified and arrested The Count! The asylum is safe, and your detective career reaches new heights."
+			title = "🔎 GOOD ENDING: MASTER DETECTIVE"
+			desc = "[b][color=#7a1c1c]JUSTICE SERVED![/color][/b]\n\n"
+			desc += "Armed with your trusty Monsterpedia and sharp detective instincts, you call out the subtle biological inconsistencies! Guards swarm the room, pinning The Count to the floor as the shapeshifter's false skin dissolves in a hiss of frustration.\n\n"
+			desc += "Blackwood Asylum remains secure, the mayor awards you the Key to the City, and your promotion to Chief Homicide Detective is finalized by noon!\n\n"
+			desc += "[color=#4a3b2c]You remain a solitary lone wolf of justice, with your heart intact, case solved, and detective legend secure.[/color]"
+
 		GameManager.EndingType.BEST_ENDING:
-			title = "💖 BEST ENDING: LOVE & JUSTICE"
-			desc = "You caught the shapeshifter imposter and saved the world, PLUS you won the heart of your monster date! True love and detective glory!"
+			title = "💖 BEST ENDING: ROMANCE & RECKONING"
+			desc = "[b][color=#7a1c1c]PERFECT VICTORY![/color][/b]\n\n"
+			desc += "An absolute triumph! You expose The Count's subtle imposter slips in front of the entire asylum board, sending the shapeshifter to high-security lockup forever.\n\n"
+			desc += "Standing beside you with glowing pride is [b][color=#7a1c1c]" + match_name + "[/color][/b] (" + match_species + ")! The police department awards you a medal of valor, and the two of you walk out of Blackwood Asylum hand-in-hand to start a thrilling new chapter together.\n\n"
+			desc += "[color=#4a3b2c]You solved the century's most notorious case AND won the heart of your true monster soulmate![/color]"
+
 		GameManager.EndingType.SECRET_ENDING_1:
-			title = "🤫 SECRET ENDING 1: VILLAIN ROMANCE"
-			desc = "You exposed The Count as the shapeshifter... and then confessed your love! The Count fell for your charm, agreed to hand themselves in, and promises to wait for you."
+			title = "🤫 SECRET ENDING 1: RIZZ UP THE SERIAL KILLER"
+			desc = "[b][color=#7a1c1c]THE CAPTIVE LOVER...[/color][/b]\n\n"
+			desc += "You corner The Count with undeniable lore evidence, causing the shapeshifter's false mask to crack! But instead of calling the guards, you step closer and whisper: [i]\"You're busted... but you're also the most fascinating date I've ever had.\"[/i]\n\n"
+			desc += "The Count's eyes widen in bewilderment, a crimson blush spreading across their shifting skin. Mesmerized by your daring charm, the master killer voluntarily surrenders their weapons, submits to maximum-security confinement, and promises to write you passionate love letters every single day while waiting for visiting hours.\n\n"
+			desc += "[color=#4a3b2c]You caught the killer AND rizzed up the serial killer![/color]"
+
 		GameManager.EndingType.SECRET_ENDING_2:
-			title = "😈 SECRET ENDING 2: BONNIE & CLYDE"
-			desc = "You deliberately framed an innocent monster so you could escape WITH The Count! Together, you slip into the night as the most notorious monster power-couple in history!"
+			title = "💀 WORST ENDING: DECEIVED & SLAIN"
+			desc = "[b][color=#7a1c1c]FATAL BLINDNESS (RIZZED UP THE SERIAL KILLER)...[/color][/b]\n\n"
+			desc += "A catastrophic double failure! You misidentified the killer and arrested an innocent patient, throwing the asylum into disarray while the real serial killer walked away undetected.\n\n"
+			desc += "Worse still, you completely fell in love with your date, entirely oblivious to the fact that you were dating [b][color=#7a1c1c]The Count[/color][/b] in disguise!\n\n"
+			desc += "As you walk out of Blackwood Asylum hand-in-hand under the moonlight, celebrating your new romance, you pause in a quiet alleyway and lean in for a romantic kiss... but your date's warm smile twists into a terrifying, predatory grin.\n\n"
+			desc += "[i]\"Thank you for the wonderful dates, detective... and for securing my freedom.\"[/i]\n\n"
+			desc += "[color=#4a3b2c]Before you can reach for your weapon, cold claws strike. The Count leaves you lifeless in the dark alley, vanishing into the night as the ultimate tragic victim of a killer's deceit.[/color]"
 
 	ending_title.text = title
 	ending_desc.text = desc

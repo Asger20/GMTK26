@@ -461,7 +461,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
 text = "[ ADVANCE TO NEXT DAY ]"
 
 [node name="AccusationPanel" type="Panel" parent="." unique_id=394704187]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
