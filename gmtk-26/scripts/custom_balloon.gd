@@ -96,7 +96,7 @@ func apply_dialogue_line() -> void:
 	DialogueVoiceManager.begin_line(voice_profile)
 
 	character_label.visible = not speaker_name.is_empty()
-	character_label.text = "[b][color=#7a1c1c]" + tr(speaker_name, "dialogue") + "[/color][/b]"
+	character_label.text = "[b][color=#d94848]" + tr(speaker_name, "dialogue") + "[/color][/b]"
 
 	dialogue_label.hide()
 	dialogue_label.dialogue_line = dialogue_line
