@@ -263,10 +263,11 @@ Isaac: Tell me, suitor: Are you genuinely enjoying our date, or are you just try
 	Isaac: *Nods warmly* Steady and calm. I appreciate that.
 	=> hub_part_2
 
-- "I'm here out of duty to evaluate candidates."
+- "Your mother was right. I'm just staring at your bizarre eyes."
 	do GameManager.add_affection("angel", -20)
 	do GameManager.set_expression("scary")
-	Isaac: *Halo blares cold harsh light, pupils locking* Duty? Evaluate? That sounds remarkably like officer talk, suitor.
+	Isaac: *His golden halo blares cold harsh light, dozens of ocular pupils locking onto you in fury!*
+	Isaac: BIZARRE?! You were just staring at my head's asymmetry with cruel judgment?! How dare you insult my appearance!
 	if GameManager.get_affection("angel") <= 0:
 		=> horror_exit
 	=> hub_part_2
@@ -496,7 +497,7 @@ do GameManager.complete_current_date()
 ~ horror_exit
 do GameManager.set_expression("scary")
 Isaac: *His halo blares blinding celestial light as dozens of ocular eyes lock onto you simultaneously! Room lighting flickers with a loud metallic screech!*
-Isaac: YOU THINK I'M A FOOL?! YOU ARE NOT A SUITOR, YOU ARE A COP! I WILL BANISH YOU FROM MY PRESENCE!
+Isaac: YOU THINK I'M A FOOL?! YOU ARE NOT A SUITOR, YOU ARE A CORRUPTED HUMAN BEING! I WILL BANISH YOU FROM MY PRESENCE!
 Isaac: *He lunges forward with a terrifying multi-harmonic roar!*
 [SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
 [SYSTEM]: Guards drag you backward out of the cell as a heavy iron portcullis gate slams down with a deafening crash.

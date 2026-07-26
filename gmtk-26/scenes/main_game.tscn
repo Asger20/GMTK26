@@ -765,43 +765,53 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
 text = "[ SEAL CASE VERDICT & SUBMIT DECISION ]"
 
-[node name="EndingPanel" type="Panel" parent="." unique_id=768919982]
+[node name="EndingPanel" type="Panel" parent="." unique_id=1418721980]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_clear")
+
+[node name="EndingBackground" type="TextureRect" parent="EndingPanel" unique_id=89234127]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="EndingCard" type="PanelContainer" parent="EndingPanel" unique_id=981273461]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -240.0
-offset_right = 340.0
-offset_bottom = 240.0
+offset_left = -380.0
+offset_top = -250.0
+offset_right = 380.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_paper_panel")
 
-[node name="VBox" type="VBoxContainer" parent="EndingPanel" unique_id=1701489741]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 53.0
-offset_top = 52.0
-offset_right = -56.0
-offset_bottom = -25.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 16
+[node name="VBox" type="VBoxContainer" parent="EndingPanel/EndingCard" unique_id=1701489741]
+layout_mode = 2
+theme_override_constants/separation = 14
 
-[node name="EndingTitle" type="Label" parent="EndingPanel/VBox" unique_id=535105231]
+[node name="EndingTitle" type="Label" parent="EndingPanel/EndingCard/VBox" unique_id=535105231]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
 theme_override_font_sizes/font_size = 20
 text = "ENDING TITLE"
 horizontal_alignment = 1
 
-[node name="EndingDesc" type="RichTextLabel" parent="EndingPanel/VBox" unique_id=1495988701]
+[node name="EndingDesc" type="RichTextLabel" parent="EndingPanel/EndingCard/VBox" unique_id=1495988701]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0.18, 0.14, 0.09, 1)
@@ -809,7 +819,7 @@ theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "Ending Description..."
 
-[node name="PlayAgainButton" type="Button" parent="EndingPanel/VBox" unique_id=651538625]
+[node name="PlayAgainButton" type="Button" parent="EndingPanel/EndingCard/VBox" unique_id=651538625]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)

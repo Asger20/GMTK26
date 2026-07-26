@@ -264,10 +264,11 @@ Percival: Tell me truthfully: Is that charming rhythm caused by the pleasure of 
 	Percival: *Nods politely* Composed and steady. A noble demeanor.
 	=> hub_part_2
 
-- "I'm here out of duty to evaluate candidates."
+- "My heart rate is spiking because your dramatic monologue is insufferable."
 	do GameManager.add_affection("vampire", -20)
 	do GameManager.set_expression("scary")
-	Percival: *His smile vanishes, white fangs unhinging as his tone turns venomous* Duty? Evaluate? That sounds remarkably like officer talk, suitor.
+	Percival: *His vertical maw unhinges wider, white fangs glinting as his voice drops to a venomous roar!*
+	Percival: INSUFFERABLE?! You insolent worm... you dare mock my pulse reading and insult my noble conversation?!
 	if GameManager.get_affection("vampire") <= 0:
 		=> horror_exit
 	=> hub_part_2

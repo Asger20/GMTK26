@@ -268,10 +268,11 @@ Lily: Tell me truthfully: Are you genuinely mesmerized by my art, or are you jus
 	Lily: *Tilts head gracefully* Analytical curiosity? Fair enough... Art and science share the same geometric principles.
 	=> hub_part_2
 
-- "I'm here out of duty to evaluate candidates."
+- "I'm not mesmerized or afraid, your silk art is just creepy."
 	do GameManager.add_affection("bug_monster", -20)
 	do GameManager.set_expression("scary")
-	Lily: *Voice drops cold as spider legs clatter on the stone floor* Duty? Evaluate? That sounds remarkably like officer talk, suitor. You are not playing games with me, are you?
+	Lily: *Sharp black spider legs clatter against the stone floor as her multi-faceted eyes narrow in venomous outrage!*
+	Lily: CREEPY?! You dare insult my sacred haute-couture weave to my face?! You arrogant, uncultured worm!
 	if GameManager.get_affection("bug_monster") <= 0:
 		=> horror_exit
 	=> hub_part_2
@@ -508,7 +509,7 @@ do GameManager.complete_current_date()
 do GameManager.set_expression("scary")
 Lily: *Her martini glass shatters in her grip with a violent crack! Glowing green toxin splashes across the table as sharp black spider legs rise menacingly!*
 Lily: *Fangs bare fully as razor-sharp silken strands shoot from her palms, sealing the exit!*
-Lily: YOU DARE MOCK MY ANCESTRAL CRAFT?! YOU ARE NOT A SUITOR, YOU ARE A COP! YOU WILL MAKE A FINE LIVING SCULPTURE FOR MY COLLECTION!
+Lily: YOU DARE MOCK MY ANCESTRAL CRAFT?! YOU ARE NOT A SUITOR, YOU ARE HUMAN MEAT! YOU WILL MAKE A FINE LIVING SCULPTURE FOR MY COLLECTION!
 Lily: *She lunges forward with a terrifying predatory hiss!*
 [SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
 [SYSTEM]: Guards drag you backward out of the cell as an iron portcullis gate slams down with a heavy crash.

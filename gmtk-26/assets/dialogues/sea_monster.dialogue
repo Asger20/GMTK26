@@ -264,10 +264,11 @@ Sienna: Are you actually vibing with me, or am I just talking way too loud?
 	Sienna: *Nods cheerfully* Sweet! Appreciate it!
 	=> hub_part_2
 
-- "I'm here out of duty to evaluate candidates."
+- "You are talking way too loud, and your memory fog is super annoying."
 	do GameManager.add_affection("sea_monster", -20)
 	do GameManager.set_expression("scary")
-	Sienna: *Her needle-fang smile vanishes, ear-fins drooping cold* Duty? Evaluate? Yo, that sounds LITERALLY like officer talk! You aren't a cop, are you?
+	Sienna: *Her needle-fang jaw unhinges wider, neck gills flaring furiously!*
+	Sienna: ANNOYING?! EXCUSE ME?! You feigned interest in my vibe just to insult my voice and air pressure fog?!
 	if GameManager.get_affection("sea_monster") <= 0:
 		=> horror_exit
 	=> hub_part_2
@@ -497,7 +498,7 @@ do GameManager.complete_current_date()
 ~ horror_exit
 do GameManager.set_expression("scary")
 Sienna: *Her needle-fang jaw unhinges to an impossible width! Water pipes burst with a violent spray as her gills flare furiously!*
-Sienna: YOU THINK I'M STUPID?! YOU ARE NOT A SUITOR, YOU ARE A COP! I'LL DRAG YOU TO THE BOTTOM OF THE ABYSSAL TRENCH!
+Sienna: YOU THINK I'M STUPID?! YOU ARE NOT A SUITOR, YOU ARE HUMAN FILTH! I'LL DRAG YOU TO THE BOTTOM OF THE ABYSSAL TRENCH!
 Sienna: *She lunges forward with a terrifying aquatic roar!*
 [SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
 [SYSTEM]: Guards drag you backward out of the cell as an iron portcullis gate slams down with a heavy crash.

@@ -50,9 +50,10 @@ var is_first_intro_transition: bool = true
 
 # Phase 5: Ending Panel
 @onready var ending_panel: Panel = $EndingPanel
-@onready var ending_title: Label = $EndingPanel/VBox/EndingTitle
-@onready var ending_desc: RichTextLabel = $EndingPanel/VBox/EndingDesc
-@onready var play_again_btn: Button = $EndingPanel/VBox/PlayAgainButton
+@onready var ending_background: TextureRect = $EndingPanel/EndingBackground
+@onready var ending_title: Label = $EndingPanel/EndingCard/VBox/EndingTitle
+@onready var ending_desc: RichTextLabel = $EndingPanel/EndingCard/VBox/EndingDesc
+@onready var play_again_btn: Button = $EndingPanel/EndingCard/VBox/PlayAgainButton
 
 # Day Transition Panel
 @onready var transition_panel: Panel = $DayTransitionPanel
@@ -733,6 +734,7 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 
 	var title = ""
 	var desc = ""
+	var ending_tex_path := ""
 
 	match ending:
 		GameManager.EndingType.BAD_ENDING:
@@ -741,6 +743,7 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 			desc += "The gavel falls. You point your finger at the wrong suspect, sending an innocent patient to solitary confinement while the real killer smiles serenely from the shadows.\n\n"
 			desc += "As dawn breaks on Day 5, the heavy iron portcullis gates slide open, and The Count slips into the morning crowd undetected. Hours later, news headlines report a string of terrifying midnight shapeshifter attacks across the city.\n\n"
 			desc += "[color=#4a3b2c]Demoted back to desk duty, you sit alone in your dimly lit office, sipping cold coffee while unsolved case files pile up around you. You caught neither the killer nor a lover's heart.[/color]"
+			ending_tex_path = "res://assets/ending/no_catch_killer.png"
 
 		GameManager.EndingType.MIXED_ENDING:
 			title = "MIXED ENDING: LOVE ON THE RUN"
@@ -748,6 +751,7 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 			desc += "You botched the investigation, arresting an innocent candidate while The Count quietly walked out the front gates of Blackwood Asylum to terrorize the mortal realm.\n\n"
 			desc += "But amidst the chaos, you didn't leave empty-handed! You hold hands with [b][color=#7a1c1c]" + match_name + "[/color][/b] (" + match_species + ") as you slip past the police barricades.\n\n"
 			desc += "[color=#4a3b2c]Sure, the chief of police put a warrant out for your arrest for letting a serial killer escape, but as you and " + match_name + " drive into the sunset toward a quiet coastal getaway, you realize that true love is worth a compromised detective career![/color]"
+			ending_tex_path = "res://assets/ending/date_no_catch_killer.png"
 
 		GameManager.EndingType.GOOD_ENDING:
 			title = "GOOD ENDING: MASTER DETECTIVE"
@@ -755,6 +759,7 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 			desc += "Armed with your trusty Monsterpedia and sharp detective instincts, you call out the subtle biological inconsistencies! Guards swarm the room, pinning The Count to the floor as the shapeshifter's false skin dissolves in a hiss of frustration.\n\n"
 			desc += "Blackwood Asylum remains secure, the mayor awards you the Key to the City, and your promotion to Chief Homicide Detective is finalized by noon!\n\n"
 			desc += "[color=#4a3b2c]You remain a solitary lone wolf of justice, with your heart intact, case solved, and detective legend secure.[/color]"
+			ending_tex_path = "res://assets/ending/catch_killer.png"
 
 		GameManager.EndingType.BEST_ENDING:
 			title = "BEST ENDING: ROMANCE & RECKONING"
@@ -762,6 +767,7 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 			desc += "An absolute triumph! You expose The Count's subtle imposter slips in front of the entire asylum board, sending the shapeshifter to high-security lockup forever.\n\n"
 			desc += "Standing beside you with glowing pride is [b][color=#7a1c1c]" + match_name + "[/color][/b] (" + match_species + ")! The police department awards you a medal of valor, and the two of you walk out of Blackwood Asylum hand-in-hand to start a thrilling new chapter together.\n\n"
 			desc += "[color=#4a3b2c]You solved the century's most notorious case AND won the heart of your true monster soulmate![/color]"
+			ending_tex_path = "res://assets/ending/date_catch_killer.png"
 
 		GameManager.EndingType.SECRET_ENDING_1:
 			title = "SECRET ENDING 1: RIZZ UP THE SERIAL KILLER"
@@ -769,6 +775,7 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 			desc += "You corner The Count with undeniable lore evidence, causing the shapeshifter's false mask to crack! But instead of calling the guards, you step closer and whisper: [i]\"You're busted... but you're also the most fascinating date I've ever had.\"[/i]\n\n"
 			desc += "The Count's eyes widen in bewilderment, a crimson blush spreading across their shifting skin. Mesmerized by your daring charm, the master killer voluntarily surrenders their weapons, submits to maximum-security confinement, and promises to write you passionate love letters every single day while waiting for visiting hours.\n\n"
 			desc += "[color=#4a3b2c]You caught the killer AND rizzed up the serial killer![/color]"
+			ending_tex_path = "res://assets/ending/date_catch_killer.png"
 
 		GameManager.EndingType.SECRET_ENDING_2:
 			title = "WORST ENDING: DECEIVED & SLAIN"
@@ -778,9 +785,12 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 			desc += "As you walk out of Blackwood Asylum hand-in-hand under the moonlight, celebrating your new romance, you pause in a quiet alleyway and lean in for a romantic kiss... but your date's warm smile twists into a terrifying, predatory grin.\n\n"
 			desc += "[i]\"Thank you for the wonderful dates, detective... and for securing my freedom.\"[/i]\n\n"
 			desc += "[color=#4a3b2c]Before you can reach for your weapon, cold claws strike. The Count leaves you lifeless in the dark alley, vanishing into the night as the ultimate tragic victim of a killer's deceit.[/color]"
+			ending_tex_path = "res://assets/ending/date_killer.png"
 
 	ending_title.text = title
 	ending_desc.text = desc
+	if ending_background and ending_tex_path != "":
+		ending_background.texture = load(ending_tex_path)
 
 func _on_play_again_pressed() -> void:
 	_start_new_game_session()
