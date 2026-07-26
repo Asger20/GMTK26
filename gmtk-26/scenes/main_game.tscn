@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cp5fob6ikruib"]
 
 [ext_resource type="Script" uid="uid://cssnncfha04d0" path="res://scripts/main_game.gd" id="1_maingame"]
+[ext_resource type="Theme" uid="uid://ccw63qyn76t85" path="res://assets/main_theme.tres" id="1_wi4c7"]
 [ext_resource type="Script" uid="uid://dq6opyjksycyy" path="res://scripts/ui/monsterpedia_overlay.gd" id="2_mp_overlay"]
 [ext_resource type="Script" uid="uid://x114dku4iy4v" path="res://scripts/ui/dev_cheat_overlay.gd" id="3_dc_overlay"]
 [ext_resource type="Texture2D" uid="uid://d4b7nwij7wt5o" path="res://assets/monsters/monster_placeholder.png" id="4_placeholder"]
@@ -149,18 +150,6 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brush_selected"]
-bg_color = Color(0.36, 0.12, 0.12, 0.12)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.36, 0.12, 0.12, 0.7)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
 [sub_resource type="ButtonGroup" id="ButtonGroup_brush_colors"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_devcheat"]
@@ -196,6 +185,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_wi4c7")
 script = ExtResource("1_maingame")
 
 [node name="Background" type="ColorRect" parent="." unique_id=585956619]
@@ -1039,7 +1029,6 @@ size_flags_vertical = 4
 tooltip_text = "Brown ink"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
-text = ""
 
 [node name="RedBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1964941155]
 custom_minimum_size = Vector2(26, 26)
@@ -1048,7 +1037,6 @@ size_flags_vertical = 4
 tooltip_text = "Red ink"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
-text = ""
 
 [node name="BlueBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1516024846]
 custom_minimum_size = Vector2(26, 26)
@@ -1057,7 +1045,6 @@ size_flags_vertical = 4
 tooltip_text = "Blue ink"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
-text = ""
 
 [node name="BrushWidth" type="HSlider" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1478524732]
 custom_minimum_size = Vector2(80, 0)
