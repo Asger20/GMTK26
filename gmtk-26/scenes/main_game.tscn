@@ -885,6 +885,7 @@ vertical_alignment = 1
 layer = 100
 
 [node name="MonsterpediaOverlay" type="Panel" parent="Overlays" unique_id=1013753609]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
