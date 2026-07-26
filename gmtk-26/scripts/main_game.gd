@@ -70,16 +70,20 @@ var transition_tween: Tween
 @onready var dev_cheat_btn: Button = $DevCheatBtn
 @onready var background_texture: TextureRect = $BackgroundTexture
 
-var room_textures: Array[Texture2D] = [
-	preload("res://assets/backgrounds/rooms/asylum_room_1.jpg"),
-	preload("res://assets/backgrounds/rooms/asylum_room_2.jpg"),
-	preload("res://assets/backgrounds/rooms/asylum_room_3.jpg"),
-	preload("res://assets/backgrounds/rooms/asylum_room_4.jpg")
-]
-var available_room_textures: Array[Texture2D] = []
-var bg_room_tex: Texture2D = preload("res://assets/backgrounds/asylum_room.jpg")
-var bg_hallway_tex: Texture2D = preload("res://assets/backgrounds/asylum_hallway.jpg")
+var candidate_room_textures: Dictionary = {
+	"bug_monster": preload("res://assets/backgrounds/rooms/asylum_room_1.png"),
+	"vampire": preload("res://assets/backgrounds/rooms/asylum_room_2.png"),
+	"angel": preload("res://assets/backgrounds/rooms/asylum_room_3.png"),
+	"sea_monster": preload("res://assets/backgrounds/rooms/asylum_room_4.png")
+}
+var bg_room_tex: Texture2D = preload("res://assets/backgrounds/rooms/asylum_room_3.png")
+var bg_hallway_tex: Texture2D = preload("res://assets/backgrounds/asylum_hallway.png")
 var active_date_room_tex: Texture2D = null
+
+func _get_date_room_texture(monster: MonsterData) -> Texture2D:
+	if monster and candidate_room_textures.has(monster.id):
+		return candidate_room_textures[monster.id]
+	return bg_room_tex
 
 var active_dialogue_balloon: Node = null
 var portrait_tween: Tween
@@ -137,8 +141,6 @@ func _input(event: InputEvent) -> void:
 
 func _start_new_game_session() -> void:
 	is_first_intro_transition = true
-	available_room_textures = room_textures.duplicate()
-	available_room_textures.shuffle()
 
 	var m_vampire = load("res://resources/monsters/vampire.tres")
 	var m_angel = load("res://resources/monsters/angel.tres")
@@ -179,7 +181,9 @@ func _show_panel(target_panel: Panel) -> void:
 	
 	if background_texture:
 		if target_panel == date_panel:
-			background_texture.texture = active_date_room_tex if active_date_room_tex else bg_room_tex
+			var current_m = GameManager.get_current_date_monster()
+			active_date_room_tex = _get_date_room_texture(current_m)
+			background_texture.texture = active_date_room_tex
 			background_texture.visible = true
 		elif target_panel == prep_panel or target_panel == break_panel or target_panel == accusation_panel:
 			background_texture.texture = bg_hallway_tex
@@ -276,14 +280,8 @@ func _show_prep_phase() -> void:
 
 
 func _on_start_date_pressed() -> void:
-	if available_room_textures.is_empty():
-		available_room_textures = room_textures.duplicate()
-		available_room_textures.shuffle()
-
-	if not available_room_textures.is_empty():
-		active_date_room_tex = available_room_textures.pop_back()
-
 	var monster = GameManager.get_current_date_monster()
+	active_date_room_tex = _get_date_room_texture(monster)
 	var m_name = monster.display_name if monster else "Candidate"
 	var m_species = monster.species if monster else ""
 	var sub_text = "%s (%s)" % [m_name, m_species] if monster else "entering date room..."
