@@ -71,21 +71,21 @@ var species_lore_db: Dictionary = {
 		"• [b]STRICT NOCTURNAL CIRCADIAN LOCK:[/b] Biological sleep cycle is hard-coded from sunrise to dusk. Claims of enjoying dawn sunrises or early morning walks are physically impossible for an authentic Vampire."
 	],
 	"Angel": [
-		"• [b]CLASSIFICATION & HABITAT:[/b] Seraphim Geometrica / Biblical Angel. Native to high-frequency celestial spheres, pristine marble sanctuaries, and geometrically ordered sanctums.",
-		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view the cosmos as a flawless mathematical equation. Perfection, symmetry, and golden-ratio alignment are not personal choices, they are sacred laws governing their existence.",
-		"• [b]GEOMETRIC ALIGNMENT & ASYMMETRY DISTRESS:[/b] Their nervous system is physically bound to environmental order. Crooked picture frames, asymmetrical furniture, or clutter induce physical nausea, muscle rigidity, and rapid resonance decay. Claims of enjoying chaotic or messy rooms are a critical imposter slip.",
-		"• [b]HARMONIC FREQUENCY RESONANCE:[/b] Vocal cords produce overlapping, multi-harmonic chords rather than a single pitch. Resonates with metallic chime undertones when calm, shifting to sharp dissonant hums when agitated.",
-		"• [b]LUMINANCE BIO-FEEDBACK & VECTOR OCULAR SCANNING:[/b] Emits a subtle ambient aura that brightens under stress or affection. Multiple ocular pupils continuously scan surrounding space, calculating 90-degree angles and vector lines in real-time.",
-		"• [b]THE SYMMETRY TWITCH (Involuntary Realignment Reflex):[/b] Seeing any misaligned object (a tilted cup, stray paper, crooked collar) triggers an involuntary physical compulsion to reach out and align it to exact right angles.",
-		"• [b]DISSONANT CHAOS REVULSION:[/b] Random noise, unexpected speech interruptions, or erratic movements trigger physical stiffness and involuntary vocal buzzing.",
-		"• [b]GOLDEN-RATIO TACTILE TRACING:[/b] Under stress, excitement, or romantic interest, their fingers subconsciously trace perfect circles, equilateral triangles, and parallel lines across surfaces."
+		"• [b]CLASSIFICATION & HABITAT:[/b] Seraphim Geometrica / Biblical Angel. Native to high-frequency celestial spheres, pristine marble sanctuaries, and ordered sanctums.",
+		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view physical fitness, structural balance, and inner peace as sacred forms of self-improvement.",
+		"• [b]LUMINOUS CELESTIAL RADIANCE (Aura Sensitivity):[/b] High-frequency aura requires ambient light and celestial energy. Pitch-black void darkness causes aura fading, physical lethargy, and vocal dissonance. Claims that dark unlit rooms don't bother him are an immediate imposter slip.",
+		"• [b]PURE SALINE AMBROSIA (Dietary Requirements):[/b] Celestial digestion thrives on pure nectar, saline ambrosia, and clean nutrients. Heavy, greasy, fried fast food causes immediate stomach revulsion and wing droop. Claims of loving greasy cafeteria burgers are a critical imposter slip.",
+		"• [b]HARMONIC FREQUENCY RESONANCE:[/b] Vocal cords produce overlapping, multi-harmonic chords rather than a single pitch. Resonates with metallic chime undertones when calm, shifting to low hums when flustered.",
+		"• [b]WEIGHTLESS LEVITATION (Wing Hovering):[/b] Wings and light aura keep him hovering slightly above ground when relaxed, preventing heavy foot calluses or foot fatigue. Claims of getting a good number of steps in walking are an immediate imposter slip.",
+		"• [b]VECTOR OCULAR SCANNING:[/b] Dozens of ocular eyes in his head-cluster scan ambient light and room layout in real-time to ensure optimal comfort.",
+		"• [b]GOLDEN-RATIO TACTILE TRACING:[/b] Under stress, excitement, or romantic interest, his fingers subconsciously trace smooth circles and parallel lines across surfaces."
 	],
 	"Sea Monster": [
 		"• [b]CLASSIFICATION & HABITAT:[/b] Pelagios Abyssalis / Abyssal Leviathan Folk. Native to submerged ocean trenches, saltwater reefs, and humid benthic caverns.",
 		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view life through tidal currents and deep-sea pressure dynamics. Free-spirited and fluid, they collect smooth sea-shells, beach glass, and bioluminescent stones as sacred ritual tokens.",
-		"• [b]SALTWATER HYDRATION & DESICCATION VULNERABILITY:[/b] Epidermal scales require constant moisture and high salinity. Exposure to dry, arid air or hot desert sand causes rapid skin cracking, gill distress, and physical collapse. Claims of enjoying dry sand dunes are an immediate imposter slip.",
-		"• [b]LATERAL LINE & ECHOLOCATION SONAR:[/b] Facial sensory pores and webbed digits detect micro-ripples in water and low-frequency acoustic vibrations in air. High-pitch screeching or dry static disrupts their equilibrium.",
-		"• [b]BAROMETRIC PRESSURE FOG:[/b] Evolved for extreme abyssal depths. Rapid elevation changes cause transient atmospheric pressure adjustment, resulting in brief memory fog and spatial drifting.",
+		"• [b]SALTWATER HYDRATION & DESICCATION VULNERABILITY:[/b] Epidermal scales require constant moisture and high salinity. Exposure to dry, arid air or hot desert sand causes rapid skin cracking, gill distress, and physical collapse. Claims of enjoying dry sand dunes or dry beaches are an immediate imposter slip.",
+		"• [b]LATERAL LINE & ECHOLOCATION SONAR:[/b] Facial sensory pores and webbed digits detect micro-ripples in water and low-frequency acoustic vibrations in air. High-pitch screeching or screeching concert feedback causes instant physical disorientation.",
+		"• [b]BAROMETRIC PRESSURE FOG:[/b] Evolved for extreme abyssal depths. Rapid elevation changes cause transient atmospheric pressure adjustment, resulting in brief memory fog, losing train of thought, and spatial drifting.",
 		"• [b]THE GILL FLARE REFLEX:[/b] Emotional surges (flirting, surprise, anxiety) trigger involuntary flaring of neck gill-slits and lateral ear-fins.",
 		"• [b]FRESHWATER SPASM ANOMALY:[/b] Drinking pure distilled freshwater or eating unsalted food triggers immediate throat spasms and physical revulsion. They require heavy sea-salt or saline solutions.",
 		"• [b]NEEDLE FANG & WEBBED DIGIT LOCK:[/b] Wide jaw structures house rows of razor-sharp needle fangs. Webbed hands subconsciously fiddle with sea-shells or water glass rim droplets when flustered."
