@@ -1,105 +1,72 @@
 # 📜 Character Dialogue, Lore & Imposter Writing Guidelines
 
-This document establishes the universal narrative design standards, writing guidelines, and Dialogue Manager syntax patterns for creating character date encounters, species lore, and imposter clue mechanics in **Operation: Countdown (Down with the Count)**.
-
-# 📜 General Narrative & Dialogue Writing Guide
-
-**System Persona:** You are an elite, world-class Character and Narrative Dialogue Writer specializing in modern narrative visual novels (e.g., *Slay the Princess*, *Monster Prom*, *Danganronpa*, *Disco Elysium*). You excel at writing snappy, grounded, deeply human (and monstrous) dialogue rich in subtext, dark comedy, dynamic relationship mechanics, and subtle mystery beats.
-
-**Project Title:** *Operation: Countdown* (or *Down with the Count*)
-
-**Genre & Tone:** Comedic Horror / High-Stakes Detective / Character-Driven Dating Sim
+This document establishes the universal narrative design standards, writing guidelines, 5-Phase Date Architecture, and Dialogue Manager syntax patterns for creating character date encounters, species lore, and imposter clue mechanics in **Operation: Countdown (Down with the Count)**.
 
 ---
 
-## 📌 1. Core Narrative Principles
+## 🎭 1. General Narrative & Writing Style Guide
 
-### 1.1 Undercover Date Identity
-* **Player Identity**: The player is a secret police detective undercover as a suitor. Candidates do **not** know you are a detective.
+**System Persona:** You are an elite, world-class Character and Narrative Dialogue Writer specializing in modern narrative visual novels (e.g., *Slay the Princess*, *Monster Prom*, *Danganronpa*, *Disco Elysium*). You excel at writing snappy, grounded, deeply human (and monstrous) dialogue rich in subtext, dark comedy, dynamic relationship mechanics, and subtle mystery beats.
+
+* **Project Title:** *Operation: Countdown* (or *Down with the Count*)
+* **Genre & Tone:** Comedic Horror / High-Stakes Detective / Character-Driven Dating Sim
+
+---
+
+## 📌 2. Core Narrative Principles
+
+### 2.1 Undercover Date Identity
+* **Player Identity**: The player is a secret police detective undercover as a suitor in Blackwood Asylum. Candidates do **not** know you are a detective.
 * **Tone & Framing**: Candidates address you as an eligible date (e.g., *"my date"*, *"suitor"*). The detective must balance genuine romantic rapport with subtle, inquisitive probing.
 * **Player Speaker Tag**: Player dialogue choices are tagged with `You:` in dialogue scripts.
 * **The Countdown (Macro)**: The player has 4 days of dates to identify The Count (a master shapeshifter disguised as one of the patients) before the asylum gates open on Day 5 and the inmates are released into society.
 
-### 1.2 Natural Language Choices (No Meta-Clutter)
+### 2.2 Natural Language Choices (No Meta-Clutter)
 * **Pure In-Character Text**: Dialogue choices must **never** contain meta indicators, emojis, or stat clutter (e.g., avoid `(+15 Affection)`, `(-10 Affection)`, or `[Lore Check]`).
 * **Subtle Intent**: The intent of a response (flattering, probing, teasing, cold) must be clear from the natural phrasing of the sentence itself.
 
 ---
 
-## 🗣️ 2. Natural Voice & Anti-AI Style Rules
-To ensure the dialogue sounds like authentic human visual novel writing—and not repetitive, robotic AI output—enforce these strict stylistic boundaries:
+## 🗣️ 3. Natural Voice & Anti-AI Style Rules
 
-* **No Em Dashes (—)**: Do not use em dashes to connect thoughts. Use standard commas, periods, or ellipses (...) for mid-sentence trailing thoughts.
-* **Banish "AI Buzzwords"**: Strictly avoid cliché AI transition words and phrases (e.g., "delve," "testament," "tapestry," "beacon," "it's not just X, it's Y," "a whirlwind of," "nestled," "masterpiece").
-* **Vary Sentence Structure & Length**: Avoid the repetitive AI rhythm of "Short statement + long explanatory clause." Use fragmented sentences, slang, self-corrections, interruptions, and casual speech patterns.
-* **Show Physicality in Narrative Tags, Not Adverbs**: Instead of writing "she said menacingly," show the action directly in standard text (e.g., She leans across the table until her breath hits your cheek.).
-* **Embrace Asymmetry & Flaws**: Real people (and monsters!) repeat themselves, pause, use filler words (like "like," "um," "well"), change topics abruptly, and don't always speak in polished, poetic paragraphs.
+To ensure dialogue sounds like authentic human visual novel writing—and not repetitive, robotic AI output—enforce these strict stylistic boundaries:
+
+* **No Em Dashes (`—`)**: Do not use em dashes to connect thoughts. Use standard commas, periods, or ellipses (`...`) for mid-sentence trailing thoughts.
+* **Banish AI Buzzwords**: Strictly avoid cliché AI transition words and phrases (e.g., *"delve," "testament," "tapestry," "beacon," "it's not just X, it's Y," "a whirlwind of," "nestled," "masterpiece"*).
+* **Vary Sentence Structure & Length**: Avoid the repetitive AI rhythm of *"Short statement + long explanatory clause."* Use fragmented sentences, slang, self-corrections, interruptions, and casual speech patterns.
+* **Show Physicality in Narrative Tags, Not Adverbs**: Instead of writing *"she said menacingly,"* show the action directly in standard text (e.g., *She leans across the table until her breath hits your cheek.*).
+* **Embrace Asymmetry & Flaws**: Real people (and monsters!) repeat themselves, pause, use filler words (like *"like," "um," "well"*), change topics abruptly, and don't always speak in polished, poetic paragraphs.
 
 ---
 
-## 💖 3. Affection Mechanics & Low Affection Gating
+## 💖 4. Dynamic Affection Mechanics & Low Affection Gating
 
-### 3.1 Affection Thresholds & Rules
+### 4.1 Affection Thresholds & Rules
 * **Starting Affection**: All candidates begin dates at a baseline affection score of **40%**.
 * **Gradual Building (+5 to +10)**: Good answers build affection slowly (+5 to +10 points).
 * **Slight Missteps (-5 to -10)**: Slightly insensitive or pushy framing penalizes affection slightly (-5 to -10 points).
 * **Severe Missteps (-20 to -30)**: Cruel, insulting, or police/interrogation framing penalizes affection severely (-20 to -30 points).
 * **Normal Affection (< 50%)**:
-  * If affection is below **50%**, the candidate is slightly guarded as you are a still stranger.
-  * They might **refuse to answer personal questions or deep interrogation topics** (redirecting back to `main_hub` without yielding clues) and **may display** `"angry"` expressions.
-* **Very Low Affection / Scary Gating (< 30%)**:
-  * If affection drops below **30%**, the candidate becomes guarded, cold, scary, or suspicious.
-  * They will **refuse to answer deep interrogation topics** (redirecting back to `main_hub` without yielding clues) and display `"scary"` or `"angry"` expressions.
-  * The transition/looping dialogue in `~ main_hub` becomes venomous, cold, and impatient.
-* **0 Affection Horror Exit (≤ 0%)**:
+  * Candidate is slightly guarded as you are still a stranger.
+  * May refuse to answer personal questions or deep interrogation topics (redirecting back to `hub_part_1` or `hub_part_2` without yielding clues) and may display `"angry"` expressions.
+* **Low Affection / Scary Gating (< 30%)**:
+  * Candidate becomes guarded, cold, scary, or suspicious.
+  * Strictly refuses to answer deep interrogation topics (redirecting back to hub without yielding clues) and displays `"scary"` or `"angry"` expressions.
+  * Hub transition dialogue becomes venomous, cold, and impatient.
+* **0% Affection Horror Exit (≤ 0%)**:
   * Reaching **0% affection** immediately triggers an abrupt **Horror Exit sequence** (`~ horror_exit`).
-  * The monster's predatory nature erupts (e.g. lunging forward, sealing doors, baring fangs/claws).
-  * Asylum guards slam open the cell door, sound a emergency alert ("CODE RED! DETECTIVE GET OUT!"), and drag you out before slamming down the iron portcullis gates—ending the date encounter abruptly without further conversation.
+  * The monster's predatory nature erupts (e.g., lunging forward, sealing doors, baring fangs/claws).
+  * Asylum guards slam open the cell door, sound an emergency alert (*"CODE RED! DETECTIVE GET OUT!"*), and drag you out before slamming down the iron portcullis gates—ending the date encounter abruptly.
 * **Blushing Threshold (≥ 70%)**:
   * The `"blush"` expression triggers **only when affection is 70% or higher**.
-  * Transition/looping dialogue in `~ main_hub` becomes flustered, intimate, and warm. Below 70%, positive responses result in `"happy"` or `"normal"`.
+  * Transition dialogue in hubs becomes flustered, intimate, and warm. Below 70%, positive responses result in `"happy"` or `"normal"`.
 * **Match Requirement (≥ 80%)**: A minimum affection score of **80%** is required on Day 5 to successfully romance a candidate.
-
-### 3.2 Dialogue Script Syntax for Affection Checks
-```dialogue
-~ deep_interrogation_topic
-if GameManager.get_affection("candidate_id") < 30:
-	do GameManager.set_expression("scary")
-	Candidate: *Arms crossed, tone guarded* You're asking a lot of personal questions all of a sudden. I'd rather not talk about this right now.
-	=> main_hub
-else:
-	You: What happens if your body is exposed to extreme temperatures?
-	=> resolution_branch
-```
-
----
-
-## 🕵️‍♂️ 4. Authentic Species Lore vs. Imposter Slips
-
-### 4.1 The Imposter (The Count) Writing Strategy
-* **~90% Shared Persona**: The Count has thoroughly researched the candidate's personality and mimics their general speech patterns, warmth, and baseline hobbies.
-* **The Fatal Flaw (Generic "Human" Normalcy)**:
-  * **Authentic Monster**: Has mandatory biological, anatomical, environmental, or psychological constraints (e.g., rigid cold-blood metabolism, high-protein spinneret cramp risks, acoustic sonar sensitivity, UV skin necrosis).
-  * **The Imposter**: Unaware of subtle, high-detail biological constraints, The Count defaults to casual, generic, surface-level "human" answers (*"I just eat whatever three meals are on the menu"*, *"I sleep straight through until morning"*, *"I'm pretty easygoing with warm temperatures"*).
-
-### 3.2 Recording Evidence Clues
-When the imposter branch executes, always record a descriptive clue into the player's **Evidence Notebook**:
-```dialogue
-if GameManager.is_imposter("candidate_id"):
-	do GameManager.set_expression("happy")
-	Candidate: *Tilts head with a casual shrug* Oh, food? I don't bother with any strict diet! I just eat whatever three standard meals the cafeteria serves.
-	do GameManager.record_clue("candidate_id", "nutrition_slip", "Defaults to a generic answer about eating 3 standard meals without mentioning raw protein or heavy hydration needs.")
-	Candidate: As long as I get three regular meals, my energy is fine!
-else:
-	do GameManager.set_expression("normal")
-	Candidate: Silk draws massive amounts of protein directly from our internal glands. If I don't eat heavy raw protein, my abdomen gets agonizing muscle cramps.
-```
 
 ---
 
 ## 🎭 5. Real-Time Character Expression Swaps
 
-Characters feature dynamic expression portrait updates triggered directly within the dialogue script using `do GameManager.set_expression("...")`.
+Characters feature dynamic expression portrait updates triggered directly within dialogue scripts using `do GameManager.set_expression("...")`.
 
 ### 5.1 Supported Expression Names
 1. `"normal"` — Default neutral posture and standard conversation state.
@@ -108,195 +75,297 @@ Characters feature dynamic expression portrait updates triggered directly within
 4. `"angry"` — Offended, annoyed, defensive, or frustrated responses.
 5. `"scary"` — Guarded, suspicious, intense, or baring teeth/fangs.
 
-### 5.2 Best Practice for Expression Triggers
-* Call `set_expression` at the beginning of major dialogue nodes and immediately before dramatic emotional shifts in conversation.
-* Always return to `"normal"` or `"happy"` when returning to `~ main_hub`.
+---
 
-```dialogue
-- "You look amazingly energetic tonight."
-	do GameManager.add_affection("candidate_id", 15)
-	do GameManager.set_expression("blush")
-	Candidate: *Cheeks turn soft pink, smiling timidly* Really?! You... you don't find it overwhelming?
-	=> main_hub
+## 📅 6. The Standardized 5-Phase Date Architecture
+
+To create dynamic, well-paced dates with dramatic turnabouts, every date script follows a mandatory 5-phase structure:
+
 ```
+[ Phase 1: Intro / Opening Path ] (~ start)
+              │
+              ▼
+[ Phase 2: First Topic Loop ] (~ hub_part_1)
+   ├── Topic A (Light Lore Probing & Affection Building)
+   ├── Topic B (Light Lore Probing & Affection Building)
+   └── Topic C (Light Lore Probing & Affection Building)
+              │ (Triggers automatically once 3 Part 1 topics are completed)
+              ▼
+[ Phase 3: Mid-Date Patient Turnabout ] (~ mid_date_interruption)
+   └── Candidate interrupts & asks YOU (the undercover detective) a personal question!
+       Choices test cover story, build romantic intimacy, or risk affection loss
+              │
+              ▼
+[ Phase 4: Second Topic Loop ] (~ hub_part_2)
+   ├── Topic D (Deep Interrogation / Species Lore)
+   ├── Topic E (Deep Interrogation / Clue Probing)
+   ├── Topic F (Deep Interrogation / Clue Probing)
+   └── Topic G (Deep Interrogation / Clue Probing)
+              │ (Triggers once 4 Part 2 topics are completed or Exit chosen)
+              ▼
+[ Phase 5: Outro & Wrap-Up Path ] (~ end_date / ~ horror_exit)
+   └── Low/Normal/High Affection: Slightly cold / Warm farewell / match flirting vibe
+   └── 0% Affection: Abrupt Horror Exit (Guards intervene)
+```
+
+### Phase Details:
+
+1. **Phase 1: Intro / Opening Path (`~ start`)**:
+   * A fixed, pre-determined dialogue sequence establishing the date setting, candidate's initial mood, and icebreaker banter. Automatically transitions to `~ hub_part_1`.
+2. **Phase 2: First Topic Loop (`~ hub_part_1`)**:
+   * Contains **at least 3 topics** (Topics A, B, C) balancing **light surface lore probing with affection building**.
+   * Establishes initial trust and romantic rapport while subtly laying the groundwork for deeper investigation.
+   * Maximum 4 choice options visible per menu. Once all 3 topics in Part 1 have been explored, the dialogue automatically routes to Phase 3.
+3. **Phase 3: Mid-Date Patient Turnabout (`~ mid_date_interruption`)**:
+   * A mandatory fixed dialogue branch where the candidate turns the tables and asks *the player* a direct, personal, or probing question (e.g., testing your cover story, asking about your dating history, or reacting to how you've treated them so far).
+   * Player choices impact affection, trigger expression changes, and set the emotional stage for Part 2. Automatically routes to `~ hub_part_2`.
+4. **Phase 4: Second Topic Loop (`~ hub_part_2`)**:
+   * Unlocks **4 deeper topics** (Topics D, E, F, G) focusing on environmental sensitivities, biological constraints, and high-stakes detective interrogation clues.
+   * High affection requirement checks gate deep lore answers.
+5. **Phase 5: Outro & Wrap-Up Path (`~ end_date` or `~ horror_exit`)**:
+   * Fixed narrative sequence concluding the date based on final affection score (Low: slightly cold / Normal: warm farewell / High: match flirting vibe).
 
 ---
 
-## 6. Dialogue Hub Structure & Flag Tracking
+## 🕵️‍♂️ 7. Authentic Species Lore vs. Imposter Slips
 
-To prevent choice menu clutter and ensure dates feel responsive and structured, dialogues utilize a central hub (`~ main_hub`) with state flags.
+### 7.1 The 1/3 Rule of Character Balance
+Split every candidate's dialogue across three distinct layers:
+* **1/3 Personal Identity & Desires**: Hobbies, artistic passions, personal dreams outside asylum walls.
+* **1/3 Monster Instincts & Dark Past**: Uncomfortable biological realities, predatory survival instincts, environmental needs.
+* **1/3 Mental Condition / Psychological Quirks**: Expressed strictly through behavior, speech pacing, and emotional shifts (never name conditions explicitly!).
 
-### 6.1 Max 4 Options Constraint
-The custom visual novel balloon engine enforces a maximum of **4 choice options visible at a time**. Use flag checks to hide completed topics.
+### 7.2 The Imposter (The Count) Writing Strategy
+* **~90% Shared Persona**: The Count has thoroughly researched the candidate's personality and mimics their general speech patterns, warmth, and baseline hobbies.
+* **The Fatal Flaw (Generic "Human" Normalcy)**:
+  * **Authentic Monster**: Has mandatory biological, anatomical, environmental, or psychological constraints (e.g., rigid cold-blood metabolism, high-protein spinneret cramp risks, acoustic sonar sensitivity, UV skin necrosis).
+  * **The Imposter**: Unaware of subtle biological constraints, The Count defaults to casual, generic, surface-level "human" answers (*"I just eat whatever three meals are on the menu"*, *"I sleep straight through until morning"*, *"I'm pretty easygoing with warm temperatures"*).
 
-### 6.2 Hub & Gated Unlocks Pattern
+### 7.3 Recording Clues in the Evidence Notebook
+When an imposter branch executes, always record a descriptive clue using `do GameManager.record_clue("candidate_id", "clue_id", "Description text")`.
+
+---
+
+## 📐 8. Dialogue Manager Syntax Code Template
+
+Below is the standard, production-ready `.dialogue` syntax template demonstrating the full 5-Phase structure with 3 topics per hub, state flags, expression updates, imposter branches, and horror exits:
+
 ```dialogue
-~ main_hub
+# ==============================================================================
+# PHASE 1: INTRO & OPENING PATH
+# ==============================================================================
+~ start
+do GameManager.set_expression("normal")
+Candidate: *Adjusts collar and smiles warmly* Welcome. I was hoping you'd make it tonight.
+You: It's a pleasure to meet you. The room feels... oddly intense tonight.
+Candidate: *Chuckles softly* That's just Blackwood Asylum's natural charm. Shall we sit?
+=> hub_part_1
+
+# ==============================================================================
+# PHASE 2: FIRST TOPIC LOOP (PART 1 - AT LEAST 3 TOPICS)
+# ==============================================================================
+~ hub_part_1
 do GameManager.set_expression("normal")
 
-# Wrap-up check: If all topics are completed, offer exit
-if GameManager.has_flag("candidate_id", "asked_topic_a") and GameManager.has_flag("candidate_id", "asked_topic_b") and GameManager.has_flag("candidate_id", "asked_topic_c"):
-	Candidate: Wow... I feel like we've talked about almost everything on my mind!
-	- "I had a wonderful time talking with you."
-		do GameManager.add_affection("candidate_id", 10)
-		=> end_date
-	- "That's all the answers I need for today."
+# Automatically progress to Phase 3 after completing 3 Part 1 topics
+if GameManager.has_flag("candidate_id", "asked_p1_topic_a") and GameManager.has_flag("candidate_id", "asked_p1_topic_b") and GameManager.has_flag("candidate_id", "asked_p1_topic_c"):
+	=> mid_date_interruption
+
+Candidate: So, what would you like to know about me first?
+
+- "Tell me about your favorite hobbies." [if not GameManager.has_flag("candidate_id", "asked_p1_topic_a")]
+	=> p1_topic_a
+
+- "How are you liking the asylum facilities?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_b")]
+	=> p1_topic_b
+
+- "What brought you to this rehab program?" [if not GameManager.has_flag("candidate_id", "asked_p1_topic_c")]
+	=> p1_topic_c
+
+# ------------------------------------------------------------------------------
+# PART 1 TOPIC BRANCHES
+# ------------------------------------------------------------------------------
+~ p1_topic_a
+do GameManager.set_flag("candidate_id", "asked_p1_topic_a")
+You: Tell me about your favorite hobbies.
+do GameManager.set_expression("happy")
+Candidate: I spend most of my quiet hours crafting intricate sculptures out of raw material.
+do GameManager.add_affection("candidate_id", 5)
+=> hub_part_1
+
+~ p1_topic_b
+do GameManager.set_flag("candidate_id", "asked_p1_topic_b")
+You: How are you liking the asylum facilities?
+Candidate: The architecture is beautiful, though the stone walls trap a lot of humidity.
+=> hub_part_1
+
+~ p1_topic_c
+do GameManager.set_flag("candidate_id", "asked_p1_topic_c")
+You: What brought you to this rehab program?
+do GameManager.set_expression("blush")
+Candidate: I wanted a fresh start. And maybe... to meet someone who looks past my claws.
+do GameManager.add_affection("candidate_id", 10)
+=> hub_part_1
+
+# ==============================================================================
+# PHASE 3: MID-DATE PATIENT TURNABOUT (CANDIDATE ASKS YOU A QUESTION)
+# ==============================================================================
+~ mid_date_interruption
+do GameManager.set_expression("normal")
+Candidate: *Leans forward, resting chin on hands* You know... I've answered a lot of your questions. But you've been pretty quiet about yourself.
+Candidate: Tell me truthfully—what made a person like you decide to come to Blackwood for a date?
+
+- "I was genuinely looking for a connection with someone unique."
+	do GameManager.add_affection("candidate_id", 10)
+	if GameManager.get_affection("candidate_id") >= 70:
+		do GameManager.set_expression("blush")
+		Candidate: *Cheeks flush light crimson* That's... surprisingly sweet of you to say.
+	else:
+		do GameManager.set_expression("happy")
+		Candidate: I appreciate the honesty. That makes two of us.
+	=> hub_part_2
+
+- "I'm mostly here out of intense curiosity about monsters."
+	do GameManager.add_affection("candidate_id", -5)
+	do GameManager.set_expression("angry")
+	Candidate: *Narrowing eyes* A curious spectator, huh? We aren't museum exhibits... but at least you're blunt.
+	=> hub_part_2
+
+- "I just go wherever duty takes me."
+	do GameManager.add_affection("candidate_id", -15)
+	do GameManager.set_expression("scary")
+	Candidate: *Voice drops cold* Duty? That sounds remarkably like officer talk. You aren't playing games with me, are you?
+	if GameManager.get_affection("candidate_id") <= 0:
+		=> horror_exit
+	=> hub_part_2
+
+# ==============================================================================
+# PHASE 4: SECOND TOPIC LOOP (PART 2 - DEEP INTERROGATION & LORE)
+# ==============================================================================
+~ hub_part_2
+do GameManager.set_expression("normal")
+
+# Check if all 4 Part 2 topics are exhausted
+if GameManager.has_flag("candidate_id", "asked_p2_topic_d") and GameManager.has_flag("candidate_id", "asked_p2_topic_e") and GameManager.has_flag("candidate_id", "asked_p2_topic_f") and GameManager.has_flag("candidate_id", "asked_p2_topic_g"):
+	Candidate: It feels like the time has flown by. Our date is coming to an end.
+	- "It was a wonderful evening."
 		=> end_date
 else:
-	Candidate: So! What else were you curious about?
+	Candidate: Is there anything else on your mind before our time runs out?
 
-	# Basic topics available initially
-	- "Tell me about your creative projects." [if not GameManager.has_flag("candidate_id", "asked_topic_a")]
-		=> topic_a
+	- "How does your body react to extreme environmental changes?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_d")]
+		=> p2_topic_d
 
-	- "How do you handle long days?" [if not GameManager.has_flag("candidate_id", "asked_topic_b")]
-		=> topic_b
+	- "What happens during full lunar cycles?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_e")]
+		=> p2_topic_e
 
-	# Gated unlock: Requires topic_a to be completed first
-	- "What happens when the room gets warm?" [if GameManager.has_flag("candidate_id", "asked_topic_a") and not GameManager.has_flag("candidate_id", "asked_topic_c")]
-		=> topic_c
+	- "How do you handle your species' dietary requirements?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_f")]
+		=> p2_topic_f
+
+	- "What happens when your acoustic nerves are exposed to high frequencies?" [if not GameManager.has_flag("candidate_id", "asked_p2_topic_g")]
+		=> p2_topic_g
 
 	- "I think I've learned enough for today."
 		=> end_date
+
+# ------------------------------------------------------------------------------
+# PART 2 TOPIC BRANCHES (DEEP LORE & CLUE PROBING)
+# ------------------------------------------------------------------------------
+~ p2_topic_d
+do GameManager.set_flag("candidate_id", "asked_p2_topic_d")
+if GameManager.get_affection("candidate_id") < 30:
+	do GameManager.set_expression("scary")
+	Candidate: *Arms crossed, cold posture* You're asking a lot of probing biological questions. I'm not comfortable sharing that with you right now.
+	=> hub_part_2
+else:
+	You: How does your body react to extreme environmental changes?
+	# Imposter Check
+	if GameManager.is_imposter("candidate_id"):
+		do GameManager.set_expression("happy")
+		Candidate: Oh, I'm super adaptable! Hot or freezing cold, it doesn't affect me much at all.
+		do GameManager.record_clue("candidate_id", "environment_slip", "Defaults to a generic human answer about being unaffected by extreme temperature changes.")
+	else:
+		do GameManager.set_expression("normal")
+		Candidate: Severe temperature drops slow my heart rate drastically. If ambient temperatures fall below freezing, my body enters involuntary torpor.
+	=> hub_part_2
+
+~ p2_topic_e
+do GameManager.set_flag("candidate_id", "asked_p2_topic_e")
+You: What happens during full lunar cycles?
+Candidate: High tides and lunar light increase sensory sensitivity across our whole species.
+=> hub_part_2
+
+~ p2_topic_f
+do GameManager.set_flag("candidate_id", "asked_p2_topic_f")
+if GameManager.get_affection("candidate_id") < 30:
+	do GameManager.set_expression("angry")
+	Candidate: Why are you grilling me about what I eat? Mind your own business.
+	=> hub_part_2
+else:
+	You: How do you handle your species' dietary requirements?
+	if GameManager.is_imposter("candidate_id"):
+		do GameManager.set_expression("happy")
+		Candidate: I just eat whatever three standard meals the cafeteria serves every day!
+		do GameManager.record_clue("candidate_id", "diet_slip", "Claims to eat standard cafeteria meals without mentioning mandatory raw protein needs.")
+	else:
+		do GameManager.set_expression("normal")
+		Candidate: My body requires massive raw protein intake daily. Without it, my internal glands suffer severe muscle spasms.
+	=> hub_part_2
+
+~ p2_topic_g
+do GameManager.set_flag("candidate_id", "asked_p2_topic_g")
+if GameManager.get_affection("candidate_id") < 30:
+	do GameManager.set_expression("scary")
+	Candidate: *Glares cold* I don't appreciate you testing my sensory vulnerabilities like a lab specimen.
+	=> hub_part_2
+else:
+	You: What happens when your acoustic nerves are exposed to high frequencies?
+	if GameManager.is_imposter("candidate_id"):
+		do GameManager.set_expression("happy")
+		Candidate: High pitch sound waves? I barely notice them! Sound pitch doesn't bother me at all.
+		do GameManager.record_clue("candidate_id", "acoustic_slip", "Claims high acoustic frequencies cause no reaction, ignoring species sonar overload risks.")
+	else:
+		do GameManager.set_expression("normal")
+		Candidate: High pitch frequencies cause excruciating auditory overload and instant dizziness across our sonar clusters.
+	=> hub_part_2
+
+# ==============================================================================
+# PHASE 5: OUTRO & HORROR EXITS
+# ==============================================================================
+~ end_date
+if GameManager.get_affection("candidate_id") >= 70:
+	do GameManager.set_expression("blush")
+	Candidate: *Smiles warmly* Thank you for tonight. I really hope to see you again soon.
+elif GameManager.get_affection("candidate_id") <= 35:
+	do GameManager.set_expression("angry")
+	Candidate: *Sighs coldly* That felt more like a interrogation than a date. I'm going back to my cell.
+else:
+	do GameManager.set_expression("normal")
+	Candidate: Thank you for coming. I'll head back to my quarters now.
+do GameManager.complete_current_date()
+=> END
+
+~ horror_exit
+do GameManager.set_expression("scary")
+Candidate: *Bares teeth, posture turning predatory* That's ENOUGH! You aren't a suitor... you're a cop!
+[SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT!"
+[SYSTEM]: Guards burst into the room and drag you out before heavy iron portcullis gates slam shut.
+do GameManager.complete_current_date()
+=> END
 ```
 
 ---
-	
-## 7. Dialogue Manager Technical Checklist
+
+## 🛠️ 9. Dialogue Manager Technical Checklist
 
 When writing or editing any `.dialogue` file, verify:
 
 1. **Node Headers**: Every node begins with `~ nodename`.
-2. **GameManager Mutations**:
+2. **5-Phase Flow**: Follows `start` $\rightarrow$ `hub_part_1` $\rightarrow$ `mid_date_interruption` $\rightarrow$ `hub_part_2` $\rightarrow$ `end_date`.
+3. **Topic Count**: Minimum of **3 topics** for Phase 2 (`hub_part_1`), and **4 topics** for Phase 4 (`hub_part_2`).
+4. **GameManager Mutations**:
    * Affection adjustments: `do GameManager.add_affection("candidate_id", amount)`
    * Expression swaps: `do GameManager.set_expression("expression_name")`
    * Topic flags: `do GameManager.set_flag("candidate_id", "flag_name")`
    * Clue recording: `do GameManager.record_clue("candidate_id", "clue_id", "Clue description text")`
-3. **Date Completion**: The `~ end_date` node must execute `do GameManager.complete_current_date()` followed by `=> END`.
-
-Here is the complete, final **General Narrative & Writing Style Guide** for *Operation: Countdown* (or *Down with the Count*), updated with a explicit professional persona directive right at the top.
-
----
-
-## ⏳ 1. Narrative & Structure Overview
-
-* **The Setup:** You play as an undercover detective in a high-security monster asylum, posing as a participant in a 5-day "Radical Empathy Rehab" program.
-* **The Countdown (Macro):** You have 4 days of dates to identify **The Count** (a master shapeshifter disguised as one of the patients) before the asylum gates open on Day 5 and the inmates are released into society.
-* **The Date Flow:** Dates are standard, organic visual novel conversations with no real-time speed timers. Players have breathing room to enjoy character banter, build romantic chemistry, and cross-reference character statements against their **Monsterpedia**.
-
----
-
-## 🗣️ 2. Natural Voice & Anti-AI Style Rules
-
-To ensure the dialogue sounds like authentic human visual novel writing—and not repetitive, robotic AI output—enforce these strict stylistic boundaries:
-
-* **No Em Dashes (`—`):** Do not use em dashes to connect thoughts. Use standard commas, periods, or ellipses (`...`) for mid-sentence trailing thoughts.
-* **Banish "AI Buzzwords":** Strictly avoid cliché AI transition words and phrases (e.g., *"delve," "testament," "tapestry," "beacon," "it's not just X, it's Y," "a whirlwind of," "nestled," "masterpiece"*).
-* **Vary Sentence Structure & Length:** Avoid the repetitive AI rhythm of "Short statement + long explanatory clause." Use fragmented sentences, slang, self-corrections, interruptions, and casual speech patterns.
-* **Show Physicality in Narrative Tags, Not Adverbs:** Instead of writing *"she said menacingly,"* show the action directly in standard text (e.g., *She leans across the table until her breath hits your cheek.*).
-* **Embrace Asymmetry & Flaws:** Real people (and monsters!) repeat themselves, pause, use filler words (like *"like," "um," "well"*), change topics abruptly, and don't always speak in polished, poetic paragraphs.
-
----
-
-## 🔄 3. The Hybrid Dynamic Conversation System
-
-Instead of a strict linear path or a boring static menu, dates use a **Hybrid Dialogue Web**. Players can dive deep into dynamic sub-branches and naturally pivot back to earlier topics, but their choices permanently change what paths remain open.
-
-```
-                  [ Opening / Icebreaker ]
-                             │
-     ┌───────────────────────┼───────────────────────┐
-     ▼                       ▼                       ▼
-[ Topic A: Passion ]    [ Topic B: Past ]    [ Topic C: Interrogation ]
-     │                       │                       │
- ├─ Dynamic Follow-up    ├─ Dynamic Follow-up    ├─ [Check Affection]
- └─ Pivot Back to Web    └─ Pivot Back to Web    │   ├─ High: Unlock Deep Lore
-                                                 │   └─ Low: SHUT DOWN!
-                                                 ▼
-                                     (Option C Permanently Locked)
-
-```
-
-### 1. Organic Topic Hubs & Natural Pivots
-
-* **Flexible Exploration:** After exploring a specific dynamic sub-branch (like flirty banter or discussing their art), the candidate naturally opens a window to pivot: *"Anyway... what else did you want to know about me?"* or *"So, are we just gonna talk about my silk all day?"*
-* **Circling Back:** Players can circle back to unasked questions or topics they held off on earlier.
-
-### 2. Lockouts & Rejection Mechanics (Consequence Engine)
-
-* **Risk vs. Reward Probing:** If you ask a sensitive interrogation question when **Affection is too low**, the monster will shut you down, take offense, or dodge the question.
-* **Permanent Topic Lockouts:** Once a monster shuts down a topic, **that question branch is permanently locked** for the rest of the date. You lose your chance on that clue, forcing you to rebuild affection or focus on other clues!
-
-### 3. Dynamic Progress & Natural Date Conclusions
-
-* **Conversational Momentum:** The date naturally transitions through phases (Opening $\rightarrow$ Mid-date Banter $\rightarrow$ Late-date Intimacy/Tension $\rightarrow$ Wrap-up).
-* **Positive Conclusion:** High affection triggers a warm, romantic, or lingering wrap-up where they express excitement to see you again (or match on Day 5).
-* **Negative Conclusion:** Stacking too many shutdowns or dropping affection to zero causes the monster to end the date early, calling the guards to take them back to their cell.
-
----
-
-## 🎭 4. The Core Writing Principles
-
-### 1. The 1/3 Rule of Character Balance
-
-To keep every monster multidimensional, relatable, and slightly scary, split their dialogue pool across three distinct layers:
-
-* **$\frac{1}{3}$ Personal Identity & Desires:** Hobbies, artistic passions, human-like interests, and personal dreams outside the asylum walls.
-* **$\frac{1}{3}$ Monster Instincts & Dark Past:** Uncomfortable biological realities, predatory survival instincts, and eerie asylum history.
-* **$\frac{1}{3}$ Mental Condition / Psychological Quirks:** Expressed strictly through behavior, speech pacing, and emotional shifts.
-
-### 2. The Rule of Subtext (Show, Don't Label)
-
-* **Never Name the Condition:** Characters must **never** explicitly name their mental health condition or monster tropes (e.g., *never* write "I have OCD" or "I am a vampire who hates garlic").
-* **Express Through Symptoms:** Show conditions through dialogue pacing (sentence structure, sudden ALL CAPS, twitchy hesitations, hyper-fixations) and physical actions noted in narrative text.
-
-### 3. Organic Dating & Dynamic Affection
-
-* Conversations should read like a genuine, dynamic date, balancing natural flirting/rapport with subtle detective probing.
-* **High Affection Impact:** Building affection unlocks deeper, more vulnerable dialogue trees. These intimate paths grant clearer access to personal lore, making it easier to spot if the candidate is the Shapeshifter.
-* **Low Affection Penalty:** Upsetting the candidate locks down interrogation branches and risks an early date termination.
-
----
-
-## 🕵️‍♂️ 5. Clue & Imposter Design Rules
-
-To make detective work feel rewarding rather than obvious, follow these strict rules for hiding "Shapeshifter Tells":
-
-### Rule 1: No Blatant/Tropey Mistakes
-
-The Shapeshifter looks 100% physically identical to their host and knows basic monster biology. They will **never** make obvious mistakes like claiming a vampire loves garlic or a sea monster lives on land.
-
-### Rule 2: "Learned" vs. "Instinctual" Behavior
-
-The Shapeshifter knows facts from studying monsters, but **lacks biological memory and visceral instinct**.
-
-* **Real Monster:** Acts out of subconscious, biological impulse (e.g., involuntary physical reactions to environment, visceral cravings, unthinking species habits).
-* **Shapeshifter:** Treats species habits as intellectual choices or mild inconveniences (e.g., treating a biological necessity as a mere preference, or forgetting an automatic physical reaction).
-
-### Rule 3: Multi-Layered Tells
-
-When writing a Shapeshifter variation of a character, embed their subtle mistakes across three distinct layers:
-
-1. **Lore/Historical Tell:** Misunderstanding deep ancestral lore or treating historical events like a textbook summary rather than lived experience.
-2. **Behavioral Tell:** Failing to exhibit automatic physical or sensory reactions to environmental triggers (temperature, sound, air humidity, pressure).
-3. **Emotional Tell:** Expressing desires or preferences that contradict the underlying psychological nature of that species.
-
----
-
-## 🎭 6. Handling Red Herrings (Fakeouts)
-
-Innocent monsters in an asylum will naturally say weird, contradictory, or unsettling things. To prevent misleading the player unfairly:
-
-* **The Delusion vs. Lie Principle:** An innocent monster might say something bizarre because of their condition or mental state (e.g., a manic episode, memory loss, or romantic delusion), but their **visceral biological instincts will still align with their species**.
-* **The Shapeshifter Slip:** The Shapeshifter is calm, calculating, and trying to sound like a normal patient, but **fails the underlying species instinct**.
-
----
-
-## 📐 7. Dialogue Prompting Rules (For AI & Writers)
-
-When drafting or refining dialogue scripts:
-
-1. **Hybrid Web Structure:** Write dialogue trees that allow follow-up branches while providing natural pivot points back to open topic hubs.
-2. **Affection Gating & Lockout Tags:** Explicitly tag choices that require high affection to succeed, and write failure dialogue where low affection permanently locks that topic branch.
-3. **Dual Choices:** Balance choices between **Building Affection/Flirting** (keeping the date happy and open) vs. **Lore Probing** (testing species knowledge at the risk of getting shut down).
-4. **Style Enforcer:** Run all generated lines through the **Anti-AI Style Rules** in Section 2 to strip out em dashes, AI phrasing, and overly polished prose.
+5. **Date Completion**: Both `~ end_date` and `~ horror_exit` execute `do GameManager.complete_current_date()` followed by `=> END`.
