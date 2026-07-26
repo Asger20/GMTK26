@@ -17,10 +17,10 @@ const AMBIENCE_BUS := &"Ambience"
 const SILENT_DB := -60.0
 const DEFAULT_LEAD_DB := 0.0
 const DEFAULT_LOW_PASS_CUTOFF_HZ := 900.0
-const DEFAULT_MOOD_DISTORTION_DRIVE := 0.46
-const DEFAULT_MOOD_PITCH_SCALE := 0.38
+const DEFAULT_MOOD_DISTORTION_DRIVE := 0.40
+const DEFAULT_MOOD_PITCH_SCALE := 0.40
 const ANGRY_MOOD_DISTORTION_DRIVE := 0.15
-const ANGRY_MOOD_PITCH_SCALE := 0.70
+const ANGRY_MOOD_PITCH_SCALE := 0.60
 
 const STEMS := [
 	preload("res://assets/music/backing.ogg"),
@@ -667,7 +667,8 @@ func toggle_low_pass(
 func set_mood_effect_enabled(
 	enabled: bool,
 	distortion_drive := DEFAULT_MOOD_DISTORTION_DRIVE,
-	pitch_scale := DEFAULT_MOOD_PITCH_SCALE
+	pitch_scale := DEFAULT_MOOD_PITCH_SCALE,
+	volume_db_offset := 0.0
 ) -> void:
 	_mood_effect_enabled = enabled
 
@@ -692,6 +693,10 @@ func set_mood_effect_enabled(
 		_pitch_shift_effect_index,
 		enabled
 	)
+
+	if _music_bus_index != -1:
+		var target_db = volume_db_offset if enabled else 0.0
+		AudioServer.set_bus_volume_db(_music_bus_index, target_db)
 
 
 func toggle_mood_effect(

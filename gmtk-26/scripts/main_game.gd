@@ -119,6 +119,7 @@ func _ready() -> void:
 	GameManager.dev_mode_toggled.connect(func(enabled: bool):
 		if affection_container: affection_container.visible = enabled
 		if dev_cheat_btn: dev_cheat_btn.visible = enabled and (intro_panel and not intro_panel.visible)
+		if end_date_early_btn: end_date_early_btn.visible = enabled and (date_panel and date_panel.visible)
 		if not enabled and dev_cheat_overlay: dev_cheat_overlay.visible = false
 	)
 
@@ -190,7 +191,7 @@ func _show_panel(target_panel: Panel) -> void:
 		monsterpedia_book_btn.visible = (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)
 
 	if end_date_early_btn:
-		end_date_early_btn.visible = (target_panel == date_panel and target_panel != transition_panel)
+		end_date_early_btn.visible = GameManager.dev_mode_show_affection and (target_panel == date_panel and target_panel != transition_panel)
 	
 	if dev_cheat_btn:
 		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel and target_panel != ending_panel and target_panel != transition_panel)

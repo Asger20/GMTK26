@@ -21,6 +21,8 @@ const BRUSH_COLORS: Array[Color] = [
 @onready var brush_width_value: Label = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/BrushWidthValue
 @onready var undo_drawing_button: Button = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/UndoButton
 @onready var clear_drawing_button: Button = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/ClearButton
+@onready var evidence_title: Label = $VBox/TabContainer/EvidenceNotebook/EvidenceTitle
+@onready var evidence_scroll: ScrollContainer = $VBox/TabContainer/EvidenceNotebook/Scroll
 
 var _loading_notebook := false
 
@@ -49,9 +51,11 @@ func _ready() -> void:
 	)
 	GameManager.clue_recorded.connect(_on_clue_recorded)
 	GameManager.notebook_reset.connect(_on_notebook_reset)
+	GameManager.dev_mode_toggled.connect(_update_evidence_visibility)
 	style_option_button(species_dropdown)
 	_setup_dropdown()
 	_load_notebook_state()
+	_update_evidence_visibility(GameManager.dev_mode_show_affection)
 	brush_color_buttons[0].button_pressed = true
 	_on_brush_color_selected(0)
 	_on_brush_width_changed(brush_width_slider.value)
@@ -61,7 +65,14 @@ func toggle_window() -> void:
 	if visible:
 		_load_notebook_state()
 		_update_clue_notebook()
+		_update_evidence_visibility(GameManager.dev_mode_show_affection)
 		_auto_select_current_candidate()
+
+func _update_evidence_visibility(enabled: bool) -> void:
+	if evidence_title:
+		evidence_title.visible = enabled
+	if evidence_scroll:
+		evidence_scroll.visible = enabled
 
 
 func _load_notebook_state() -> void:
