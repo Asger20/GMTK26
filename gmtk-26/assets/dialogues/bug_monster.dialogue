@@ -30,11 +30,14 @@ Lily: Forgive me... I was calculating spatial tension for my newest gown. Welcom
 
 - "You should take a breath. The energy is a bit much."
 	do GameManager.add_affection("bug_monster", -10)
-	do GameManager.set_expression("angry")
-	Lily: *Her smile falters, holding her martini glass with a stiffened posture.*
-	Lily: Manic? I am expressing passionate artistic focus, suitor...
-	Lily: A bit of patience for high art would be appreciated.
-	=> hub_part_1
+	if GameManager.get_affection("bug_monster") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("angry")
+		Lily: *Her smile falters, holding her martini glass with a stiffened posture.*
+		Lily: Manic? I am expressing passionate artistic focus, suitor...
+		Lily: A bit of patience for high art would be appreciated.
+		=> hub_part_1
 
 - "Let's skip the theatrics. I don't have all night."
 	do GameManager.add_affection("bug_monster", -25)
@@ -51,6 +54,9 @@ Lily: Forgive me... I was calculating spatial tension for my newest gown. Welcom
 # PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_1
+if GameManager.get_affection("bug_monster") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Automatically progress to Phase 3 after completing all 4 Part 1 topics
@@ -139,7 +145,7 @@ Lily: But more than that... I want to find a true partner who understands the ph
 
 ~ p1_topic_c
 do GameManager.set_flag("bug_monster", "asked_p1_topic_c")
-if GameManager.get_affection("bug_monster") < 50:
+if GameManager.get_affection("bug_monster") < 30:
 	do GameManager.add_affection("bug_monster", -10)
 	do GameManager.set_expression("angry")
 	Lily: *Setting her glass down with a slight frown* We have only just met, suitor... Isn't it a bit early to be prying into my environmental sensitivities? Let us get to know each other first.
@@ -188,7 +194,7 @@ else:
 
 ~ p1_topic_d
 do GameManager.set_flag("bug_monster", "asked_p1_topic_d")
-if GameManager.get_affection("bug_monster") < 50:
+if GameManager.get_affection("bug_monster") < 30:
 	do GameManager.add_affection("bug_monster", -10)
 	do GameManager.set_expression("angry")
 	Lily: *Frowning slightly, holding her martini glass firmly* You are asking personal questions about my sensory reactions before we have even broken the ice. A bit pushy, don't you think?
@@ -274,6 +280,9 @@ Lily: Tell me truthfully: Are you genuinely mesmerized by my art, or are you jus
 # PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_2
+if GameManager.get_affection("bug_monster") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Check if all 4 Part 2 topics are exhausted
@@ -473,7 +482,9 @@ else:
 # PHASE 5: OUTRO & HORROR EXITS
 # ==============================================================================
 ~ end_date
-if GameManager.get_affection("bug_monster") >= 70:
+if GameManager.get_affection("bug_monster") <= 0:
+	=> horror_exit
+elif GameManager.get_affection("bug_monster") >= 70:
 	do GameManager.set_expression("blush")
 	Lily: *Gasps as her eyes catch the clock, setting her martini glass down delicately.*
 	Lily: Oh! Look at the time! My manic creative sprint is reaching its absolute peak!

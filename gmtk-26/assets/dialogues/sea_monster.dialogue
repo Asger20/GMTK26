@@ -29,10 +29,13 @@ Sienna: Welcome to my bench! Don't mind the sea salt smell, it's just main chara
 
 - "Could you talk a little quieter? You're screaming."
 	do GameManager.add_affection("sea_monster", -10)
-	do GameManager.set_expression("angry")
-	Sienna: *Her ear-fins droop slightly, crossing her webbed arms.*
-	Sienna: Wow, okay... volume police! I'm just enthusiastic, no need to be a buzzkill!
-	=> hub_part_1
+	if GameManager.get_affection("sea_monster") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("angry")
+		Sienna: *Her ear-fins droop slightly, crossing her webbed arms.*
+		Sienna: Wow, okay... volume police! I'm just enthusiastic, no need to be a buzzkill!
+		=> hub_part_1
 
 - "You look chaotic. I don't trust sea monsters."
 	do GameManager.add_affection("sea_monster", -25)
@@ -48,6 +51,9 @@ Sienna: Welcome to my bench! Don't mind the sea salt smell, it's just main chara
 # PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_1
+if GameManager.get_affection("sea_monster") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Automatically progress to Phase 3 after completing all 4 Part 1 topics
@@ -134,7 +140,7 @@ Sienna: But mostly... I just wanna find someone who vibes with my chaotic energy
 
 ~ p1_topic_c
 do GameManager.set_flag("sea_monster", "asked_p1_topic_c")
-if GameManager.get_affection("sea_monster") < 50:
+if GameManager.get_affection("sea_monster") < 10:
 	do GameManager.add_affection("sea_monster", -10)
 	do GameManager.set_expression("angry")
 	Sienna: *Frowning, ear-fins drooping* Yo, we literally just met! Isn't it a bit weird to ask about my surface habits right away? Let me get to know you first!
@@ -184,7 +190,7 @@ else:
 
 ~ p1_topic_d
 do GameManager.set_flag("sea_monster", "asked_p1_topic_d")
-if GameManager.get_affection("sea_monster") < 50:
+if GameManager.get_affection("sea_monster") < 10:
 	do GameManager.add_affection("sea_monster", -10)
 	do GameManager.set_expression("angry")
 	Sienna: *Ear-fins drooping slightly* Asking personal questions about my drink preferences before we break the ice? Kinda pushy, don't you think?
@@ -270,6 +276,9 @@ Sienna: Are you actually vibing with me, or am I just talking way too loud?
 # PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_2
+if GameManager.get_affection("sea_monster") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Check if all 4 Part 2 topics are exhausted
@@ -466,7 +475,9 @@ else:
 # PHASE 5: OUTRO & HORROR EXITS
 # ==============================================================================
 ~ end_date
-if GameManager.get_affection("sea_monster") >= 70:
+if GameManager.get_affection("sea_monster") <= 0:
+	=> horror_exit
+elif GameManager.get_affection("sea_monster") >= 70:
 	do GameManager.set_expression("blush")
 	Sienna: *Gasps as ear-fins flare pink, handing you a glowing bioluminescent sea pebble.*
 	Sienna: HERE! Take my favorite glowing sea-stone! You HAVE to come on another date with me, okay?!

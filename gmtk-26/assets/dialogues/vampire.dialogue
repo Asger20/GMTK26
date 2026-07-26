@@ -29,10 +29,13 @@ Percival: Do not be nervous. I rarely bite on a first date... unless politely re
 
 - "Do you ever stop being so dramatically theatrical?"
 	do GameManager.add_affection("vampire", -15)
-	do GameManager.set_expression("angry")
-	Percival: *Fangs click together sharply inside his void-black face as his tone stiffens.*
-	Percival: Hmph. Vulgar suitor. Dramatic flair is a high art form, not a performance for peasants.
-	=> hub_part_1
+	if GameManager.get_affection("vampire") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("angry")
+		Percival: *Fangs click together sharply inside his void-black face as his tone stiffens.*
+		Percival: Hmph. Vulgar suitor. Dramatic flair is a high art form, not a performance for peasants.
+		=> hub_part_1
 
 - "Keep your distance. I don't trust blood-drinkers."
 	do GameManager.add_affection("vampire", -25)
@@ -48,6 +51,9 @@ Percival: Do not be nervous. I rarely bite on a first date... unless politely re
 # PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_1
+if GameManager.get_affection("vampire") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Automatically progress to Phase 3 after completing all 4 Part 1 topics
@@ -135,7 +141,7 @@ Percival: But above all... I seek a thoughtful companion who sees the gentle poe
 
 ~ p1_topic_c
 do GameManager.set_flag("vampire", "asked_p1_topic_c")
-if GameManager.get_affection("vampire") < 50:
+if GameManager.get_affection("vampire") < 10:
 	do GameManager.add_affection("vampire", -10)
 	do GameManager.set_expression("angry")
 	Percival: *Adjusting his cape with a slight frown* We have only just met, suitor... Isn't it a bit early to be prying into my daily schedule? Let us get to know each other first.
@@ -184,7 +190,7 @@ else:
 
 ~ p1_topic_d
 do GameManager.set_flag("vampire", "asked_p1_topic_d")
-if GameManager.get_affection("vampire") < 50:
+if GameManager.get_affection("vampire") < 30:
 	do GameManager.add_affection("vampire", -10)
 	do GameManager.set_expression("angry")
 	Percival: *Frowning slightly, resting his clawed hands flat* You are asking personal questions about my optical traits before we have even broken the ice. A bit pushy, don't you think?
@@ -270,6 +276,9 @@ Percival: Tell me truthfully: Is that charming rhythm caused by the pleasure of 
 # PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_2
+if GameManager.get_affection("vampire") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Check if all 4 Part 2 topics are exhausted
@@ -468,7 +477,9 @@ else:
 # PHASE 5: OUTRO & HORROR EXITS
 # ==============================================================================
 ~ end_date
-if GameManager.get_affection("vampire") >= 70:
+if GameManager.get_affection("vampire") <= 0:
+	=> horror_exit
+elif GameManager.get_affection("vampire") >= 70:
 	do GameManager.set_expression("blush")
 	Percival: *Gasps softly as the asylum bell tolls, placing his clawed hand over his heart with a romantic bow.*
 	Percival: The bell tolls... Our velvet rendezvous must pause. Until next nightfall, my sweet suitor.

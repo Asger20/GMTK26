@@ -29,10 +29,13 @@ Isaac: Welcome, suitor. It is a true pleasure to sit with you tonight.
 
 - "Do you always sit so stiffly?"
 	do GameManager.add_affection("angel", -10)
-	do GameManager.set_expression("angry")
-	Isaac: *Vocal tone shifts to a low metallic hum, halo dimming.*
-	Isaac: Mother always taught me that good posture is the foundation of character! Slouching causes unnecessary fatigue.
-	=> hub_part_1
+	if GameManager.get_affection("angel") <= 0:
+		=> horror_exit
+	else:
+		do GameManager.set_expression("angry")
+		Isaac: *Vocal tone shifts to a low metallic hum, halo dimming.*
+		Isaac: Mother always taught me that good posture is the foundation of character! Slouching causes unnecessary fatigue.
+		=> hub_part_1
 
 - "You look terrifying. I don't trust eye clusters."
 	do GameManager.add_affection("angel", -25)
@@ -48,6 +51,9 @@ Isaac: Welcome, suitor. It is a true pleasure to sit with you tonight.
 # PHASE 2: FIRST TOPIC LOOP (PART 1 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_1
+if GameManager.get_affection("angel") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Automatically progress to Phase 3 after completing all 4 Part 1 topics
@@ -134,7 +140,7 @@ Isaac: I long to design peaceful marble sanctuaries and community spaces on the 
 
 ~ p1_topic_c
 do GameManager.set_flag("angel", "asked_p1_topic_c")
-if GameManager.get_affection("angel") < 50:
+if GameManager.get_affection("angel") < 30:
 	do GameManager.add_affection("angel", -10)
 	do GameManager.set_expression("angry")
 	Isaac: *Halo hums low* We have only just met, suitor... Isn't it a bit early to be prying into my environmental needs? Let us build rapport first.
@@ -185,7 +191,7 @@ else:
 
 ~ p1_topic_d
 do GameManager.set_flag("angel", "asked_p1_topic_d")
-if GameManager.get_affection("angel") < 50:
+if GameManager.get_affection("angel") < 10:
 	do GameManager.add_affection("angel", -10)
 	do GameManager.set_expression("angry")
 	Isaac: *Dozens of pupils narrow slightly* Asking personal questions about my diet before we break the ice? A bit pushy, don't you think?
@@ -269,6 +275,9 @@ Isaac: Tell me, suitor: Are you genuinely enjoying our date, or are you just try
 # PHASE 4: SECOND TOPIC LOOP (PART 2 - 4 TOPICS WITH FOLLOW-UP CHOICES)
 # ==============================================================================
 ~ hub_part_2
+if GameManager.get_affection("angel") <= 0:
+	=> horror_exit
+
 do GameManager.set_expression("normal")
 
 # Check if all 4 Part 2 topics are exhausted
@@ -465,7 +474,9 @@ else:
 # PHASE 5: OUTRO & HORROR EXITS
 # ==============================================================================
 ~ end_date
-if GameManager.get_affection("angel") >= 70:
+if GameManager.get_affection("angel") <= 0:
+	=> horror_exit
+elif GameManager.get_affection("angel") >= 70:
 	do GameManager.set_expression("blush")
 	Isaac: *Halo pulses bright rose pink, wings extending with an elegant celestial bow.*
 	Isaac: Thank you for a wonderful evening, suitor! Mother is going to be so thrilled when I tell her about our date! I eagerly anticipate our next rendezvous!
@@ -483,15 +494,6 @@ do GameManager.complete_current_date()
 => END
 
 ~ horror_exit
-do GameManager.set_expression("scary")
-Isaac: *His halo blares blinding celestial light as dozens of ocular eyes lock onto you simultaneously! Room lighting flickers with a loud metallic screech!*
-Isaac: YOU THINK I'M A FOOL?! YOU ARE NOT A SUITOR, YOU ARE A COP! I WILL BANISH YOU FROM MY PRESENCE!
-Isaac: *He lunges forward with a terrifying multi-harmonic roar!*
-[SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
-[SYSTEM]: Guards drag you backward out of the cell as a heavy iron portcullis gate slams down with a deafening crash.
-do GameManager.complete_current_date()
-=> END
-orror_exit
 do GameManager.set_expression("scary")
 Isaac: *His halo blares blinding celestial light as dozens of ocular eyes lock onto you simultaneously! Room lighting flickers with a loud metallic screech!*
 Isaac: YOU THINK I'M A FOOL?! YOU ARE NOT A SUITOR, YOU ARE A COP! I WILL BANISH YOU FROM MY PRESENCE!

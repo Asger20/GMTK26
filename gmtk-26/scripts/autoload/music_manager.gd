@@ -16,7 +16,8 @@ const AMBIENCE_BUS := &"Ambience"
 
 const SILENT_DB := -60.0
 const DEFAULT_LEAD_DB := 0.0
-const DEFAULT_LOW_PASS_CUTOFF_HZ := 900.0
+const DEFAULT_LOW_PASS_CUTOFF_HZ := 2200.0
+const BETWEEN_DATES_VOLUME_SCALE := 1.60
 const DEFAULT_MOOD_DISTORTION_DRIVE := 0.40
 const DEFAULT_MOOD_PITCH_SCALE := 0.40
 const ANGRY_MOOD_DISTORTION_DRIVE := 0.15
@@ -58,6 +59,7 @@ var _drums_enabled := true
 var _low_pass_enabled := false
 var _mood_effect_enabled := false
 var _ambience_enabled := true
+var _is_between_dates := false
 
 var _music_volume_linear := 0.8
 var _ambience_volume_linear := 0.3
@@ -320,6 +322,7 @@ func play_date_music(
 		_music_tween.kill()
 		_music_tween = null
 
+	_is_between_dates = false
 	_music_player.volume_linear = _music_volume_linear
 	_music_player.stream_paused = false
 
@@ -340,7 +343,10 @@ func play_between_dates(
 		_music_tween.kill()
 		_music_tween = null
 
-	_music_player.volume_linear = _music_volume_linear
+	_is_between_dates = true
+	_music_player.volume_linear = (
+		_music_volume_linear * BETWEEN_DATES_VOLUME_SCALE
+	)
 	_music_player.stream_paused = false
 
 	if not _music_player.playing:
@@ -510,7 +516,12 @@ func set_music_volume(
 		1.0
 	)
 
-	_music_player.volume_linear = _music_volume_linear
+	if _is_between_dates:
+		_music_player.volume_linear = (
+			_music_volume_linear * BETWEEN_DATES_VOLUME_SCALE
+		)
+	else:
+		_music_player.volume_linear = _music_volume_linear
 
 
 func _finish_music_stop() -> void:
@@ -519,6 +530,7 @@ func _finish_music_stop() -> void:
 
 	_current_lead_index = -1
 	_music_tween = null
+	_is_between_dates = false
 
 	for stem_index in range(
 		Stem.SEA_MONSTER,
