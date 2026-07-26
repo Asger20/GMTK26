@@ -43,8 +43,9 @@ var is_first_intro_transition: bool = true
 
 # Phase 4: Accusation Panel
 @onready var accusation_panel: Panel = $AccusationPanel
-@onready var accuse_dropdown: OptionButton = $AccusationPanel/VBox/AccuseContainer/AccuseDropdown
-@onready var match_dropdown: OptionButton = $AccusationPanel/VBox/MatchContainer/MatchDropdown
+@onready var mugshots_container: HBoxContainer = $AccusationPanel/VBox/MugshotsHBox
+@onready var accuse_dropdown: OptionButton = $AccusationPanel/VBox/CardsHBox/AccuseCard/VBox/AccuseDropdown
+@onready var match_dropdown: OptionButton = $AccusationPanel/VBox/CardsHBox/MatchCard/VBox/MatchDropdown
 @onready var submit_decision_btn: Button = $AccusationPanel/VBox/SubmitButton
 
 # Phase 5: Ending Panel
@@ -166,6 +167,12 @@ func _show_panel(target_panel: Panel) -> void:
 	if transition_panel:
 		transition_panel.visible = (target_panel == transition_panel)
 
+	if end_date_early_btn:
+		end_date_early_btn.visible = GameManager.dev_mode_show_affection and (target_panel == date_panel)
+
+	if dev_cheat_btn:
+		dev_cheat_btn.visible = GameManager.dev_mode_show_affection and (target_panel != intro_panel)
+
 	if target_panel == date_panel:
 		var current_monster := GameManager.get_current_date_monster()
 		if current_monster:
@@ -271,7 +278,7 @@ func _show_prep_phase() -> void:
 		var txt = "[b][color=#2c2214]Description (Self-Written Bio):[/color][/b]\n"
 		txt += "[i][color=#3d2b18]\"" + bio + "\"[/color][/i]\n\n"
 		txt += "[color=#7a1c1c][b]NOTE TO DETECTIVE:[/b][/color]\n"
-		txt += "[color=#4a3b2c]Use your [color=#7a5800]📖 Monsterpedia[/color] book at the bottom-left to cross-reference species traits and see if their answers match up during your date.[/color]"
+		txt += "[color=#4a3b2c]Use your [color=#7a5800]Monsterpedia[/color] book at the bottom-left to cross-reference species traits and see if their answers match up during your date.[/color]"
 		candidate_card_desc.text = txt
 	else:
 		candidate_card_name.text = "No Candidate"
@@ -417,7 +424,7 @@ func _show_break_phase() -> void:
 	var summary = "[b][color=#2c2214]Date Reflection & Case Briefing:[/color][/b]\n"
 	summary += "You completed your date with [b][color=#7a1c1c]" + monster_name + "[/color][/b] (" + species_name + ").\n\n"
 	summary += "[b][color=#2c2214]Detective's Log:[/color][/b]\n"
-	summary += "[color=#3d2b18]Take a moment to note down your findings and thoughts from today's conversation. Open your [color=#7a5800]📖 Monsterpedia[/color] book at the bottom-left to cross-reference any suspicious answers against true species lore.[/color]\n\n"
+	summary += "[color=#3d2b18]Take a moment to note down your findings and thoughts from today's conversation. Open your [color=#7a5800]Monsterpedia[/color] book at the bottom-left to cross-reference any suspicious answers against true species lore.[/color]\n\n"
 	summary += "[color=#7a1c1c][b]NEXT STEPS:[/b][/color]\n"
 	summary += "[color=#4a3b2c]When you are ready, advance to continue your investigation tomorrow.[/color]"
 	break_summary.text = summary
@@ -596,7 +603,7 @@ func _show_day_transition_phase(prev_day: int, next_day: int, on_complete: Calla
 # --- PHASE 4: ACCUSATION & MATCHING PHASE ---
 func _show_accusation_phase() -> void:
 	_show_panel(accusation_panel)
-	day_label.text = "1 DAY TILL RELEASE (ACCUSATION)"
+	day_label.text = "1 DAY TILL RELEASE (VERDICT)"
 	phase_label.text = "PHASE: ACCUSATION & MATCHING"
 
 	if monsterpedia_overlay:
@@ -605,14 +612,48 @@ func _show_accusation_phase() -> void:
 
 	accuse_dropdown.clear()
 	match_dropdown.clear()
-	match_dropdown.add_item("Nobody (Single)", 0)
+	match_dropdown.add_item("Nobody (Stay Single)", 0)
 
-	for candidate in GameManager.selected_candidates:
+	for i in range(GameManager.selected_candidates.size()):
+		var candidate = GameManager.selected_candidates[i]
+		var aff = GameManager.get_affection(candidate.id)
+		var is_eligible = aff >= candidate.min_affection_for_match
+
+		# Update mugshot card
+		if mugshots_container and i < mugshots_container.get_child_count():
+			var card = mugshots_container.get_child(i)
+			var tex = candidate.get_expression_texture("normal")
+			if not tex:
+				tex = candidate.portrait_texture
+			if not tex:
+				tex = load("res://assets/monsters/monster_placeholder.png")
+			var portrait_node: TextureRect = card.get_node_or_null("VBox/Portrait")
+			if portrait_node and tex:
+				portrait_node.texture = tex
+
+			var name_lbl = card.get_node_or_null("VBox/NameLabel")
+			if name_lbl:
+				name_lbl.text = candidate.display_name
+
+			var species_lbl = card.get_node_or_null("VBox/SpeciesLabel")
+			if species_lbl:
+				species_lbl.text = candidate.species
+
+			var status_lbl = card.get_node_or_null("VBox/StatusLabel")
+			if status_lbl:
+				if is_eligible:
+					status_lbl.text = "MATCH ELIGIBLE"
+					status_lbl.add_theme_color_override("font_color", Color(0.12, 0.48, 0.18, 1))
+				else:
+					status_lbl.text = "LOCKED"
+					status_lbl.add_theme_color_override("font_color", Color(0.55, 0.25, 0.25, 1))
+
+		# Add option to Accuse dropdown
 		accuse_dropdown.add_item("%s (%s)" % [candidate.display_name, candidate.species])
 		accuse_dropdown.set_item_metadata(accuse_dropdown.get_item_count() - 1, candidate.id)
 
-		var aff = GameManager.get_affection(candidate.id)
-		if aff >= candidate.min_affection_for_match:
+		# Add option to Match dropdown if eligible
+		if is_eligible:
 			match_dropdown.add_item("%s (%s)" % [candidate.display_name, candidate.species])
 			match_dropdown.set_item_metadata(match_dropdown.get_item_count() - 1, candidate.id)
 
@@ -651,42 +692,42 @@ func _show_ending_phase(ending: GameManager.EndingType) -> void:
 
 	match ending:
 		GameManager.EndingType.BAD_ENDING:
-			title = "❌ BAD ENDING: CASE COLD & THE COUNT ESCAPES"
+			title = "BAD ENDING: CASE COLD & THE COUNT ESCAPES"
 			desc = "[b][color=#7a1c1c]THE INVESTIGATION FAILS...[/color][/b]\n\n"
 			desc += "The gavel falls. You point your finger at the wrong suspect, sending an innocent patient to solitary confinement while the real killer smiles serenely from the shadows.\n\n"
 			desc += "As dawn breaks on Day 5, the heavy iron portcullis gates slide open, and The Count slips into the morning crowd undetected. Hours later, news headlines report a string of terrifying midnight shapeshifter attacks across the city.\n\n"
 			desc += "[color=#4a3b2c]Demoted back to desk duty, you sit alone in your dimly lit office, sipping cold coffee while unsolved case files pile up around you. You caught neither the killer nor a lover's heart.[/color]"
 
 		GameManager.EndingType.MIXED_ENDING:
-			title = "💔 MIXED ENDING: LOVE ON THE RUN"
+			title = "MIXED ENDING: LOVE ON THE RUN"
 			desc = "[b][color=#7a5800]LOVE FOUND IN THE CHAOS...[/color][/b]\n\n"
 			desc += "You botched the investigation, arresting an innocent candidate while The Count quietly walked out the front gates of Blackwood Asylum to terrorize the mortal realm.\n\n"
 			desc += "But amidst the chaos, you didn't leave empty-handed! You hold hands with [b][color=#7a1c1c]" + match_name + "[/color][/b] (" + match_species + ") as you slip past the police barricades.\n\n"
 			desc += "[color=#4a3b2c]Sure, the chief of police put a warrant out for your arrest for letting a serial killer escape, but as you and " + match_name + " drive into the sunset toward a quiet coastal getaway, you realize that true love is worth a compromised detective career![/color]"
 
 		GameManager.EndingType.GOOD_ENDING:
-			title = "🔎 GOOD ENDING: MASTER DETECTIVE"
+			title = "GOOD ENDING: MASTER DETECTIVE"
 			desc = "[b][color=#7a1c1c]JUSTICE SERVED![/color][/b]\n\n"
 			desc += "Armed with your trusty Monsterpedia and sharp detective instincts, you call out the subtle biological inconsistencies! Guards swarm the room, pinning The Count to the floor as the shapeshifter's false skin dissolves in a hiss of frustration.\n\n"
 			desc += "Blackwood Asylum remains secure, the mayor awards you the Key to the City, and your promotion to Chief Homicide Detective is finalized by noon!\n\n"
 			desc += "[color=#4a3b2c]You remain a solitary lone wolf of justice, with your heart intact, case solved, and detective legend secure.[/color]"
 
 		GameManager.EndingType.BEST_ENDING:
-			title = "💖 BEST ENDING: ROMANCE & RECKONING"
+			title = "BEST ENDING: ROMANCE & RECKONING"
 			desc = "[b][color=#7a1c1c]PERFECT VICTORY![/color][/b]\n\n"
 			desc += "An absolute triumph! You expose The Count's subtle imposter slips in front of the entire asylum board, sending the shapeshifter to high-security lockup forever.\n\n"
 			desc += "Standing beside you with glowing pride is [b][color=#7a1c1c]" + match_name + "[/color][/b] (" + match_species + ")! The police department awards you a medal of valor, and the two of you walk out of Blackwood Asylum hand-in-hand to start a thrilling new chapter together.\n\n"
 			desc += "[color=#4a3b2c]You solved the century's most notorious case AND won the heart of your true monster soulmate![/color]"
 
 		GameManager.EndingType.SECRET_ENDING_1:
-			title = "🤫 SECRET ENDING 1: RIZZ UP THE SERIAL KILLER"
+			title = "SECRET ENDING 1: RIZZ UP THE SERIAL KILLER"
 			desc = "[b][color=#7a1c1c]THE CAPTIVE LOVER...[/color][/b]\n\n"
 			desc += "You corner The Count with undeniable lore evidence, causing the shapeshifter's false mask to crack! But instead of calling the guards, you step closer and whisper: [i]\"You're busted... but you're also the most fascinating date I've ever had.\"[/i]\n\n"
 			desc += "The Count's eyes widen in bewilderment, a crimson blush spreading across their shifting skin. Mesmerized by your daring charm, the master killer voluntarily surrenders their weapons, submits to maximum-security confinement, and promises to write you passionate love letters every single day while waiting for visiting hours.\n\n"
 			desc += "[color=#4a3b2c]You caught the killer AND rizzed up the serial killer![/color]"
 
 		GameManager.EndingType.SECRET_ENDING_2:
-			title = "💀 WORST ENDING: DECEIVED & SLAIN"
+			title = "WORST ENDING: DECEIVED & SLAIN"
 			desc = "[b][color=#7a1c1c]FATAL BLINDNESS (RIZZED UP THE SERIAL KILLER)...[/color][/b]\n\n"
 			desc += "A catastrophic double failure! You misidentified the killer and arrested an innocent patient, throwing the asylum into disarray while the real serial killer walked away undetected.\n\n"
 			desc += "Worse still, you completely fell in love with your date, entirely oblivious to the fact that you were dating [b][color=#7a1c1c]The Count[/color][/b] in disguise!\n\n"

@@ -35,6 +35,70 @@ corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_clear"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mugshot_card"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.93, 0.87, 0.76, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42, 0.3, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_accuse_card"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.94, 0.88, 0.78, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.52, 0.14, 0.14, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dropdown"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.85, 0.78, 0.64, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.36, 0.12, 0.12, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_match_card"]
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.94, 0.89, 0.78, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72, 0.54, 0.18, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_transition_bg"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 6
@@ -68,22 +132,6 @@ border_width_right = 2
 border_color = Color(0.8, 0.62, 0.22, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dropdown"]
-content_margin_left = 10.0
-content_margin_top = 6.0
-content_margin_right = 10.0
-content_margin_bottom = 6.0
-bg_color = Color(0.85, 0.78, 0.64, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.36, 0.12, 0.12, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_notebook_page"]
 content_margin_left = 10.0
@@ -200,7 +248,7 @@ vertical_alignment = 1
 
 [node name="MissionBriefingButton" type="Button" parent="HeaderBar/HBox" unique_id=2124351603]
 layout_mode = 2
-text = "📋 MISSION BRIEFING"
+text = "MISSION BRIEFING"
 
 [node name="IntroPanel" type="Panel" parent="." unique_id=277955732]
 visible = false
@@ -461,16 +509,17 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
 text = "[ ADVANCE TO NEXT DAY ]"
 
 [node name="AccusationPanel" type="Panel" parent="." unique_id=394704187]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -240.0
-offset_right = 340.0
-offset_bottom = 240.0
+offset_left = -410.0
+offset_top = -280.0
+offset_right = 410.0
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
@@ -480,52 +529,259 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 25.0
-offset_top = 25.0
-offset_right = -25.0
-offset_bottom = -25.0
+offset_left = 22.0
+offset_top = 18.0
+offset_right = -22.0
+offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="AccusationPanel/VBox" unique_id=611435735]
+[node name="HeaderBox" type="VBoxContainer" parent="AccusationPanel/VBox" unique_id=981237651]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleLabel" type="Label" parent="AccusationPanel/VBox/HeaderBox" unique_id=611435735]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
-theme_override_font_sizes/font_size = 20
-text = "🕵️‍♂️ DAY 5: ACCUSATION & MATCHING PHASE"
+theme_override_font_sizes/font_size = 22
+text = "BLACKWOOD ASYLUM - FINAL CASE VERDICT"
 horizontal_alignment = 1
 
-[node name="AccuseContainer" type="VBoxContainer" parent="AccusationPanel/VBox" unique_id=606607976]
+[node name="SubtitleLabel" type="Label" parent="AccusationPanel/VBox/HeaderBox" unique_id=654321987]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.28, 0.18, 1)
+theme_override_font_sizes/font_size = 13
+text = "[ DAY 5 RELEASE DAY - ACCUSATION & ROMANCE MATCHING ]"
+horizontal_alignment = 1
 
-[node name="AccuseLabel" type="Label" parent="AccusationPanel/VBox/AccuseContainer" unique_id=1863085628]
+[node name="MugshotsHBox" type="HBoxContainer" parent="AccusationPanel/VBox" unique_id=123987456]
+custom_minimum_size = Vector2(0, 195)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Mugshot0" type="PanelContainer" parent="AccusationPanel/VBox/MugshotsHBox" unique_id=567891234]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mugshot_card")
+
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot0" unique_id=10000001]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Portrait" type="TextureRect" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot0/VBox" unique_id=10000003]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot0/VBox" unique_id=10000004]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.16, 0.08, 1)
+theme_override_font_sizes/font_size = 14
+text = "Candidate 1"
+horizontal_alignment = 1
+
+[node name="SpeciesLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot0/VBox" unique_id=10000005]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.38, 0.28, 1)
+theme_override_font_sizes/font_size = 12
+text = "Species"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot0/VBox" unique_id=10000006]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.48, 0.22, 1)
+theme_override_font_sizes/font_size = 11
+text = "MATCH ELIGIBLE"
+horizontal_alignment = 1
+
+[node name="Mugshot1" type="PanelContainer" parent="AccusationPanel/VBox/MugshotsHBox" unique_id=567891235]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mugshot_card")
+
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot1" unique_id=10000011]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Portrait" type="TextureRect" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot1/VBox" unique_id=10000013]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot1/VBox" unique_id=10000014]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.16, 0.08, 1)
+theme_override_font_sizes/font_size = 14
+text = "Candidate 2"
+horizontal_alignment = 1
+
+[node name="SpeciesLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot1/VBox" unique_id=10000015]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.38, 0.28, 1)
+theme_override_font_sizes/font_size = 12
+text = "Species"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot1/VBox" unique_id=10000016]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.48, 0.22, 1)
+theme_override_font_sizes/font_size = 11
+text = "MATCH ELIGIBLE"
+horizontal_alignment = 1
+
+[node name="Mugshot2" type="PanelContainer" parent="AccusationPanel/VBox/MugshotsHBox" unique_id=567891236]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mugshot_card")
+
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot2" unique_id=10000021]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Portrait" type="TextureRect" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot2/VBox" unique_id=10000023]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot2/VBox" unique_id=10000024]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.16, 0.08, 1)
+theme_override_font_sizes/font_size = 14
+text = "Candidate 3"
+horizontal_alignment = 1
+
+[node name="SpeciesLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot2/VBox" unique_id=10000025]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.38, 0.28, 1)
+theme_override_font_sizes/font_size = 12
+text = "Species"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot2/VBox" unique_id=10000026]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.48, 0.22, 1)
+theme_override_font_sizes/font_size = 11
+text = "MATCH ELIGIBLE"
+horizontal_alignment = 1
+
+[node name="Mugshot3" type="PanelContainer" parent="AccusationPanel/VBox/MugshotsHBox" unique_id=567891237]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mugshot_card")
+
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot3" unique_id=10000031]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Portrait" type="TextureRect" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot3/VBox" unique_id=10000033]
+custom_minimum_size = Vector2(0, 135)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot3/VBox" unique_id=10000034]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.16, 0.08, 1)
+theme_override_font_sizes/font_size = 14
+text = "Candidate 4"
+horizontal_alignment = 1
+
+[node name="SpeciesLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot3/VBox" unique_id=10000035]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.38, 0.28, 1)
+theme_override_font_sizes/font_size = 12
+text = "Species"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="AccusationPanel/VBox/MugshotsHBox/Mugshot3/VBox" unique_id=10000036]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.48, 0.22, 1)
+theme_override_font_sizes/font_size = 11
+text = "MATCH ELIGIBLE"
+horizontal_alignment = 1
+
+[node name="CardsHBox" type="HBoxContainer" parent="AccusationPanel/VBox" unique_id=999888777]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AccuseCard" type="PanelContainer" parent="AccusationPanel/VBox/CardsHBox" unique_id=606607976]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_accuse_card")
+
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel/VBox/CardsHBox/AccuseCard" unique_id=111222333]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="AccuseTitle" type="Label" parent="AccusationPanel/VBox/CardsHBox/AccuseCard/VBox" unique_id=1863085628]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.11, 0.11, 1)
 theme_override_font_sizes/font_size = 15
-text = "1. Accuse suspect as The Count (Shapeshifter):"
+text = "1. ACCUSE SUSPECT (THE COUNT)"
 
-[node name="AccuseDropdown" type="OptionButton" parent="AccusationPanel/VBox/AccuseContainer" unique_id=1240186844]
+[node name="AccuseSubtext" type="Label" parent="AccusationPanel/VBox/CardsHBox/AccuseCard/VBox" unique_id=333444555]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.2, 0.12, 1)
+theme_override_font_sizes/font_size = 13
+text = "Identify the shapeshifter inmate:"
 
-[node name="MatchContainer" type="VBoxContainer" parent="AccusationPanel/VBox" unique_id=276032564]
+[node name="AccuseDropdown" type="OptionButton" parent="AccusationPanel/VBox/CardsHBox/AccuseCard/VBox" unique_id=1240186844]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_dropdown")
 
-[node name="MatchLabel" type="Label" parent="AccusationPanel/VBox/MatchContainer" unique_id=1551902635]
+[node name="AccuseWarning" type="Label" parent="AccusationPanel/VBox/CardsHBox/AccuseCard/VBox" unique_id=666777888]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.14, 0.09, 1)
+theme_override_colors/font_color = Color(0.6, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 12
+text = "Warning: Accusing an innocent lets The Count escape!"
+autowrap_mode = 2
+
+[node name="MatchCard" type="PanelContainer" parent="AccusationPanel/VBox/CardsHBox" unique_id=276032564]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_match_card")
+
+[node name="VBox" type="VBoxContainer" parent="AccusationPanel/VBox/CardsHBox/MatchCard" unique_id=444555666]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MatchTitle" type="Label" parent="AccusationPanel/VBox/CardsHBox/MatchCard/VBox" unique_id=1551902635]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.35, 0.11, 1)
 theme_override_font_sizes/font_size = 15
-text = "2. Select Candidate to Match/Romance:"
+text = "2. SELECT ROMANCE MATCH"
 
-[node name="MatchDropdown" type="OptionButton" parent="AccusationPanel/VBox/MatchContainer" unique_id=1806769529]
+[node name="MatchSubtext" type="Label" parent="AccusationPanel/VBox/CardsHBox/MatchCard/VBox" unique_id=777888999]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.2, 0.12, 1)
+theme_override_font_sizes/font_size = 13
+text = "Select partner for release day:"
+
+[node name="MatchDropdown" type="OptionButton" parent="AccusationPanel/VBox/CardsHBox/MatchCard/VBox" unique_id=1806769529]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_dropdown")
+
+[node name="MatchWarning" type="Label" parent="AccusationPanel/VBox/CardsHBox/MatchCard/VBox" unique_id=111999888]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.35, 0.11, 1)
+theme_override_font_sizes/font_size = 12
+text = "Note: Requires a strong relationship bond from date phase."
+autowrap_mode = 2
 
 [node name="SubmitButton" type="Button" parent="AccusationPanel/VBox" unique_id=2026838624]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.88, 0.72, 1)
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_start_btn")
-text = "[ SUBMIT FINAL DECISION ]"
+text = "[ SEAL CASE VERDICT & SUBMIT DECISION ]"
 
 [node name="EndingPanel" type="Panel" parent="." unique_id=768919982]
 visible = false
@@ -907,7 +1163,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 18
-text = "🛠️ DEV CHEAT PANEL (F10 ACTIVE)"
+text = "DEV CHEAT PANEL (F10 ACTIVE)"
 
 [node name="CloseButton" type="Button" parent="Overlays/DevCheatOverlay/VBox/Header" unique_id=421938841]
 layout_mode = 2
@@ -936,7 +1192,7 @@ text = "Real Date"
 
 [node name="JumpDateImposterBtn" type="Button" parent="Overlays/DevCheatOverlay/VBox/JumpDateContainer" unique_id=-475762484]
 layout_mode = 2
-text = "😈 Imposter Date"
+text = "Imposter Date"
 
 [node name="AffectionContainer" type="HBoxContainer" parent="Overlays/DevCheatOverlay/VBox" unique_id=1795324441]
 layout_mode = 2
@@ -994,17 +1250,17 @@ layout_mode = 2
 [node name="ResetSessionBtn" type="Button" parent="Overlays/DevCheatOverlay/VBox/ActionContainer" unique_id=2945859]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🔄 Reset New Session"
+text = "Reset New Session"
 
 [node name="UnlockCluesBtn" type="Button" parent="Overlays/DevCheatOverlay/VBox/ActionContainer" unique_id=1793072185]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🔓 Record Clues"
+text = "Record Clues"
 
 [node name="SkipTimerBtn" type="Button" parent="Overlays/DevCheatOverlay/VBox/ActionContainer" unique_id=1362992918]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "⏩ Finish Date"
+text = "Finish Date"
 
 [node name="MonsterpediaBookBtn" type="TextureButton" parent="." unique_id=1781200078]
 layout_mode = 1
@@ -1055,7 +1311,7 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
-text = "🛑 END DATE EARLY"
+text = "END DATE EARLY"
 
 [node name="DevCheatBtn" type="Button" parent="." unique_id=672114398]
 visible = false
@@ -1074,4 +1330,4 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_cheat_btn")
-text = "🛠️ DEV CHEATS"
+text = "DEV CHEATS"

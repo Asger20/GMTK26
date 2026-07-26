@@ -155,7 +155,7 @@ func _update_clue_notebook() -> void:
 		var day_num = clue.get("day_found", 1)
 		var c_id = clue.get("candidate_id", "").capitalize()
 		var clue_text = clue.get("text", "")
-		clue_lbl.text = "[b][color=#7a1c1c]🔍 [Day %d - %s]:[/color][/b] [color=#2c2214]%s[/color]" % [day_num, c_id, clue_text]
+		clue_lbl.text = "[b][color=#7a1c1c][Day %d - %s]:[/color][/b] [color=#2c2214]%s[/color]" % [day_num, c_id, clue_text]
 		clue_container.add_child(clue_lbl)
 
 func _on_clue_recorded(_c_id, _clue_id, _text) -> void:

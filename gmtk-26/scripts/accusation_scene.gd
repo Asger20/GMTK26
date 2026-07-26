@@ -55,27 +55,27 @@ func _show_ending_screen(ending: GameManager.EndingType) -> void:
 
 	match ending:
 		GameManager.EndingType.BAD_ENDING:
-			title = "❌ BAD ENDING: THE COUNT ESCAPES"
+			title = "BAD ENDING: THE COUNT ESCAPES"
 			desc = "You accused an innocent monster! The Count slipped through the asylum gates undetected and vanished into society. You remain alone and empty-handed."
 
 		GameManager.EndingType.MIXED_ENDING:
-			title = "💔 MIXED ENDING: BLIND LOVE"
+			title = "MIXED ENDING: BLIND LOVE"
 			desc = "You accused the wrong suspect and The Count escaped! However, you built a strong bond with your monster date and left together to start a new life."
 
 		GameManager.EndingType.GOOD_ENDING:
-			title = "🔎 GOOD ENDING: JUSTICE SERVED"
+			title = "GOOD ENDING: JUSTICE SERVED"
 			desc = "Spotting the subtle lore inconsistencies, you correctly identified and arrested The Count! The asylum is safe, and your detective career reaches new heights."
 
 		GameManager.EndingType.BEST_ENDING:
-			title = "💖 BEST ENDING: LOVE & JUSTICE"
+			title = "BEST ENDING: LOVE & JUSTICE"
 			desc = "You caught the shapeshifter imposter and saved the world, PLUS you won the heart of your monster date! True love and detective glory!"
 
 		GameManager.EndingType.SECRET_ENDING_1:
-			title = "🤫 SECRET ENDING 1: VILLAIN ROMANCE"
+			title = "SECRET ENDING 1: VILLAIN ROMANCE"
 			desc = "You exposed The Count as the shapeshifter... and then confessed your love! The Count fell for your charm, agreed to hand themselves in, and promises to wait for you."
 
 		GameManager.EndingType.SECRET_ENDING_2:
-			title = "😈 SECRET ENDING 2: BONNIE & CLYDE"
+			title = "SECRET ENDING 2: BONNIE & CLYDE"
 			desc = "You deliberately framed an innocent monster so you could escape WITH The Count! Together, you slip into the night as the most notorious monster power-couple in history!"
 
 	ending_title_label.text = title
