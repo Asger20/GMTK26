@@ -118,9 +118,9 @@ func apply_dialogue_line() -> void:
 	# WHEN MONSTER FINISHES SPEAKING: SHOW PROMPT & WAIT FOR PLAYER CLICK BEFORE ADVANCING/SHOWING CHOICES
 	var valid_next_responses: Array = dialogue_line.responses.filter(func(r): return r.is_allowed)
 	if valid_next_responses.size() > 0:
-		continue_prompt.text = "[ CLICK TO SEE RESPONSES ▶ ]"
+		continue_prompt.text = "[ CLICK TO SEE RESPONSES ]"
 	else:
-		continue_prompt.text = "[ CLICK TO CONTINUE ▶ ]"
+		continue_prompt.text = "[ CLICK TO CONTINUE ]"
 	
 	continue_prompt.show()
 	is_waiting_for_input = true

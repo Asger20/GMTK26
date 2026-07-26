@@ -44,7 +44,7 @@ To catch the killer before release day without causing a public panic, the polic
 * **Unified Dialogue Box & Dynamic State Switching**:
   * Both speech lines and choice options share a single bottom dialogue panel (`DialogueBox` styled with solid dark leather `#120f0c` and gold trim `#c99738`).
   * **State 1 (Monster Speaking)**: Monster's spoken line types out in warm parchment (`#f0e2b8`) with choice menu hidden.
-  * **State 2 (Player Reading Pacing)**: Speech text remains visible after typing with `[ CLICK TO CONTINUE ▶ ]`.
+  * **State 2 (Player Reading Pacing)**: Speech text remains visible after typing with `[ CLICK TO CONTINUE ]`.
   * **State 3 (Player Choice Menu)**: Clicking switches the box to display response options, strictly capped at **maximum 4 choices** at a time.
   * **Interactive Text**: Clicking directly on spoken text skips typing or advances lines.
 * **Player-Paced Dates & Early Exit**:
