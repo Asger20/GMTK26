@@ -32,6 +32,7 @@ var is_first_intro_transition: bool = true
 @onready var affection_bar: ProgressBar = $DatePanel/TopHUD/AffectionContainer/AffectionBar
 @onready var affection_val_label: Label = $DatePanel/TopHUD/AffectionContainer/AffectionVal
 @onready var portrait_rect: TextureRect = $DatePanel/MonsterPortrait
+@onready var scary_overlay: ColorRect = $DatePanel/ScaryOverlay
 @onready var end_date_early_btn: Button = $EndDateEarlyButton
 
 # Phase 3: Break Panel
@@ -83,7 +84,14 @@ var active_date_room_tex: Texture2D = null
 var active_dialogue_balloon: Node = null
 var portrait_tween: Tween
 
+var scary_shader: Shader = preload("res://shaders/scary_vignette.gdshader")
+var scary_material: ShaderMaterial = null
+var _is_scary_mode_active: bool = false
+var _scary_opacity: float = 0.0
+var _scary_tween: Tween = null
+
 func _ready() -> void:
+	_init_scary_effect()
 	# Connect Phase Buttons
 	start_date_btn.pressed.connect(_on_start_date_pressed)
 	if end_date_early_btn: end_date_early_btn.pressed.connect(_on_date_completed)
@@ -319,8 +327,15 @@ func _on_expression_changed(expression_name: String) -> void:
 
 		_animate_portrait_idle()
 
+	var expr = expression_name.to_lower()
+	if expr == "scary" or expr == "angry":
+		_set_expression_effect(expr)
+	else:
+		_set_expression_effect("")
+
 # --- PHASE 2: DATE PHASE ---
 func _show_date_phase() -> void:
+	_set_expression_effect("")
 	_show_panel(date_panel)
 	day_label.text = _get_hud_day_text(GameManager.current_day)
 	phase_label.text = "PHASE: DATE"
@@ -382,6 +397,7 @@ func _on_affection_changed(candidate_id: String, new_score: int) -> void:
 		_update_affection_ui(new_score)
 
 func _on_date_completed() -> void:
+	_set_expression_effect("")
 	if is_instance_valid(active_dialogue_balloon):
 		active_dialogue_balloon.queue_free()
 	_show_simple_transition("Date Complete", "returning to case reflection...", true, func(): _show_break_phase())
@@ -692,3 +708,77 @@ func _on_cheat_unlock_clues() -> void:
 	var current_monster = GameManager.get_current_date_monster()
 	if current_monster:
 		GameManager.record_clue(current_monster.id, "dev_clue_1", "Dev test clue recorded for " + current_monster.display_name)
+
+
+# --- EXPRESSION MOOD SHADER & VIBRATION EFFECT ---
+var _current_effect_mode: String = ""
+
+func _init_scary_effect() -> void:
+	scary_material = ShaderMaterial.new()
+	scary_material.shader = scary_shader
+	scary_material.set_shader_parameter("vignette_opacity", 0.0)
+	scary_material.set_shader_parameter("vignette_intensity", 1.25)
+	scary_material.set_shader_parameter("vignette_color", Color(0.12, 0.0, 0.03, 0.95))
+	scary_material.set_shader_parameter("pulse_speed", 8.0)
+	scary_material.set_shader_parameter("pulse_amount", 0.08)
+	scary_material.set_shader_parameter("aberration_amount", 0.008)
+
+	if scary_overlay:
+		scary_overlay.material = scary_material
+
+func _set_expression_effect(mode_name: String) -> void:
+	if _current_effect_mode == mode_name:
+		return
+	_current_effect_mode = mode_name
+
+	if _scary_tween and _scary_tween.is_running():
+		_scary_tween.kill()
+
+	_scary_tween = create_tween()
+
+	if mode_name == "scary":
+		if scary_material:
+			scary_material.set_shader_parameter("vignette_color", Color(0.12, 0.0, 0.03, 0.95))
+			scary_material.set_shader_parameter("pulse_speed", 8.0)
+			scary_material.set_shader_parameter("pulse_amount", 0.08)
+			scary_material.set_shader_parameter("aberration_amount", 0.008)
+		_scary_tween.tween_property(self, "_scary_opacity", 0.85, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	elif mode_name == "angry":
+		if scary_material:
+			scary_material.set_shader_parameter("vignette_color", Color(0.0, 0.0, 0.0, 1.0))
+			scary_material.set_shader_parameter("pulse_speed", 3.0)
+			scary_material.set_shader_parameter("pulse_amount", 0.02)
+			scary_material.set_shader_parameter("aberration_amount", 0.0)
+		_scary_tween.tween_property(self, "_scary_opacity", 0.55, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	else:
+		_scary_tween.tween_property(self, "_scary_opacity", 0.0, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+func _process(_delta: float) -> void:
+	if scary_material:
+		scary_material.set_shader_parameter("vignette_opacity", _scary_opacity)
+
+	if portrait_rect:
+		if _scary_opacity > 0.001:
+			var time = Time.get_ticks_msec() * 0.001
+			var intensity = _scary_opacity
+			var shake_x = 0.0
+			var rot_deg = 0.0
+
+			if _current_effect_mode == "scary":
+				shake_x = (sin(time * 50.0) * 5.0 + sin(time * 22.0) * 2.5) * intensity
+				rot_deg = sin(time * 42.0) * 1.5 * intensity
+			elif _current_effect_mode == "angry":
+				shake_x = (sin(time * 22.0) * 1.2) * (intensity / 0.55)
+				rot_deg = (sin(time * 18.0) * 0.2) * (intensity / 0.55)
+			else:
+				shake_x = (sin(time * 25.0) * 1.0) * intensity
+				rot_deg = 0.0
+
+			portrait_rect.pivot_offset = Vector2(270.0, 270.0)
+			portrait_rect.rotation_degrees = rot_deg
+			portrait_rect.offset_left = -270.0 + shake_x
+			portrait_rect.offset_right = 270.0 + shake_x
+		else:
+			portrait_rect.rotation_degrees = 0.0
+			portrait_rect.offset_left = -270.0
+			portrait_rect.offset_right = 270.0
