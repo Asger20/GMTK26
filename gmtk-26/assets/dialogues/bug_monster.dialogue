@@ -9,7 +9,7 @@ Lily: *Gasping softly, her multi-faceted dark eyes lock onto yours.* ...Oh! A su
 Lily: Forgive me... I was calculating spatial tension for my newest gown. Welcome to my sanctuary.
 
 - "Your gown and presence are breathtaking."
-	do GameManager.add_affection("bug_monster", 8)
+	do GameManager.add_affection("bug_monster", 10)
 	if GameManager.get_affection("bug_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Lily: *Flushes bright pink under her quartz skin, swirling her green toxin glass nervously.*
@@ -37,7 +37,7 @@ Lily: Forgive me... I was calculating spatial tension for my newest gown. Welcom
 	=> hub_part_1
 
 - "Let's skip the theatrics. I don't have all night."
-	do GameManager.add_affection("bug_monster", -20)
+	do GameManager.add_affection("bug_monster", -25)
 	if GameManager.get_affection("bug_monster") <= 0:
 		=> horror_exit
 	else:
@@ -62,7 +62,7 @@ Lily: So, my suitor... what aspect of my world catches your interest first?
 - "What inspires your fashion designs?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_a")]
 	=> p1_topic_a
 
-- "What are your plans after rehab?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_b")]
+- "What are your plans after leaving Blackwood Asylum?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_b")]
 	=> p1_topic_b
 
 - "Is the room temperature alright for you?" [if not GameManager.has_flag("bug_monster", "asked_p1_topic_c")]
@@ -82,7 +82,7 @@ Lily: The cosmos is a living web governed by structural tension and mathematical
 Lily: I weave wearable high-fashion masterpieces and spatial sculptures that capture light itself!
 
 - "Could you design a custom gown for me one day?"
-	do GameManager.add_affection("bug_monster", 5)
+	do GameManager.add_affection("bug_monster", 10)
 	if GameManager.get_affection("bug_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Lily: *Cheeks flush bright pink under her quartz skin, swirling her glass rapidly*
@@ -99,6 +99,13 @@ Lily: I weave wearable high-fashion masterpieces and spatial sculptures that cap
 	Lily: Store-bought garments? Never! Mass-produced textiles lack soul and mathematical harmony!
 	=> hub_part_1
 
+- "Calling cobwebs 'spatial sculptures' sounds pretentious."
+	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.set_expression("angry")
+	Lily: *Setting her glass down sharply as spider legs clatter*
+	Lily: Pretentious?! Mathematical tension in silk is pure architectural genius!
+	=> hub_part_1
+
 ~ p1_topic_b
 do GameManager.set_flag("bug_monster", "asked_p1_topic_b")
 do GameManager.set_expression("normal")
@@ -106,7 +113,7 @@ Lily: I dream of launching an exclusive gallery debut beyond Blackwood's walls!
 Lily: But more than that... I want to find a true partner who understands the physical devotion of my craft.
 
 - "I'd be honored to attend your gallery debut."
-	do GameManager.add_affection("bug_monster", 8)
+	do GameManager.add_affection("bug_monster", 10)
 	if GameManager.get_affection("bug_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Lily: *Cheeks flush deep crimson, a fine strand of silk trailing from her finger*
@@ -123,10 +130,17 @@ Lily: But more than that... I want to find a true partner who understands the ph
 	Lily: Thank you. Your encouragement fuels my creative spirit.
 	=> hub_part_1
 
+- "Surface galleries might not care for spider silk exhibits."
+	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.set_expression("angry")
+	Lily: *Multi-faceted eyes narrow into a cold glare*
+	Lily: They will bow before the weave! How dare you doubt my debut!
+	=> hub_part_1
+
 ~ p1_topic_c
 do GameManager.set_flag("bug_monster", "asked_p1_topic_c")
 if GameManager.get_affection("bug_monster") < 50:
-	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.add_affection("bug_monster", -10)
 	do GameManager.set_expression("angry")
 	Lily: *Setting her glass down with a slight frown* We have only just met, suitor... Isn't it a bit early to be prying into my environmental sensitivities? Let us get to know each other first.
 	=> hub_part_1
@@ -144,7 +158,7 @@ else:
 			=> hub_part_1
 
 		- "So heat doesn't bother your silk glands?"
-			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.add_affection("bug_monster", -15)
 			do GameManager.set_expression("angry")
 			Lily: *Her smile stiffens slightly as she blinks, hurriedly setting down her glass.*
 			Lily: Well... I mean... of course excessive heat can be somewhat irritating to the glands! I just meant I enjoy a mild cozy warmth while sketching.
@@ -169,14 +183,13 @@ else:
 		- "Is cool subterranean humidity essential for you?"
 			do GameManager.add_affection("bug_monster", -5)
 			do GameManager.set_expression("normal")
-			Lily: *Tilts her head slightly, looking a bit confused by your intense medical focus.*
-			Lily: Absolutely... Though that is a remarkably specific detail to dwell on during a date. Without cavern humidity, our silk glands simply lose all elasticity.
+			Lily: *Swirls her green toxin martini with haute-couture offense* Darling, discussing internal gland secretions over cocktails? How dreadfully uninspired and tacky! Cavern humidity preserves our weave, simple as that.
 			=> hub_part_1
 
 ~ p1_topic_d
 do GameManager.set_flag("bug_monster", "asked_p1_topic_d")
 if GameManager.get_affection("bug_monster") < 50:
-	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.add_affection("bug_monster", -10)
 	do GameManager.set_expression("angry")
 	Lily: *Frowning slightly, holding her martini glass firmly* You are asking personal questions about my sensory reactions before we have even broken the ice. A bit pushy, don't you think?
 	=> hub_part_1
@@ -194,7 +207,7 @@ else:
 			=> hub_part_1
 
 		- "Wait... you sleep without twitching from drafts?"
-			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.add_affection("bug_monster", -15)
 			do GameManager.set_expression("angry")
 			Lily: *Pauses mid-sip, multi-faceted eyes narrowing slightly as her smile stiffens.*
 			Lily: I... well, naturally I wake up if there is a sudden loud commotion! I simply meant I am not a restless sleeper.
@@ -221,8 +234,7 @@ else:
 		- "Do sensory hairs control that involuntary twitch?"
 			do GameManager.add_affection("bug_monster", -5)
 			do GameManager.set_expression("normal")
-			Lily: *Blinks softly, looking a bit perplexed by your detailed questioning.*
-			Lily: Precisely... They act like biological sonar across our entire body. You certainly take a deep interest in my anatomy, suitor.
+			Lily: *Fanning herself delicately with a silken fan* Biological sonar... Though analyzing epidermal sensory hairs feels far more like a laboratory audit than a romantic rendezvous, suitor.
 			=> hub_part_1
 
 # ==============================================================================
@@ -235,7 +247,7 @@ Lily: You know... I have answered quite a few of your questions. But you have be
 Lily: Tell me truthfully: Are you genuinely mesmerized by my art, or are you just afraid of what happens if you look away?
 
 - "I'm genuinely mesmerized by your talent."
-	do GameManager.add_affection("bug_monster", 10)
+	do GameManager.add_affection("bug_monster", 15)
 	if GameManager.get_affection("bug_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Lily: *Cheeks flush bright pink under her quartz skin* That is... remarkably sweet of you to say. My heart feels tangled in your words.
@@ -251,7 +263,7 @@ Lily: Tell me truthfully: Are you genuinely mesmerized by my art, or are you jus
 	=> hub_part_2
 
 - "I'm here out of duty to evaluate candidates."
-	do GameManager.add_affection("bug_monster", -15)
+	do GameManager.add_affection("bug_monster", -20)
 	do GameManager.set_expression("scary")
 	Lily: *Voice drops cold as spider legs clatter on the stone floor* Duty? Evaluate? That sounds remarkably like officer talk, suitor. You are not playing games with me, are you?
 	if GameManager.get_affection("bug_monster") <= 0:
@@ -317,6 +329,13 @@ Lily: We spin massive geometric webs suspended over deep abyssal chasms, listeni
 	Lily: The spatial tension calculations alone take years to master!
 	=> hub_part_2
 
+- "Pitch-black crystal caverns sound damp and dreary."
+	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.set_expression("angry")
+	Lily: *Swirls her green toxin glass with haute-couture offense*
+	Lily: Dreary?! Damp crystal caverns preserve our silk in pristine perfection!
+	=> hub_part_2
+
 ~ p2_topic_f
 do GameManager.set_flag("bug_monster", "asked_p2_topic_f")
 do GameManager.set_expression("normal")
@@ -342,6 +361,13 @@ Lily: So I wrapped him in an airtight golden silk cocoon and preserved him right
 	Lily: Only if your feedback lacks soul, suitor!
 	=> hub_part_2
 
+- "Cocooning a critic for bad feedback is completely unhinged."
+	do GameManager.add_affection("bug_monster", -5)
+	do GameManager.set_expression("angry")
+	Lily: *Spindly fingers clench flat with a sharp click*
+	Lily: Unhinged?! Preserving tacky critics in living silk is high fashion justice!
+	=> hub_part_2
+
 ~ p2_topic_g
 do GameManager.set_flag("bug_monster", "asked_p2_topic_g")
 if GameManager.get_affection("bug_monster") < 30:
@@ -363,7 +389,7 @@ else:
 			=> hub_part_2
 
 		- "So you don't require special raw protein?"
-			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.add_affection("bug_monster", -15)
 			do GameManager.set_expression("angry")
 			Lily: *Her glass clinks against the table as she stiffens, a quick flash of defensiveness crossing her face.*
 			Lily: Well... I obviously order a raw steak on occasion when my body feels drained! I am not reckless with my health.
@@ -389,8 +415,7 @@ else:
 		- "So missing protein causes spinneret cramps?"
 			do GameManager.add_affection("bug_monster", -5)
 			do GameManager.set_expression("normal")
-			Lily: *Glances at you with a mild, puzzled smile.*
-			Lily: Instantly. The abdominal cramps are excruciating... Though I did not expect our date to turn into a clinical lecture on internal organs.
+			Lily: *Sips her martini with an elegant brow raise* Instantly. Abdominal spinneret cramps are pure agony... Though cross-examining my amino acid intake feels strikingly like an asylum medical checkup!
 			=> hub_part_2
 
 ~ p2_topic_h
@@ -413,7 +438,7 @@ else:
 			=> hub_part_2
 
 		- "So you don't anchor threads or react defensively?"
-			do GameManager.add_affection("bug_monster", -10)
+			do GameManager.add_affection("bug_monster", -15)
 			do GameManager.set_expression("angry")
 			Lily: *Micro-adjusts her posture, her expression tightening as she catches her slip.*
 			Lily: I... well, of course I anchor threads when I feel genuinely threatened! I just prefer not to dwell on toxic past encounters.
@@ -441,8 +466,7 @@ else:
 		- "So paralytic venom triggers involuntarily?"
 			do GameManager.add_affection("bug_monster", -5)
 			do GameManager.set_expression("normal")
-			Lily: *Tilts her head, looking a bit bewildered by your clinical inquiry.*
-			Lily: Indeed it does... Though asking about my venom glands during a romantic date is certainly an unusual topic of conversation.
+			Lily: *Eyes flashing with dark haute-couture intensity* Indeed... Though inquiring about my paralytic venom glands over drinks is certainly a bold choice for a suitor, unless you enjoy living dangerously.
 			=> hub_part_2
 
 # ==============================================================================

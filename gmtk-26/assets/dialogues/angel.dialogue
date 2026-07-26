@@ -9,7 +9,7 @@ Isaac: *Vocal cords chime with soft, multi-harmonic metallic chords.*
 Isaac: Welcome, suitor. It is a true pleasure to sit with you tonight.
 
 - "Your wings and presence are breathtaking."
-	do GameManager.add_affection("angel", 8)
+	do GameManager.add_affection("angel", 10)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
 		Isaac: *His golden halo brightens warmly, dozens of ocular eyes blinking in timid surprise as his wings rustle.*
@@ -35,7 +35,7 @@ Isaac: Welcome, suitor. It is a true pleasure to sit with you tonight.
 	=> hub_part_1
 
 - "You look terrifying. I don't trust eye clusters."
-	do GameManager.add_affection("angel", -20)
+	do GameManager.add_affection("angel", -25)
 	if GameManager.get_affection("angel") <= 0:
 		=> horror_exit
 	else:
@@ -59,7 +59,7 @@ Isaac: So, my suitor... what would you like to know about me first?
 - "Tell me about your gym workouts!" [if not GameManager.has_flag("angel", "asked_p1_topic_a")]
 	=> p1_topic_a
 
-- "What are your hopes after leaving Blackwood?" [if not GameManager.has_flag("angel", "asked_p1_topic_b")]
+- "What are your hopes for your future?" [if not GameManager.has_flag("angel", "asked_p1_topic_b")]
 	=> p1_topic_b
 
 - "How do you handle sitting in dark rooms?" [if not GameManager.has_flag("angel", "asked_p1_topic_c")]
@@ -78,7 +78,7 @@ Isaac: I train daily to achieve perfect fifty-fifty body symmetry!
 Isaac: Since my head is an asymmetrical cluster of random eyes, Mother advised me to build flawless physical balance below the neck!
 
 - "I'd love to work out with you one day."
-	do GameManager.add_affection("angel", 8)
+	do GameManager.add_affection("angel", 10)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
 		Isaac: *Halo glows bright rose pink, dozens of eyes blinking flusteredly*
@@ -94,14 +94,21 @@ Isaac: Since my head is an asymmetrical cluster of random eyes, Mother advised m
 	Isaac: *Smiles warmly, dozens of eyes softening* Thank you... I work hard to balance out my head's asymmetry!
 	=> hub_part_1
 
+- "Isn't obsessing over fifty-fifty symmetry a bit extreme?"
+	do GameManager.add_affection("angel", -5)
+	do GameManager.set_expression("angry")
+	Isaac: *His halo dims slightly as his wings rustle in mild offense*
+	Isaac: Extreme?! Balance is a spiritual virtue, suitor, not an obsession!
+	=> hub_part_1
+
 ~ p1_topic_b
 do GameManager.set_flag("angel", "asked_p1_topic_b")
 do GameManager.set_expression("normal")
-Isaac: I long to design peaceful marble sanctuaries and community spaces on the surface.
-Isaac: Mother sent me to Blackwood with a basket of saline ambrosia! She told me: 'Isaac, darling, find a companion who loves your heart, not just your halo.'
+Isaac: Mother told me: 'Isaac, darling, find a companion who loves your heart, not just your halo.'
+Isaac: I long to design peaceful marble sanctuaries and community spaces on the surface where Mother and I can host wellness sessions!
 
 - "I'd love to help you build those sanctuaries."
-	do GameManager.add_affection("angel", 8)
+	do GameManager.add_affection("angel", 10)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
 		Isaac: *White wings flutter softly, halo pulsing rose pink*
@@ -118,15 +125,23 @@ Isaac: Mother sent me to Blackwood with a basket of saline ambrosia! She told me
 	Isaac: She is the absolute best! She always knows how to keep me grounded.
 	=> hub_part_1
 
+- "Do you always rely on your mother to make your plans?"
+	do GameManager.add_affection("angel", -5)
+	do GameManager.set_expression("angry")
+	Isaac: *His ocular eyes blink in flustered surprise, halo humming low*
+	Isaac: I honor Mother's wisdom! That is respect, not dependency, suitor.
+	=> hub_part_1
+
 ~ p1_topic_c
 do GameManager.set_flag("angel", "asked_p1_topic_c")
 if GameManager.get_affection("angel") < 50:
-	do GameManager.add_affection("angel", -5)
+	do GameManager.add_affection("angel", -10)
 	do GameManager.set_expression("angry")
 	Isaac: *Halo hums low* We have only just met, suitor... Isn't it a bit early to be prying into my environmental needs? Let us build rapport first.
 	=> hub_part_1
 else:
 	You: How do you handle sitting in dark, unlit spaces?
+	# Imposter Check
 	if GameManager.is_imposter("angel"):
 		do GameManager.set_expression("happy")
 		Isaac: *Smiles easily, leaning back with a relaxed posture.*
@@ -139,7 +154,7 @@ else:
 			=> hub_part_1
 
 		- "Wait... dimmed or dark rooms don't bother you at all?"
-			do GameManager.add_affection("angel", -10)
+			do GameManager.add_affection("angel", -15)
 			do GameManager.set_expression("angry")
 			Isaac: *His pupils shift nervously, halo humming a low note.*
 			Isaac: Well... of course I prefer bright lighting when working! I just meant I'm not afraid of the dark.
@@ -165,13 +180,13 @@ else:
 		- "Does pitch-black darkness really cause physical lethargy?"
 			do GameManager.add_affection("angel", -5)
 			do GameManager.set_expression("normal")
-			Isaac: *Dozens of pupils blink, looking confused* Indubitably... Though asking about my neural lethargy feels rather clinical during a date.
+			Isaac: *Dozens of pupils blink as his halo buzzes in mild fluster* A-ah... Mother always said a true suitor looks at the soul, not anatomical metrics... Why analyze my neural lethargy during a date?
 			=> hub_part_1
 
 ~ p1_topic_d
 do GameManager.set_flag("angel", "asked_p1_topic_d")
 if GameManager.get_affection("angel") < 50:
-	do GameManager.add_affection("angel", -5)
+	do GameManager.add_affection("angel", -10)
 	do GameManager.set_expression("angry")
 	Isaac: *Dozens of pupils narrow slightly* Asking personal questions about my diet before we break the ice? A bit pushy, don't you think?
 	=> hub_part_1
@@ -189,7 +204,7 @@ else:
 			=> hub_part_1
 
 		- "Wait... you eat greasy fast-food burgers?"
-			do GameManager.add_affection("angel", -10)
+			do GameManager.add_affection("angel", -15)
 			do GameManager.set_expression("angry")
 			Isaac: *His wings stiffen, halo buzzing with a low note.*
 			Isaac: Well... naturally I eat salads too! I am not reckless with my health.
@@ -214,7 +229,7 @@ else:
 		- "Does greasy fast food really cause stomach revulsion?"
 			do GameManager.add_affection("angel", -5)
 			do GameManager.set_expression("normal")
-			Isaac: *Looks perplexed* Precisely... Though inquiring about my digestion feels somewhat clinical, suitor.
+			Isaac: *Wings rustle nervously as halo hums low* Well, yes... but Mother taught me that dates are for building harmony, not compiling a medical dossier on my digestion.
 			=> hub_part_1
 
 # ==============================================================================
@@ -227,7 +242,7 @@ Isaac: You know... Mother always warned me that people would stare or feel intim
 Isaac: Tell me, suitor: Are you genuinely enjoying our date, or are you just trying to be polite?
 
 - "I admire your dedication and presence, Isaac."
-	do GameManager.add_affection("angel", 10)
+	do GameManager.add_affection("angel", 15)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
 		Isaac: *Halo glows deep rose pink, wings fluttering* Sublime! Your words bring such peace to my heart.
@@ -243,7 +258,7 @@ Isaac: Tell me, suitor: Are you genuinely enjoying our date, or are you just try
 	=> hub_part_2
 
 - "I'm here out of duty to evaluate candidates."
-	do GameManager.add_affection("angel", -15)
+	do GameManager.add_affection("angel", -20)
 	do GameManager.set_expression("scary")
 	Isaac: *Halo blares cold harsh light, pupils locking* Duty? Evaluate? That sounds remarkably like officer talk, suitor.
 	if GameManager.get_affection("angel") <= 0:
@@ -309,6 +324,13 @@ Isaac: Mother used to lead the choir in the marble sanctuaries! Her multi-harmon
 	Isaac: Indubitably! Mother's voice is absolute perfection!
 	=> hub_part_2
 
+- "Sounds like a lot of noisy marble and rigid expectations."
+	do GameManager.add_affection("angel", -5)
+	do GameManager.set_expression("angry")
+	Isaac: *His halo hums in quiet disappointment*
+	Isaac: Noisy?! Celestial acoustic resonance is pure divine harmony!
+	=> hub_part_2
+
 ~ p2_topic_f
 do GameManager.set_flag("angel", "asked_p2_topic_f")
 do GameManager.set_expression("normal")
@@ -329,6 +351,13 @@ Isaac: Mother was so worried when the guards called! She wrote three letters to 
 	do GameManager.add_affection("angel", 5)
 	do GameManager.set_expression("happy")
 	Isaac: *Chimes brightly* A very fair point, suitor! Mother gave me that exact advice!
+	=> hub_part_2
+
+- "Lifting gym equipment unprompted sounds reckless and disruptive."
+	do GameManager.add_affection("angel", -5)
+	do GameManager.set_expression("angry")
+	Isaac: *His halo dims as his posture stiffens*
+	Isaac: Reckless?! I was protecting people from a structural hazard!
 	=> hub_part_2
 
 ~ p2_topic_g
@@ -352,7 +381,7 @@ else:
 			=> hub_part_2
 
 		- "Wait... you walk and count steps on foot?"
-			do GameManager.add_affection("angel", -10)
+			do GameManager.add_affection("angel", -15)
 			do GameManager.set_expression("angry")
 			Isaac: *His eyes shift nervously, halo buzzing defensively.*
 			Isaac: Well... of course my wings help glide me along! I just meant I enjoy moving around the courtyard.
@@ -378,7 +407,7 @@ else:
 		- "Does weightless levitation really prevent foot calluses?"
 			do GameManager.add_affection("angel", -5)
 			do GameManager.set_expression("normal")
-			Isaac: *Dozens of pupils blink, looking confused* Indeed it does... Though questioning my levitation feels like an evaluation.
+			Isaac: *His wings flutter as he stammers softly* A-absolute levitation... though Mother warned me that cops ask detailed questions about mobility. You aren't evaluating me, are you?
 			=> hub_part_2
 
 ~ p2_topic_h
@@ -401,7 +430,7 @@ else:
 			=> hub_part_2
 
 		- "Wait... you don't hear any multi-harmonic chords in your voice?"
-			do GameManager.add_affection("angel", -10)
+			do GameManager.add_affection("angel", -15)
 			do GameManager.set_expression("angry")
 			Isaac: *His halo flickers, vocal tone stiffening defensively.*
 			Isaac: Well... of course my voice has a distinct resonant quality when I project!
@@ -429,7 +458,7 @@ else:
 		- "Do your vocal cords really produce multi-harmonic chords?"
 			do GameManager.add_affection("angel", -5)
 			do GameManager.set_expression("normal")
-			Isaac: *Looks bewildered* Indubitably... Though asking about my vocal anatomy feels somewhat like a physics exam.
+			Isaac: *Halo hums low, eyes blinking in confusion* Multi-harmonic physics... Mother always said my voice is a gift, but asking about acoustic frequency feels more like a lab test than romance.
 			=> hub_part_2
 
 # ==============================================================================
@@ -454,6 +483,15 @@ do GameManager.complete_current_date()
 => END
 
 ~ horror_exit
+do GameManager.set_expression("scary")
+Isaac: *His halo blares blinding celestial light as dozens of ocular eyes lock onto you simultaneously! Room lighting flickers with a loud metallic screech!*
+Isaac: YOU THINK I'M A FOOL?! YOU ARE NOT A SUITOR, YOU ARE A COP! I WILL BANISH YOU FROM MY PRESENCE!
+Isaac: *He lunges forward with a terrifying multi-harmonic roar!*
+[SYSTEM]: *ALARM SIRENS BLARE* "CODE RED! DETECTIVE GET OUT NOW!"
+[SYSTEM]: Guards drag you backward out of the cell as a heavy iron portcullis gate slams down with a deafening crash.
+do GameManager.complete_current_date()
+=> END
+orror_exit
 do GameManager.set_expression("scary")
 Isaac: *His halo blares blinding celestial light as dozens of ocular eyes lock onto you simultaneously! Room lighting flickers with a loud metallic screech!*
 Isaac: YOU THINK I'M A FOOL?! YOU ARE NOT A SUITOR, YOU ARE A COP! I WILL BANISH YOU FROM MY PRESENCE!

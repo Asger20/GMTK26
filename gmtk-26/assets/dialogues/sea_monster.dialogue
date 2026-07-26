@@ -9,7 +9,7 @@ Sienna: YO! Are you my date?! THAT IS LITERALLY SO WILD!
 Sienna: Welcome to my bench! Don't mind the sea salt smell, it's just main character energy!
 
 - "Your energy and style are incredible."
-	do GameManager.add_affection("sea_monster", 8)
+	do GameManager.add_affection("sea_monster", 10)
 	if GameManager.get_affection("sea_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Sienna: *Her ear-fins flare bright pink, webbed claws covering her needle-fang smile flusteredly.*
@@ -35,7 +35,7 @@ Sienna: Welcome to my bench! Don't mind the sea salt smell, it's just main chara
 	=> hub_part_1
 
 - "You look chaotic. I don't trust sea monsters."
-	do GameManager.add_affection("sea_monster", -20)
+	do GameManager.add_affection("sea_monster", -25)
 	if GameManager.get_affection("sea_monster") <= 0:
 		=> horror_exit
 	else:
@@ -78,7 +78,7 @@ Sienna: WE ARE THE ABYSSAL BLASTERS! I play heavy bass underwater!
 Sienna: Acoustic vibrations travel four times faster in ocean water, so our riffs LITERALLY shake the sea floor!
 
 - "I'd love to hear you play bass one day!"
-	do GameManager.add_affection("sea_monster", 8)
+	do GameManager.add_affection("sea_monster", 10)
 	if GameManager.get_affection("sea_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Sienna: *Ear-fins flare bright pink, wiggling webbed claws wildly*
@@ -94,6 +94,13 @@ Sienna: Acoustic vibrations travel four times faster in ocean water, so our riff
 	Sienna: *Laughs loudly* Stainless titanium strings, man! Rust-proof and extra loud!
 	=> hub_part_1
 
+- "Playing underwater bass sounds like mindless noise."
+	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.set_expression("angry")
+	Sienna: *Ear-fins flatten in annoyance, webbed claws crossing*
+	Sienna: MINDLESS NOISE?! Our riffs are pure acoustic art, buzzkill!
+	=> hub_part_1
+
 ~ p1_topic_b
 do GameManager.set_flag("sea_monster", "asked_p1_topic_b")
 do GameManager.set_expression("normal")
@@ -101,7 +108,7 @@ Sienna: I wanna throw a massive world tour along the coast!
 Sienna: But mostly... I just wanna find someone who vibes with my chaotic energy and doesn't care about my memory lapses!
 
 - "I'd love to go on tour with you."
-	do GameManager.add_affection("sea_monster", 8)
+	do GameManager.add_affection("sea_monster", 10)
 	if GameManager.get_affection("sea_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Sienna: *Flushes bright pink, touching her neck gills*
@@ -118,10 +125,17 @@ Sienna: But mostly... I just wanna find someone who vibes with my chaotic energy
 	Sienna: Thanks! You're literally so sweet!
 	=> hub_part_1
 
+- "A tour sounds disorganized if you keep losing your train of thought."
+	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.set_expression("angry")
+	Sienna: *Neck gills flare with a huff*
+	Sienna: Wow, okay! Spontaneity is called punk rock, not disorganization!
+	=> hub_part_1
+
 ~ p1_topic_c
 do GameManager.set_flag("sea_monster", "asked_p1_topic_c")
 if GameManager.get_affection("sea_monster") < 50:
-	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.add_affection("sea_monster", -10)
 	do GameManager.set_expression("angry")
 	Sienna: *Frowning, ear-fins drooping* Yo, we literally just met! Isn't it a bit weird to ask about my surface habits right away? Let me get to know you first!
 	=> hub_part_1
@@ -139,7 +153,7 @@ else:
 			=> hub_part_1
 
 		- "Wait... you sunbathe on dry beach sand?"
-			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.add_affection("sea_monster", -15)
 			do GameManager.set_expression("angry")
 			Sienna: *Her smile stiffens, ear-fins twitching nervously as she blinks.*
 			Sienna: Well... I mean... of course I bring a wet towel! I just meant I enjoy the coastal breeze.
@@ -165,13 +179,13 @@ else:
 		- "Is dry sand really that dangerous for your scales?"
 			do GameManager.add_affection("sea_monster", -5)
 			do GameManager.set_expression("normal")
-			Sienna: *Tilts her head, looking confused* Literally yes! It cracks my scales... though that's kind of a weird medical thing to focus on during a date!
+			Sienna: *Ear-fins twitch in annoyance* Bruh, are you writing a textbook about me right now?! We're on a date, not in biology class! Dry sand cracks my scales, okay?
 			=> hub_part_1
 
 ~ p1_topic_d
 do GameManager.set_flag("sea_monster", "asked_p1_topic_d")
 if GameManager.get_affection("sea_monster") < 50:
-	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.add_affection("sea_monster", -10)
 	do GameManager.set_expression("angry")
 	Sienna: *Ear-fins drooping slightly* Asking personal questions about my drink preferences before we break the ice? Kinda pushy, don't you think?
 	=> hub_part_1
@@ -189,7 +203,7 @@ else:
 			=> hub_part_1
 
 		- "Wait... you drink plain tap water without salt?"
-			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.add_affection("sea_monster", -15)
 			do GameManager.set_expression("angry")
 			Sienna: *Pauses mid-sip, ear-fins flattening as her smile stiffens.*
 			Sienna: Well... of course I add salt packets when my throat feels dry! I'm not reckless.
@@ -215,7 +229,7 @@ else:
 		- "Does plain tap water really cause throat spasms?"
 			do GameManager.add_affection("sea_monster", -5)
 			do GameManager.set_expression("normal")
-			Sienna: *Blinks, looking perplexed* Totally! Without salt, my throat cramps... though asking about my throat muscles is a bit random for dinner!
+			Sienna: *Flashing her needle fangs in exasperation* Bro, asking about my throat muscle spasms over dinner?! That is literally such a buzzkill vibe!
 			=> hub_part_1
 
 # ==============================================================================
@@ -228,7 +242,7 @@ Sienna: Wait... OKAY REAL TALK! I get memory fog up here from the air pressure, 
 Sienna: Are you actually vibing with me, or am I just talking way too loud?
 
 - "I'm totally vibing with your energy, Sienna!"
-	do GameManager.add_affection("sea_monster", 10)
+	do GameManager.add_affection("sea_monster", 15)
 	if GameManager.get_affection("sea_monster") >= 70:
 		do GameManager.set_expression("blush")
 		Sienna: *Ear-fins flare pink, webbed hands covering her blushing face*
@@ -245,7 +259,7 @@ Sienna: Are you actually vibing with me, or am I just talking way too loud?
 	=> hub_part_2
 
 - "I'm here out of duty to evaluate candidates."
-	do GameManager.add_affection("sea_monster", -15)
+	do GameManager.add_affection("sea_monster", -20)
 	do GameManager.set_expression("scary")
 	Sienna: *Her needle-fang smile vanishes, ear-fins drooping cold* Duty? Evaluate? Yo, that sounds LITERALLY like officer talk! You aren't a cop, are you?
 	if GameManager.get_affection("sea_monster") <= 0:
@@ -311,6 +325,13 @@ Sienna: You swim through total darkness while glowing jellyfish light up the wat
 	Sienna: RIGHT?! Nature's ultimate rave!
 	=> hub_part_2
 
+- "Pitch-black ocean trenches sound dark and terrifying."
+	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.set_expression("angry")
+	Sienna: *Ear-fins droop dramatically*
+	Sienna: Terrifying?! It's a neon undersea paradise, zero vision vibe!
+	=> hub_part_2
+
 ~ p2_topic_f
 do GameManager.set_flag("sea_monster", "asked_p2_topic_f")
 do GameManager.set_expression("normal")
@@ -334,6 +355,13 @@ Sienna: But then I forgot where I parked our stolen speedboat... so the guards c
 	Sienna: *Laughs loudly* YES! A getaway driver with good memory is mandatory!
 	=> hub_part_2
 
+- "Flooding a hotel lobby and stealing speedboats is just reckless behavior."
+	do GameManager.add_affection("sea_monster", -5)
+	do GameManager.set_expression("angry")
+	Sienna: *Webbed hands wave dismissively*
+	Sienna: Ugh, okay officer safety! Live a little, it was a legendary gig!
+	=> hub_part_2
+
 ~ p2_topic_g
 do GameManager.set_flag("sea_monster", "asked_p2_topic_g")
 if GameManager.get_affection("sea_monster") < 30:
@@ -355,7 +383,7 @@ else:
 			=> hub_part_2
 
 		- "So screeching feedback doesn't trigger sonar disorientation?"
-			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.add_affection("sea_monster", -15)
 			do GameManager.set_expression("angry")
 			Sienna: *Her ear-fins flatten, posture stiffening defensively.*
 			Sienna: Well... of course loud screeching is annoying! I just try not to make a scene.
@@ -381,7 +409,7 @@ else:
 		- "Do facial pores really track acoustic micro-ripples?"
 			do GameManager.add_affection("sea_monster", -5)
 			do GameManager.set_expression("normal")
-			Sienna: *Blinks, looking confused* Yep! Lateral line pores act like radar... though asking about my facial pores feels like a science exam!
+			Sienna: *Webbed hands gesture loudly* Yeah, facial pores track micro-ripples! But why are you grilling me on acoustic radar like an inspector instead of just listening to my bass solos?!
 			=> hub_part_2
 
 ~ p2_topic_h
@@ -404,7 +432,7 @@ else:
 			=> hub_part_2
 
 		- "Wait... you don't get memory fog up here?"
-			do GameManager.add_affection("sea_monster", -10)
+			do GameManager.add_affection("sea_monster", -15)
 			do GameManager.set_expression("angry")
 			Sienna: *Her smile stiffens, ear-fins twitching nervously as she catches her slip.*
 			Sienna: Well... I mean... of course I forget small things sometimes! I just meant I try to stay sharp.
@@ -431,7 +459,7 @@ else:
 		- "Does air pressure really cause memory fog?"
 			do GameManager.add_affection("sea_monster", -5)
 			do GameManager.set_expression("normal")
-			Sienna: *Tilts her head, bewildered* Yeah, air pressure shifts make my brain floaty... though why are we getting so deep into medical stuff?
+			Sienna: *Eye-fins droop slightly* Yeah, barometric fog makes my brain floaty... but bruh, why are you interrogating my brain pressure like a doctor?!
 			=> hub_part_2
 
 # ==============================================================================
