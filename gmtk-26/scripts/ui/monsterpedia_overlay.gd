@@ -1,9 +1,28 @@
 class_name MonsterpediaOverlay extends Panel
 
+const BRUSH_COLORS: Array[Color] = [
+	Color("#3b2416"),
+	Color("#8a2f2f"),
+	Color("#234d70"),
+]
+
 @onready var species_dropdown: OptionButton = $VBox/TabContainer/SpeciesLore/SpeciesDropdown
 @onready var lore_label: RichTextLabel = $VBox/TabContainer/SpeciesLore/LoreLabel
 @onready var clue_container: VBoxContainer = $VBox/TabContainer/EvidenceNotebook/Scroll/ClueContainer
 @onready var close_btn: Button = $VBox/Header/CloseButton
+@onready var notes_edit: TextEdit = $VBox/TabContainer/EvidenceNotebook/Workspace/NotesPanel/NotesEdit
+@onready var drawing_canvas = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingCanvas
+@onready var brush_color_buttons: Array[Button] = [
+	$VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/BrownBrush,
+	$VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/RedBrush,
+	$VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/BlueBrush,
+]
+@onready var brush_width_slider: HSlider = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/BrushWidth
+@onready var brush_width_value: Label = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/BrushWidthValue
+@onready var undo_drawing_button: Button = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/UndoButton
+@onready var clear_drawing_button: Button = $VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar/ClearButton
+
+var _loading_notebook := false
 
 func _ready() -> void:
 	var tab_container = get_node_or_null("VBox/TabContainer")
@@ -13,15 +32,73 @@ func _ready() -> void:
 
 	close_btn.pressed.connect(func(): visible = false)
 	species_dropdown.item_selected.connect(_on_species_selected)
+	notes_edit.text_changed.connect(_on_notes_text_changed)
+	drawing_canvas.strokes_changed.connect(_on_drawing_changed)
+	for index in brush_color_buttons.size():
+		brush_color_buttons[index].pressed.connect(
+			_on_brush_color_selected.bind(index)
+		)
+	brush_width_slider.value_changed.connect(
+		_on_brush_width_changed
+	)
+	undo_drawing_button.pressed.connect(
+		drawing_canvas.undo_last_stroke
+	)
+	clear_drawing_button.pressed.connect(
+		drawing_canvas.clear_drawing
+	)
 	GameManager.clue_recorded.connect(_on_clue_recorded)
+	GameManager.notebook_reset.connect(_on_notebook_reset)
 	style_option_button(species_dropdown)
 	_setup_dropdown()
+	_load_notebook_state()
+	brush_color_buttons[0].button_pressed = true
+	_on_brush_color_selected(0)
+	_on_brush_width_changed(brush_width_slider.value)
 
 func toggle_window() -> void:
 	visible = not visible
 	if visible:
+		_load_notebook_state()
 		_update_clue_notebook()
 		_auto_select_current_candidate()
+
+
+func _load_notebook_state() -> void:
+	_loading_notebook = true
+	notes_edit.text = GameManager.notebook_text
+	drawing_canvas.set_strokes(
+		GameManager.notebook_strokes
+	)
+	_loading_notebook = false
+
+
+func _on_notes_text_changed() -> void:
+	if _loading_notebook:
+		return
+
+	GameManager.set_notebook_text(notes_edit.text)
+
+
+func _on_drawing_changed(strokes: Array) -> void:
+	if _loading_notebook:
+		return
+
+	GameManager.set_notebook_strokes(strokes)
+
+
+func _on_brush_color_selected(index: int) -> void:
+	drawing_canvas.set_brush_color(BRUSH_COLORS[index])
+
+
+func _on_brush_width_changed(width: float) -> void:
+	drawing_canvas.set_brush_width(width)
+	brush_width_value.text = "%d px" % int(width)
+
+
+func _on_notebook_reset() -> void:
+	_load_notebook_state()
+	_update_clue_notebook()
 
 func _auto_select_current_candidate() -> void:
 	var current_monster = GameManager.get_current_date_monster()

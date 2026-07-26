@@ -6,6 +6,7 @@ signal clue_recorded(candidate_id: String, clue_id: String, text: String)
 signal date_completed(candidate_id: String)
 signal dev_mode_toggled(is_enabled: bool)
 signal expression_changed(expression_name: String)
+signal notebook_reset()
 
 func set_expression(expression_name: String) -> void:
 	MusicManager.set_mood_effect_enabled(
@@ -41,6 +42,8 @@ var current_date_index: int = 0 # 0..3
 var affection_scores: Dictionary = {} # candidate_id -> int (0..100)
 var discovered_clues: Array[Dictionary] = [] # Array of {candidate_id, clue_id, text}
 var dialogue_flags: Dictionary = {} # candidate_id + "_" + flag_name -> bool
+var notebook_text := ""
+var notebook_strokes: Array = []
 
 func set_flag(candidate_id: String, flag_name: String, value: bool = true) -> void:
 	var key = candidate_id + "_" + flag_name
@@ -49,6 +52,14 @@ func set_flag(candidate_id: String, flag_name: String, value: bool = true) -> vo
 func has_flag(candidate_id: String, flag_name: String) -> bool:
 	var key = candidate_id + "_" + flag_name
 	return dialogue_flags.get(key, false)
+
+
+func set_notebook_text(text: String) -> void:
+	notebook_text = text
+
+
+func set_notebook_strokes(strokes: Array) -> void:
+	notebook_strokes = strokes.duplicate(true)
 
 # Dev Options (Global state persistent across dates and runs)
 var dev_mode_show_affection: bool = false
@@ -136,6 +147,9 @@ func start_new_game(available_monsters: Array[MonsterData]) -> void:
 	affection_scores.clear()
 	discovered_clues.clear()
 	dialogue_flags.clear()
+	notebook_text = ""
+	notebook_strokes.clear()
+	notebook_reset.emit()
 	current_day = 1
 	current_date_index = 0
 	selected_accusation_id = ""

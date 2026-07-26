@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://cc6ysdyn28uaf"]
 
-[ext_resource type="Script" path="res://scripts/resources/monster_data.gd" id="1_monster"]
-[ext_resource type="Resource" path="res://assets/dialogues/slime.dialogue" id="2_dialogue"]
-[ext_resource type="Resource" path="res://resources/voices/slime_voice.tres" id="3_voice"]
+[ext_resource type="Script" uid="uid://bai2f147ge74g" path="res://scripts/resources/monster_data.gd" id="1_monster"]
+[ext_resource type="Resource" uid="uid://cevfc6mqn1ger" path="res://assets/dialogues/slime.dialogue" id="2_dialogue"]
+[ext_resource type="Resource" uid="uid://ca2ae0o08dyca" path="res://resources/voices/slime_voice.tres" id="3_voice"]
 
 [resource]
 script = ExtResource("1_monster")
@@ -11,5 +11,3 @@ display_name = "Gwen"
 species = "Slime"
 dialogue_resource = ExtResource("2_dialogue")
 dialogue_voice = ExtResource("3_voice")
-species_lore = PackedStringArray("Requires damp mud environments.", "Stores items inside body cavity.", "Absorbs liquids to alter density.")
-min_affection_for_match = 80
