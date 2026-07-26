@@ -19,6 +19,8 @@ const DEFAULT_LEAD_DB := 0.0
 const DEFAULT_LOW_PASS_CUTOFF_HZ := 900.0
 const DEFAULT_MOOD_DISTORTION_DRIVE := 0.46
 const DEFAULT_MOOD_PITCH_SCALE := 0.38
+const ANGRY_MOOD_DISTORTION_DRIVE := 0.15
+const ANGRY_MOOD_PITCH_SCALE := 0.70
 
 const STEMS := [
 	preload("res://assets/music/backing.ogg"),

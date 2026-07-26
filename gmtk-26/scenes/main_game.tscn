@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dq6opyjksycyy" path="res://scripts/ui/monsterpedia_overlay.gd" id="2_mp_overlay"]
 [ext_resource type="Script" uid="uid://x114dku4iy4v" path="res://scripts/ui/dev_cheat_overlay.gd" id="3_dc_overlay"]
 [ext_resource type="Texture2D" uid="uid://d4b7nwij7wt5o" path="res://assets/monsters/monster_placeholder.png" id="4_placeholder"]
-[ext_resource type="Texture2D" uid="uid://bfk8orwx6hwbw" path="res://assets/monsters/monsterpedia.png" id="5_mp_icon"]
+[ext_resource type="Texture2D" uid="uid://otig6j8w60m8" path="res://assets/monsters/monsterpedia.png" id="5_mp_icon"]
 [ext_resource type="Script" uid="uid://1ytdbgh38c27" path="res://scripts/ui/notebook_drawing_canvas.gd" id="6_notebook_canvas"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_preppanel"]
@@ -101,8 +101,6 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_brush_colors"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brush_selected"]
 bg_color = Color(0.36, 0.12, 0.12, 0.12)
 border_width_left = 1
@@ -114,6 +112,8 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_brush_colors"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_devcheat"]
 bg_color = Color(0.08, 0.1, 0.15, 1)
@@ -654,9 +654,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -480.0
+offset_left = -429.0
 offset_top = -270.0
-offset_right = 480.0
+offset_right = 430.0
 offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -732,122 +732,122 @@ layout_mode = 2
 theme_override_constants/separation = 6
 metadata/_tab_index = 1
 
-[node name="Workspace" type="HSplitContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook"]
+[node name="Workspace" type="HSplitContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook" unique_id=1997559389]
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_vertical = 3
+split_offsets = PackedInt32Array(290)
 split_offset = 290
 
-[node name="NotesPanel" type="VBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace"]
+[node name="NotesPanel" type="VBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace" unique_id=1758885634]
 custom_minimum_size = Vector2(270, 0)
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="NotesTitle" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/NotesPanel"]
+[node name="NotesTitle" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/NotesPanel" unique_id=1414673918]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.36, 0.12, 0.12, 1)
 theme_override_font_sizes/font_size = 15
 text = "CASE NOTES"
 
-[node name="NotesEdit" type="TextEdit" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/NotesPanel"]
+[node name="NotesEdit" type="TextEdit" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/NotesPanel" unique_id=700233065]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/caret_color = Color(0.36, 0.12, 0.12, 1)
 theme_override_colors/font_color = Color(0.18, 0.12, 0.07, 1)
 theme_override_colors/font_placeholder_color = Color(0.3, 0.24, 0.17, 0.65)
-theme_override_colors/caret_color = Color(0.36, 0.12, 0.12, 1)
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_notebook_page")
 placeholder_text = "Write suspects, contradictions, and theories here..."
 wrap_mode = 1
 
-[node name="DrawingPanel" type="VBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace"]
+[node name="DrawingPanel" type="VBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace" unique_id=127335649]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="DrawingToolbar" type="HBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel"]
+[node name="DrawingToolbar" type="HBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel" unique_id=1533550298]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="SketchTitle" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
+[node name="SketchTitle" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=836736863]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.36, 0.12, 0.12, 1)
 theme_override_font_sizes/font_size = 15
 text = "SKETCH"
 
-[node name="BrownBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
+[node name="BrownBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=685193419]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_colors/font_hover_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_colors/font_pressed_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_colors/font_focus_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_font_sizes/font_size = 22
-theme_override_styles/pressed = SubResource("StyleBoxFlat_brush_selected")
-toggle_mode = true
-button_group = SubResource("ButtonGroup_brush_colors")
-text = "●"
 tooltip_text = "Brown ink"
-flat = true
-
-[node name="RedBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
-custom_minimum_size = Vector2(28, 28)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.541, 0.184, 0.184, 1)
-theme_override_colors/font_hover_color = Color(0.541, 0.184, 0.184, 1)
-theme_override_colors/font_pressed_color = Color(0.541, 0.184, 0.184, 1)
-theme_override_colors/font_focus_color = Color(0.541, 0.184, 0.184, 1)
+theme_override_colors/font_color = Color(0.231, 0.141, 0.086, 1)
+theme_override_colors/font_focus_color = Color(0.231, 0.141, 0.086, 1)
+theme_override_colors/font_pressed_color = Color(0.231, 0.141, 0.086, 1)
+theme_override_colors/font_hover_color = Color(0.231, 0.141, 0.086, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/pressed = SubResource("StyleBoxFlat_brush_selected")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
 text = "●"
+flat = true
+
+[node name="RedBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1964941155]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
 tooltip_text = "Red ink"
-flat = true
-
-[node name="BlueBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
-custom_minimum_size = Vector2(28, 28)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.137, 0.302, 0.439, 1)
-theme_override_colors/font_hover_color = Color(0.137, 0.302, 0.439, 1)
-theme_override_colors/font_pressed_color = Color(0.137, 0.302, 0.439, 1)
-theme_override_colors/font_focus_color = Color(0.137, 0.302, 0.439, 1)
+theme_override_colors/font_color = Color(0.541, 0.184, 0.184, 1)
+theme_override_colors/font_focus_color = Color(0.541, 0.184, 0.184, 1)
+theme_override_colors/font_pressed_color = Color(0.541, 0.184, 0.184, 1)
+theme_override_colors/font_hover_color = Color(0.541, 0.184, 0.184, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/pressed = SubResource("StyleBoxFlat_brush_selected")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
 text = "●"
-tooltip_text = "Blue ink"
 flat = true
 
-[node name="BrushWidth" type="HSlider" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
+[node name="BlueBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1516024846]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+tooltip_text = "Blue ink"
+theme_override_colors/font_color = Color(0.137, 0.302, 0.439, 1)
+theme_override_colors/font_focus_color = Color(0.137, 0.302, 0.439, 1)
+theme_override_colors/font_pressed_color = Color(0.137, 0.302, 0.439, 1)
+theme_override_colors/font_hover_color = Color(0.137, 0.302, 0.439, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/pressed = SubResource("StyleBoxFlat_brush_selected")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_brush_colors")
+text = "●"
+flat = true
+
+[node name="BrushWidth" type="HSlider" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1478524732]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Brush width"
 min_value = 1.0
 max_value = 12.0
-step = 1.0
 value = 3.0
-tooltip_text = "Brush width"
 
-[node name="BrushWidthValue" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
+[node name="BrushWidthValue" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1343881671]
 custom_minimum_size = Vector2(34, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.24, 0.18, 0.11, 1)
 text = "3 px"
 vertical_alignment = 1
 
-[node name="UndoButton" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
+[node name="UndoButton" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1078818448]
 layout_mode = 2
-text = "Undo"
 tooltip_text = "Undo last stroke"
+text = "Undo"
 
-[node name="ClearButton" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar"]
+[node name="ClearButton" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=13488030]
 layout_mode = 2
-text = "Clear"
 tooltip_text = "Clear sketch"
+text = "Clear"
 
-[node name="DrawingCanvas" type="Control" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel"]
+[node name="DrawingCanvas" type="Control" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel" unique_id=1084942096]
 custom_minimum_size = Vector2(0, 210)
 clip_contents = true
 layout_mode = 2
@@ -855,7 +855,7 @@ size_flags_vertical = 3
 mouse_default_cursor_shape = 3
 script = ExtResource("6_notebook_canvas")
 
-[node name="EvidenceTitle" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook"]
+[node name="EvidenceTitle" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook" unique_id=1430545767]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.36, 0.12, 0.12, 1)
 theme_override_font_sizes/font_size = 14

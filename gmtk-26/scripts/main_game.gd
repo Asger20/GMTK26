@@ -328,7 +328,7 @@ func _on_expression_changed(expression_name: String) -> void:
 		_animate_portrait_idle()
 
 	var expr = expression_name.to_lower()
-	if expr == "scary" or expr == "angry":
+	if expr == "scary" or expr == "angry" or expr == "blush":
 		_set_expression_effect(expr)
 	else:
 		_set_expression_effect("")
@@ -750,10 +750,25 @@ func _set_expression_effect(mode_name: String) -> void:
 			scary_material.set_shader_parameter("pulse_amount", 0.02)
 			scary_material.set_shader_parameter("aberration_amount", 0.0)
 		_scary_tween.tween_property(self, "_scary_opacity", 0.55, 0.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	elif mode_name == "blush":
+		_scary_tween.tween_property(self, "_scary_opacity", 0.0, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		if portrait_rect:
+			portrait_rect.z_index = 0
+			portrait_rect.z_as_relative = true
+			var monster = GameManager.get_current_date_monster()
+			var base_scale = monster.portrait_scale if (monster and monster.portrait_scale != Vector2.ZERO) else Vector2.ONE
+			portrait_rect.pivot_offset = Vector2(270.0, 270.0)
+			var shy_tween = create_tween()
+			shy_tween.tween_property(portrait_rect, "scale", base_scale * Vector2(0.95, 0.95), 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	else:
 		if portrait_rect:
 			portrait_rect.z_index = 0
 			portrait_rect.z_as_relative = true
+			var monster = GameManager.get_current_date_monster()
+			var base_scale = monster.portrait_scale if (monster and monster.portrait_scale != Vector2.ZERO) else Vector2.ONE
+			portrait_rect.pivot_offset = Vector2(270.0, 270.0)
+			var reset_tween = create_tween()
+			reset_tween.tween_property(portrait_rect, "scale", base_scale, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		_scary_tween.tween_property(self, "_scary_opacity", 0.0, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func _process(_delta: float) -> void:
@@ -761,7 +776,7 @@ func _process(_delta: float) -> void:
 		scary_material.set_shader_parameter("vignette_opacity", _scary_opacity)
 
 	if portrait_rect:
-		if _scary_opacity > 0.001:
+		if _current_effect_mode == "blush" or _scary_opacity > 0.001:
 			var time = Time.get_ticks_msec() * 0.001
 			var intensity = _scary_opacity
 			var shake_x = 0.0
@@ -773,8 +788,12 @@ func _process(_delta: float) -> void:
 			elif _current_effect_mode == "angry":
 				shake_x = (sin(time * 22.0) * 1.2) * (intensity / 0.55)
 				rot_deg = (sin(time * 18.0) * 0.2) * (intensity / 0.55)
+			elif _current_effect_mode == "blush":
+				# Tiny, subtle bashful sway (2px) and gentle head tilt (0.8 deg) without zoom/scaling
+				shake_x = sin(time * 2.0) * 2.0
+				rot_deg = sin(time * 2.0) * 0.8
 			else:
-				shake_x = (sin(time * 25.0) * 1.0) * intensity
+				shake_x = 0.0
 				rot_deg = 0.0
 
 			portrait_rect.pivot_offset = Vector2(270.0, 270.0)

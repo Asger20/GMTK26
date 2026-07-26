@@ -9,9 +9,14 @@ signal expression_changed(expression_name: String)
 signal notebook_reset()
 
 func set_expression(expression_name: String) -> void:
-	MusicManager.set_mood_effect_enabled(
-		expression_name.to_lower() == "scary"
-	)
+	var expr = expression_name.to_lower()
+	if expr == "scary":
+		MusicManager.set_mood_effect_enabled(true, MusicManager.DEFAULT_MOOD_DISTORTION_DRIVE, MusicManager.DEFAULT_MOOD_PITCH_SCALE)
+	elif expr == "angry":
+		MusicManager.set_mood_effect_enabled(true, MusicManager.ANGRY_MOOD_DISTORTION_DRIVE, MusicManager.ANGRY_MOOD_PITCH_SCALE)
+	else:
+		MusicManager.set_mood_effect_enabled(false)
+
 	expression_changed.emit(expression_name)
 	print("[GameManager] Expression set to: ", expression_name)
 
