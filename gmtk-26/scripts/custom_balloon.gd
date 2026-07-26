@@ -16,6 +16,11 @@ class_name CustomBalloon extends CanvasLayer
 @onready var responses_container: VBoxContainer = $Balloon/DialogueBox/Margin/ResponsesContainer
 @onready var responses_menu: DialogueResponsesMenu = $Balloon/DialogueBox/Margin/ResponsesContainer/ResponsesMenu
 
+const SPEECH_BOX_HEIGHT := 185.0
+const CHOICE_BASE_HEIGHT := 104.0
+const CHOICE_ROW_HEIGHT := 40.0
+const DIALOGUE_BOTTOM_OFFSET := -25.0
+
 var temporary_game_states: Array = []
 var is_waiting_for_input: bool = false
 var dialogue_line: DialogueLine:
@@ -39,6 +44,7 @@ func _ready() -> void:
 	responses_menu.hide_failed_responses = true
 	responses_menu.response_selected.connect(_on_responses_menu_response_selected)
 	dialogue_label.spoke.connect(_on_dialogue_label_spoke)
+	_set_dialogue_box_for_speech()
 
 
 func start(with_dialogue_resource: DialogueResource = null, title: String = "", extra_game_states: Array = []) -> void:
@@ -68,6 +74,7 @@ func apply_dialogue_line() -> void:
 				speech_container.hide()
 				responses_container.show()
 				responses_menu.responses = responses
+				_set_dialogue_box_for_choices(responses.size())
 				return
 			else:
 				next(dialogue_line.next_id)
@@ -78,6 +85,7 @@ func apply_dialogue_line() -> void:
 			return
 
 	# SHOW MONSTER SPEECH VIEW FIRST FOR SPOKEN TEXT
+	_set_dialogue_box_for_speech()
 	responses_container.hide()
 	speech_container.show()
 
@@ -150,6 +158,7 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 				speech_container.hide()
 				responses_container.show()
 				responses_menu.responses = responses
+				_set_dialogue_box_for_choices(responses.size())
 			else:
 				SFXManager.play_click()
 				next(dialogue_line.next_id)
@@ -161,9 +170,27 @@ func _on_balloon_gui_input(event: InputEvent) -> void:
 
 func _on_responses_menu_response_selected(response: DialogueResponse) -> void:
 	SFXManager.play_click()
+	_set_dialogue_box_for_speech()
 	responses_container.hide()
 	speech_container.show()
 	next(response.next_id)
+
+
+func _set_dialogue_box_for_speech() -> void:
+	_set_dialogue_box_height(SPEECH_BOX_HEIGHT)
+
+
+func _set_dialogue_box_for_choices(response_count: int) -> void:
+	var choice_height := maxf(
+		SPEECH_BOX_HEIGHT,
+		CHOICE_BASE_HEIGHT + response_count * CHOICE_ROW_HEIGHT
+	)
+	_set_dialogue_box_height(choice_height)
+
+
+func _set_dialogue_box_height(height: float) -> void:
+	dialogue_box.offset_bottom = DIALOGUE_BOTTOM_OFFSET
+	dialogue_box.offset_top = DIALOGUE_BOTTOM_OFFSET - height
 
 
 func _on_dialogue_label_spoke(
