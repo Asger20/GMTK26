@@ -302,6 +302,13 @@ func _on_expression_changed(expression_name: String) -> void:
 		portrait_rect.offset_top = default_top + y_off
 		portrait_rect.offset_bottom = default_bottom + y_off
 
+		if monster.portrait_scale != Vector2.ZERO:
+			portrait_rect.pivot_offset = Vector2(270.0, 270.0)
+			portrait_rect.scale = monster.portrait_scale
+		else:
+			portrait_rect.scale = Vector2.ONE
+			portrait_rect.pivot_offset = Vector2.ZERO
+
 		# Only the Vampire takes top layer priority in front of UI elements on angry/scary expressions
 		if monster.id == "vampire" and (expression_name == "angry" or expression_name == "scary"):
 			portrait_rect.z_index = 100
@@ -325,6 +332,14 @@ func _show_date_phase() -> void:
 		var y_off = monster.get_expression_y_offset("normal")
 		portrait_rect.offset_top = default_top + y_off
 		portrait_rect.offset_bottom = default_bottom + y_off
+
+		if monster.portrait_scale != Vector2.ZERO:
+			portrait_rect.pivot_offset = Vector2(270.0, 270.0)
+			portrait_rect.scale = monster.portrait_scale
+		else:
+			portrait_rect.scale = Vector2.ONE
+			portrait_rect.pivot_offset = Vector2.ZERO
+
 		portrait_rect.z_index = 0
 		portrait_rect.z_as_relative = true
 
@@ -339,6 +354,8 @@ func _show_date_phase() -> void:
 	else:
 		portrait_rect.offset_top = default_top
 		portrait_rect.offset_bottom = default_bottom
+		portrait_rect.scale = Vector2.ONE
+		portrait_rect.pivot_offset = Vector2.ZERO
 		portrait_rect.z_index = 0
 		portrait_rect.z_as_relative = true
 		portrait_rect.texture = load("res://assets/monsters/monster_placeholder.png")

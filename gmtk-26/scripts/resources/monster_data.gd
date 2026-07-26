@@ -5,6 +5,7 @@ extends Resource
 @export var display_name: String = ""
 @export var species: String = ""
 @export var portrait_texture: Texture2D
+@export var portrait_scale: Vector2 = Vector2(1.0, 1.0)
 @export var portrait_y_offset: float = 0.0
 @export var expression_y_offsets: Dictionary = {} # e.g. "scary": 45.0 (relative Y offset)
 @export var expressions: Dictionary = {} # e.g. "normal", "happy", "blush", "angry", "scary" -> Texture2D

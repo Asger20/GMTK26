@@ -17,12 +17,12 @@ func set_expression(expression_name: String) -> void:
 
 enum EndingType {
 	NONE,
-	BAD_ENDING,       # Accuse wrong, match nobody
-	MIXED_ENDING,     # Accuse wrong, match innocent monster
-	GOOD_ENDING,      # Accuse Count, match nobody
-	BEST_ENDING,      # Accuse Count, match innocent monster
-	SECRET_ENDING_1,  # Accuse Count, match Count (Villain Romance)
-	SECRET_ENDING_2   # Accuse wrong, match Count (Bonnie & Clyde Escape)
+	BAD_ENDING, # Accuse wrong, match nobody
+	MIXED_ENDING, # Accuse wrong, match innocent monster
+	GOOD_ENDING, # Accuse Count, match nobody
+	BEST_ENDING, # Accuse Count, match innocent monster
+	SECRET_ENDING_1, # Accuse Count, match Count (Villain Romance)
+	SECRET_ENDING_2 # Accuse wrong, match Count (Bonnie & Clyde Escape)
 }
 
 # Player profile
@@ -68,22 +68,22 @@ var species_lore_db: Dictionary = {
 		"• [b]SUB-EPIDERMAL PULSE PERCEPTION:[/b] Hyper-sensitive sensory organs track surrounding heartbeats within a five-meter radius, subconsciously monitoring suitor nervousness.",
 		"• [b]THE MIRROR ANOMALY (Involuntary Reflex Fixation):[/b] Produces zero optical reflection in silver-backed mirrors. Reflected surfaces trigger a subtle, involuntary head tilt or micro-hesitation.",
 		"• [b]HEMATOTROPHIC DILATED PUPIL LOCK:[/b] The scent of fresh blood or heightened emotional intimacy causes immediate pupil dilation and involuntary fang extension.",
-		"• [b]STRICT NOCTURNAL CIRCADIAN LOCK:[/b] Biological sleep cycle is hard-coded from sunrise to dusk. Claims of enjoying dawn sunrises or early morning walks are physically impossible for an authentic Vampire."
+		"• [b]STRICT NOCTURNAL CIRCADIAN LOCK:[/b] Biological sleep cycle is hard-coded from sunrise to dusk. Exposure to morning sunlight during their circadian sleep window induces instant lethargy and severe photophobic stress."
 	],
 	"Angel": [
 		"• [b]CLASSIFICATION & HABITAT:[/b] Seraphim Geometrica / Biblical Angel. Native to high-frequency celestial spheres, pristine marble sanctuaries, and ordered sanctums.",
 		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view physical fitness, structural balance, and inner peace as sacred forms of self-improvement.",
-		"• [b]LUMINOUS CELESTIAL RADIANCE (Aura Sensitivity):[/b] High-frequency aura requires ambient light and celestial energy. Pitch-black void darkness causes aura fading, physical lethargy, and vocal dissonance. Claims that dark unlit rooms don't bother him are an immediate imposter slip.",
-		"• [b]PURE SALINE AMBROSIA (Dietary Requirements):[/b] Celestial digestion thrives on pure nectar, saline ambrosia, and clean nutrients. Heavy, greasy, fried fast food causes immediate stomach revulsion and wing droop. Claims of loving greasy cafeteria burgers are a critical imposter slip.",
+		"• [b]LUMINOUS CELESTIAL RADIANCE (Aura Sensitivity):[/b] High-frequency aura requires ambient light and celestial energy. Pitch-black void darkness causes aura fading, physical lethargy, and vocal dissonance.",
+		"• [b]PURE SALINE AMBROSIA (Dietary Requirements):[/b] Celestial digestion thrives on pure nectar, saline ambrosia, and clean nutrients. Heavy, greasy, fried fast food causes immediate stomach revulsion and wing droop.",
 		"• [b]HARMONIC FREQUENCY RESONANCE:[/b] Vocal cords produce overlapping, multi-harmonic chords rather than a single pitch. Resonates with metallic chime undertones when calm, shifting to low hums when flustered.",
-		"• [b]WEIGHTLESS LEVITATION (Wing Hovering):[/b] Wings and light aura keep him hovering slightly above ground when relaxed, preventing heavy foot calluses or foot fatigue. Claims of getting a good number of steps in walking are an immediate imposter slip.",
+		"• [b]WEIGHTLESS LEVITATION (Wing Hovering):[/b] Wings and light aura keep him hovering slightly above ground when relaxed, preventing heavy foot calluses or foot fatigue.",
 		"• [b]VECTOR OCULAR SCANNING:[/b] Dozens of ocular eyes in his head-cluster scan ambient light and room layout in real-time to ensure optimal comfort.",
 		"• [b]GOLDEN-RATIO TACTILE TRACING:[/b] Under stress, excitement, or romantic interest, his fingers subconsciously trace smooth circles and parallel lines across surfaces."
 	],
 	"Sea Monster": [
-		"• [b]CLASSIFICATION & HABITAT:[/b] Pelagios Abyssalis / Abyssal Leviathan Folk. Native to submerged ocean trenches, saltwater reefs, and humid benthic caverns.",
+		"• [b]CLASSIFICATION & HABITAT:[/b] Pelagios Abyssalis / Abyssal Leviathan Folk. Native to submerged ocean trenches, saltwater reefs, and humid abyssal caverns.",
 		"• [b]ANCESTRAL CULTURAL LORE:[/b] They view life through tidal currents and deep-sea pressure dynamics. Free-spirited and fluid, they collect smooth sea-shells, beach glass, and bioluminescent stones as sacred ritual tokens.",
-		"• [b]SALTWATER HYDRATION & DESICCATION VULNERABILITY:[/b] Epidermal scales require constant moisture and high salinity. Exposure to dry, arid air or hot desert sand causes rapid skin cracking, gill distress, and physical collapse. Claims of enjoying dry sand dunes or dry beaches are an immediate imposter slip.",
+		"• [b]SALTWATER HYDRATION & DESICCATION VULNERABILITY:[/b] Epidermal scales require constant moisture and high salinity. Exposure to dry, arid air or hot desert sand causes rapid skin cracking, gill distress, and physical collapse.",
 		"• [b]LATERAL LINE & ECHOLOCATION SONAR:[/b] Facial sensory pores and webbed digits detect micro-ripples in water and low-frequency acoustic vibrations in air. High-pitch screeching or screeching concert feedback causes instant physical disorientation.",
 		"• [b]BAROMETRIC PRESSURE FOG:[/b] Evolved for extreme abyssal depths. Rapid elevation changes cause transient atmospheric pressure adjustment, resulting in brief memory fog, losing train of thought, and spatial drifting.",
 		"• [b]THE GILL FLARE REFLEX:[/b] Emotional surges (flirting, surprise, anxiety) trigger involuntary flaring of neck gill-slits and lateral ear-fins.",
@@ -115,9 +115,6 @@ func toggle_dev_mode_affection() -> void:
 	dev_mode_show_affection = not dev_mode_show_affection
 	dev_mode_toggled.emit(dev_mode_show_affection)
 	print("[GameManager] Dev Mode Show Affection toggled to: ", dev_mode_show_affection)
-
-
-
 
 
 func _input(event: InputEvent) -> void:
@@ -238,13 +235,13 @@ func evaluate_ending() -> EndingType:
 		if is_matching_imposter:
 			return EndingType.SECRET_ENDING_1 # Villain Romance
 		elif has_match:
-			return EndingType.BEST_ENDING     # Accused Count + Matched Innocent
+			return EndingType.BEST_ENDING # Accused Count + Matched Innocent
 		else:
-			return EndingType.GOOD_ENDING     # Accused Count + No Match
+			return EndingType.GOOD_ENDING # Accused Count + No Match
 	else:
 		if is_matching_imposter:
 			return EndingType.SECRET_ENDING_2 # Bonnie & Clyde Chaos Escape
 		elif has_match:
-			return EndingType.MIXED_ENDING    # Wrong Accusation + Matched Innocent
+			return EndingType.MIXED_ENDING # Wrong Accusation + Matched Innocent
 		else:
-			return EndingType.BAD_ENDING      # Wrong Accusation + No Match
+			return EndingType.BAD_ENDING # Wrong Accusation + No Match

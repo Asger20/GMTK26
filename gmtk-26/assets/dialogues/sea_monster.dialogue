@@ -74,7 +74,7 @@ Sienna: SO! What fun stuff are we talking about first?
 ~ p1_topic_a
 do GameManager.set_flag("sea_monster", "asked_p1_topic_a")
 do GameManager.set_expression("happy")
-Sienna: WE ARE THE BENTHIC BLASTERS! I play heavy bass underwater!
+Sienna: WE ARE THE ABYSSAL BLASTERS! I play heavy bass underwater!
 Sienna: Acoustic vibrations travel four times faster in ocean water, so our riffs LITERALLY shake the sea floor!
 
 - "I'd love to hear you play bass one day!"

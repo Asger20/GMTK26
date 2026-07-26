@@ -1,6 +1,6 @@
 # 📜 Character Dialogue, Lore & Imposter Writing Guidelines
 
-This document establishes the universal narrative design standards, writing guidelines, 5-Phase Date Architecture, and Dialogue Manager syntax patterns for creating character date encounters, species lore, and imposter clue mechanics in **Operation: Countdown (Down with the Count)**.
+This document establishes the universal narrative design standards, writing guidelines, 5-Phase Date Architecture, Monsterpedia lore standards, and Dialogue Manager syntax patterns for creating character date encounters, species lore, and imposter clue mechanics in **Operation: Countdown (Down with the Count)**.
 
 ---
 
@@ -21,10 +21,11 @@ This document establishes the universal narrative design standards, writing guid
 * **Player Speaker Tag**: Player dialogue choices are tagged with `You:` in dialogue scripts.
 * **The Countdown (Macro)**: The player has 4 days of dates to identify The Count (a master shapeshifter disguised as one of the patients) before the asylum gates open on Day 5 and the inmates are released into society.
 
-### 2.2 Natural Language Choices & Short UI Constraints
+### 2.2 Natural Date Observation Phrasing (No "On the Nose" Questions)
 * **Pure In-Character Text**: Dialogue choices must **never** contain meta indicators, emojis, or stat clutter (e.g., avoid `(+15 Affection)`, `(-10 Affection)`, or `[Lore Check]`).
 * **Subtle Intent**: The intent of a response (flattering, probing, teasing, cold) must be clear from the natural phrasing of the sentence itself.
-* **Natural Date Observation Phrasing**: Clue questions must be framed as natural, caring date observations or polite inquiries (e.g., *"Is the room temperature alright for you?"* or *"You seem so observant... is it hard to unwind?"*). NEVER use clinical textbook terms or sound like an officer reading a biology checklist.
+* **Natural Date Inquiry Phrasing**: Clue questions must be framed as natural, caring date observations, polite date inquiries, or shared interests (e.g., asking if she likes visiting the beach up on the surface, offering to order a drink for the table, asking if screeching concert feedback bothers her as a bassist, asking how he handles sitting in dark rooms, asking what meals he enjoys eating).
+* **NEVER Use Clinical Checklists**: Questions must **never** be out-of-the-blue clinical interrogations or sound like an officer reading off a monster species allergy checklist.
 * **Punchy Single-Line Choices (5–10 Words Max)**: All player dialogue choices MUST be concise and punchy (5 to 10 words maximum) to fit cleanly on a single line inside visual novel choice buttons without wrapping or crowding the UI.
 
 ---
@@ -37,7 +38,8 @@ To ensure dialogue sounds like authentic human visual novel writing—and not re
 * **Banish AI Buzzwords**: Strictly avoid cliché AI transition words and phrases (e.g., *"delve," "testament," "tapestry," "beacon," "it's not just X, it's Y," "a whirlwind of," "nestled," "masterpiece"*).
 * **Vary Sentence Structure & Length**: Avoid the repetitive AI rhythm of *"Short statement + long explanatory clause."* Use fragmented sentences, slang, self-corrections, interruptions, and casual speech patterns.
 * **Show Physicality in Narrative Tags, Not Adverbs**: Instead of writing *"she said menacingly,"* show the action directly in standard text (e.g., *She leans across the table until her breath hits your cheek.*).
-* **Embrace Asymmetry & Flaws**: Real people (and monsters!) repeat themselves, pause, use filler words (like *"like," "um," "well"*), change topics abruptly, and don't always speak in polished, poetic paragraphs.
+* **Avoid Over-Familiar Slang on First Encounters**: Candidates should maintain realistic boundaries on a first date. Avoid over-familiar terms like *"bestie"* when a candidate and detective first meet.
+* **Embrace Character Insecurities & Flaws**: Give candidates endearing internal contradictions and vulnerabilities (e.g., Isaac being an encouraging gym-bro mama's boy who is insecure about his asymmetrical eye-cluster head; Lily being an overthinking night-owl spider artist; Sienna being a high-energy punk rock bassist; Percival being a dramatic gothic vampire poet).
 
 ---
 
@@ -136,15 +138,19 @@ Split every candidate's dialogue across three distinct layers:
 ### 7.2 The Imposter (The Count) Writing Strategy
 * **~90% Shared Persona**: The Count has thoroughly researched the candidate's personality and mimics their general speech patterns, warmth, and baseline hobbies.
 * **Subtle Human-Default Slips**:
-  * The Count is actively trying to blend in and pass as human. Slips must be **subtle, natural human-default assumptions** (e.g., sleeping through the night like a log, enjoying warm hearths, eating standard cafeteria meals, peaceful breakups).
-  * Avoid boisterous, unnatural boasts (*e.g., strictly avoid lines like "Freshwater is fine for me!" or "Loud screeching doesn't bother me at all!"*).
+  * The Count is actively trying to blend in and pass as human. Slips must be **subtle, natural human-default assumptions** (e.g., assuming dark rooms are no big deal, mentioning getting steps in walking on foot, talking about speaking from the heart, drinking plain tap water, lounging on dry beach sand).
+  * Strictly avoid boisterous, unnatural contrarian boasts (*e.g., avoid lines like "I love sitting in pitch-black closets for hours!" or "My voice is just single-pitch!"*).
 * **Imposter Probing & Backpedaling (-10 Affection)**:
   * **Option A (Casual Agreement)**: If the player agrees with the imposter's slip, the imposter stays serenely unaware.
   * **Option B (Direct Detective Probe)**: If the detective specifically calls out or questions the imposter's slip, the imposter panics slightly, turns **`"angry"`**, suffers a **-10 affection penalty** (`do GameManager.add_affection("candidate_id", -10)`), and hurriedly backpedals (*"Well... of course I do X sometimes! Why are you scrutinizing my words so closely?"*).
 * **Probing Real Monsters' Biology (-5 Affection & Mild Confusion)**:
   * If the detective chooses the second follow-up option to probe deeply into an authentic monster's biological functions, the monster stays **`"normal"`** (not angry), but feels mildly bewildered/confused by clinical medical questioning during a date, suffering a **-5 affection penalty** (`do GameManager.add_affection("candidate_id", -5)`).
 
-### 7.3 Recording Clues in the Evidence Notebook
+### 7.3 In-Universe Monsterpedia Lore Writing Style
+* **Pure In-Universe Science**: Monsterpedia entries (`species_lore` arrays in `.tres` files and `game_manager.gd`) must describe species biology, habitat, physiology, and physical reactions normally and organically in-universe.
+* **No Meta "Imposter Slip" Text**: Do **NOT** write meta descriptions like *"Claims of X are an immediate imposter slip"* or *"Claims of Y are a critical imposter slip"*. Keep it purely in-universe.
+
+### 7.4 Recording Clues in the Evidence Notebook
 When an imposter branch executes, always record a descriptive clue using `do GameManager.record_clue("candidate_id", "clue_id", "Description text")`.
 
 ---
@@ -559,9 +565,11 @@ When writing or editing any `.dialogue` file, verify:
 3. **4+4 Topic Architecture**: Exactly **4 topics** in Phase 2 (`hub_part_1`), and **4 topics** in Phase 4 (`hub_part_2`).
 4. **Short Choice Strings**: Choice menu options are strictly capped at 5 to 10 words maximum.
 5. **Interactive Follow-Up Menus**: Every topic branch opens a 2-option follow-up choice menu before returning to `hub_part_1` or `hub_part_2`.
-6. **GameManager Mutations**:
+6. **Natural Question & Imposter Slips**: Questions must be natural date inquiries. Imposter slips must be subtle human-default assumptions.
+7. **In-Universe Monsterpedia Entries**: Lore text must strictly describe species biology in-universe without meta text about imposter slips.
+8. **GameManager Mutations**:
    * Affection adjustments: `do GameManager.add_affection("candidate_id", amount)`
    * Expression swaps: `do GameManager.set_expression("expression_name")`
    * Topic flags: `do GameManager.set_flag("candidate_id", "flag_name")`
    * Clue recording: `do GameManager.record_clue("candidate_id", "clue_id", "Clue description text")`
-7. **Date Completion**: Both `~ end_date` and `~ horror_exit` execute `do GameManager.complete_current_date()` followed by `=> END`.
+9. **Date Completion**: Both `~ end_date` and `~ horror_exit` execute `do GameManager.complete_current_date()` followed by `=> END`.

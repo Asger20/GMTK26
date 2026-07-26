@@ -12,8 +12,8 @@ Isaac: Welcome, suitor. It is a true pleasure to sit with you tonight.
 	do GameManager.add_affection("angel", 8)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
-		Isaac: *His golden halo brightens warmly, dozens of ocular eyes blinking in timid surprise.*
-		Isaac: Ah... thank you. Most mortals find my eyes intimidating... You speak straight to my soul.
+		Isaac: *His golden halo brightens warmly, dozens of ocular eyes blinking in timid surprise as his wings rustle.*
+		Isaac: Ah... thank you. My body is strictly symmetrical, but my head... well, my head is a chaotic cluster of random eyes. Mother always says true beauty shines from within, but I still get self-conscious...
 	else:
 		do GameManager.set_expression("happy")
 		Isaac: *Multi-harmonic chime resonates warmly as his white wings rustle softly.*
@@ -31,7 +31,7 @@ Isaac: Welcome, suitor. It is a true pleasure to sit with you tonight.
 	do GameManager.add_affection("angel", -10)
 	do GameManager.set_expression("angry")
 	Isaac: *Vocal tone shifts to a low metallic hum, halo dimming.*
-	Isaac: Good posture is essential for spinal health, suitor. Slouching causes unnecessary fatigue.
+	Isaac: Mother always taught me that good posture is the foundation of character! Slouching causes unnecessary fatigue.
 	=> hub_part_1
 
 - "You look terrifying. I don't trust eye clusters."
@@ -74,48 +74,48 @@ Isaac: So, my suitor... what would you like to know about me first?
 ~ p1_topic_a
 do GameManager.set_flag("angel", "asked_p1_topic_a")
 do GameManager.set_expression("happy")
-Isaac: I love strength training and building balanced athletic endurance!
-Isaac: Staying active keeps the mind clear, boosts energy, and builds confidence. Physical fitness is a wonderful form of self-care!
+Isaac: I train daily to achieve perfect fifty-fifty body symmetry!
+Isaac: Since my head is an asymmetrical cluster of random eyes, Mother advised me to build flawless physical balance below the neck!
 
 - "I'd love to work out with you one day."
 	do GameManager.add_affection("angel", 8)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
 		Isaac: *Halo glows bright rose pink, dozens of eyes blinking flusteredly*
-		Isaac: A joint workout session?! I would love to be your training partner!
+		Isaac: A joint workout session?! I would love to be your training partner! Mother will be so proud!
 	else:
 		do GameManager.set_expression("happy")
 		Isaac: *Chimes cheerfully* I would be delighted to guide your fitness goals!
 	=> hub_part_1
 
-- "Must take a lot of discipline to train daily."
+- "Your physical dedication is genuinely impressive."
 	do GameManager.add_affection("angel", 5)
 	do GameManager.set_expression("happy")
-	Isaac: *Smiles warmly with multi-harmonic chime* Consistency is the key to every goal!
+	Isaac: *Smiles warmly, dozens of eyes softening* Thank you... I work hard to balance out my head's asymmetry!
 	=> hub_part_1
 
 ~ p1_topic_b
 do GameManager.set_flag("angel", "asked_p1_topic_b")
 do GameManager.set_expression("normal")
 Isaac: I long to design peaceful marble sanctuaries and community spaces on the surface.
-Isaac: But above all... I seek a companion who brings calm balance to my life and shares my love for growth.
+Isaac: Mother sent me to Blackwood with a basket of saline ambrosia! She told me: 'Isaac, darling, find a companion who loves your heart, not just your halo.'
 
 - "I'd love to help you build those sanctuaries."
 	do GameManager.add_affection("angel", 8)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
 		Isaac: *White wings flutter softly, halo pulsing rose pink*
-		Isaac: Truly?! Your presence brings such wonderful warmth to my heart...
+		Isaac: Truly?! Your presence brings such wonderful warmth to my heart... Mother was right about you!
 	else:
 		do GameManager.set_expression("happy")
 		Isaac: *Chimes warmly* Your encouragement means the world to me, suitor.
 	=> hub_part_1
 
-- "You deserve a companion who respects your vision."
+- "Your mother sounds like a wonderful influence."
 	do GameManager.add_affection("angel", 5)
 	do GameManager.set_expression("happy")
 	Isaac: *Touches his chest with a polite bow*
-	Isaac: Thank you. Your understanding stabilizes my spirits.
+	Isaac: She is the absolute best! She always knows how to keep me grounded.
 	=> hub_part_1
 
 ~ p1_topic_c
@@ -199,13 +199,13 @@ else:
 			=> hub_part_1
 	else:
 		do GameManager.set_expression("normal")
-		Isaac: Celestial digestion thrives on pure ambrosia nectar, saline fluids, and clean nutrients! Greasy, fried fast food causes immediate stomach revulsion and wing lethargy.
+		Isaac: Celestial digestion thrives on pure ambrosia nectar, saline fluids, and clean nutrients! Mother prepares the purest homemade saline nectar. Greasy fast food causes immediate stomach revulsion.
 
 		- "I'll make sure staff serves you clean ambrosia meals."
 			do GameManager.add_affection("angel", 5)
 			if GameManager.get_affection("angel") >= 70:
 				do GameManager.set_expression("blush")
-				Isaac: *Chimes in multi-harmonic harmony* Caring for my wellness... You are remarkably sweet.
+				Isaac: *Chimes in multi-harmonic harmony* Caring for my wellness... Mother will love how sweet you are!
 			else:
 				do GameManager.set_expression("happy")
 				Isaac: *Chimes warmly* Thank you. Clean nutrition is essential for energy.
@@ -223,8 +223,8 @@ else:
 ~ mid_date_interruption
 do GameManager.set_expression("normal")
 Isaac: *His dozens of ocular pupils shift in unison, glowing halo ring brightening as multi-harmonic chords chime softly.*
-Isaac: You know... most people look away or act nervous around my eyes. But you have been sitting with me so comfortably...
-Isaac: Tell me, suitor: Are you genuinely enjoying our time together, or are you just trying to be polite?
+Isaac: You know... Mother always warned me that people would stare or feel intimidated by my asymmetrical eye cluster. But you haven't looked away once...
+Isaac: Tell me, suitor: Are you genuinely enjoying our date, or are you just trying to be polite?
 
 - "I admire your dedication and presence, Isaac."
 	do GameManager.add_affection("angel", 10)
@@ -289,37 +289,37 @@ else:
 do GameManager.set_flag("angel", "asked_p2_topic_e")
 do GameManager.set_expression("normal")
 Isaac: Celestial sanctuaries are built from high-frequency marble... designed for pristine acoustic resonance!
-Isaac: When choral harmonies echo off the marble pillars, the entire space fills with soothing celestial light.
+Isaac: Mother used to lead the choir in the marble sanctuaries! Her multi-harmonic solos could light up an entire high sphere.
 
 - "I'd love to visit those marble sanctuaries with you."
 	do GameManager.add_affection("angel", 8)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
 		Isaac: *Dozens of eyes widen, halo glowing rose pink*
-		Isaac: I would be honored to guide your tour through the high spheres!
+		Isaac: I would be honored to guide your tour! Mother can sing a special welcome hymn for us!
 	else:
 		do GameManager.set_expression("happy")
 		Isaac: *Chimes with delight* Perhaps one day, suitor... if our connection remains strong!
 	=> hub_part_2
 
-- "Marble pillars and choral music sound magnificent."
+- "Marble pillars and your mother's choir sound magnificent."
 	do GameManager.add_affection("angel", 5)
 	do GameManager.set_expression("happy")
 	Isaac: *Beams with celestial pride*
-	Isaac: Indubitably! Acoustic harmony is deeply healing.
+	Isaac: Indubitably! Mother's voice is absolute perfection!
 	=> hub_part_2
 
 ~ p2_topic_f
 do GameManager.set_flag("angel", "asked_p2_topic_f")
 do GameManager.set_expression("normal")
 Isaac: *Laughs softly with a multi-harmonic chime* Oh, that was a huge misunderstanding! The gym weight-rack was damaged and unsafe!
-Isaac: So I lifted the rack to repair and re-anchor it... but everyone panicked thinking I was breaking equipment!
+Isaac: Mother was so worried when the guards called! She wrote three letters to the director explaining I was just trying to repair the rack for public safety!
 
 - "Fixing damaged gym equipment is genuinely thoughtful."
 	do GameManager.add_affection("angel", 5)
 	if GameManager.get_affection("angel") >= 70:
 		do GameManager.set_expression("blush")
-		Isaac: *Halo pulses bright pink* Thank you! Safety and care should always come first!
+		Isaac: *Halo pulses bright pink* Thank you! Mother said the exact same thing!
 	else:
 		do GameManager.set_expression("happy")
 		Isaac: *Chimes happily* Finally! Someone who understands good intentions!
@@ -328,7 +328,7 @@ Isaac: So I lifted the rack to repair and re-anchor it... but everyone panicked 
 - "Next time, warn people before lifting an entire weight rack!"
 	do GameManager.add_affection("angel", 5)
 	do GameManager.set_expression("happy")
-	Isaac: *Chimes brightly* A very fair point, suitor! I shall give advance notice!
+	Isaac: *Chimes brightly* A very fair point, suitor! Mother gave me that exact advice!
 	=> hub_part_2
 
 ~ p2_topic_g
@@ -439,7 +439,7 @@ else:
 if GameManager.get_affection("angel") >= 70:
 	do GameManager.set_expression("blush")
 	Isaac: *Halo pulses bright rose pink, wings extending with an elegant celestial bow.*
-	Isaac: Thank you for a wonderful evening, suitor. I eagerly anticipate our next rendezvous!
+	Isaac: Thank you for a wonderful evening, suitor! Mother is going to be so thrilled when I tell her about our date! I eagerly anticipate our next rendezvous!
 elif GameManager.get_affection("angel") <= 35:
 	do GameManager.set_expression("angry")
 	Isaac: *Halo hums low.*

@@ -43,6 +43,9 @@ func _setup_ui() -> void:
 		species_label.text = "Species: " + current_monster_data.species
 		if current_monster_data.portrait_texture:
 			monster_portrait.texture = current_monster_data.portrait_texture
+		if current_monster_data.portrait_scale != Vector2.ZERO:
+			monster_portrait.pivot_offset = monster_portrait.size * 0.5
+			monster_portrait.scale = current_monster_data.portrait_scale
 
 		var affection = GameManager.get_affection(current_monster_data.id)
 		_update_affection_display(affection)
