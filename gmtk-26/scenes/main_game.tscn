@@ -6,20 +6,19 @@
 [ext_resource type="Texture2D" uid="uid://d4b7nwij7wt5o" path="res://assets/monsters/monster_placeholder.png" id="4_placeholder"]
 [ext_resource type="Texture2D" uid="uid://otig6j8w60m8" path="res://assets/monsters/monsterpedia.png" id="5_mp_icon"]
 [ext_resource type="Script" uid="uid://1ytdbgh38c27" path="res://scripts/ui/notebook_drawing_canvas.gd" id="6_notebook_canvas"]
+[ext_resource type="Texture2D" uid="uid://dy8qqjoho1egk" path="res://assets/ui/paper_ui.png" id="7_paper"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_preppanel"]
-bg_color = Color(0.91, 0.85, 0.72, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.36, 0.12, 0.12, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.75)
-shadow_size = 18
+[sub_resource type="AtlasTexture" id="AtlasTexture_paper_panel"]
+atlas = ExtResource("7_paper")
+region = Rect2(25, 55, 1390, 990)
+filter_clip = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_paper_panel"]
+texture = SubResource("AtlasTexture_paper_panel")
+texture_margin_left = 72.0
+texture_margin_top = 58.0
+texture_margin_right = 72.0
+texture_margin_bottom = 58.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_start_btn"]
 bg_color = Color(0.36, 0.12, 0.12, 1)
@@ -281,25 +280,17 @@ offset_right = 350.0
 offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="PaperBg" type="ColorRect" parent="IntroPanel/PaperPanel" unique_id=136379476]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.93, 0.87, 0.73, 1)
+theme_override_styles/panel = SubResource("StyleBoxTexture_paper_panel")
 
 [node name="StoryContainer" type="VBoxContainer" parent="IntroPanel/PaperPanel" unique_id=362776014]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 25.0
-offset_top = 25.0
-offset_right = -25.0
-offset_bottom = -25.0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = -50.0
+offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -336,7 +327,7 @@ offset_right = 340.0
 offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_paper_panel")
 
 [node name="VBox" type="VBoxContainer" parent="PrepPanel" unique_id=1518380131]
 layout_mode = 1
@@ -470,7 +461,7 @@ offset_right = 340.0
 offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_paper_panel")
 
 [node name="VBox" type="VBoxContainer" parent="BreakPanel" unique_id=701166255]
 layout_mode = 1
@@ -522,7 +513,7 @@ offset_right = 410.0
 offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_paper_panel")
 
 [node name="VBox" type="VBoxContainer" parent="AccusationPanel" unique_id=47978340]
 layout_mode = 1
@@ -797,7 +788,7 @@ offset_right = 340.0
 offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_paper_panel")
 
 [node name="VBox" type="VBoxContainer" parent="EndingPanel" unique_id=1701489741]
 layout_mode = 1
@@ -915,7 +906,7 @@ offset_right = 430.0
 offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_preppanel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_paper_panel")
 script = ExtResource("2_mp_overlay")
 
 [node name="VBox" type="VBoxContainer" parent="Overlays/MonsterpediaOverlay" unique_id=1637901433]
