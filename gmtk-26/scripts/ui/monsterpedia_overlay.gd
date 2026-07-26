@@ -53,12 +53,58 @@ func _ready() -> void:
 	GameManager.notebook_reset.connect(_on_notebook_reset)
 	GameManager.dev_mode_toggled.connect(_update_evidence_visibility)
 	style_option_button(species_dropdown)
+	_setup_color_picker_buttons()
 	_setup_dropdown()
 	_load_notebook_state()
 	_update_evidence_visibility(GameManager.dev_mode_show_affection)
 	brush_color_buttons[0].button_pressed = true
 	_on_brush_color_selected(0)
 	_on_brush_width_changed(brush_width_slider.value)
+
+func _setup_color_picker_buttons() -> void:
+	for i in range(brush_color_buttons.size()):
+		var btn = brush_color_buttons[i]
+		if not btn: continue
+		btn.text = ""
+		btn.custom_minimum_size = Vector2(24, 24)
+		btn.pivot_offset = Vector2(12, 12)
+		_update_brush_button_style(i, i == 0)
+
+func _update_brush_button_style(i: int, is_selected: bool) -> void:
+	var btn = brush_color_buttons[i]
+	if not btn: return
+	var col = BRUSH_COLORS[i]
+
+	var sb_normal = StyleBoxFlat.new()
+	sb_normal.bg_color = col
+	sb_normal.set_corner_radius_all(100)
+	sb_normal.content_margin_left = 0
+	sb_normal.content_margin_top = 0
+	sb_normal.content_margin_right = 0
+	sb_normal.content_margin_bottom = 0
+
+	if is_selected:
+		sb_normal.border_width_left = 3
+		sb_normal.border_width_top = 3
+		sb_normal.border_width_right = 3
+		sb_normal.border_width_bottom = 3
+		sb_normal.border_color = Color(0.98, 0.82, 0.25, 1.0)
+		btn.scale = Vector2(1.15, 1.15)
+	else:
+		sb_normal.border_width_left = 2
+		sb_normal.border_width_top = 2
+		sb_normal.border_width_right = 2
+		sb_normal.border_width_bottom = 2
+		sb_normal.border_color = Color(0.25, 0.18, 0.12, 0.8)
+		btn.scale = Vector2(1.0, 1.0)
+
+	var sb_hover = sb_normal.duplicate()
+	sb_hover.border_color = Color(1.0, 0.92, 0.7, 1.0)
+
+	btn.add_theme_stylebox_override("normal", sb_normal)
+	btn.add_theme_stylebox_override("hover", sb_hover)
+	btn.add_theme_stylebox_override("pressed", sb_normal)
+	btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 
 func toggle_window() -> void:
 	visible = not visible
@@ -100,6 +146,8 @@ func _on_drawing_changed(strokes: Array) -> void:
 
 func _on_brush_color_selected(index: int) -> void:
 	drawing_canvas.set_brush_color(BRUSH_COLORS[index])
+	for i in range(brush_color_buttons.size()):
+		_update_brush_button_style(i, i == index)
 
 
 func _on_brush_width_changed(width: float) -> void:

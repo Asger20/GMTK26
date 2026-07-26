@@ -1024,6 +1024,7 @@ theme_override_constants/separation = 4
 [node name="DrawingToolbar" type="HBoxContainer" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel" unique_id=1533550298]
 layout_mode = 2
 theme_override_constants/separation = 6
+alignment = 1
 
 [node name="SketchTitle" type="Label" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=836736863]
 layout_mode = 2
@@ -1032,54 +1033,37 @@ theme_override_font_sizes/font_size = 15
 text = "SKETCH"
 
 [node name="BrownBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=685193419]
-custom_minimum_size = Vector2(28, 28)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Brown ink"
-theme_override_colors/font_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_colors/font_focus_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_colors/font_pressed_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_colors/font_hover_color = Color(0.231, 0.141, 0.086, 1)
-theme_override_font_sizes/font_size = 22
-theme_override_styles/pressed = SubResource("StyleBoxFlat_brush_selected")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
-text = "●"
-flat = true
+text = ""
 
 [node name="RedBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1964941155]
-custom_minimum_size = Vector2(28, 28)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Red ink"
-theme_override_colors/font_color = Color(0.541, 0.184, 0.184, 1)
-theme_override_colors/font_focus_color = Color(0.541, 0.184, 0.184, 1)
-theme_override_colors/font_pressed_color = Color(0.541, 0.184, 0.184, 1)
-theme_override_colors/font_hover_color = Color(0.541, 0.184, 0.184, 1)
-theme_override_font_sizes/font_size = 22
-theme_override_styles/pressed = SubResource("StyleBoxFlat_brush_selected")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
-text = "●"
-flat = true
+text = ""
 
 [node name="BlueBrush" type="Button" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1516024846]
-custom_minimum_size = Vector2(28, 28)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Blue ink"
-theme_override_colors/font_color = Color(0.137, 0.302, 0.439, 1)
-theme_override_colors/font_focus_color = Color(0.137, 0.302, 0.439, 1)
-theme_override_colors/font_pressed_color = Color(0.137, 0.302, 0.439, 1)
-theme_override_colors/font_hover_color = Color(0.137, 0.302, 0.439, 1)
-theme_override_font_sizes/font_size = 22
-theme_override_styles/pressed = SubResource("StyleBoxFlat_brush_selected")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_brush_colors")
-text = "●"
-flat = true
+text = ""
 
 [node name="BrushWidth" type="HSlider" parent="Overlays/MonsterpediaOverlay/VBox/TabContainer/EvidenceNotebook/Workspace/DrawingPanel/DrawingToolbar" unique_id=1478524732]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
 tooltip_text = "Brush width"
 min_value = 1.0
 max_value = 12.0
@@ -1272,6 +1256,7 @@ offset_top = -179.0
 offset_right = 155.0
 offset_bottom = -49.0
 grow_vertical = 0
+pivot_offset = Vector2(65, 65)
 texture_normal = ExtResource("5_mp_icon")
 ignore_texture_size = true
 stretch_mode = 5

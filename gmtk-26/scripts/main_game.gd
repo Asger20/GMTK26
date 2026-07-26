@@ -107,7 +107,11 @@ func _ready() -> void:
 
 	# Connect Overlay Buttons
 	if monsterpedia_book_btn and monsterpedia_overlay:
+		monsterpedia_book_btn.pivot_offset = Vector2(65, 65)
 		monsterpedia_book_btn.pressed.connect(func(): monsterpedia_overlay.toggle_window())
+		monsterpedia_book_btn.mouse_entered.connect(_on_monsterpedia_btn_mouse_entered)
+		monsterpedia_book_btn.mouse_exited.connect(_on_monsterpedia_btn_mouse_exited)
+		monsterpedia_overlay.visibility_changed.connect(_on_monsterpedia_visibility_changed)
 	
 	if dev_cheat_btn and dev_cheat_overlay:
 		dev_cheat_btn.pressed.connect(func(): dev_cheat_overlay.toggle_window())
@@ -129,6 +133,44 @@ func _ready() -> void:
 	)
 
 	_start_new_game_session()
+
+var _mp_book_tween: Tween
+
+func _on_monsterpedia_btn_mouse_entered() -> void:
+	if _mp_book_tween and _mp_book_tween.is_running():
+		_mp_book_tween.kill()
+	_mp_book_tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_mp_book_tween.tween_property(monsterpedia_book_btn, "scale", Vector2(1.12, 1.12), 0.15)
+	if monsterpedia_book_btn:
+		monsterpedia_book_btn.modulate = Color(1.25, 1.15, 0.85, 1.0)
+
+func _on_monsterpedia_btn_mouse_exited() -> void:
+	if _mp_book_tween and _mp_book_tween.is_running():
+		_mp_book_tween.kill()
+	_mp_book_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	var is_open = monsterpedia_overlay and monsterpedia_overlay.visible
+	var target_scale = Vector2(1.08, 1.08) if is_open else Vector2.ONE
+	_mp_book_tween.tween_property(monsterpedia_book_btn, "scale", target_scale, 0.15)
+	_update_monsterpedia_btn_highlight()
+
+func _on_monsterpedia_visibility_changed() -> void:
+	_update_monsterpedia_btn_highlight()
+
+func _update_monsterpedia_btn_highlight() -> void:
+	if not monsterpedia_book_btn or not monsterpedia_overlay: return
+	var is_open = monsterpedia_overlay.visible
+	var lbl: Label = monsterpedia_book_btn.get_node_or_null("Label")
+
+	if is_open:
+		monsterpedia_book_btn.modulate = Color(1.25, 1.1, 0.7, 1.0)
+		monsterpedia_book_btn.scale = Vector2(1.08, 1.08)
+		if lbl:
+			lbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3, 1.0))
+	else:
+		monsterpedia_book_btn.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		monsterpedia_book_btn.scale = Vector2.ONE
+		if lbl:
+			lbl.add_theme_color_override("font_color", Color(0.95, 0.88, 0.72, 1.0))
 
 func _input(event: InputEvent) -> void:
 	if transition_panel and transition_panel.visible:
